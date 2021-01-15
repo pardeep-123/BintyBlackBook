@@ -77,47 +77,41 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             R.id.ll_Profile -> {
                 val intent = Intent(context, MyProfileActivity::class.java)
                 startActivity(intent)
-                drawerClose()
+
             }
             R.id.ll_mybooking -> {
                 val intent = Intent(context, MyBookingsActivity::class.java)
                 startActivity(intent)
-                drawerClose()
+
             }
             R.id.ll_messages -> {
                 val intent = Intent(context, MessagesActivity::class.java)
                 startActivity(intent)
-                drawerClose()
+
             }
             R.id.ll_myloops -> {
                 val intent = Intent(context, MyLoopsActivity::class.java)
                 startActivity(intent)
-                drawerClose()
             }
             R.id.ll_promote -> {
                 val intent = Intent(context, PromoteBusinessActivity::class.java)
                 startActivity(intent)
-                drawerClose()
             }
             R.id.ll_timeline -> {
                 val intent = Intent(context, TimelineActivity::class.java)
                 startActivity(intent)
-                drawerClose()
             }
             R.id.ll_refer -> {
                 val intent = Intent(context, ReferActivity::class.java)
                 startActivity(intent)
-                drawerClose()
             }
             R.id.ll_eventCalendar -> {
                 val intent = Intent(context, EventCalenderActivity::class.java)
                 startActivity(intent)
-                drawerClose()
             }
             R.id.ll_settings -> {
                 val intent = Intent(context, SettingsActivity::class.java)
                 startActivity(intent)
-                drawerClose()
             }
             R.id.ll_logout -> {
                 openLogoutDialog()
