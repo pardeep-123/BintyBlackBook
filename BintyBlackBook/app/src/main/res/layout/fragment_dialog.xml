@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_curved_green"
+    android:paddingStart="@dimen/dp20"
+    android:paddingTop="@dimen/dp30"
+    android:paddingEnd="@dimen/dp20"
+    android:paddingBottom="@dimen/dp30"
+    tools:context=".ui.dialogues.FragmentDialog">
+
+    <ImageView
+        android:id="@+id/ivTick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/image"
+        android:src="@drawable/green_tick" />
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivTick"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp10"
+        android:fontFamily="@font/trajanpro_regular"
+        android:text="@string/your_loop_request_has_been_sent"
+        android:textAlignment="center"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp13" />
+
+</RelativeLayout>

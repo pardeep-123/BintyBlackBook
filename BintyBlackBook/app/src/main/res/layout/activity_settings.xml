@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themeColor"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rlNoti"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/email_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@id/ivBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/notification_bell" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/ivBell"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:text="Notifications"
+            android:fontFamily="@font/romul"
+            android:textColor="@color/blackColor" />
+
+        <ImageView
+            android:id="@+id/ivNotificationToggle"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/off"
+
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/email_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@id/ivBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/change" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/ivBell"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:text="CHANGE PASSWORD"
+            android:fontFamily="@font/romul"
+            android:textColor="@color/blackColor" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlPrivacy"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/email_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@id/ivBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/privacy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/ivBell"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:text="PRIVACY POLICY"
+            android:fontFamily="@font/romul"
+            android:textColor="@color/blackColor" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlTerms"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/email_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@id/ivBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/terms_conditions" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/ivBell"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:text="TERMS &amp; CONDITIONS"
+            android:fontFamily="@font/romul"
+            android:textColor="@color/blackColor" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlBlocked"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/email_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@id/ivBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/terms_conditions" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@+id/ivBell"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:text="BLOCKED CONTACTS"
+            android:fontFamily="@font/romul"
+            android:textColor="@color/blackColor" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlMyWallet"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/email_back"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@id/ivBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/my_wallet" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/ivBell"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:text="MY WALLET"
+            android:fontFamily="@font/romul"
+            android:textColor="@color/blackColor" />
+
+    </RelativeLayout>
+
+</LinearLayout>

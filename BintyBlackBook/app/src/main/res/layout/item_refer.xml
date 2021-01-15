@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp20"
+    android:layout_marginBottom="@dimen/dp10"
+    android:background="@drawable/bg_curved_brown_15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/trajanpro_regular"
+        android:text="Referred by Sophia"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp15" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/trajanpro_regular"
+        android:text="$ 30"
+        android:layout_marginTop="@dimen/dp5"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp15" />
+
+</LinearLayout>

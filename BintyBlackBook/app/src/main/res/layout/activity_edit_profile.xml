@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themeColor"
+    tools:context=".ui.activities.home.profile.EditProfileActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <!--<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:fillViewport="true"
+        android:scrollbars="none">-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginStart="@dimen/dp30"
+        android:layout_marginEnd="@dimen/dp30"
+        android:paddingBottom="@dimen/dp30">
+
+        <RelativeLayout
+            android:id="@+id/rlCamera"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_black_circular">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/image"
+                android:src="@drawable/camera23" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edtUserName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/rlCamera"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/email_back"
+            android:fontFamily="@font/trajanpro_bold"
+            android:hint="@string/user_name"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:textColor="@color/fadePink"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/rlPhoneNo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/edtUserName"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/email_back">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/romul"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_autoDetectLanguage="true"
+                app:ccp_contentColor="@color/fadePink"
+                app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
+                app:ccp_showFlag="false"
+                app:ccp_showNameCode="false"
+                app:ccp_textSize="@dimen/sp13" />
+
+
+            <EditText
+                android:id="@+id/edtMobileNo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/ccp"
+                android:background="@drawable/email_back"
+                android:fontFamily="@font/trajanpro_bold"
+                android:hint="@string/phone_number"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingStart="5dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/fadePink"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/rlPhoneNo"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/email_back"
+            android:fontFamily="@font/trajanpro_bold"
+            android:hint="@string/email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:textColor="@color/fadePink"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtAbout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/edtEmail"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_curved_edit_text"
+            android:fontFamily="@font/trajanpro_bold"
+            android:gravity="start|top"
+            android:hint="@string/about"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:overScrollMode="always"
+            android:padding="10dp"
+            android:paddingTop="20dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:textColor="@color/fadePink"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_regular"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+    <!--</ScrollView>-->
+
+</RelativeLayout>

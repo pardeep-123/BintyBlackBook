@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alert_dialog_shape"
+    android:padding="@dimen/dp30"
+    tools:context=".ui.dialogues.EventDeleteDialogFragment">
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/trajanpro_regular"
+        android:gravity="center_horizontal"
+        android:text="@string/are_you_sure_want_to_cancel_the_request"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage"
+        android:layout_marginTop="@dimen/dp30"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnYes"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/dp5"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_regular"
+            android:text="@string/yes"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btnNo"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/dp5"
+            android:layout_weight="1"
+            android:background="@drawable/bg_curved_edit_text_green"
+            android:fontFamily="@font/trajanpro_regular"
+            android:text="@string/no"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/themeColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="TabFont" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/trajanpro_regular</item>
+    </style>
+
+    <style name="CalendarTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/whiteColor</item>
+        <item name="colorControlActivated">@color/fadePink</item>
+        <item name="android:fontFamily">@font/romul</item>
+    </style>
+
+    <style name="CalendarDayColor" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/whiteColor</item>
+
+    </style>
+
+    <style name="CalendarWeekColor" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/whiteColor</item>
+    </style>
+</resources>

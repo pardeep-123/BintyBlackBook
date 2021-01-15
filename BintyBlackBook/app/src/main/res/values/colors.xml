@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#28807D</color>
+    <color name="colorPrimaryDark">#113130</color>
+    <color name="colorAccent">#113130</color>
+
+    <color name="themeColor">#113130</color>
+    <color name="themeColor2">#1F524D</color>
+    <color name="whiteColor">#ffffff</color>
+    <color name="blackColor">#000</color>
+    <color name="fadePink">#BFA387</color>
+    <color name="colorLightBlack">#787676</color>
+    <color name="grey">#bdbfc2</color>
+    <color name="grey1">#8F8F8F</color>
+    <color name="homeBack">#286861</color>
+    <color name="lightGray">#DDDDD6</color>
+</resources>

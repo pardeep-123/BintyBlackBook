@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_menu_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edit"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
+        android:fontFamily="@font/trajanpro_bold"
+        android:paddingStart="@dimen/dp10"
+        android:paddingTop="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
+        android:paddingBottom="@dimen/dp5"
+        android:text="@string/edit"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13" />
+
+    <TextView
+        android:id="@+id/tvDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp5"
+        android:fontFamily="@font/trajanpro_bold"
+        android:paddingStart="@dimen/dp10"
+        android:paddingTop="@dimen/dp5"
+        android:paddingEnd="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"
+        android:text="@string/delete"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13" />
+</LinearLayout>

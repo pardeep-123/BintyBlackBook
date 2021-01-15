@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/dp8"
+    android:paddingEnd="@dimen/dp8"
+    android:paddingTop="@dimen/dp8">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/shren" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_toEndOf="@id/profile_image"
+        android:background="@drawable/bg_chat_left"
+        android:fontFamily="@font/trajanpro_regular"
+        android:padding="@dimen/dp8"
+        android:text="@string/heading"
+        android:textSize="@dimen/sp13"
+        android:textColor="@color/blackColor"/>
+
+    <!--<TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_toEndOf="@id/profile_image"
+        android:fontFamily="@font/trajanpro_regular"
+        android:text="2:00 pm"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp10" />-->
+
+</RelativeLayout>

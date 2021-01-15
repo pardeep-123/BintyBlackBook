@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bintyblackbook">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activities.home.profile.SetAvailabilityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.profile.AvailabilityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.settings.MyWalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.eventCalender.CalenderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.eventCalender.EventCalenderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.ReferActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.timeline.AddPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.timeline.CommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.timeline.TimelineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.promote.AddCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.promote.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.promote.PromotePayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.CheckAvailabilityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.message.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.message.NewGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.message.EditMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.bookings.MyBookingsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.home.AddEventActivity" />
+        <activity
+            android:name=".ui.activities.home.profile.EventInProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.profile.EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ui.activities.home.EventDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.EventActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.UserDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.HomeItemClickActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.authentication.InfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.settings.BlockedContactsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.settings.PrivacyPolicyActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.authentication.ChangePasswordActivity" />
+        <activity
+            android:name=".ui.activities.home.settings.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.promote.PromoteBusinessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.loop.MyLoopsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.message.MessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.profile.MyProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.authentication.SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.authentication.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.authentication.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.authentication.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.bintyblackbook"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themeColor"
+    tools:context=".ui.activities.home.timeline.CommentsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rlBack"
+                android:layout_width="50dp"
+                android:layout_height="40dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/back"
+                    android:contentDescription="@string/image" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/romul"
+                android:text="@string/comments"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rlMsgInput"
+        android:layout_below="@id/tbMain"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp18" />
+
+    <RelativeLayout
+        android:id="@+id/rlMsgInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp5"
+        android:background="@drawable/type"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp18">
+
+        <EditText
+            android:id="@+id/edtMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/rlSend"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/trajanpro_regular"
+            android:hint="@string/type_comments"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="@dimen/dp20"
+            android:paddingTop="@dimen/dp5"
+            android:paddingEnd="@dimen/dp10"
+            android:paddingBottom="@dimen/dp5"
+            android:textColor="@color/blackColor"
+            android:textSize="@dimen/sp13" />
+
+        <RelativeLayout
+            android:id="@+id/rlSend"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/send1"
+                android:contentDescription="@string/image" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

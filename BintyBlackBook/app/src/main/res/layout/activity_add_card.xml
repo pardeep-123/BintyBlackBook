@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themeColor"
+    tools:context=".ui.activities.home.promote.AddCardActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rlBack"
+                android:layout_width="50dp"
+                android:layout_height="40dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/back"
+                    android:contentDescription="@string/image" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/romul"
+                android:text="@string/add_new_card"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tbMain"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp18"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/image"
+            android:scaleType="fitXY"
+            android:src="@drawable/visa" />
+
+        <EditText
+            android:id="@+id/edtCardNo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="@drawable/bg_white_bottom_line"
+            android:drawableEnd="@drawable/master"
+            android:drawablePadding="@dimen/dp10"
+            android:fontFamily="@font/romul"
+            android:hint="@string/card_number"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:lines="1"
+            android:paddingStart="@dimen/dp5"
+            android:paddingEnd="@dimen/dp15"
+            android:textColor="@color/whiteColor"
+            android:textColorHint="@color/whiteColor"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="@dimen/sp13" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/edtDate"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="@dimen/dp15"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_bottom_line"
+                android:clickable="false"
+                android:drawableEnd="@drawable/arrow"
+                android:drawablePadding="@dimen/dp10"
+                android:focusable="false"
+                android:fontFamily="@font/romul"
+                android:hint="@string/exp_date"
+                android:importantForAutofill="no"
+                android:inputType="date"
+                android:lines="1"
+                android:longClickable="false"
+                android:paddingStart="@dimen/dp5"
+                android:paddingEnd="@dimen/dp15"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteColor"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp13" />
+
+            <EditText
+                android:id="@+id/edtCVV"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="@dimen/dp15"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_bottom_line"
+                android:fontFamily="@font/romul"
+                android:hint="@string/cvv"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="numberPassword"
+                android:lines="1"
+                android:maxLength="4"
+                android:paddingStart="@dimen/dp5"
+                android:paddingEnd="@dimen/dp15"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteColor"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp13" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/dp30"
+        android:layout_marginEnd="@dimen/dp30"
+        android:layout_marginBottom="@dimen/dp20"
+        android:background="@drawable/btn1"
+        android:fontFamily="@font/trajanpro_regular"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/whiteColor"
+        android:textSize="13sp" />
+
+</RelativeLayout>

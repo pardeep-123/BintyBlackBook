@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp10"
+    android:background="@drawable/bg_curved_white"
+    android:padding="@dimen/dp15">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_profile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/girl" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp5"
+        android:layout_marginEnd="@dimen/dp5"
+        android:layout_toStartOf="@id/llEnd"
+        android:layout_toEndOf="@id/civ_profile"
+        android:fontFamily="@font/romul"
+        android:lines="1"
+        android:text="@string/arizona_usa"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvName"
+        android:layout_marginStart="@dimen/dp5"
+        android:layout_marginEnd="@dimen/dp5"
+        android:layout_toStartOf="@id/llEnd"
+        android:layout_toEndOf="@id/civ_profile"
+        android:fontFamily="@font/romul"
+        android:lines="1"
+        android:text="@string/date"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp11" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDate"
+        android:layout_marginStart="@dimen/dp5"
+        android:layout_marginEnd="@dimen/dp5"
+        android:layout_toStartOf="@id/llEnd"
+        android:layout_toEndOf="@id/civ_profile"
+        android:fontFamily="@font/romul"
+        android:lines="1"
+        android:text="@string/time"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp11" />
+
+    <LinearLayout
+        android:id="@+id/llEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp5"
+            android:fontFamily="@font/romul"
+            android:lines="1"
+            android:text="@string/status"
+            android:textColor="@color/blackColor"
+            android:textSize="@dimen/sp11" />
+
+    </LinearLayout>
+
+</RelativeLayout>

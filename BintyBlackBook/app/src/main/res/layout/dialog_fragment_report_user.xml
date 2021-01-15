@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_curved_green"
+    android:paddingBottom="@dimen/dp30"
+    tools:context=".ui.dialogues.ReportUserDialogFragment">
+
+    <RelativeLayout
+        android:id="@+id/rlCross"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/image"
+            android:src="@drawable/cross" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlCross"
+        android:fontFamily="@font/trajanpro_bold"
+        android:gravity="center_horizontal"
+        android:text="@string/why_do_you_want_to_report_this_user"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp13" />
+
+    <EditText
+        android:id="@+id/edtReport"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/tvMessage"
+        android:layout_marginStart="@dimen/dp30"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp30"
+        android:background="@drawable/bg_border_light_brown"
+        android:fontFamily="@font/romul"
+        android:gravity="start|top"
+        android:hint="@string/write_here"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:overScrollMode="always"
+        android:padding="@dimen/dp10"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:textAllCaps="false"
+        android:textColor="@color/whiteColor"
+        android:textColorHint="@color/whiteColor"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:textSize="@dimen/sp10" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtReport"
+        android:layout_marginStart="@dimen/dp30"
+        android:layout_marginTop="@dimen/dp30"
+        android:layout_marginEnd="@dimen/dp30"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnYes"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/dp5"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_bold"
+            android:text="@string/ok"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btnNo"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/dp5"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_bold"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_curved_green"
+    android:paddingStart="@dimen/dp20"
+    android:paddingTop="@dimen/dp30"
+    android:paddingEnd="@dimen/dp20"
+    android:paddingBottom="@dimen/dp30"
+    tools:context=".ui.dialogues.FragmentDialog">
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp10"
+        android:fontFamily="@font/trajanpro_regular"
+        android:text="@string/are_you_sure_want_to_unloop_robert_pattinson"
+        android:textAlignment="center"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp13" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDesc"
+        android:layout_marginStart="@dimen/dp30"
+        android:layout_marginTop="@dimen/dp30"
+        android:layout_marginEnd="@dimen/dp30"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnYes"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/dp5"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_bold"
+            android:text="@string/yes"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btnNo"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/dp5"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_bold"
+            android:text="@string/no"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

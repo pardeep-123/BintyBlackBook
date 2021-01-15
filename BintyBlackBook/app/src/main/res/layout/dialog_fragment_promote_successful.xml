@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_curved_green"
+    android:paddingBottom="@dimen/dp30"
+    tools:context=".ui.dialogues.BlockUserDialogFragment">
+
+    <RelativeLayout
+        android:id="@+id/rlCross"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/image"
+            android:src="@drawable/cross" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivTick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlCross"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/image"
+        android:src="@drawable/tick1" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivTick"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
+        android:fontFamily="@font/trajanpro_bold"
+        android:gravity="center_horizontal"
+        android:text="@string/you_have_successfully_promoted_your_service"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp13" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMessage"
+        android:layout_marginStart="@dimen/dp30"
+        android:layout_marginTop="@dimen/dp30"
+        android:layout_marginEnd="@dimen/dp30"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDone"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/dp5"
+            android:background="@drawable/btn1"
+            android:fontFamily="@font/trajanpro_bold"
+            android:text="@string/done"
+            android:textAllCaps="false"
+            android:textColor="@color/whiteColor"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

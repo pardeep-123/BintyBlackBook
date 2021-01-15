@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themeColor">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar" />
+
+
+            <ImageView
+                android:id="@+id/dummyImage"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:contentDescription="@null"
+                android:src="@drawable/edit_profile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/name"
+                android:textColor="@color/whiteColor"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="ELLEN POULSEN"
+                android:textColor="@color/fadePink"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/email"
+                android:textColor="@color/whiteColor"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="ELLENPOULSEN@GMAIL.COM"
+                android:textColor="@color/fadePink"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/phone_number"
+                android:textColor="@color/whiteColor"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="+65 7847584754"
+                android:textColor="@color/fadePink"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/about"
+                android:textColor="@color/whiteColor"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/dummy_text"
+                android:textAllCaps="false"
+                android:textColor="@color/fadePink"
+                android:textSize="@dimen/sp11" />
+
+            <Button
+                android:id="@+id/btnSetAvailability"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/btn1"
+                android:fontFamily="@font/romul"
+                android:text="@string/set_availability"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/btn1"
+                android:fontFamily="@font/romul"
+                android:text="@string/edit_profile"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
+
+
+            <Button
+                android:id="@+id/btnEvent"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/btn1"
+                android:fontFamily="@font/romul"
+                android:text="@string/event"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
