@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
@@ -15,13 +19,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activities.home.profile.SetAvailabilityActivity"
+            android:name=".ui.activities.home.profileBusiness.EditProfileBusinessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.home.profile.AvailabilityActivity"
+            android:name=".ui.activities.home.profileBusiness.MyProfileBusinessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.home.NotificationActivity"
+            android:name=".ui.activities.home.notification.BookingRequestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.notification.LoopRequestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.profileUser.SetAvailabilityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.profileUser.AvailabilityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.notification.NotificationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.home.settings.MyWalletActivity"
@@ -70,12 +86,12 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activities.home.AddEventActivity" />
         <activity
-            android:name=".ui.activities.home.profile.EventInProfileActivity"
+            android:name=".ui.activities.home.profileUser.EventInProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.home.profile.EditProfileActivity"
+            android:name=".ui.activities.home.profileUser.EditProfileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activities.home.EventDetailActivity"
             android:screenOrientation="portrait" />
@@ -111,7 +127,7 @@
             android:name=".ui.activities.home.message.MessagesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.home.profile.MyProfileActivity"
+            android:name=".ui.activities.home.profileUser.MyProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.home.HomeActivity"

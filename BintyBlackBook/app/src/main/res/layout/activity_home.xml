@@ -57,7 +57,31 @@
                     android:contentDescription="@string/image" />
             </RelativeLayout>
 
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/rlBell"
+                android:layout_toEndOf="@id/rlMenu"
+                android:background="@drawable/bg_curved_edit_text_green"
+                android:fontFamily="@font/romul"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteColor"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp12"
+                android:visibility="gone" />
+
             <ImageView
+                android:id="@+id/ivSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

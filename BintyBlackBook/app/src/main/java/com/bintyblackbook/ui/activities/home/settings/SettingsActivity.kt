@@ -2,11 +2,12 @@ package com.bintyblackbook.ui.activities.home.settings
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
+import com.bintyblackbook.util.MySharedPreferences
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -17,7 +18,13 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         headingText.setText("SETTINGS")
+
+        if(MySharedPreferences.getUserType(this).equals("Business")){
+            rlMyWallet.visibility = View.VISIBLE
+        }
+
         clickHandles()
+
     }
 
     fun clickHandles(){

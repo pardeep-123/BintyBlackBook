@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
-                android:text="@string/event_calender"
+                android:text="@string/event_calendar"
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp" />
 

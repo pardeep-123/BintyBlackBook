@@ -1,10 +1,10 @@
-package com.bintyblackbook.ui.activities.home.profile
+package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -16,7 +16,6 @@ class MyProfileActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
         iv_back.setOnClickListener(this)
-        btnSetAvailability.setOnClickListener(this)
         btnEditProfile.setOnClickListener(this)
         btnEvent.setOnClickListener(this)
         headingText.text = getString(R.string.my_profile)
@@ -27,9 +26,7 @@ class MyProfileActivity : AppCompatActivity(), View.OnClickListener {
             R.id.iv_back -> {
                 finish()
             }
-            R.id.btnSetAvailability -> {
-                startActivity(Intent(this, AvailabilityActivity::class.java))
-            }
+
             R.id.btnEditProfile -> {
                 startActivity(Intent(this, EditProfileActivity::class.java))
             }

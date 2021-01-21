@@ -1,7 +1,9 @@
 package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -10,14 +12,24 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
+import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.ImagePickerUtility
 import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class InfoActivity : ImagePickerUtility() {
 
+    private val myCalendar = Calendar.getInstance()
+    private lateinit var date: DatePickerDialog.OnDateSetListener
+
     override fun selectedImage(imagePath: String?) {
+
+    }
+
+    override fun selectedVideoUri(videoUri: Uri?) {
 
     }
 
@@ -30,8 +42,14 @@ class InfoActivity : ImagePickerUtility() {
         aboutMeTypingTimeScroll()
 
         headingText.text = getString(R.string.info)
-
         clickHandles()
+
+        date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, monthOfYear)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateLabel()
+        }
 
     }
 
@@ -40,14 +58,39 @@ class InfoActivity : ImagePickerUtility() {
             finish()
         }
 
+        civ_profile.setOnClickListener {
+            getImage(this,0,false)
+        }
+
+        edtSetAvailability.setOnClickListener {
+            datePicker()
+        }
+
+        riv_video.setOnClickListener {
+            getImage(this,0,true)
+        }
+
         riv_Picture.setOnClickListener {
-            getImage(this,0)
+            getImage(this,0,false)
         }
 
         btnSubmit.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun datePicker() {
+        DatePickerDialog(
+            this, date, myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
+            myCalendar[Calendar.DAY_OF_MONTH]
+        ).show()
+    }
+
+    private fun updateDateLabel() {
+        val dateFormat = "dd/MM/yy" //In which you need put here
+        val sdf = SimpleDateFormat(dateFormat, Locale.US)
+        edtSetAvailability.setText(sdf.format(myCalendar.time))
     }
 
     @SuppressLint("ClickableViewAccessibility")

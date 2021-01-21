@@ -1,4 +1,4 @@
-package com.bintyblackbook.ui.activities.home.profile
+package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.content.Intent
 import android.os.Bundle

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.models.EditMessageModel
@@ -32,10 +33,12 @@ class HorizontalCircularImageAdapter(var context: Context, var arrayList: ArrayL
     inner class HorizontalImagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val civProfile: CircleImageView = itemView.civ_profile
         private val rlCross: RelativeLayout = itemView.rlCross
+        private val tvName:TextView = itemView.tvName
 
         fun bind(pos: Int) {
             val editMessageModel = arrayList[pos]
             civProfile.setImageResource(editMessageModel.image!!)
+            tvName.text = editMessageModel.name
 
         }
     }

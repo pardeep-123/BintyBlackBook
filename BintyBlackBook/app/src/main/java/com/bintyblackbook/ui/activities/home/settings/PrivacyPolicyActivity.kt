@@ -1,21 +1,21 @@
 package com.bintyblackbook.ui.activities.home.settings
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_privacy_policy.*
 
 class PrivacyPolicyActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy_policy)
-        if(intent.getStringExtra("from").equals("terms")){
-            headingText.setText("TERMS & CONDITIONS")
-        }else{
-            headingText.setText("PRIVACY POLICY")
+        if (intent.getStringExtra("from").equals("terms")) {
+            tvHeading.setText("TERMS & CONDITIONS")
+        } else {
+            tvHeading.setText("PRIVACY POLICY")
         }
-        iv_back.setOnClickListener(this)
+        rlBack.setOnClickListener(this)
 
     }
 

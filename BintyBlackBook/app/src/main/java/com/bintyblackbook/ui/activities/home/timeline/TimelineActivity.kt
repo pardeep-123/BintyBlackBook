@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.TimelineAdapter
 import com.bintyblackbook.models.TimelineModel
+import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.PostDeleteDialogFragment
 import com.bintyblackbook.util.AppConstant
 import kotlinx.android.synthetic.main.activity_timeline.*
@@ -45,7 +46,12 @@ class TimelineActivity : AppCompatActivity() {
 
     private fun adapterItemClickEditOrDelete(){
         timelineAdapter?.onItemClick ={timelineModel: TimelineModel, clickOn: String ->
-            if (clickOn=="editClick"){
+            if (clickOn=="imageClick" || clickOn=="nameClick"){
+                val intent = Intent(this,UserDetailActivity::class.java)
+                intent.putExtra(AppConstant.SHOW_CHAT_BTN,true)
+                startActivity(intent)
+
+            }else if (clickOn=="editClick"){
                 val intent = Intent(this,AddPostActivity::class.java)
                 intent.putExtra(AppConstant.HEADING,"Edit Past")
                 startActivity(intent)

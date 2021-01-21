@@ -130,6 +130,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/romul"
+                    app:ccpDialog_keyboardAutoPopup="false"
+                    app:ccp_arrowSize="@dimen/dp20"
                     app:ccp_autoDetectCountry="true"
                     app:ccp_autoDetectLanguage="true"
                     app:ccp_contentColor="@color/whiteColor"
@@ -140,7 +142,7 @@
 
 
                 <EditText
-                    android:id="@+id/edt"
+                    android:id="@+id/edtMobileNumber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@+id/ccp"
@@ -242,16 +244,17 @@
             <EditText
                 android:id="@+id/edtLocation"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
                 android:fontFamily="@font/romul"
                 android:hint="@string/location"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="no"
-                android:inputType="text"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
+                android:padding="@dimen/dp10"
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
@@ -271,18 +274,21 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edtAvailability"
+                android:id="@+id/edtSetAvailability"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
+                android:clickable="false"
                 android:drawableEnd="@drawable/calendar"
                 android:drawablePadding="@dimen/dp10"
+                android:focusable="false"
                 android:fontFamily="@font/romul"
-                android:hint="@string/set"
+                android:hint="@string/set_availability"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
+                android:longClickable="false"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:singleLine="true"
@@ -306,7 +312,7 @@
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp10"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -340,16 +346,16 @@
             <EditText
                 android:id="@+id/edtWebsiteLink"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp20"
                 android:background="@drawable/bg_curved_edit_text_green"
                 android:fontFamily="@font/romul"
                 android:hint="@string/website_link"
-                android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="text"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
+                android:padding="@dimen/dp10"
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
@@ -374,7 +380,7 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
+                android:fontFamily="@font/trajanpro_regular"
                 android:gravity="start|top"
                 android:hint="@string/about_me"
                 android:importantForAutofill="no"
@@ -389,24 +395,42 @@
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="@dimen/dp15"
-                android:fontFamily="@font/romul"
-                android:text="@string/upload_video"
-                android:textAllCaps="true"
-                android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
-                android:textStyle="bold"
-                app:drawableEndCompat="@drawable/add" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/upload_video"
+                    android:textAllCaps="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp14"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="@dimen/dp15"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/add_new" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    app:riv_corner_radius="@dimen/dp5" />
 
                 <ImageView
                     android:layout_width="25dp"
@@ -417,18 +441,30 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:drawablePadding="@dimen/dp15"
-                android:fontFamily="@font/romul"
-                android:text="@string/upload_images"
-                android:textAllCaps="true"
-                android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
-                android:textStyle="bold"
-                app:drawableEndCompat="@drawable/add" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/upload_images"
+                    android:textAllCaps="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp14"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="@dimen/dp15"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/add_new" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -440,6 +476,7 @@
                     android:id="@+id/riv_Picture"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="fitXY"
                     app:riv_corner_radius="@dimen/dp5" />
 
                 <ImageView
@@ -458,7 +495,7 @@
                 android:layout_marginTop="@dimen/dp40"
                 android:layout_marginBottom="@dimen/dp20"
                 android:background="@drawable/btn1"
-                android:fontFamily="@font/trajanpro_regular"
+                android:fontFamily="@font/romul"
                 android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"

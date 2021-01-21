@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.activities.home.timeline
 
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bintyblackbook.R
@@ -11,6 +12,10 @@ import kotlinx.android.synthetic.main.activity_add_post.*
 class AddPostActivity : ImagePickerUtility() {
 
     override fun selectedImage(imagePath: String?) {
+
+    }
+
+    override fun selectedVideoUri(videoUri: Uri?) {
 
     }
 
@@ -27,10 +32,11 @@ class AddPostActivity : ImagePickerUtility() {
             tvHeading.text = heading
             rivCamera.setImageResource(R.drawable.background)
             edtDesc.setText(R.string.dummy_text)
+            btnPost.text = getString(R.string.save)
         }
 
         rivCamera.setOnClickListener {
-            getImage(this,0)
+            getImage(this,0,false)
         }
 
         btnPost.setOnClickListener {

@@ -110,7 +110,7 @@
         android:layout_marginRight="@dimen/dp30"
         android:layout_marginBottom="@dimen/dp20"
         android:background="@drawable/btn1"
-        android:fontFamily="@font/trajanpro_regular"
+        android:fontFamily="@font/romul"
         android:text="@string/pay"
         android:textAllCaps="false"
         android:textColor="@color/whiteColor"

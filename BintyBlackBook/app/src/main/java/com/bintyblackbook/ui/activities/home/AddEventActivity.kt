@@ -3,6 +3,7 @@ package com.bintyblackbook.ui.activities.home
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import com.bintyblackbook.R
 import com.bintyblackbook.util.AppConstant
@@ -20,6 +21,10 @@ class AddEventActivity : ImagePickerUtility() {
     private lateinit var time: TimePickerDialog.OnTimeSetListener
 
     override fun selectedImage(imagePath: String?) {
+
+    }
+
+    override fun selectedVideoUri(videoUri: Uri?) {
 
     }
 
@@ -59,7 +64,7 @@ class AddEventActivity : ImagePickerUtility() {
         }
 
         riv.setOnClickListener {
-            getImage(this,0)
+            getImage(this,0,false)
         }
 
         edtDate.setOnClickListener {

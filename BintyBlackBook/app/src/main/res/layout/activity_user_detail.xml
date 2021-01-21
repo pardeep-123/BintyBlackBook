@@ -154,11 +154,24 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp40"
                 android:background="@drawable/btn1"
-                android:fontFamily="@font/trajanpro_regular"
+                android:fontFamily="@font/romul"
                 android:text="@string/check_availability"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp13" />
+
+            <Button
+                android:id="@+id/btnChat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/dp15"
+                android:background="@drawable/btn1"
+                android:fontFamily="@font/romul"
+                android:text="@string/chat"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp13"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btnLoop"
@@ -166,7 +179,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp15"
                 android:background="@drawable/btn1"
-                android:fontFamily="@font/trajanpro_regular"
+                android:fontFamily="@font/romul"
                 android:text="@string/loop"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
@@ -179,7 +192,7 @@
                 android:layout_marginTop="@dimen/dp15"
                 android:layout_marginBottom="@dimen/dp20"
                 android:background="@drawable/btn1"
-                android:fontFamily="@font/trajanpro_regular"
+                android:fontFamily="@font/romul"
                 android:text="@string/event"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"

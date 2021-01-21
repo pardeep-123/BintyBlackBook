@@ -74,7 +74,7 @@ class TimelineAdapter(var context: Context, var arrayList: ArrayList<TimelineMod
             }
 
             if (timelineModel.heartFilled) {
-                ivHeart.setImageResource(R.drawable.like21)
+                ivHeart.setImageResource(R.drawable.heart_new)
             } else {
                 ivHeart.setImageResource(R.drawable.like)
             }
@@ -82,6 +82,14 @@ class TimelineAdapter(var context: Context, var arrayList: ArrayList<TimelineMod
             rlHeart.setOnClickListener {
                 timelineModel.heartFilled = !timelineModel.heartFilled
                 notifyDataSetChanged()
+            }
+
+            civProfile.setOnClickListener {
+                onItemClick?.invoke(timelineModel, "imageClick")
+            }
+
+            tvName.setOnClickListener {
+                onItemClick?.invoke(timelineModel, "nameClick")
             }
 
             rlComment.setOnClickListener {

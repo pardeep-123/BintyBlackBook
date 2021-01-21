@@ -1,18 +1,19 @@
-package com.bintyblackbook.ui.activities.home.profile
+package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
+import com.bintyblackbook.adapters.HorizontalCalendarAdapter
 import com.bintyblackbook.models.AvailabilityModel
-import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
-import com.michalsvec.singlerowcalendar.calendar.CalendarViewManager
-import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendarAdapter
-import com.michalsvec.singlerowcalendar.selection.CalendarSelectionManager
-import com.michalsvec.singlerowcalendar.utils.DateUtils
+import com.bintyblackbook.models.HorizontalCalendarModel
 import kotlinx.android.synthetic.main.activity_availability.*
-import kotlinx.android.synthetic.main.calendar_item.view.*
+import kotlinx.android.synthetic.main.activity_availability.rlBack
+import kotlinx.android.synthetic.main.activity_availability.rlNext
+import kotlinx.android.synthetic.main.activity_availability.rlPrevious
+import kotlinx.android.synthetic.main.activity_availability.rvTime
 import java.util.*
 
 class AvailabilityActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class AvailabilityActivity : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
     private var currentMonth = 0
     lateinit var arrayList: ArrayList<AvailabilityModel>
+    private var itemPos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +68,56 @@ class AvailabilityActivity : AppCompatActivity() {
     }
 
     private fun horizontalCalendarSet() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rvDate.layoutManager = layoutManager
+
+        val arrayList = ArrayList<HorizontalCalendarModel>()
+        arrayList.add(HorizontalCalendarModel("Sun", "Jan 01", false))
+        arrayList.add(HorizontalCalendarModel("Mon", "Jan 02", false))
+        arrayList.add(HorizontalCalendarModel("Tue", "Jan 03", false))
+        arrayList.add(HorizontalCalendarModel("Wed", "Jan 04", false))
+        arrayList.add(HorizontalCalendarModel("Thu", "Jan 05", false))
+        arrayList.add(HorizontalCalendarModel("Fri", "Jan 06", false))
+        arrayList.add(HorizontalCalendarModel("Sat", "Jan 07", false))
+        arrayList.add(HorizontalCalendarModel("Sun", "Jan 08", false))
+        arrayList.add(HorizontalCalendarModel("Mon", "Jan 09", false))
+        arrayList.add(HorizontalCalendarModel("Tue", "Jan 10", false))
+        arrayList.add(HorizontalCalendarModel("Wed", "Jan 11", false))
+        arrayList.add(HorizontalCalendarModel("Thu", "Jan 12", false))
+        arrayList.add(HorizontalCalendarModel("Fri", "Jan 13", false))
+        arrayList.add(HorizontalCalendarModel("Sat", "Jan 14", false))
+        arrayList.add(HorizontalCalendarModel("Sun", "Jan 15", false))
+        arrayList.add(HorizontalCalendarModel("Mon", "Jan 16", false))
+        arrayList.add(HorizontalCalendarModel("Tue", "Jan 17", false))
+        arrayList.add(HorizontalCalendarModel("Wed", "Jan 18", false))
+        arrayList.add(HorizontalCalendarModel("Thu", "Jan 19", false))
+        arrayList.add(HorizontalCalendarModel("Fri", "Jan 20", false))
+        arrayList.add(HorizontalCalendarModel("Sat", "Jan 21", false))
+
+        val horizontalCalendarAdapter = HorizontalCalendarAdapter(this, arrayList)
+        rvDate.adapter = horizontalCalendarAdapter
+
+        rvDate.setRecyclerListener {
+            itemPos = it.adapterPosition
+        }
+
+        rlPrevious.setOnClickListener {
+            if (itemPos <= arrayList.size-1) {
+                rvDate.smoothScrollToPosition(0)
+            }
+        }
+
+
+
+        rlNext.setOnClickListener {
+            if (itemPos >= 0) {
+                rvDate.smoothScrollToPosition(arrayList.size-1)
+            }
+        }
+
+    }
+
+    /*private fun horizontalCalendarSet() {
         // set current date to calendar and current month to currentMonth variable
         calendar.time = Date()
         currentMonth = calendar[Calendar.MONTH]
@@ -205,5 +257,5 @@ class AvailabilityActivity : AppCompatActivity() {
         }
         calendar.add(Calendar.DATE, -1)
         return list
-    }
+    }*/
 }

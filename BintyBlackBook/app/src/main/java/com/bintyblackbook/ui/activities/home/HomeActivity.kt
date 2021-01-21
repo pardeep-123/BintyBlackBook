@@ -4,22 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.MessagesActivity
-import com.bintyblackbook.ui.activities.home.profile.MyProfileActivity
+import com.bintyblackbook.ui.activities.home.notification.NotificationActivity
+import com.bintyblackbook.ui.activities.home.profileBusiness.MyProfileBusinessActivity
+import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
 import com.bintyblackbook.ui.activities.home.promote.PromoteBusinessActivity
 import com.bintyblackbook.ui.activities.home.settings.SettingsActivity
 import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
+import com.bintyblackbook.ui.dialogues.LogoutDialogFragment
 import com.bintyblackbook.ui.fragments.HomeFragment
+import com.bintyblackbook.util.MySharedPreferences
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.drawerhome.*
 
@@ -27,17 +29,33 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     val context: Context = this
     private lateinit var drawerLayout: DrawerLayout
-
+    var searchClick = false
+    var userType:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawerhome)
-
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
+        userType = MySharedPreferences.getUserType(this)
+
+        if(userType.equals("Business")){
+            ll_promote.visibility = View.VISIBLE
+        }
+
         clickListenerHandling()
         switchFragment(HomeFragment())
+
+        ivSearch.setOnClickListener {
+            if (searchClick){
+                edtSearch.visibility = View.GONE
+                searchClick = false
+            }else{
+                edtSearch.visibility = View.VISIBLE
+                searchClick = true
+            }
+        }
     }
 
     private fun clickListenerHandling() {
@@ -72,11 +90,16 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
             R.id.rlBell -> {
-                startActivity(Intent(context,NotificationActivity::class.java))
+                startActivity(Intent(context, NotificationActivity::class.java))
             }
             R.id.ll_Profile -> {
-                val intent = Intent(context, MyProfileActivity::class.java)
-                startActivity(intent)
+               if (userType.equals("User")){
+                   val intent = Intent(context, MyProfileActivity::class.java)
+                   startActivity(intent)
+               }else if(userType.equals("Business")){
+                   val intent = Intent(context, MyProfileBusinessActivity::class.java)
+                   startActivity(intent)
+               }
 
             }
             R.id.ll_mybooking -> {
@@ -114,25 +137,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.ll_logout -> {
-                openLogoutDialog()
+                val logoutDialog = LogoutDialogFragment()
+                logoutDialog.show(supportFragmentManager,"logoutDialog")
             }
         }
-    }
-
-    private fun openLogoutDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Are you sure you want to logout?")
-        builder.setCancelable(false)
-        builder.setNegativeButton("Cancel") { dialogInterface, i ->
-            dialogInterface.dismiss()
-        }
-        builder.setPositiveButton(
-            "Logout"
-        ) { dialog, id ->
-            val intent = Intent(context, LoginActivity::class.java)
-            startActivity(intent)
-            finishAffinity()
-        }.create().show()
     }
 
     private fun drawerClose() {

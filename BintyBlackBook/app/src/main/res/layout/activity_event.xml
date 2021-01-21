@@ -33,7 +33,18 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/back"
                     android:contentDescription="@string/image" />
+
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/romul"
+                android:text="@string/events"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>

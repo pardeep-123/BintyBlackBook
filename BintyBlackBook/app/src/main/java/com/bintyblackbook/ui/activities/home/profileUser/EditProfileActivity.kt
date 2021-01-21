@@ -1,10 +1,9 @@
-package com.bintyblackbook.ui.activities.home.profile
+package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
 import com.bintyblackbook.util.ImagePickerUtility
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -13,6 +12,10 @@ import kotlinx.android.synthetic.main.toolbar.*
 class EditProfileActivity : ImagePickerUtility() {
 
     override fun selectedImage(imagePath: String?) {
+
+    }
+
+    override fun selectedVideoUri(videoUri: Uri?) {
 
     }
 
@@ -37,7 +40,7 @@ class EditProfileActivity : ImagePickerUtility() {
         edtAbout.setText(R.string.dummy_text)
 
         civ_profile.setOnClickListener {
-            getImage(this,0)
+            getImage(this,0,false)
         }
     }
 

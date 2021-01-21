@@ -89,32 +89,10 @@
                         android:button="@drawable/bg_checkbox"
                         android:text="@string/remember_me"
                         android:textColor="@color/whiteColor"
-                        android:textSize="11sp"
+                        android:textSize="@dimen/sp11"
                         android:paddingStart="5dp"
                         android:fontFamily="@font/romul"
                         tools:ignore="RtlSymmetry" />
-
-                    <!--<ImageView
-                        android:id="@+id/ivCheckbox"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/without_tick" />
-
-                    <TextView
-                        android:id="@+id/tv_terms_conditions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:fontFamily="@font/romul"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/ivCheckbox"
-                        android:drawablePadding="3dp"
-                        android:gravity="start"
-                        android:text="@string/remember_me"
-                        android:textColor="@color/whiteColor"
-                        android:textSize="11sp" />-->
-
 
                 </RelativeLayout>
 
@@ -125,10 +103,10 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/forgot_password"
+                    android:text="@string/forgot_password_question_mark"
                     android:fontFamily="@font/romul"
                     android:textColor="@color/whiteColor"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/sp11" />
             </LinearLayout>
 
             <Button

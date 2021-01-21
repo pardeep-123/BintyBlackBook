@@ -38,15 +38,18 @@
                     app:riv_corner_radius="@dimen/dp5" />
 
                 <RelativeLayout
+                    android:id="@+id/rlHeart"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true">
+
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/ivHeart"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
                         android:contentDescription="@string/image"
-                        android:src="@drawable/like21"
-                        android:layout_centerInParent="true"/>
+                        android:src="@drawable/heart_new" />
                 </RelativeLayout>
 
             </RelativeLayout>

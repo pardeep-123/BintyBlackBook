@@ -61,7 +61,7 @@
             android:layout_height="40dp"
             android:layout_marginEnd="@dimen/dp5"
             android:background="@drawable/btn1"
-            android:fontFamily="@font/trajanpro_bold"
+            android:fontFamily="@font/romul"
             android:text="@string/done"
             android:textAllCaps="false"
             android:textColor="@color/whiteColor"

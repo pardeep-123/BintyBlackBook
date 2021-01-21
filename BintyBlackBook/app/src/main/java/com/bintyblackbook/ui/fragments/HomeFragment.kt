@@ -57,10 +57,7 @@ class HomeFragment : Fragment() {
         arrayList.add(HomeModel("DJS", arrayListImages1))
         arrayList.add(HomeModel("Music", arrayListImages2))
         arrayList.add(HomeModel("Events", arrayListImages))
-        arrayList.add(HomeModel("Photography", arrayListImages1))
-        arrayList.add(HomeModel("DJS", arrayListImages2))
-        arrayList.add(HomeModel("Music", arrayListImages1))
-        arrayList.add(HomeModel("Events", arrayListImages))
+
 
         homeAdapter = HomeAdapter(activity!!, arrayList)
         rvHome.adapter = homeAdapter

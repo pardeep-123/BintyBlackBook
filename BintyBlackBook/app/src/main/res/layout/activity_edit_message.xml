@@ -52,7 +52,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="75dp"
         android:layout_below="@id/tbMain"
         android:layout_marginStart="@dimen/dp30"
         android:layout_marginEnd="@dimen/dp10"
@@ -75,7 +75,7 @@
         android:layout_marginRight="40dp"
         android:layout_marginBottom="@dimen/dp20"
         android:background="@drawable/btn1"
-        android:fontFamily="@font/trajanpro_regular"
+        android:fontFamily="@font/romul"
         android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="@color/whiteColor"

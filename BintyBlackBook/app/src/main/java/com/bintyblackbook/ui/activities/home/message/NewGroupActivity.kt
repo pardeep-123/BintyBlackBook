@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.activities.home.message
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
@@ -18,6 +19,10 @@ class NewGroupActivity : ImagePickerUtility() {
 
     }
 
+    override fun selectedVideoUri(videoUri: Uri?) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_group)
@@ -27,7 +32,7 @@ class NewGroupActivity : ImagePickerUtility() {
         }
 
         civGroup.setOnClickListener {
-            getImage(this,0)
+            getImage(this,0,false)
         }
 
         btnNext.setOnClickListener {

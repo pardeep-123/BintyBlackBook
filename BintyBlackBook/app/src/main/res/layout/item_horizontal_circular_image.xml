@@ -29,6 +29,19 @@
                 android:contentDescription="@string/image"
                 android:src="@drawable/crossss" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/civ_profile"
+            android:fontFamily="@font/romul"
+            android:lines="1"
+            android:text="@string/john"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/sp10"
+            android:textAlignment="center"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

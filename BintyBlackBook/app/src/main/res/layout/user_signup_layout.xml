@@ -44,6 +44,9 @@
             app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
             app:ccp_showFlag="false"
             app:ccp_showNameCode="false"
+            app:ccpDialog_keyboardAutoPopup="false"
+            app:ccp_arrowSize="@dimen/dp20"
+            app:ccp_arrowColor="@color/fadePink"
             app:ccp_textSize="@dimen/sp13" />
 
 
@@ -130,16 +133,15 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/bg_curved_edit_text"
-        android:fontFamily="@font/romul"
+        android:fontFamily="@font/trajanpro_bold"
         android:gravity="start"
         android:hint="ABOUT"
+        android:overScrollMode="always"
         android:inputType="textMultiLine"
-        android:maxLines="3"
-        android:minLines="3"
-        android:paddingStart="15dp"
-        android:paddingTop="20dp"
+        android:padding="@dimen/dp10"
         android:textColor="@color/blackColor"
         android:textSize="13sp"
-        android:textStyle="bold" />
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"/>
 
 </LinearLayout>

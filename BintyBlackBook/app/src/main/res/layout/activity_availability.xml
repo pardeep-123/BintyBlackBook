@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/themeColor"
     android:orientation="vertical"
-    tools:context=".ui.activities.home.profile.AvailabilityActivity">
+    tools:context=".ui.activities.home.profileUser.AvailabilityActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbMain"
@@ -85,7 +85,14 @@
                 android:src="@drawable/left_black" />
         </RelativeLayout>
 
-        <com.michalsvec.singlerowcalendar.calendar.SingleRowCalendar
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDate"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_toStartOf="@id/rlNext"
+            android:layout_toEndOf="@+id/rlPrevious" />
+
+        <!--<com.michalsvec.singlerowcalendar.calendar.SingleRowCalendar
             android:id="@+id/main_single_row_calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +100,7 @@
             android:layout_toEndOf="@+id/rlPrevious"
             app:deselection="false"
             app:longPress="false"
-            app:multiSelection="false" />
+            app:multiSelection="false" />-->
 
         <RelativeLayout
             android:id="@+id/rlNext"

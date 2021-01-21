@@ -7,6 +7,7 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="new_user">NEW USER ? </string>
     <string name="forgot_password">FORGOT PASSWORD</string>
+    <string name="forgot_password_question_mark">FORGOT PASSWORD?</string>
     <string name="recover_your_password">RECOVER YOUR PASSWORD</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -84,6 +85,7 @@
     <string name="write_here">Write Here...</string>
     <string name="more_info">More Info</string>
     <string name="delete_this_event">Are you sure want to delete this event</string>
+    <string name="logout_dialog">Are you sure you want to logout?</string>
     <string name="delete_this_post">Are you sure want to delete this Post?</string>
     <string name="status">Status</string>
     <string name="are_you_sure_want_to_cancel_the_request">Are you sure want to cancel the request</string>
@@ -121,7 +123,6 @@
     <string name="post">Post</string>
     <string name="you_can_earn_more_rewards">You can earn more rewards by referring your friends to Binty\'s Black Book. Send them your referral code(pin001).</string>
     <string name="invite_friend">Invite friend</string>
-    <string name="event_calender">Event Calender</string>
     <string name="calendar">Calendar</string>
     <string name="my_wallet">My Wallet</string>
     <string name="current_balance">Current Balance</string>
@@ -131,5 +132,8 @@
     <string name="select_time">Select Time</string>
     <string name="comments">Comments</string>
     <string name="type_comments">Type Comments...</string>
+    <string name="please_enter_a_valid_email_address">Please Enter a valid email Address. we will send you an email for you for confirmation.</string>
+    <string name="booking_request">Booking Request</string>
+    <string name="chat">Chat</string>
 
 </resources>

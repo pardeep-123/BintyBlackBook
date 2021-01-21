@@ -27,20 +27,30 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 abstract class ImagePickerUtility : AppCompatActivity() {
 
     val REQUEST_CODE = 100
-    private val GALLERY_REQUEST_CODE = 101
+    private val GALLERY_PIC_REQUEST_CODE = 101
     private val CAMERA_REQUEST_CODE = 102
+    var mVideoDialog: Boolean = false
+
+    private val GALLERY_VIDEO_REQUEST_CODE = 1001
+    private val REQUEST_VIDEO_CAPTURE = 1002
 
     var imageAbsolutePath = ""
     private var mActivity: Activity? = null
     private var mCode = 0
 
 
-    open fun getImage(activity: Activity, code: Int) {
+    open fun getImage(activity: Activity, code: Int, videoDialog: Boolean) {
         mActivity = activity
         mCode = code
+        mVideoDialog = videoDialog
+
+        //*****videoDialog -> put false for pick the Image.*****
+        //*****videoDialog -> put true for pick the Video.*****
+
         if (!cameraPermission(
                 arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -79,17 +89,26 @@ abstract class ImagePickerUtility : AppCompatActivity() {
 
         camera.setOnClickListener {
             dialog.dismiss()
-            CaptureImage(mActivity!!)
+            if (mVideoDialog) {
+                captureVideo(mActivity!!)
+            } else {
+                captureImage(mActivity!!)
+            }
+
         }
 
         gallery.setOnClickListener {
             dialog.dismiss()
-            openGallery(mActivity!!)
+            if (mVideoDialog) {
+                openGalleryForVideo(mActivity!!)
+            } else {
+                openGallery(mActivity!!)
+            }
         }
         dialog.show()
     }
 
-    open fun CaptureImage(activity: Activity) {
+    open fun captureImage(activity: Activity) {
         mActivity = activity
 
 
@@ -120,6 +139,16 @@ abstract class ImagePickerUtility : AppCompatActivity() {
          }*/
     }
 
+    open fun captureVideo(activity: Activity) {
+        mActivity = activity
+
+        val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        if (takeVideoIntent.resolveActivity(packageManager) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE)
+        }
+
+
+    }
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
@@ -144,8 +173,16 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         intent.type = "image/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         startActivityForResult(
-            Intent.createChooser(intent, "Select a File"), GALLERY_REQUEST_CODE
+            Intent.createChooser(intent, "Select a File"), GALLERY_PIC_REQUEST_CODE
         )
+    }
+
+    open fun openGalleryForVideo(activity: Activity) {
+        mActivity = activity
+
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, GALLERY_VIDEO_REQUEST_CODE)
+
     }
 
     private fun cameraPermission(permissions: Array<String>): Boolean {
@@ -225,7 +262,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getImage(mActivity!!, mCode)
+                getImage(mActivity!!, mCode, mVideoDialog)
             } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 checkPermissionDenied(permissions)
             }
@@ -238,11 +275,21 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             selectedImage(imageAbsolutePath)
 
-        } else if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == GALLERY_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
 
+        } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            val videoUri = intent.data
+            /*videoView.setVideoURI(videoUri)*/
+            selectedVideoUri(videoUri)
+        } else if (requestCode == GALLERY_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {
+            val videoUri = intent.data
+            /*videoView.setVideoURI(videoUri)*/
+            selectedVideoUri(videoUri)
         }
     }
 
 
     abstract fun selectedImage(imagePath: String?)
+
+    abstract fun selectedVideoUri(videoUri: Uri?)
 }

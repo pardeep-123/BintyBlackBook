@@ -149,7 +149,7 @@
         android:layout_marginEnd="@dimen/dp30"
         android:layout_marginBottom="@dimen/dp20"
         android:background="@drawable/btn1"
-        android:fontFamily="@font/trajanpro_regular"
+        android:fontFamily="@font/romul"
         android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="@color/whiteColor"

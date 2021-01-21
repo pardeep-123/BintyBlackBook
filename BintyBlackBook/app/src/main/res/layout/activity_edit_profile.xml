@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themeColor"
-    tools:context=".ui.activities.home.profile.EditProfileActivity">
+    tools:context=".ui.activities.home.profileUser.EditProfileActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -61,7 +61,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:textAllCaps="false"
-            android:textColor="@color/fadePink"
+            android:textColor="@color/lightGray1"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -81,11 +81,13 @@
                 android:fontFamily="@font/romul"
                 app:ccp_autoDetectCountry="true"
                 app:ccp_autoDetectLanguage="true"
-                app:ccp_contentColor="@color/fadePink"
+                app:ccp_contentColor="@color/lightGray1"
                 app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
                 app:ccp_showFlag="false"
                 app:ccp_showNameCode="false"
-                app:ccp_textSize="@dimen/sp13" />
+                app:ccp_textSize="@dimen/sp13"
+                app:ccp_arrowSize="@dimen/dp20"
+                app:ccpDialog_keyboardAutoPopup="false"/>
 
 
             <EditText
@@ -105,7 +107,7 @@
                 android:paddingBottom="10dp"
                 android:singleLine="true"
                 android:textAllCaps="false"
-                android:textColor="@color/fadePink"
+                android:textColor="@color/lightGray1"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -126,7 +128,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:textAllCaps="false"
-            android:textColor="@color/fadePink"
+            android:textColor="@color/lightGray1"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -147,7 +149,7 @@
             android:paddingTop="20dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
-            android:textColor="@color/fadePink"
+            android:textColor="@color/lightGray1"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -157,7 +159,7 @@
             android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/btn1"
-            android:fontFamily="@font/trajanpro_regular"
+            android:fontFamily="@font/romul"
             android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/whiteColor"

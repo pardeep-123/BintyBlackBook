@@ -20,13 +20,14 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/image"
             android:src="@drawable/dollar" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/dummyImage"
+            android:layout_toEndOf="@+id/dummyImage"
             android:orientation="vertical">
 
             <TextView
@@ -36,7 +37,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/romul"
                 android:lineSpacingExtra="3dp"
-                android:text="$5 per day"
+                android:text="$5/day"
                 android:textColor="@color/blackColor"
                 android:textSize="18sp" />
 

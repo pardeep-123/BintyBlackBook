@@ -23,10 +23,11 @@
                 android:layout_gravity="start"
                 android:layout_margin="10dp"
                 android:padding="5dp"
-                android:src="@drawable/left" />
+                android:src="@drawable/left"
+                android:contentDescription="@string/image"/>
 
-            <ImageView
-                android:id="@+id/dummyImage"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/camera" />
@@ -44,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/dp10"
                 android:fontFamily="@font/romul"
                 android:text="SIGNUP TO GET STARTED!"
                 android:textColor="@color/whiteColor"
@@ -72,7 +73,7 @@
                     android:id="@+id/businessBtn"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:background="@drawable/pink_transbackground"
                     android:fontFamily="@font/romul"
                     android:gravity="center"
@@ -110,43 +111,23 @@
                     android:button="@drawable/bg_checkbox"
                     android:text="I accept"
                     android:textColor="@color/whiteColor"
-                    android:textSize="11sp"
+                    android:textSize="@dimen/sp11"
                     android:paddingStart="5dp"
                     android:fontFamily="@font/romul"
                     tools:ignore="RtlSymmetry" />
-
-                <!--<ImageView
-                    android:id="@+id/ivCheckbox"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/without_tick" />
-
-                <TextView
-                    android:id="@+id/tv_terms_conditions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/ivCheckbox"
-                    android:drawablePadding="3dp"
-                    android:fontFamily="@font/romul"
-                    android:gravity="start"
-                    android:text="I accept"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="11sp" />-->
 
                 <TextView
                     android:id="@+id/tvTermsConditions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/cbAccept"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/cbAccept"
                     android:drawablePadding="3dp"
                     android:fontFamily="@font/romul"
                     android:gravity="start"
                     android:text="TERMS &amp; CONDITIONS"
                     android:textColor="@color/whiteColor"
-                    android:textSize="11sp" />
+                    android:textSize="@dimen/sp11" />
 
 
             </RelativeLayout>
@@ -158,7 +139,7 @@
                 android:background="@drawable/btn1"
                 android:textAllCaps="false"
                 android:text="SIGN UP"
-                android:fontFamily="@font/trajanpro_regular"
+                android:fontFamily="@font/romul"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="30dp"

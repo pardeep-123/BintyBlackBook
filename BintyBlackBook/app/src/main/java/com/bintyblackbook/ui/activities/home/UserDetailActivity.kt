@@ -7,7 +7,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.HorizontalImagesAdapter
+import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.dialogues.FragmentDialog
+import com.bintyblackbook.util.AppConstant
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -21,6 +23,11 @@ class UserDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_detail)
         rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        val showChatBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_BTN,false)
+        if (showChatBtn){
+            btnChat.visibility = View.VISIBLE
+        }
+
         iv_back.setOnClickListener {
             finish()
         }
@@ -31,6 +38,11 @@ class UserDetailActivity : AppCompatActivity() {
 
         btnAvailability.setOnClickListener {
             val intent = Intent(this,CheckAvailabilityActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnChat.setOnClickListener {
+            val intent = Intent(this,ChatActivity::class.java)
             startActivity(intent)
         }
 

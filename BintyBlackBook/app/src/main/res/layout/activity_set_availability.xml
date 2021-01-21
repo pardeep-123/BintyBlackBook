@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/themeColor"
     android:orientation="vertical"
-    tools:context=".ui.activities.home.profile.SetAvailabilityActivity">
+    tools:context=".ui.activities.home.profileUser.SetAvailabilityActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbMain"
@@ -111,7 +111,7 @@
                 android:layout_marginRight="@dimen/dp18"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/btn1"
-                android:fontFamily="@font/trajanpro_regular"
+                android:fontFamily="@font/romul"
                 android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"

@@ -40,6 +40,7 @@
             android:fontFamily="@font/romul"
             app:ccp_autoDetectCountry="true"
             app:ccp_autoDetectLanguage="true"
+            app:ccpDialog_keyboardAutoPopup="false"
             app:ccp_contentColor="@color/blackColor"
             app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
             app:ccp_showFlag="false"
@@ -126,7 +127,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/romul"
-        android:layout_toRightOf="@+id/ivCheckbox"
         android:drawablePadding="3dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
@@ -137,14 +137,14 @@
         android:textSize="13sp" />
 
     <EditText
-        android:id="@+id/about_text"
+        android:id="@+id/edtAddPromoCode"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:paddingTop="20dp"
-        android:paddingLeft="15dp"
+        android:paddingStart="15dp"
         android:fontFamily="@font/romul"
         android:background="@drawable/email_back"
         android:hint="WRITE HERE"
@@ -152,7 +152,8 @@
         android:gravity="start"
         android:textColor="@color/blackColor"
         android:textSize="13sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="RtlSymmetry" />
 
 
 </LinearLayout>

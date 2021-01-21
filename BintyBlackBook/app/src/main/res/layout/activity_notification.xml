@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/themeColor"
     android:orientation="vertical"
-    tools:context=".ui.activities.home.NotificationActivity">
+    tools:context=".ui.activities.home.notification.NotificationActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbMain"

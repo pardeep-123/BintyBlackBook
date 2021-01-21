@@ -26,10 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rlCross"
-        android:fontFamily="@font/trajanpro_bold"
-        android:gravity="center_horizontal"
         android:layout_marginStart="@dimen/dp20"
         android:layout_marginEnd="@dimen/dp20"
+        android:fontFamily="@font/trajanpro_bold"
+        android:gravity="center_horizontal"
         android:text="@string/are_you_sure_want_to_block_john"
         android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp13" />
@@ -52,11 +52,12 @@
             android:layout_marginEnd="@dimen/dp5"
             android:layout_weight="1"
             android:background="@drawable/btn1"
-            android:fontFamily="@font/trajanpro_bold"
+            android:fontFamily="@font/romul"
             android:text="@string/yes"
             android:textAllCaps="false"
             android:textColor="@color/whiteColor"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnNo"
@@ -66,11 +67,12 @@
             android:layout_marginStart="@dimen/dp5"
             android:layout_weight="1"
             android:background="@drawable/btn1"
-            android:fontFamily="@font/trajanpro_bold"
+            android:fontFamily="@font/romul"
             android:text="@string/no"
             android:textAllCaps="false"
             android:textColor="@color/whiteColor"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

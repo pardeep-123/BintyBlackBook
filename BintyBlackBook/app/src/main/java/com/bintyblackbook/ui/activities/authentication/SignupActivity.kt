@@ -1,10 +1,12 @@
 package com.bintyblackbook.ui.activities.authentication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -12,23 +14,34 @@ import androidx.core.content.ContextCompat
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
+import com.bintyblackbook.util.ImagePickerUtility
 import com.bintyblackbook.util.MySharedPreferences
 import com.bintyblackbook.util.MyUtils
+import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.activity_signup.civ_profile
+import kotlinx.android.synthetic.main.user_signup_layout.*
 
-class SignupActivity : AppCompatActivity(), View.OnClickListener {
+class SignupActivity : ImagePickerUtility(), View.OnClickListener {
     val context: Context =this
-    var clicked:Boolean = false
+
+    override fun selectedImage(imagePath: String?) {
+
+    }
+
+    override fun selectedVideoUri(videoUri: Uri?) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        MyUtils.fullscreen(this@SignupActivity)
         setContentView(R.layout.activity_signup)
 
         MySharedPreferences.storeUserType(this,"User")
 
         clickHandles()
+        /*aboutTypingTimeScroll()*/
         tvTermsConditions.setPaintFlags(tvTermsConditions.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         tv_loginAcct.setPaintFlags(tv_loginAcct.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
     }
@@ -36,8 +49,10 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
     fun clickHandles(){
         userBtn.setOnClickListener(this)
         iv_back.setOnClickListener(this)
+        civ_profile.setOnClickListener(this)
         businessBtn.setOnClickListener(this)
         tvTermsConditions.setOnClickListener(this)
+        tv_loginAcct.setOnClickListener(this)
         signUpBtn.setOnClickListener(this)
     }
 
@@ -45,6 +60,9 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
         when(view.id){
             R.id.iv_back->{
                finish()
+            }
+            R.id.civ_profile->{
+                getImage(this,0,false)
             }
             R.id.tvTermsConditions -> {
                 val intent = Intent(context, PrivacyPolicyActivity::class.java)
@@ -66,6 +84,9 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
                     val intent = Intent(context, InfoActivity::class.java)
                     startActivity(intent)
                 }
+            }
+            R.id.tv_loginAcct ->{
+                finish()
             }
         }
     }
@@ -90,5 +111,19 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
         businessBtn.background = ContextCompat.getDrawable(context,R.drawable.pink_background)
         lin_user.visibility = View.GONE
         lin_business.visibility = View.VISIBLE
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun aboutTypingTimeScroll() {
+        about_text.setOnTouchListener { view, motionEvent ->
+            if (view.id == R.id.about_text) {
+                view.parent.requestDisallowInterceptTouchEvent(true)
+                when (motionEvent.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> view.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+
+            false
+        }
     }
 }

@@ -28,9 +28,11 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         when(view.id){
             R.id.sendBtn->{
                finish()
+                MyUtils.hideSoftKeyboard(this)
             }
             R.id.iv_back->{
                finish()
+                MyUtils.hideSoftKeyboard(this)
             }
         }
     }
