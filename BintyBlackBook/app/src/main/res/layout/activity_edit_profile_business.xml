@@ -175,7 +175,8 @@
                     app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
-                    app:ccp_textSize="@dimen/sp13" />
+                    app:ccp_textSize="@dimen/sp13"
+                    app:ccp_arrowColor="@color/blackColor"/>
 
 
                 <EditText

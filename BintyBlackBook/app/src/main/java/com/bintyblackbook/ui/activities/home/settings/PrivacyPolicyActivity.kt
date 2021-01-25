@@ -21,7 +21,7 @@ class PrivacyPolicyActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.iv_back -> {
+            R.id.rlBack -> {
                 finish()
             }
         }

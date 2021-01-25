@@ -24,8 +24,15 @@ class UserDetailActivity : AppCompatActivity() {
         rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         val showChatBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_BTN,false)
+        val showChatAndUnLoopBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN,false)
         if (showChatBtn){
             btnChat.visibility = View.VISIBLE
+        }
+
+        if (showChatAndUnLoopBtn){
+            btnChat.visibility = View.VISIBLE
+            btnUnLoop.visibility = View.VISIBLE
+            btnLoop.visibility = View.GONE
         }
 
         iv_back.setOnClickListener {

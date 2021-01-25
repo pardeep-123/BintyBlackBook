@@ -47,145 +47,154 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <Button
-        android:id="@+id/btnPay"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/dp30"
-        android:layout_marginRight="@dimen/dp30"
-        android:layout_marginBottom="@dimen/dp20"
-        android:background="@drawable/btn1"
-        android:fontFamily="@font/romul"
-        android:text="@string/pay"
-        android:textAllCaps="false"
-        android:textColor="@color/whiteColor"
-        android:textSize="13sp" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/tbMain"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-    <RelativeLayout
-        android:id="@+id/rlPayable"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:layout_above="@id/btnPay"
-        android:layout_marginStart="@dimen/dp18"
-        android:layout_marginEnd="@dimen/dp18"
-        android:layout_marginBottom="@dimen/dp30"
-        android:background="@drawable/bg_curved_white"
-        android:paddingStart="@dimen/dp15"
-        android:paddingEnd="@dimen/dp15">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/tvPrice"
-            android:fontFamily="@font/romul"
-            android:text="@string/total_payable"
-            android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp13" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/romul"
-            android:text="$5"
-            android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp13"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tvPayment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/rlPayable"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/dp18"
-        android:layout_marginBottom="@dimen/dp5"
-        android:fontFamily="@font/romul"
-        android:text="@string/payment_detail"
-        android:textColor="@color/whiteColor"
-        android:textSize="@dimen/sp13" />
-
-    <LinearLayout
-        android:id="@+id/llPaymentDetail"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_above="@id/tvPayment"
-        android:layout_marginStart="@dimen/dp18"
-        android:layout_marginEnd="@dimen/dp18"
-        android:layout_marginBottom="@dimen/dp20"
-        android:background="@drawable/bg_curved_brown_5dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/dp30">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/romul"
-            android:gravity="center"
-            android:text="@string/order_date"
-            android:textColor="@color/whiteColor"
-            android:textSize="@dimen/sp13"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp5"
-            android:fontFamily="@font/trajanpro_regular"
-            android:gravity="center"
-            android:text="@string/you_have_selected_5_a_day_to_promote_your_service"
-            android:textColor="@color/whiteColor"
-            android:textSize="@dimen/sp13" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvPromote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/llPaymentDetail"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/dp18"
-        android:layout_marginBottom="@dimen/dp5"
-        android:fontFamily="@font/romul"
-        android:text="@string/promote_detail"
-        android:textColor="@color/whiteColor"
-        android:textSize="@dimen/sp13" />
-
-    <!--<CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/tvPromote"
-        android:layout_below="@id/tbMain"
-        android:dateTextAppearance="@style/CalendarDayColor"
-        android:focusedMonthDateColor="@color/fadePink"
-        android:theme="@style/CalendarTheme"
-        android:firstDayOfWeek="1"
-        android:weekNumberColor="@color/blackColor"
-        android:weekDayTextAppearance="@style/CalendarWeekColor" />-->
+            <!--<CalendarView
+               android:id="@+id/calendarView"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:dateTextAppearance="@style/CalendarDayColor"
+               android:focusedMonthDateColor="@color/fadePink"
+               android:theme="@style/CalendarTheme"
+               android:firstDayOfWeek="1"
+               android:weekNumberColor="@color/blackColor"
+               android:weekDayTextAppearance="@style/CalendarWeekColor" />-->
 
 
-    <com.applandeo.materialcalendarview.CalendarView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/tvPromote"
-        android:layout_below="@id/tbMain"
-        app:abbreviationsBarColor="@color/themeColor"
-        app:abbreviationsLabelsColor="@color/whiteColor"
-        app:datePicker="true"
-        app:daysLabelsColor="@color/whiteColor"
-        app:headerColor="@color/fadePink"
-        app:pagesColor="@color/themeColor"
-        app:selectionColor="@color/fadePink"
-        app:todayLabelColor="@color/fadePink"
-        app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
+            <com.applandeo.materialcalendarview.CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:abbreviationsBarColor="@color/themeColor"
+                app:abbreviationsLabelsColor="@color/whiteColor"
+                app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"
+                app:datePicker="true"
+                app:daysLabelsColor="@color/whiteColor"
+                app:headerColor="@color/fadePink"
+                app:pagesColor="@color/themeColor"
+                app:selectionColor="@color/fadePink"
+                app:todayLabelColor="@color/fadePink" />
+
+
+            <TextView
+                android:id="@+id/tvPromote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp18"
+                android:layout_marginTop="@dimen/dp5"
+                android:fontFamily="@font/romul"
+                android:text="@string/promote_detail"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp13" />
+
+            <LinearLayout
+                android:id="@+id/llPaymentDetail"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="@dimen/dp18"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginEnd="@dimen/dp18"
+                android:background="@drawable/bg_curved_brown_5dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp30">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:gravity="center"
+                    android:text="@string/order_date"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:fontFamily="@font/trajanpro_regular"
+                    android:gravity="center"
+                    android:text="@string/you_have_selected_5_a_day_to_promote_your_service"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp18"
+                android:layout_marginTop="@dimen/dp20"
+                android:fontFamily="@font/romul"
+                android:text="@string/payment_detail"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp13" />
+
+            <RelativeLayout
+                android:id="@+id/rlPayable"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:layout_marginStart="@dimen/dp18"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginEnd="@dimen/dp18"
+
+                android:background="@drawable/bg_curved_white"
+                android:paddingStart="@dimen/dp15"
+                android:paddingEnd="@dimen/dp15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/tvPrice"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/total_payable"
+                    android:textColor="@color/blackColor"
+                    android:textSize="@dimen/sp13" />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/romul"
+                    android:text="$5"
+                    android:textColor="@color/blackColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btnPay"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="@dimen/dp30"
+                android:layout_marginTop="@dimen/dp30"
+                android:layout_marginRight="@dimen/dp30"
+                android:layout_marginBottom="@dimen/dp20"
+                android:background="@drawable/btn1"
+                android:fontFamily="@font/romul"
+                android:text="@string/pay"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </ScrollView>
 </RelativeLayout>

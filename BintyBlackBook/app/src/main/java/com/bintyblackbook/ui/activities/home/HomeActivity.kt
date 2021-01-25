@@ -22,6 +22,7 @@ import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
 import com.bintyblackbook.ui.dialogues.LogoutDialogFragment
 import com.bintyblackbook.ui.fragments.HomeFragment
 import com.bintyblackbook.util.MySharedPreferences
+import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.drawerhome.*
 
@@ -51,6 +52,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             if (searchClick){
                 edtSearch.visibility = View.GONE
                 searchClick = false
+                MyUtils.hideSoftKeyboard(this)
             }else{
                 edtSearch.visibility = View.VISIBLE
                 searchClick = true

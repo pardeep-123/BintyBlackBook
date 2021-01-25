@@ -70,8 +70,7 @@ class EditProfileBusinessActivity : ImagePickerUtility() {
         }
 
         btnSave.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+           finish()
         }
     }
 

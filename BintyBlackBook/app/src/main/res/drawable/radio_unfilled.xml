@@ -8,5 +8,5 @@
             <size android:height="15dp" android:width="15dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/radio" />
+    <item android:drawable="@drawable/radio_no" />
 </layer-list>

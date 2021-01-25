@@ -45,9 +45,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp5"
                 android:fontFamily="@font/romul"
-                android:text="SIGNUP TO GET STARTED!"
+                android:text="SIGN UP TO GET STARTED!"
                 android:textColor="@color/whiteColor"
                 android:textSize="15sp" />
 

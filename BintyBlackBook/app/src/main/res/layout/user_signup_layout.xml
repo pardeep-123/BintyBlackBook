@@ -46,7 +46,7 @@
             app:ccp_showNameCode="false"
             app:ccpDialog_keyboardAutoPopup="false"
             app:ccp_arrowSize="@dimen/dp20"
-            app:ccp_arrowColor="@color/fadePink"
+            app:ccp_arrowColor="@color/blackColor"
             app:ccp_textSize="@dimen/sp13" />
 
 

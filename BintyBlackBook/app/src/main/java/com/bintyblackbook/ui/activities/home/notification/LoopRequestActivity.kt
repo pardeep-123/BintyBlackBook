@@ -6,6 +6,8 @@ import android.os.Bundle
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.LoopRequestAdapter
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
+import com.bintyblackbook.ui.dialogues.CancelDialogFragment
+import com.bintyblackbook.util.AppConstant
 import kotlinx.android.synthetic.main.activity_loop_request.*
 
 class LoopRequestActivity : AppCompatActivity() {
@@ -28,9 +30,12 @@ class LoopRequestActivity : AppCompatActivity() {
     private fun adapterItemBtnClick(){
         loopRequestAdapter?.onItemBtnClick = {clickOn ->
             if (clickOn == "accept"){
-                startActivity(Intent(this, UserDetailActivity::class.java))
+                val intent = Intent(this, UserDetailActivity::class.java)
+                intent.putExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN,true)
+                startActivity(intent)
             }else if (clickOn == "cancel"){
-                finish()
+                val dialog  = CancelDialogFragment("cancelLoopRequest")
+                dialog.show(supportFragmentManager,"cancelLoopRequest")
             }
         }
     }
