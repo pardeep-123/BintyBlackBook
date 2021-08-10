@@ -11,12 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
+import com.bintyblackbook.util.InternetCheck
 import com.bintyblackbook.util.MySharedPreferences
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.Validations
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
+
     val context: Context = this
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         MyUtils.fullscreen(this@LoginActivity)
         setContentView(R.layout.activity_login)
-
         clickHandles()
         tv_createAcct.setPaintFlags(tv_createAcct.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
@@ -44,17 +46,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.signInBtn -> {
-                if (email_text != null && email_text.text.isNotEmpty()) {
-                    MySharedPreferences.storeUserType(this, "Business")
-                    val intent = Intent(context, HomeActivity::class.java)
-                    startActivity(intent)
-                    finishAffinity()
-                } else {
-                    MySharedPreferences.storeUserType(this, "User")
-                    val intent = Intent(context, HomeActivity::class.java)
-                    startActivity(intent)
-                    finishAffinity()
+
+                if (InternetCheck.isConnectedToInternet(this)
+                    && Validations.validateEmailAddress(this, email_text)
+                    && Validations.isValidPassword(this,password_text)
+                ) {
+
+                    //call api or pas any intent
                 }
+
+
             }
             R.id.ll_signup -> {
                 val intent = Intent(context, SignupActivity::class.java)

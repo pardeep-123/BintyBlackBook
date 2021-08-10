@@ -137,5 +137,11 @@
     <string name="please_enter_a_valid_email_address">Please Enter a valid email Address. we will send you an email for confirmation.</string>
     <string name="booking_request">Booking Request</string>
     <string name="chat">Chat</string>
+    <string name="internet_connection">Internet Connection seems to be offline. Please check you Internet Connectivity.</string>
+    <string name="err_email" translatable="false"> Please enter email address.</string>
+    <string name="err_valid_email_address" translatable="false">Please enter valid email address.</string>
+    <string name="err_phone" translatable="false"> Please enter phone number.</string>
+    <string name="err_valid_phone" translatable="false"> Please enter valid phone number.</string>
+    <string name="validPass">Password must be of minimum 8 characters</string>
 
 </resources>
