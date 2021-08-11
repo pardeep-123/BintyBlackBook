@@ -15,4 +15,5 @@
     <color name="homeBack">#286861</color>
     <color name="lightGray">#DDDDD6</color>
     <color name="lightGray1">#91918D</color>
+    <color name="trasnparent">#00ffffff</color>
 </resources>

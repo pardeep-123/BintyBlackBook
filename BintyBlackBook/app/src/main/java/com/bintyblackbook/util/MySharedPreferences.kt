@@ -13,6 +13,7 @@ class MySharedPreferences {
 
         private const val myPrefsFile = "MY_SHARED_PREFERENCES"
         private const val userType = "USER_TYPE"
+        private const val security_key= "SECURITY_KEY"
 
         //********** Store USER TYPE *************//
         fun storeUserType(context: Context,userTypeSave: String) {
@@ -35,5 +36,7 @@ class MySharedPreferences {
             editor?.clear()
             editor?.apply()
         }
+
+
     }
 }

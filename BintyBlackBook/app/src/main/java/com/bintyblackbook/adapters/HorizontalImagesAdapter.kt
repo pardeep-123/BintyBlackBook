@@ -11,9 +11,9 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_image.view.*
 
 
-class HorizontalImagesAdapter(var context: Context, var arrayList: ArrayList<Int>) :
+class HorizontalImagesAdapter(var context: Context) :
     RecyclerView.Adapter<HorizontalImagesAdapter.HorizontalImagesViewHolder>() {
-
+    var arrayList= ArrayList<Int>()
     var onItemClick:((image:Int)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalImagesViewHolder {

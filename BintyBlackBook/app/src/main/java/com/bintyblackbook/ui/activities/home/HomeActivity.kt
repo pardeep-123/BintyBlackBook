@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
@@ -26,9 +27,8 @@ import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.drawerhome.*
 
-class HomeActivity : AppCompatActivity(), View.OnClickListener {
+class HomeActivity : BaseActivity(), View.OnClickListener {
 
-    val context: Context = this
     private lateinit var drawerLayout: DrawerLayout
     var searchClick = false
     var userType:String? = null

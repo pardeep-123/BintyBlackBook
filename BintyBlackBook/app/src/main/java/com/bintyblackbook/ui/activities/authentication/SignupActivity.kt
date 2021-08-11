@@ -10,13 +10,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
-import com.bintyblackbook.util.ImagePickerUtility
-import com.bintyblackbook.util.MySharedPreferences
-import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.*
 import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.activity_signup.civ_profile
@@ -24,6 +23,7 @@ import kotlinx.android.synthetic.main.user_signup_layout.*
 
 class SignupActivity : ImagePickerUtility(), View.OnClickListener {
     val context: Context =this
+    var user_type=""
 
     override fun selectedImage(imagePath: String?) {
 
@@ -70,20 +70,48 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.userBtn->{
-               userBtnClick()
+                user_type="User"
+                userBtnClick()
             }
             R.id.businessBtn->{
-               businessBtnClick()
+                user_type="Business"
+                businessBtnClick()
             }
             R.id.signUpBtn -> {
-                if (MySharedPreferences.getUserType(this).equals("User")){
+
+                if(user_type.equals("User")){
+                    if(InternetCheck.isConnectedToInternet(context)
+                        && Validations.isEmpty(context,uname_text,getString(R.string.err_user_name))
+                        && Validations.isValidPhoneNumber(context,phone_text,getString(R.string.err_valid_phone))
+                        && Validations.validateEmailAddress(context,email_text)
+                        && Validations.isValidPassword(context,password_text)
+                        && Validations.confirmPassword(context,password_text,confpassword_text,"Password does not match")
+                        && Validations.isEmpty(context,about_text,"About not be empty")
+                    ){
+                        if(cbAccept.isChecked==false){
+                            Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
+                            return
+                        }
+                        //call api here
+                    }
+
+                    val intent = Intent(context, HomeActivity::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                }
+                else{
+
+                }
+
+
+               /* if (MySharedPreferences.getUserType(this).equals("User")){
                     val intent = Intent(context, HomeActivity::class.java)
                     startActivity(intent)
                     finishAffinity()
                 }else if(MySharedPreferences.getUserType(this).equals("Business")){
                     val intent = Intent(context, InfoActivity::class.java)
                     startActivity(intent)
-                }
+                }*/
             }
             R.id.tv_loginAcct ->{
                 finish()

@@ -1,24 +1,54 @@
 package com.bintyblackbook.ui.activities.home.profileUser
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.Data
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class MyProfileActivity : AppCompatActivity(), View.OnClickListener {
-    val context: Context =this
+class MyProfileActivity : BaseActivity(), View.OnClickListener {
+
+    lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
+
+        profileViewModel= ProfileViewModel(this)
+
+        profileViewModel.userProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)!!.id.toString())
+        setObservables()
+        setOnClicks()
+
+        headingText.text = getString(R.string.my_profile)
+    }
+
+    private fun setObservables() {
+            profileViewModel.profileObservable.observe(this, Observer {
+                if(it.code==200){
+                    setData(it.data)
+                }
+            })
+    }
+
+    private fun setData(it: Data?) {
+        tvUserName.text=it?.firstName
+        tvEmail.text=it?.email
+        tvPhoneNumber.text= it?.countryCode +" " +it?.phone
+        tvAbout.text =it?.description
+    }
+
+    private fun setOnClicks() {
         iv_back.setOnClickListener(this)
         btnEditProfile.setOnClickListener(this)
         btnEvent.setOnClickListener(this)
-        headingText.text = getString(R.string.my_profile)
     }
 
     override fun onClick(view: View) {

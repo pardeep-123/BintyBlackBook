@@ -1,35 +1,56 @@
 package com.bintyblackbook.ui.activities.authentication
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.LoginModel
 import com.bintyblackbook.ui.activities.home.HomeActivity
-import com.bintyblackbook.util.InternetCheck
-import com.bintyblackbook.util.MySharedPreferences
-import com.bintyblackbook.util.MyUtils
-import com.bintyblackbook.util.Validations
+import com.bintyblackbook.util.*
+import com.bintyblackbook.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_settings.*
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
-    val context: Context = this
+class LoginActivity : BaseActivity(), View.OnClickListener {
+
+    lateinit var loginViewModel: LoginViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        MyUtils.fullscreen(this@LoginActivity)
         setContentView(R.layout.activity_login)
+        MyUtils.fullscreen(this@LoginActivity)
+        loginViewModel= LoginViewModel(this)
         clickHandles()
         tv_createAcct.setPaintFlags(tv_createAcct.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
+    }
+
+    private fun setObservables() {
+       loginViewModel.loginObservable.observe(this, Observer<LoginModel> { t ->
+               if(t?.code==200){
+                   val response=t.data
+                   if(response?.userType==0){
+                       MySharedPreferences.getUserType(this).equals("User")
+                   }
+                   else{
+                       MySharedPreferences.getUserType(this).equals("Business")
+                   }
+                   saveUser(this,response!!)
+
+                   Log.i("response",t.msg.toString())
+                   val intent=Intent(this,HomeActivity::class.java)
+                   startActivity(intent)
+               }
+           })
     }
 
     private fun clickHandles() {
@@ -51,8 +72,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     && Validations.validateEmailAddress(this, email_text)
                     && Validations.isValidPassword(this,password_text)
                 ) {
+                    //call api or pass any intent here
+                    loginViewModel.loginUser(getSecurityKey(this)!!,email_text.text.toString(),password_text.text.toString(),"","","","1","12345")
 
-                    //call api or pas any intent
+                    setObservables()
                 }
 
 

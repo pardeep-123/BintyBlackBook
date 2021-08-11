@@ -5,17 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
-import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.util.*
+import com.bintyblackbook.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
-class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
-    val context: Context =this
+class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
+
+    lateinit var loginViewModel: LoginViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         MyUtils.fullscreen(this@ForgotPasswordActivity)
         setContentView(R.layout.activity_forgot_password)
+        loginViewModel=LoginViewModel(this)
         handleClickListeners()
     }
 
@@ -27,13 +33,33 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         when(view.id){
             R.id.sendBtn->{
-               finish()
-                MyUtils.hideSoftKeyboard(this)
+
+                if(InternetCheck.isConnectedToInternet(this)
+                    && Validations.validateEmailAddress(this,email_text)){
+                    loginViewModel.forgotPassword(getSecurityKey(this)!!,email_text.text.toString())
+                    setObservables()
+
+                }
+
             }
             R.id.iv_back->{
                finish()
                 MyUtils.hideSoftKeyboard(this)
             }
         }
+    }
+
+    private fun setObservables() {
+        loginViewModel.observable.observe(this, Observer {
+
+            if(it?.code==200){
+                //success
+                showAlert(it.msg.toString())
+                finish()
+            }
+            else{
+                showAlert(it?.msg.toString())
+            }
+        })
     }
 }

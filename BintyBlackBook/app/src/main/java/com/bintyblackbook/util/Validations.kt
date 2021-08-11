@@ -270,14 +270,18 @@ class Validations {
         fun confirmPassword(
             context: Context,
             etNewPass: EditText,
-            etConfirmPass: EditText
+            etConfirmPass: EditText,
+            hint: String
         ): Boolean {
 
             val oldPassword = etNewPass.text.toString().trim { it <= ' ' }
             val newPassword = etConfirmPass.text.toString().trim { it <= ' ' }
 
             if (!oldPassword.matches(newPassword.toRegex())) {
-
+                setError(
+                    context,
+                    etConfirmPass, hint.toLowerCase()
+                )
                // Toasty.error(context!!, context.getString(R.string.passMatch)).show()
                 return false
             }

@@ -143,5 +143,9 @@
     <string name="err_phone" translatable="false"> Please enter phone number.</string>
     <string name="err_valid_phone" translatable="false"> Please enter valid phone number.</string>
     <string name="validPass">Password must be of minimum 8 characters</string>
+    <string name="err_user_name">Please enter user name</string>
+    <string name="err_old_pass">Please enter your old password</string>
+    <string name="err_new_pass">Please enter new password</string>
+    <string name="pass_does_not_match">Password does not match</string>
 
 </resources>
