@@ -6,31 +6,59 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toFile
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
 import com.bintyblackbook.util.*
-import kotlinx.android.synthetic.main.activity_info.*
+import com.bintyblackbook.viewmodel.SignUpViewModel
+import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_signup.*
-import kotlinx.android.synthetic.main.activity_signup.civ_profile
 import kotlinx.android.synthetic.main.user_signup_layout.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+
 
 class SignupActivity : ImagePickerUtility(), View.OnClickListener {
+
     val context: Context =this
-    var user_type=""
+    var user_type="User"
+    var mProgress: CustomProgressDialog? = null
+    private var mSnackBar: Snackbar? = null
 
-    override fun selectedImage(imagePath: String?) {
+    var selectedImagePath:File?=null
+    var selectedVideoUri:Uri?=null
 
+    lateinit var signUpViewModel: SignUpViewModel
+
+    override fun selectedImage(imagePath: File?) {
+        Log.i("TAG",imagePath?.path.toString())
+        Glide.with(context).load(imagePath).into(civ_profile)
+        selectedImagePath=imagePath
     }
 
     override fun selectedVideoUri(videoUri: Uri?) {
+        selectedVideoUri=videoUri!!
+    }
 
+    fun showProgressDialog(){
+        mProgress = CustomProgressDialog(this)
+        mProgress!!.show()
+    }
+
+    fun dismissProgressDialog(){
+
+        mProgress!!.dismiss()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +67,8 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         setContentView(R.layout.activity_signup)
 
         MySharedPreferences.storeUserType(this,"User")
-
+        mProgress = CustomProgressDialog(this)
+        signUpViewModel= SignUpViewModel(this)
         clickHandles()
         /*aboutTypingTimeScroll()*/
         tvTermsConditions.setPaintFlags(tvTermsConditions.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
@@ -79,28 +108,13 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             }
             R.id.signUpBtn -> {
 
-                if(user_type.equals("User")){
-                    if(InternetCheck.isConnectedToInternet(context)
-                        && Validations.isEmpty(context,uname_text,getString(R.string.err_user_name))
-                        && Validations.isValidPhoneNumber(context,phone_text,getString(R.string.err_valid_phone))
-                        && Validations.validateEmailAddress(context,email_text)
-                        && Validations.isValidPassword(context,password_text)
-                        && Validations.confirmPassword(context,password_text,confpassword_text,"Password does not match")
-                        && Validations.isEmpty(context,about_text,"About not be empty")
-                    ){
-                        if(cbAccept.isChecked==false){
-                            Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
-                            return
-                        }
-                        //call api here
-                    }
-
-                    val intent = Intent(context, HomeActivity::class.java)
-                    startActivity(intent)
-                    finishAffinity()
+                if(user_type == "User"){
+                    checkValidationForUser()
                 }
                 else{
-
+                    checkValidationsForBusiness()
+                    val intent = Intent(context, InfoActivity::class.java)
+                    startActivity(intent)
                 }
 
 
@@ -119,6 +133,79 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         }
     }
 
+    private fun checkValidationsForBusiness() {
+
+    }
+
+    private fun checkValidationForUser() {
+
+        if(InternetCheck.isConnectedToInternet(context)
+            && Validations.isEmpty(context,uname_text,getString(R.string.err_user_name))
+            && Validations.isValidPhoneNumber(context,phone_text,getString(R.string.err_valid_phone))
+            && Validations.validateEmailAddress(context,email_text)
+            && Validations.isValidPassword(context,password_text)
+            && Validations.confirmPassword(context,password_text,confpassword_text,"Password does not match")
+            && Validations.isEmpty(context,about_text,"About not be empty")
+        ){
+            if(!cbAccept.isChecked){
+                Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
+                return
+            }
+
+            if(!selectedImagePath?.exists()!!){
+                Toast.makeText(context,"Please choose image",Toast.LENGTH_LONG).show()
+                return
+            }
+
+            val map: HashMap<String, RequestBody> = HashMap()
+            map.put("userName",createRequestBody(uname_text.text.toString()))
+            map.put("phone",createRequestBody(phone_text.text.toString()))
+            map.put("email",createRequestBody(email_text.text.toString()))
+            map.put("password",createRequestBody(confpassword_text.text.toString()))
+            map.put("country_code",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
+            map.put("device_type",createRequestBody("1"))
+            map.put("device_token",createRequestBody("12345"))
+            map.put("description",createRequestBody(about_text.text.toString()))
+            map.put("pushKitToken",createRequestBody("1234"))
+            map.put("uuid",createRequestBody("1234"))
+
+            var imagenPerfil: MultipartBody.Part? = null
+            if (selectedImagePath != null) {
+
+                Log.i("Register", selectedImagePath?.path!!)
+                // create RequestBody instance from file
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedImagePath!!)
+                // MultipartBody.Part is used to send also the actual file name
+                imagenPerfil = MultipartBody.Part.createFormData("image", selectedImagePath?.name, requestFile)
+            }
+
+            //call api here
+            signUpViewModel.signUpUser(getSecurityKey(context)!!,map,imagenPerfil)
+            setObservables()
+        }
+    }
+
+    private fun setObservables() {
+        signUpViewModel.signUpLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                Log.i("TAG",it.msg.toString())
+                val intent = Intent(context, HomeActivity::class.java)
+                startActivity(intent)
+                finishAffinity()
+            }
+
+            else{
+                Log.e("TAG",it.msg.toString())
+            }
+        })
+    }
+
+    fun createRequestBody(param:String):RequestBody{
+      val request=  RequestBody.create("text/plain".toMediaTypeOrNull(),param)
+        return request
+    }
+
     private fun userBtnClick(){
         MySharedPreferences.storeUserType(this,"User")
 
@@ -130,6 +217,19 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         lin_business.visibility = View.GONE
     }
 
+    fun showSnackBarMessage(msg: String) {
+        try {
+            mSnackBar = Snackbar.make(
+                getWindow().getDecorView().getRootView(),
+                msg,
+                Snackbar.LENGTH_LONG
+            ) //Assume "rootLayout" as the root layout of every activity.
+            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
+            mSnackBar?.show()
+        } catch (e: Exception) {
+            Log.e("TAG",e.printStackTrace().toString())
+        }
+    }
     private fun businessBtnClick(){
         MySharedPreferences.storeUserType(this, "Business")
 

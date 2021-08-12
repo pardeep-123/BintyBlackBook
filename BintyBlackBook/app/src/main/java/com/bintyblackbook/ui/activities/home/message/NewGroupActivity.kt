@@ -9,13 +9,14 @@ import com.bintyblackbook.adapters.HorizontalCircularImageAdapter
 import com.bintyblackbook.models.EditMessageModel
 import com.bintyblackbook.util.ImagePickerUtility
 import kotlinx.android.synthetic.main.activity_new_group.*
+import java.io.File
 
 class NewGroupActivity : ImagePickerUtility() {
 
     lateinit var arrayList: ArrayList<EditMessageModel>
     var horizontalCircularImageAdapter: HorizontalCircularImageAdapter? = null
 
-    override fun selectedImage(imagePath: String?) {
+    override fun selectedImage(imagePath: File?) {
 
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
+import com.bintyblackbook.model.HomeData
 import com.bintyblackbook.model.HomeResponseModel
 import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
 import com.bintyblackbook.ui.activities.home.HomeActivity
@@ -23,7 +24,7 @@ class HomeViewModel (var context: Context):ViewModel(){
     // call home list api
 
     fun homeList(securityKey:String,authKey:String){
-        (context as ChangePasswordActivity).showProgressDialog()
+        (context as HomeActivity).showProgressDialog()
         ApiClient.apiService.homeList(securityKey,authKey
         ).enqueue(object : retrofit2.Callback<JsonElement> {
 
@@ -43,11 +44,12 @@ class HomeViewModel (var context: Context):ViewModel(){
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
+
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), HomeResponseModel::class.java)
                             homeLiveData.value = jsonObj
                         }else{
-                            (context as HomeActivity). showAlert(jsonDATA.getString("msg"))
+                            (context as HomeActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {

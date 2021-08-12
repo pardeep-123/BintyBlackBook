@@ -16,7 +16,10 @@ import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.ImagePickerUtility
 import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.activity_info.*
+import kotlinx.android.synthetic.main.activity_info.rbNo
+import kotlinx.android.synthetic.main.business_signup_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +28,7 @@ class InfoActivity : ImagePickerUtility() {
     private val myCalendar = Calendar.getInstance()
     private lateinit var date: DatePickerDialog.OnDateSetListener
 
-    override fun selectedImage(imagePath: String?) {
+    override fun selectedImage(imagePath: File?) {
 
     }
 
@@ -78,6 +81,28 @@ class InfoActivity : ImagePickerUtility() {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
+
+        rgService.setOnCheckedChangeListener { group, checkedId ->
+
+            if(checkedId==R.id.rbNo){
+                tvServiceType.visibility=View.GONE
+                edtServiceType.visibility=View.GONE
+                tvAvailability.visibility=View.GONE
+                edtSetAvailability.visibility=View.GONE
+            }
+            else{
+                tvServiceType.visibility=View.VISIBLE
+                edtServiceType.visibility=View.VISIBLE
+                tvAvailability.visibility=View.VISIBLE
+                edtSetAvailability.visibility=View.VISIBLE
+            }
+        }
+
+        rgSwap.setOnCheckedChangeListener { group, checkedId ->
+
+
+        }
+
     }
 
     private fun datePicker() {

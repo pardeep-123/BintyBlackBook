@@ -37,9 +37,9 @@ class BintyBookApplication  : Application() {
         gson = Gson()
 //        if (prefs.contains(PreferenceHelper.Key.REGISTEREDUSER)) { // if data is stored in shared prefrences
 //            val gson_String = prefs.getString(PreferenceHelper.Key.REGISTEREDUSER, "")
-//            user_obj = gson.fromJson(gson_String.toString(),LoginModel::class.java) as LoginModel
+//            user_obj = gson.fromJson(gson_String.toString(),LoginSignUpModel::class.java) as LoginSignUpModel
 //        } else {
-//            user_obj = LoginModel()
+//            user_obj = LoginSignUpModel()
 //        }
 
 

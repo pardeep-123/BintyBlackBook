@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.viewpager.widget.PagerAdapter
 import com.bintyblackbook.R
+import com.bintyblackbook.model.CategoryName
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_infinity_pager.view.*
 
-class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Int>) : PagerAdapter() {
+class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<CategoryName>) : PagerAdapter() {
 
     var onInfinityPagerItemClick:((infinityPagerItemPosition:Int)->Unit)? = null
 
@@ -28,7 +30,8 @@ class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Int>) 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(context).inflate(R.layout.item_infinity_pager, container, false)
         val roundedImageView = view.roundedImageView
-        roundedImageView.setImageResource(arrayList[position])
+        Glide.with(context).load(arrayList[position].userImage).into(roundedImageView)
+      //  roundedImageView.setImageResource(arrayList[position].userImage)
         container.addView(view)
 
         view.setOnClickListener {

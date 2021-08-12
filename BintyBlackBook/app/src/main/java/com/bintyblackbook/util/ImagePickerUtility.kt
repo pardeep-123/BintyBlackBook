@@ -6,8 +6,10 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -22,7 +24,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bintyblackbook.R
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +43,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
     private val GALLERY_VIDEO_REQUEST_CODE = 1001
     private val REQUEST_VIDEO_CAPTURE = 1002
 
-    var imageAbsolutePath = ""
+    var imageAbsolutePath:File?=null
     private var mActivity: Activity? = null
     private var mCode = 0
 
@@ -78,7 +82,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
 //        dialog.window!!.attributes.windowAnimations = R.style.Theme_Dialog
         val window = dialog.window
         window!!.setGravity(Gravity.BOTTOM)
-        window!!.setLayout(
+        window.setLayout(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
@@ -163,7 +167,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
             storageDir /* directory */
         ).apply {
 
-            imageAbsolutePath = absolutePath
+            imageAbsolutePath = this
         }
     }
 
@@ -274,9 +278,12 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            selectedImage(imageAbsolutePath)
+            val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
+            selectedImage(file)
 
         } else if (requestCode == GALLERY_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
+            val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
+            selectedImage(file)
 
         } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
             val videoUri = intent.data
@@ -290,7 +297,37 @@ abstract class ImagePickerUtility : AppCompatActivity() {
     }
 
 
-    abstract fun selectedImage(imagePath: String?)
+    abstract fun selectedImage(imagePath: File?)
 
     abstract fun selectedVideoUri(videoUri: Uri?)
+
+    fun saveImage(myBitmap: Bitmap, ctx : Activity): File? {
+        val bytes = ByteArrayOutputStream()
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+        val imageDirectory =
+            File(ctx.getExternalFilesDir(null).toString() + "IMAGE_DIRECTORY")
+        if (!imageDirectory.exists()) {
+            imageDirectory.mkdirs()
+        }
+        try {
+            val f = File(
+                imageDirectory,
+                Calendar.getInstance().timeInMillis.toString() + ".jpg"
+            )
+            f.createNewFile()
+            val fo = FileOutputStream(f)
+            fo.write(bytes.toByteArray())
+            MediaScannerConnection.scanFile(
+                ctx,
+                arrayOf(f.path),
+                arrayOf("image/jpeg"),
+                null
+            )
+            fo.close()
+            return f
+        } catch (e1: IOException) {
+            e1.printStackTrace()
+        }
+        return null
+    }
 }

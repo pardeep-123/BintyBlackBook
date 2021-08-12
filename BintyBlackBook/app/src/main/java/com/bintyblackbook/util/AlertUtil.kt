@@ -5,7 +5,7 @@ import androidx.appcompat.app.AlertDialog
 
 fun showAlert(context: Context, message: String, buttonText: String, onClick: () -> Unit) {
 
-    var dialog = AlertDialog.Builder(context)
+    val dialog = AlertDialog.Builder(context)
     dialog.setMessage(message)
     dialog.setCancelable(false)
     dialog.setPositiveButton(buttonText) { dialog, which ->
@@ -26,7 +26,7 @@ fun showAlertWithCancel(
     onNegativeClick: () -> Unit
 ) {
 
-    var dialog = AlertDialog.Builder(context)
+    val dialog = AlertDialog.Builder(context)
     dialog.setMessage(message)
     dialog.setCancelable(false)
     dialog.setPositiveButton(buttonText) { dialog, which ->

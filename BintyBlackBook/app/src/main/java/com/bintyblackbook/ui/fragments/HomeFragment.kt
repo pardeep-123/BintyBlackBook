@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.HomeAdapter
-import com.bintyblackbook.models.HomeModel
+import com.bintyblackbook.model.HomeData
 import com.bintyblackbook.ui.activities.home.HomeItemClickActivity
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
@@ -22,6 +22,7 @@ class HomeFragment : Fragment() {
 
     var homeAdapter: HomeAdapter? = null
     lateinit var homeViewModel: HomeViewModel
+    var homeList=ArrayList<HomeData>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,19 +35,33 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         homeViewModel=HomeViewModel(context!!)
 
         init()
 
+        //call api for home data
         homeViewModel.homeList(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
         getHomeData()
-
     }
 
     private fun getHomeData() {
         homeViewModel.homeLiveData.observe(activity!!, Observer {
 
+         //   homeViewModel.homeList(it)
+
             if(it?.code==200){
+                if(it.data.size==0){
+                    rvHome.visibility=View.GONE
+                    noHomeData.visibility=View.VISIBLE
+                }
+                else{
+                    rvHome.visibility=View.VISIBLE
+                    noHomeData.visibility=View.GONE
+                    homeList.clear()
+                    homeList.addAll(it.data)
+                    homeAdapter?.notifyDataSetChanged()
+                }
 
             }
         })
@@ -55,7 +70,7 @@ class HomeFragment : Fragment() {
     private fun init() {
         rvHome.layoutManager = LinearLayoutManager(activity)
 
-        val arrayListImages = ArrayList<Int>()
+       /* val arrayListImages = ArrayList<Int>()
         arrayListImages.add(R.drawable.john)
         arrayListImages.add(R.drawable.matinn)
         arrayListImages.add(R.drawable.mattrin)
@@ -74,18 +89,19 @@ class HomeFragment : Fragment() {
         arrayList.add(HomeModel("Photography", arrayListImages))
         arrayList.add(HomeModel("DJS", arrayListImages1))
         arrayList.add(HomeModel("Music", arrayListImages2))
-        arrayList.add(HomeModel("Events", arrayListImages))
+        arrayList.add(HomeModel("Events", arrayListImages))*/
 
 
-        homeAdapter = HomeAdapter(activity!!, arrayList)
+        homeAdapter = HomeAdapter(activity!!)
         rvHome.adapter = homeAdapter
+        homeAdapter?.arrayList=homeList
         adapterItemClick()
     }
 
     private fun adapterItemClick(){
-        homeAdapter?.onItemClick = {homeModel: HomeModel ->
+        homeAdapter?.onItemClick = {homeModel: HomeData ->
             val intent = Intent(activity,HomeItemClickActivity::class.java)
-            intent.putExtra(AppConstant.HEADING, homeModel.title)
+            intent.putExtra(AppConstant.HEADING, homeModel.name)
             startActivity(intent)
         }
     }

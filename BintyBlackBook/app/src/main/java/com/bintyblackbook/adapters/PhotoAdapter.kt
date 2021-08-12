@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.CategoryName
 import com.bintyblackbook.models.PhotosModel
+import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_photos.view.*
 
 
-class PhotoAdapter(var context: Context, var arrayList: ArrayList<PhotosModel>) :
+class PhotoAdapter(var context: Context, var arrayList: ArrayList<CategoryName>) :
     RecyclerView.Adapter<PhotoAdapter.HorizontalPhotoViewHolder>() {
 
-    var onItemClick:((photosModel:PhotosModel)->Unit)?= null
+    var onItemClick:((photosModel:CategoryName)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalPhotoViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_photos, parent, false)
@@ -37,9 +39,10 @@ class PhotoAdapter(var context: Context, var arrayList: ArrayList<PhotosModel>) 
 
         fun bind(pos: Int) {
             val photosModel = arrayList[pos]
-            roundedImageView.setImageResource(photosModel.image!!)
-            tvName.text = photosModel.name
-            tvLocation.text = photosModel.address
+            Glide.with(context).load(photosModel.userImage).into(roundedImageView)
+           // roundedImageView.setImageResource(photosModel.image!!)
+            tvName.text = photosModel.firstName
+            tvLocation.text = photosModel.userLocation
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(photosModel)

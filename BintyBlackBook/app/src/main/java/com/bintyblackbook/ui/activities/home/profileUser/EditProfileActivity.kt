@@ -5,13 +5,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import com.bintyblackbook.R
+import com.bintyblackbook.model.Data
 import com.bintyblackbook.util.ImagePickerUtility
+import com.bintyblackbook.util.getUser
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.io.File
 
 class EditProfileActivity : ImagePickerUtility() {
 
-    override fun selectedImage(imagePath: String?) {
+    override fun selectedImage(imagePath: File?) {
 
     }
 
@@ -23,6 +27,25 @@ class EditProfileActivity : ImagePickerUtility() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
+        setOnClicks()
+
+        headingText.text = getString(R.string.edit_profile)
+        aboutTypingTimeScroll()
+
+        setData(getUser(this))
+
+    }
+
+    private fun setData(user: Data?) {
+        edtUserName.setText(user?.firstName)
+        edtMobileNo.setText(user?.phone)
+        //ccp.defaultCountryCodeWithPlus =user?.countryCode
+        edtEmail.setText(user?.email)
+        edtAbout.setText(user?.description)
+        Glide.with(this).load(user?.image).into(civ_profile)
+    }
+
+    private fun setOnClicks() {
         iv_back.setOnClickListener {
             finish()
         }
@@ -30,15 +53,6 @@ class EditProfileActivity : ImagePickerUtility() {
         btnSave.setOnClickListener {
             finish()
         }
-
-        headingText.text = getString(R.string.edit_profile)
-        aboutTypingTimeScroll()
-
-        edtUserName.setText(R.string.john)
-        edtMobileNo.setText("9876543210")
-        edtEmail.setText("John@gmail.com")
-        edtAbout.setText(R.string.dummy_text)
-
         civ_profile.setOnClickListener {
             getImage(this,0,false)
         }

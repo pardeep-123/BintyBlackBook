@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.HomeData
 import com.bintyblackbook.models.HomeModel
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
 import kotlinx.android.synthetic.main.item_home.view.*
 
-class HomeAdapter(val context: Context, var arrayList: ArrayList<HomeModel>) :
+class HomeAdapter(val context: Context) :
     RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
-
-    var onItemClick: ((homeModel: HomeModel) -> Unit)? = null
+     var arrayList= ArrayList<HomeData>()
+    var onItemClick: ((homeModel: HomeData) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_home, parent, false)
@@ -35,9 +36,9 @@ class HomeAdapter(val context: Context, var arrayList: ArrayList<HomeModel>) :
 
         fun bind(pos: Int) {
             val model = arrayList[pos]
-            tvHeading.text = model.title
+            tvHeading.text = model.name
 
-            val infinityPagerAdapter = InfinityPagerAdapter(context, model.imageArrayList!!)
+            val infinityPagerAdapter = InfinityPagerAdapter(context, model.categoryName)
             horizontal_cycle.adapter = infinityPagerAdapter
 
             itemView.setOnClickListener {

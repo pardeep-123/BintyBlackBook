@@ -125,18 +125,85 @@
         android:textSize="13sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/romul"
+            android:text="@string/is_your_business_black_owned"
+            android:textAllCaps="true"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/sp12"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/info"
+
+            android:layout_marginStart="4dp"
+          />
+    </LinearLayout>
+
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp10"
+            android:button="@drawable/bg_radio_button"
+            android:fontFamily="@font/romul"
+            android:paddingStart="@dimen/dp5"
+            android:text="@string/yes"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/sp13"
+            tools:ignore="RtlSymmetry" />
+
+        <RadioButton
+            android:id="@+id/rbNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp20"
+            android:button="@drawable/bg_radio_button"
+            android:fontFamily="@font/romul"
+            android:paddingStart="@dimen/dp5"
+            android:text="@string/no"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/sp13"
+            tools:ignore="RtlSymmetry" />
+
+    </RadioGroup>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="30dp"
         android:drawablePadding="3dp"
         android:fontFamily="@font/romul"
         android:gravity="start"
-        android:text="Add Promo Code"
+        android:text="@string/promo_code"
         android:textColor="@color/whiteColor"
-        android:textSize="13sp" />
+        android:textSize="10sp" />
 
     <EditText
         android:id="@+id/edtAddPromoCode"

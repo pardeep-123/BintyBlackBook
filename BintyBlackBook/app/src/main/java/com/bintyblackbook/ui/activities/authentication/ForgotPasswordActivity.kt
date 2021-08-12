@@ -1,7 +1,5 @@
 package com.bintyblackbook.ui.activities.authentication
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -54,11 +52,16 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
 
             if(it?.code==200){
                 //success
-                showAlert(it.msg.toString())
+                showAlert(this,it.msg.toString(),getString(R.string.ok)) {
+                    finish()
+                }
+                // showAlert(it.msg.toString())
                 finish()
             }
             else{
-                showAlert(it?.msg.toString())
+                showAlert(this,it.msg.toString(),getString(R.string.ok)) {
+                    finish()
+                }
             }
         })
     }

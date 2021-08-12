@@ -10,7 +10,7 @@ import android.view.WindowManager
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.LoginModel
+import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.LoginViewModel
@@ -35,14 +35,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setObservables() {
-       loginViewModel.loginObservable.observe(this, Observer<LoginModel> { t ->
+       loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
                if(t?.code==200){
                    val response=t.data
+
                    if(response?.userType==0){
-                       MySharedPreferences.getUserType(this).equals("User")
+                       MySharedPreferences.storeUserType(this,"User")
                    }
                    else{
-                       MySharedPreferences.getUserType(this).equals("Business")
+                       MySharedPreferences.storeUserType(this,"Business")
                    }
                    saveUser(this,response!!)
 

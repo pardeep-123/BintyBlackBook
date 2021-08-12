@@ -1,8 +1,6 @@
 package com.bintyblackbook.ui.activities.home.profileBusiness
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
@@ -11,15 +9,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.util.ImagePickerUtility
 import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.activity_edit_profile_business.*
-import java.util.*
+import java.io.File
 
 class EditProfileBusinessActivity : ImagePickerUtility() {
 
-    override fun selectedImage(imagePath: String?) {
+    override fun selectedImage(imagePath: File?) {
 
     }
 

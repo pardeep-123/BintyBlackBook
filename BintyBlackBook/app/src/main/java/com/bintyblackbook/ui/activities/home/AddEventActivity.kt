@@ -9,6 +9,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.ImagePickerUtility
 import kotlinx.android.synthetic.main.activity_add_event.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,7 +21,7 @@ class AddEventActivity : ImagePickerUtility() {
     private lateinit var date: OnDateSetListener
     private lateinit var time: TimePickerDialog.OnTimeSetListener
 
-    override fun selectedImage(imagePath: String?) {
+    override fun selectedImage(imagePath: File?) {
 
     }
 

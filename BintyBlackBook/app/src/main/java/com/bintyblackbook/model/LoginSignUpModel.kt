@@ -1,6 +1,6 @@
 package com.bintyblackbook.model
 
- class LoginModel: BaseResponseModel(){
+ class LoginSignUpModel: BaseResponseModel(){
 
     val data: Data?=null
 
@@ -33,10 +33,14 @@ data class Data(
     val socialMediaHandles: String,
     val socialType: Int,
     val swapInMind: String,
-    val userMedia: ArrayList<Any>,
+    val userMedia: ArrayList<UserMedia> = ArrayList<UserMedia>(),
     val userType: Int,
     val websiteLink: String
 )
+
+class UserMedia {
+ val image:String=""
+}
 
 data class Category(
     val description: String,

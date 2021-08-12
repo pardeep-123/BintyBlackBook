@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
+import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getUser
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT = 1500
@@ -25,9 +27,17 @@ class SplashActivity : AppCompatActivity() {
 
     private fun gotoNext(){
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+
+            if(!getUser(this)?.authKey.isNullOrEmpty()){
+                val intent = Intent(this@SplashActivity, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            else {
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }, SPLASH_TIME_OUT.toLong())
     }
 }

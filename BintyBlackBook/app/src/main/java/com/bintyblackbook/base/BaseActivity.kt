@@ -122,7 +122,7 @@ Log.e("TAG",e.printStackTrace().toString())
 
 
     //Show alert message
-    fun showAlert(message: String) {
+    fun showAlertWithOk(message: String) {
         Handler(Looper.getMainLooper()).post(object : Runnable {
             public override fun run() {
                 if (message != null && !message.isEmpty()) {

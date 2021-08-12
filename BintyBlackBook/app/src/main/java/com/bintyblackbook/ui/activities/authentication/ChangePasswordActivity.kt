@@ -56,12 +56,12 @@ class ChangePasswordActivity : BaseActivity(), View.OnClickListener {
     private fun setObservables() {
         changePasswordViewModel.changePassLiveData.observe(this, Observer {
             if(it.code==200){
-                showAlert(it.msg.toString())
+                showAlertWithOk(it.msg.toString())
                 finish()
             }
             else{
                 Log.e("TAG",it.msg.toString())
-                showAlert(it.msg.toString())
+                showAlertWithOk(it.msg.toString())
             }
         })
     }

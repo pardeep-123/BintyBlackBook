@@ -84,8 +84,9 @@ class UserDetailActivity : AppCompatActivity() {
         arrayList.add(R.drawable.small3)
         arrayList.add(R.drawable.small4)
 
-        horizontalImagesAdapter = HorizontalImagesAdapter(this,arrayList)
+        horizontalImagesAdapter = HorizontalImagesAdapter(this)
         rvImages.adapter = horizontalImagesAdapter
+       // horizontalImagesAdapter?.arrayList=arrayList
         horizontalImagesAdapterClick()
     }
 

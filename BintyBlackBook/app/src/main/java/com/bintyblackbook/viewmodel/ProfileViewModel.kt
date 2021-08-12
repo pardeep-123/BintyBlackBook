@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
-import com.bintyblackbook.model.LoginModel
+import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.ui.activities.home.profileBusiness.MyProfileBusinessActivity
 import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
@@ -19,12 +19,12 @@ import retrofit2.Response
 
 class ProfileViewModel (val context: Context): ViewModel() {
 
-    var profileObservable = MutableLiveData<LoginModel>()
+    var profileObservable = MutableLiveData<LoginSignUpModel>()
 
 
     //Call user profile Api
     fun userProfile(security_key: String, auth: String, user_id: String) {
-        (context as LoginActivity).showProgressDialog()
+        (context as MyProfileActivity).showProgressDialog()
         ApiClient.apiService.userProfile(
             security_key, auth, user_id
         ).enqueue(object : Callback<JsonElement> {
@@ -48,11 +48,11 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         if (jsonDATA.getInt("code") == 200) {
                             val jsonObj = BintyBookApplication.gson.fromJson(
                                 response.body(),
-                                LoginModel::class.java
+                                LoginSignUpModel::class.java
                             )
                             profileObservable.value = jsonObj
                         } else {
-                            (context as MyProfileActivity).showAlert(jsonDATA.getString("msg"))
+                            (context as MyProfileActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -93,11 +93,11 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         if (jsonDATA.getInt("code") == 200) {
                             val jsonObj = BintyBookApplication.gson.fromJson(
                                 response.body(),
-                                LoginModel::class.java
+                                LoginSignUpModel::class.java
                             )
                             profileObservable.value = jsonObj
                         } else {
-                            (context as MyProfileBusinessActivity).showAlert(jsonDATA.getString("msg"))
+                            (context as MyProfileBusinessActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {

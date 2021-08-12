@@ -20,6 +20,8 @@ class ApiConstants {
         const val USER_PROFILE="get_profile"
 
         const val USER_PROFILE_BUSINESS="get_profile_business"
+
+        const val ADD_POST="add_post"
     }
 
 }

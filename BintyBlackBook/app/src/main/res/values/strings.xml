@@ -32,8 +32,9 @@
     <string name="phone_number">Phone Number</string>
     <string name="business_category">Business Category</string>
     <string name="experience">Experience</string>
+    <string name="years_in_business">Years In Business</string>
     <string name="location">Location</string>
-    <string name="availability">Availability</string>
+    <string name="availability">Set Availability</string>
     <string name="website_link">Website Link</string>
     <string name="is_your_business_black_owned">Is your business black owned?</string>
     <string name="yes">Yes</string>
@@ -147,5 +148,14 @@
     <string name="err_old_pass">Please enter your old password</string>
     <string name="err_new_pass">Please enter new password</string>
     <string name="pass_does_not_match">Password does not match</string>
+    <string name="promo_code">Referred by a Friend/Have a Promo Code? Add here</string>
+    <string name="service_type">What Type Of Service Do You Provide?</string>
+    <string name="hours_and_days_of_operation">Hours And Days Of operation</string>
+    <string name="social_media_handle">Social Media Handle</string>
+    <string name="open_to_the_swap_system">Open To The Swap System?</string>
+    <string name="swaps_in_mind">Swaps In Mind</string>
+    <string name="about_the_business">About The Business</string>
+    <string name="no_data_found">NO DATA FOUND</string>
+    <string name="err_add_desc">Please add description</string>
 
 </resources>

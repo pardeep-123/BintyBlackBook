@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
-import com.bintyblackbook.model.LoginModel
+import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.authentication.ForgotPasswordActivity
 import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.google.gson.JsonElement
@@ -18,7 +18,7 @@ import retrofit2.Response
 
 class LoginViewModel (val context: Context):ViewModel(){
 
-    var loginObservable=MutableLiveData<LoginModel>()
+    var loginObservable=MutableLiveData<LoginSignUpModel>()
     var observable=MutableLiveData<BaseResponseModel>()
 
 
@@ -26,9 +26,7 @@ class LoginViewModel (val context: Context):ViewModel(){
     fun loginUser(security_key:String,email:String,password:String,latitude:String,longitude:String,address:String,
     device_type:String,device_token:String){
         (context as LoginActivity).showProgressDialog()
-        ApiClient.apiService.loginUser(security_key,
-            email,
-            password,latitude,longitude,address,device_type,device_token
+        ApiClient.apiService.loginUser(security_key, email, password,latitude,longitude,address,device_type,device_token
         ).enqueue(object : Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -48,10 +46,10 @@ class LoginViewModel (val context: Context):ViewModel(){
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
-                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginModel::class.java)
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginSignUpModel::class.java)
                             loginObservable.value = jsonObj
                         }else{
-                            (context as LoginActivity). showAlert(jsonDATA.getString("msg"))
+                            (context as LoginActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -94,7 +92,7 @@ class LoginViewModel (val context: Context):ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             observable.value = jsonObj
                         }else{
-                            (context as ForgotPasswordActivity). showAlert(jsonDATA.getString("msg"))
+                            (context as ForgotPasswordActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {

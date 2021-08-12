@@ -10,6 +10,7 @@ import com.bintyblackbook.model.Data
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ProfileViewModel
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -43,6 +44,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         tvEmail.text=it?.email
         tvPhoneNumber.text= it?.countryCode +" " +it?.phone
         tvAbout.text =it?.description
+        Glide.with(this).load(it?.image).into(ivUserProfile)
     }
 
     private fun setOnClicks() {
