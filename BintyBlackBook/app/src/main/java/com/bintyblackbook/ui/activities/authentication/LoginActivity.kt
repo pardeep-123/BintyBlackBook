@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
@@ -38,7 +39,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
        loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
                if(t?.code==200){
                    val response=t.data
-
+                    Log.i("TAG",response?.userType.toString())
                    if(response?.userType==0){
                        MySharedPreferences.storeUserType(this,"User")
                    }
@@ -50,6 +51,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                    Log.i("response",t.msg.toString())
                    val intent=Intent(this,HomeActivity::class.java)
                    startActivity(intent)
+               }
+           else{
+                   Toast.makeText(this,t.msg.toString(),Toast.LENGTH_LONG).show()
                }
            })
     }
@@ -78,8 +82,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                     setObservables()
                 }
-
-
             }
             R.id.ll_signup -> {
                 val intent = Intent(context, SignupActivity::class.java)

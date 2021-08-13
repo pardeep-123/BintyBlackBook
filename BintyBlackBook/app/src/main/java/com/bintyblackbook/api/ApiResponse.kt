@@ -22,7 +22,7 @@ class ApiResponse(status: Status, @Nullable data: JsonElement?, @Nullable error:
         }
 
         fun error(@NonNull error: Throwable): ApiResponse {
-            return ApiResponse(Status.SUCCESS, null, error)
+            return ApiResponse(Status.ERROR, null, error)
         }
     }
 }

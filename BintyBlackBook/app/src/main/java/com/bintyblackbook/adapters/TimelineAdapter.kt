@@ -11,16 +11,17 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
-import com.bintyblackbook.models.TimelineModel
+import com.bintyblackbook.model.PostData
 import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
+import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_timeline.view.*
 
-class TimelineAdapter(var context: Context, var arrayList: ArrayList<TimelineModel>) :
-    RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder>() {
+class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder>() {
 
+    var arrayList= ArrayList<PostData>()
     var myPopupWindow: PopupWindow? = null
-    var onItemClick: ((timelineModel: TimelineModel, clickOn: String) -> Unit)? = null
+    var onItemClick: ((timelineModel: PostData, clickOn: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false)
@@ -53,36 +54,39 @@ class TimelineAdapter(var context: Context, var arrayList: ArrayList<TimelineMod
 
             setPopUpWindow(timelineModel)
 
-            civProfile.setImageResource(timelineModel.profileImage!!)
-            tvName.text = timelineModel.name
-            tvTime.text = timelineModel.time
-            tvLikes.text = timelineModel.likes
-            tvComments.text = timelineModel.comments
+            Glide.with(context).load(timelineModel.userImage).into(civProfile)
+
+            tvName.text = timelineModel.userName
+            //tvTime.text = timelineModel.time
+            tvLikes.text = timelineModel.totalLikes.toString()
+            tvComments.text = timelineModel.postComments.size.toString()
 
 
-            if (timelineModel.myPost) {
+            if (timelineModel.status==1) {
                 rlDots.visibility = View.VISIBLE
             } else {
                 rlDots.visibility = View.GONE
             }
 
-            if (timelineModel.postImage != null) {
-                ivPost.setImageResource(timelineModel.postImage!!)
+            if (timelineModel.userImage != null) {
+
+                Glide.with(context).load(timelineModel.userImage).into(ivPost)
+               // ivPost.setImageResource(timelineModel.userImage!!)
                 ivPost.visibility = View.VISIBLE
             } else {
                 ivPost.visibility = View.GONE
             }
 
-            if (timelineModel.heartFilled) {
+         /*   if (timelineModel.heartFilled) {
                 ivHeart.setImageResource(R.drawable.heart_new)
             } else {
                 ivHeart.setImageResource(R.drawable.like)
             }
 
             rlHeart.setOnClickListener {
-                timelineModel.heartFilled = !timelineModel.heartFilled
+                timelineModel.isLike = !timelineModel.heartFilled
                 notifyDataSetChanged()
-            }
+            }*/
 
             civProfile.setOnClickListener {
                 onItemClick?.invoke(timelineModel, "imageClick")
@@ -101,7 +105,7 @@ class TimelineAdapter(var context: Context, var arrayList: ArrayList<TimelineMod
             }
         }
 
-        private fun setPopUpWindow(timelineModel: TimelineModel) {
+        private fun setPopUpWindow(timelineModel: PostData) {
             val inflater =
                 context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.popup, null)

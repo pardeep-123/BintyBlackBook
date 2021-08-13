@@ -6,25 +6,41 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
 import com.bintyblackbook.util.MySharedPreferences
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class SettingsActivity : AppCompatActivity(), View.OnClickListener {
-    val context: Context =this
+class SettingsActivity : BaseActivity(), View.OnClickListener {
+
+    lateinit var settingsViewModel: SettingsViewModel
     var clicked:Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         headingText.setText("SETTINGS")
+        settingsViewModel=SettingsViewModel(this)
+
+        getNotificationStatus()
 
         if(MySharedPreferences.getUserType(this).equals("Business")){
             rlMyWallet.visibility = View.VISIBLE
         }
+        else{
+            rlMyWallet.visibility = View.GONE
+        }
 
         clickHandles()
 
+    }
+
+    private fun getNotificationStatus() {
+        settingsViewModel.getNotificationStatus(getSecurityKey(this)!!, getUser(this)?.authKey!!)
     }
 
     fun clickHandles(){

@@ -35,18 +35,18 @@ interface ApiCallInterface {
     @POST(ApiConstants.USER_SIGNUP)
     fun userSignUp(
         @Header ("security_key") security_key:String,
-        @PartMap partMap: Map<String, RequestBody>,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part file: MultipartBody.Part?
     ): Call<JsonElement>
 
     /*
-    Business SignUpApi
+    Business SignUp Api
      */
     @Multipart
     @POST(ApiConstants.BUSINESS_SIGNUP)
     fun businessSignUp(
         @Header ("security_key") security_key:String,
-        @PartMap partMap: Map<String, RequestBody>,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part file: MultipartBody.Part?
     ): Call<JsonElement>
 
@@ -70,7 +70,6 @@ interface ApiCallInterface {
     /*
     api for user profile
      */
-
     @FormUrlEncoded
     @POST(ApiConstants.USER_PROFILE)
     fun userProfile(@Header ("security_key") security_key:String,
@@ -82,9 +81,11 @@ interface ApiCallInterface {
      */
     @FormUrlEncoded
     @POST(ApiConstants.USER_PROFILE_BUSINESS)
-    fun businessUserProfile(@Header ("security_key") security_key:String,
-                    @Header("auth_key") auth_key:String,
-                    @Field("user_id") user_id:String):Call<JsonElement>
+    fun businessUserProfile(
+        @Header ("security_key") security_key:String,
+        @Header("auth_key") auth_key:String,
+        @Field("user_id") user_id:String
+    ):Call<JsonElement>
 
 
     @Multipart
@@ -92,8 +93,81 @@ interface ApiCallInterface {
     fun addPost(
         @Header ("security_key") security_key:String,
         @Header ("auth_key") auth_key:String,
-        @PartMap partMap: Map<String, RequestBody>,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part file: MultipartBody.Part?
     ): Call<JsonElement>
+
+    @GET(ApiConstants.GET_CATEGORIES)
+    fun getCategories(
+        @Header("security_key") securityKey:String,
+        @Header("auth_key") auth_key:String
+    ): Call<JsonElement>
+
+    @Multipart
+    @POST(ApiConstants.UPLOAD_MEDIA)
+    fun uploadMedia(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key:String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
+    ): Call<JsonElement>
+
+    /*
+    add or edit business profile
+     */
+
+    @PUT(ApiConstants.EDIT_BUSINESS_PROFILE)
+    fun addEditInfo(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Body requestBody: RequestBody
+    ):Call<JsonElement>
+
+    /*
+    get loops list
+     */
+    @POST(ApiConstants.GET_LOOPS)
+    fun getLoops(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key:String
+    ): Call<JsonElement>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.UNLOOP)
+    fun unLoop(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key:String,
+        @Field("userId") userId:String
+    ): Call<JsonElement>
+
+    @GET(ApiConstants.GET_ALL_POSTS)
+    fun getPosts(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key:String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @DELETE(ApiConstants.DELETE_POST)
+    fun deletePost(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("post_id") post_id:String
+    ): Call<JsonElement>
+
+    @FormUrlEncoded
+    @PUT(ApiConstants.NOTIFICATION_STATUS)
+    fun addNotificationStatus(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("status") status:String
+    ) : Call<JsonElement>
+
+    @GET(ApiConstants.GET_NOTIFICATION_STATUS)
+    fun getNotificationStatus(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
 
 }

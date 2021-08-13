@@ -38,6 +38,7 @@ class HomeItemClickActivity : AppCompatActivity() {
         }
 
         init()
+
         homeViewModel.homeLiveData.observe(this, Observer {
 
             for(i in 0 until it?.data?.size!!){

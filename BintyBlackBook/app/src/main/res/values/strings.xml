@@ -145,6 +145,7 @@
     <string name="err_valid_phone" translatable="false"> Please enter valid phone number.</string>
     <string name="validPass">Password must be of minimum 8 characters</string>
     <string name="err_user_name">Please enter user name</string>
+    <string name="err_business_name">Please enter business name</string>
     <string name="err_old_pass">Please enter your old password</string>
     <string name="err_new_pass">Please enter new password</string>
     <string name="pass_does_not_match">Password does not match</string>
@@ -157,5 +158,9 @@
     <string name="about_the_business">About The Business</string>
     <string name="no_data_found">NO DATA FOUND</string>
     <string name="err_add_desc">Please add description</string>
+    <string name="err_experience">Please enter your experience</string>
+    <string name="err_location">Please enter location</string>
+    <string name="err_social_media">Please enter social media</string>
+    <string name="err_website_link">Please enter your website link</string>
 
 </resources>

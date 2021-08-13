@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
@@ -22,7 +23,14 @@ import com.bintyblackbook.viewmodel.SignUpViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.business_signup_layout.*
 import kotlinx.android.synthetic.main.user_signup_layout.*
+import kotlinx.android.synthetic.main.user_signup_layout.ccp
+import kotlinx.android.synthetic.main.user_signup_layout.confpassword_text
+import kotlinx.android.synthetic.main.user_signup_layout.email_text
+import kotlinx.android.synthetic.main.user_signup_layout.password_text
+import kotlinx.android.synthetic.main.user_signup_layout.phone_text
+import kotlinx.android.synthetic.main.user_signup_layout.uname_text
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -38,6 +46,8 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
     var selectedImagePath:File?=null
     var selectedVideoUri:Uri?=null
+
+    var black_owned=""
 
     lateinit var signUpViewModel: SignUpViewModel
 
@@ -113,8 +123,8 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 }
                 else{
                     checkValidationsForBusiness()
-                    val intent = Intent(context, InfoActivity::class.java)
-                    startActivity(intent)
+//                    val intent = Intent(context, InfoActivity::class.java)
+//                    startActivity(intent)
                 }
 
 
@@ -134,6 +144,63 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
     }
 
     private fun checkValidationsForBusiness() {
+
+        if(InternetCheck.isConnectedToInternet(context)
+            && Validations.isEmpty(context,uname_text_business,getString(R.string.err_business_name))
+            && Validations.isValidPhoneNumber(context,phone_text_business,getString(R.string.err_valid_phone))
+            && Validations.validateEmailAddress(context,email_text_business)
+            && Validations.isValidPassword(context,password_text_business)
+            && Validations.confirmPassword(context,password_text_business,confpassword_text_business,"Password does not match")
+        ){
+            if(!cbAccept.isChecked){
+                Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
+                return
+            }
+            val map: HashMap<String, RequestBody> = HashMap()
+
+            if(!edtAddPromoCode.text.toString().isNullOrEmpty()){
+                map.put("promo_code",createRequestBody(edtAddPromoCode.text.toString()))
+            }
+
+            rgBusiness.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener{
+                override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+                    when(checkedId){
+                        R.id.rbYesBusiness ->{
+                            black_owned="1"
+                        }
+
+                        R.id.rbNoBusiness ->{
+                            black_owned="0"
+                        }
+                    }
+                }
+
+            })
+
+            map.put("business_name",createRequestBody(uname_text.text.toString()))
+            map.put("phone",createRequestBody(phone_text.text.toString()))
+            map.put("email",createRequestBody(email_text.text.toString()))
+            map.put("password",createRequestBody(confpassword_text.text.toString()))
+            map.put("country_code",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
+            map.put("device_type",createRequestBody("1"))
+            map.put("device_token",createRequestBody("12345"))
+            map.put("pushKitToken",createRequestBody("1234"))
+            map.put("uuid",createRequestBody("1234"))
+            map.put("black_owned",createRequestBody(black_owned))
+
+            var imagenPerfil: MultipartBody.Part? = null
+            if (selectedImagePath != null) {
+
+                // create RequestBody instance from file
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedImagePath!!)
+                // MultipartBody.Part is used to send also the actual file name
+                imagenPerfil = MultipartBody.Part.createFormData("profile_image", selectedImagePath?.name, requestFile)
+            }
+            //call api here
+            signUpViewModel.businessSignUp(getSecurityKey(context)!!,map,imagenPerfil)
+            setObservables()
+
+        }
 
     }
 
@@ -189,10 +256,20 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         signUpViewModel.signUpLiveData.observe(this, Observer {
 
             if(it.code==200){
-                Log.i("TAG",it.msg.toString())
-                val intent = Intent(context, HomeActivity::class.java)
-                startActivity(intent)
-                finishAffinity()
+
+                saveUser(this,it.data!!)
+                Log.i("TAG",it.data.toString())
+
+                if(it.data.userType==0){
+                    val intent = Intent(context, HomeActivity::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                }
+                else{
+                    val intent= Intent(context, InfoActivity::class.java)
+                    startActivity(intent)
+                }
+
             }
 
             else{

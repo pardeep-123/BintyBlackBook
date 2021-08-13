@@ -95,6 +95,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvUserAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"
@@ -117,6 +118,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvUserExp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"
@@ -139,6 +141,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvWebsiteLink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"

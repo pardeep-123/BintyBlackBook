@@ -9,13 +9,18 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.Suggested
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.UnLoopDialogFragment
+import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.row_myloops.view.*
 
 class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops.MyViewHolder>() {
+
+    var list= ArrayList<Suggested>()
+    lateinit var loopsInterface:LoopsInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.row_myloops, parent, false)
@@ -23,7 +28,7 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return list.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -36,14 +41,23 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
         val btnUnLoop: Button = itemView.btnUnLoop
 
         fun bind(pos: Int) {
+            tvName.text=list[pos].userName
+            Glide.with(context).load(list[pos].userImage).into(civProfile)
             itemView.setOnClickListener {
-                context.startActivity(Intent(context, UserDetailActivity::class.java))
+                loopsInterface.onItemClick(list[pos],pos)
+               // context.startActivity(Intent(context, UserDetailActivity::class.java))
             }
 
             btnUnLoop.setOnClickListener {
-                val fragmentDialog = UnLoopDialogFragment()
-                fragmentDialog.show((context as MyLoopsActivity).supportFragmentManager,"LoopDialog")
+                loopsInterface.unLoop(list[pos],pos)
+//                val fragmentDialog = UnLoopDialogFragment()
+//                fragmentDialog.show((context as MyLoopsActivity).supportFragmentManager,"LoopDialog")
             }
         }
+    }
+
+    interface LoopsInterface{
+        fun onItemClick(data:Suggested,position: Int)
+        fun unLoop(data: Suggested,position: Int)
     }
 }

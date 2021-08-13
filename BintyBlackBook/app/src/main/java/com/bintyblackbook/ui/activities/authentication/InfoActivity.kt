@@ -2,45 +2,59 @@ package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.widget.*
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.HomeActivity
-import com.bintyblackbook.util.AppConstant
-import com.bintyblackbook.util.ImagePickerUtility
-import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.model.InfoRequestModel
+import com.bintyblackbook.model.CategoryData
+import com.bintyblackbook.util.*
+import com.bintyblackbook.viewmodel.InfoViewModel
+import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_info.*
-import kotlinx.android.synthetic.main.activity_info.rbNo
-import kotlinx.android.synthetic.main.business_signup_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class InfoActivity : ImagePickerUtility() {
 
     private val myCalendar = Calendar.getInstance()
     private lateinit var date: DatePickerDialog.OnDateSetListener
 
-    override fun selectedImage(imagePath: File?) {
+    var imageFile:File?=null
+    var selectedVideoUri:Uri?=null
+    var mProgress: CustomProgressDialog? = null
+    private var mSnackBar: Snackbar? = null
 
-    }
+    var categoryList = ArrayList<CategoryData>()
 
-    override fun selectedVideoUri(videoUri: Uri?) {
+    lateinit var infoViewModel:InfoViewModel
+    var swap_value=""
+    var service_business =""
 
-    }
+    var profile_image=""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MyUtils.fullscreen(this)
         setContentView(R.layout.activity_info)
+        mProgress = CustomProgressDialog(this)
+        infoViewModel= InfoViewModel(this)
+        setData()
 
+        getCategoryData()
         setSpinnerBusinessCategory()
         aboutMeTypingTimeScroll()
 
@@ -54,6 +68,37 @@ class InfoActivity : ImagePickerUtility() {
             updateDateLabel()
         }
 
+    }
+
+    private fun getCategoryData() {
+
+        infoViewModel.getCategories(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        infoViewModel.categoryLiveData.observe(this, androidx.lifecycle.Observer {
+            if(it.code==200){
+                categoryList.addAll(it?.data!!)
+            }
+            else{
+                Log.i("TAG",it.msg.toString())
+            }
+        })
+    }
+
+
+    fun showProgressDialog(){
+        mProgress = CustomProgressDialog(this)
+        mProgress!!.show()
+    }
+
+    fun dismissProgressDialog(){
+
+        mProgress!!.dismiss()
+    }
+    private fun setData() {
+        edtName.setText(getUser(this)?.businessName)
+        edtEmail.setText(getUser(this)?.email)
+        etUserPhoneNumber.setText(getUser(this)?.phone)
+        Glide.with(this).load(getUser(this)?.image).into(civ_profile)
+        profile_image= getUser(this)?.image!!
     }
 
     private fun clickHandles() {
@@ -78,31 +123,100 @@ class InfoActivity : ImagePickerUtility() {
         }
 
         btnSubmit.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+
+            checkValidations()
+//            val intent = Intent(this, HomeActivity::class.java)
+//            startActivity(intent)
         }
 
-        rgService.setOnCheckedChangeListener { group, checkedId ->
+        rgService.setOnCheckedChangeListener(object :RadioGroup.OnCheckedChangeListener{
+            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+                when(checkedId){
+                    R.id.rbNo ->{
+                        service_business="1"
+                        tvServiceType.visibility=View.GONE
+                        edtServiceType.visibility=View.GONE
+                        tvAvailability.visibility=View.GONE
+                        edtSetAvailability.visibility=View.GONE
+                    }
 
-            if(checkedId==R.id.rbNo){
-                tvServiceType.visibility=View.GONE
-                edtServiceType.visibility=View.GONE
-                tvAvailability.visibility=View.GONE
-                edtSetAvailability.visibility=View.GONE
+                    R.id.rbYes ->{
+                        service_business="0"
+                        tvServiceType.visibility=View.VISIBLE
+                        edtServiceType.visibility=View.VISIBLE
+                        tvAvailability.visibility=View.VISIBLE
+                        edtSetAvailability.visibility=View.VISIBLE
+                    }
+                }
             }
-            else{
-                tvServiceType.visibility=View.VISIBLE
-                edtServiceType.visibility=View.VISIBLE
-                tvAvailability.visibility=View.VISIBLE
-                edtSetAvailability.visibility=View.VISIBLE
+
+        })
+
+       rgSwap.setOnCheckedChangeListener(object :RadioGroup.OnCheckedChangeListener{
+           override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+               when(checkedId){
+                   R.id.rbYesSwap ->{
+                        swap_value="1"
+                   }
+
+                   R.id.rbNoSwap ->{
+                       swap_value="0"
+
+                   }
+               }
+           }
+
+       })
+
+    }
+
+    private fun checkValidations() {
+        if(InternetCheck.isConnectedToInternet(this)
+            && Validations.isEmpty(this,edtName,getString(R.string.err_business_name))
+            && Validations.validateEmailAddress(this,edtEmail)
+            && Validations.validatePhoneNumber(this,etUserPhoneNumber)
+            && Validations.isEmpty(this,edtExperience,getString(R.string.err_experience))
+            && Validations.isEmpty(this,edtLocation,getString(R.string.err_location))
+            && Validations.isEmpty(this,edtSocialMedia,getString(R.string.err_social_media))
+            && Validations.isEmpty(this,edtWebsiteLink,getString(R.string.err_website_link))){
+
+            val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+            val request=InfoRequestModel().also { request->
+
+
+            request.name=edtName.text.toString()
+            request.email=edtEmail.text.toString()
+            request.phone=etUserPhoneNumber.text.toString()
+            request.country_code=ccp.selectedCountryCodeWithPlus
+            request.experience=edtExperience.text.toString()
+            request.website_link=edtWebsiteLink.text.toString()
+            request.description=edtAboutMe.text.toString()
+            request.address=edtLocation.text.toString()
+            request.latitude=""
+            request.longitude=""
+            request.category_id=""
+            request.sub_category_id=""
+            request.device_type="1"
+            request.device_token="12345"
+            request.pushKitToken="1234"
+            request.uuid="1234"
+            request.swapInMind=edtSwaps.text.toString()
+            request.isSwapSystem=swap_value
+            request.operationTime=edtHrsDays.text.toString()
+            request.isServiceProviding=service_business
+            request.services= edtServiceType.text.toString()
+            request.socialMediaHandles=edtSocialMedia.text.toString()
             }
+
+            /*val map = request.serializeToMap()
+            for (part in map) {
+                builder.addFormDataPart(part.key, part.value)
+            }*/
+
+            val body = builder.build()
+
         }
-
-        rgSwap.setOnCheckedChangeListener { group, checkedId ->
-
-
-        }
-
     }
 
     private fun datePicker() {
@@ -164,5 +278,62 @@ class InfoActivity : ImagePickerUtility() {
 
             false
         }
+    }
+
+    fun showSnackBarMessage(msg: String) {
+        try {
+            mSnackBar = Snackbar.make(
+                getWindow().getDecorView().getRootView(),
+                msg,
+                Snackbar.LENGTH_LONG
+            ) //Assume "rootLayout" as the root layout of every activity.
+            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
+            mSnackBar?.show()
+        } catch (e: Exception) {
+            Log.e("TAG",e.printStackTrace().toString())
+        }
+    }
+
+
+    override fun selectedImage(imagePath: File?) {
+        Glide.with(this).load(imagePath).into(riv_Picture)
+        imageFile=imagePath
+        uploadMedia("0")
+    }
+
+    override fun selectedVideoUri(videoUri: Uri?) {
+        Glide.with(this).load(videoUri).into(riv_video)
+        selectedVideoUri=videoUri
+        uploadMedia("1")
+
+    }
+    private fun uploadMedia(type: String) {
+        var map=HashMap<String,RequestBody>()
+        map.put("type",createRequestBody(type))
+
+        var request: MultipartBody.Part? = null
+        if (imageFile != null) {
+
+            val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+
+            request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
+        }
+
+        infoViewModel.uploadMedia(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
+        infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
+            if(it.code==200){
+                Toast.makeText(this,it.msg,Toast.LENGTH_LONG).show()
+            }
+
+            else{
+                Toast.makeText(this,it.msg.toString(),Toast.LENGTH_LONG).show()
+            }
+        })
+
+    }
+
+    fun createRequestBody(param:String): RequestBody {
+        val request= param.toRequestBody("text/plain".toMediaTypeOrNull())
+        return request
     }
 }

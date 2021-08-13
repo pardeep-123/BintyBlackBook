@@ -22,7 +22,6 @@ class HomeViewModel (var context: Context):ViewModel(){
 
 
     // call home list api
-
     fun homeList(securityKey:String,authKey:String){
         (context as HomeActivity).showProgressDialog()
         ApiClient.apiService.homeList(securityKey,authKey

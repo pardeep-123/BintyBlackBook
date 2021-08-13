@@ -2,8 +2,10 @@ package com.bintyblackbook.ui.activities.home.timeline
 
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.util.*
@@ -11,7 +13,6 @@ import com.bintyblackbook.viewmodel.PostsViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_add_post.*
-import kotlinx.android.synthetic.main.user_signup_layout.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -24,6 +25,11 @@ class AddPostActivity : ImagePickerUtility() {
 
     var imageFile:File?=null
     lateinit var postsViewModel: PostsViewModel
+
+    var type=""
+    var post_id=""
+    var description=""
+    var image=""
 
     override fun selectedImage(imagePath: File?) {
         Glide.with(this).load(imagePath).into(rivCamera)
@@ -48,10 +54,27 @@ class AddPostActivity : ImagePickerUtility() {
         mProgress = CustomProgressDialog(this)
         postsViewModel= PostsViewModel(this)
 
+        getData()
+
         setOnClicks()
 
         setToolbar()
 
+    }
+
+    private fun getData() {
+
+        type=intent?.getStringExtra(AppConstant.HEADING).toString()
+        post_id=intent?.getStringExtra("post_id").toString()
+        description=intent?.getStringExtra("description").toString()
+        image=intent?.getStringExtra("image").toString()
+        val uri=Uri.parse(image)
+        imageFile= saveImage(MediaStore.Images.Media.getBitmap(contentResolver, uri), this)!!
+
+        if(type.equals("Edit Past")){
+            edtDesc.setText(description)
+            Glide.with(this).load(image).into(rivCamera)
+        }
     }
 
     private fun setToolbar() {
@@ -96,9 +119,9 @@ class AddPostActivity : ImagePickerUtility() {
             if (imageFile != null) {
 
                 Log.i("Register", imageFile?.path!!)
-                // create RequestBody instance from file
+
                 val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
-                // MultipartBody.Part is used to send also the actual file name
+
                 imagenPerfil = MultipartBody.Part.createFormData("image", imageFile?.name, requestFile)
             }
 
@@ -114,8 +137,6 @@ class AddPostActivity : ImagePickerUtility() {
                 }
             })
         }
-
-
     }
 
     fun createRequestBody(param:String): RequestBody {

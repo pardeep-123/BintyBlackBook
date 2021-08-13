@@ -41,8 +41,11 @@ class HomeFragment : Fragment() {
         init()
 
         //call api for home data
-        homeViewModel.homeList(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
-        getHomeData()
+
+        if(!getUser(context!!)?.authKey.isNullOrEmpty()) {
+            homeViewModel.homeList(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
+            getHomeData()
+        }
     }
 
     private fun getHomeData() {
@@ -69,28 +72,6 @@ class HomeFragment : Fragment() {
 
     private fun init() {
         rvHome.layoutManager = LinearLayoutManager(activity)
-
-       /* val arrayListImages = ArrayList<Int>()
-        arrayListImages.add(R.drawable.john)
-        arrayListImages.add(R.drawable.matinn)
-        arrayListImages.add(R.drawable.mattrin)
-
-        val arrayListImages1 = ArrayList<Int>()
-        arrayListImages1.add(R.drawable.slider)
-        arrayListImages1.add(R.drawable.small)
-        arrayListImages1.add(R.drawable.small1)
-
-        val arrayListImages2 = ArrayList<Int>()
-        arrayListImages2.add(R.drawable.small2)
-        arrayListImages2.add(R.drawable.small3)
-        arrayListImages2.add(R.drawable.small4)
-
-        val arrayList = ArrayList<HomeModel>()
-        arrayList.add(HomeModel("Photography", arrayListImages))
-        arrayList.add(HomeModel("DJS", arrayListImages1))
-        arrayList.add(HomeModel("Music", arrayListImages2))
-        arrayList.add(HomeModel("Events", arrayListImages))*/
-
 
         homeAdapter = HomeAdapter(activity!!)
         rvHome.adapter = homeAdapter

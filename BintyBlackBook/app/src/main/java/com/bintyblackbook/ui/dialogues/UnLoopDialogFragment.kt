@@ -3,18 +3,15 @@ package com.bintyblackbook.ui.dialogues
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
+import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import kotlinx.android.synthetic.main.dialog_fragment_un_loop.*
-import kotlinx.android.synthetic.main.fragment_dialog.*
 
-
-class UnLoopDialogFragment : DialogFragment() {
-
+class UnLoopDialogFragment(val loopsActivity: MyLoopsActivity) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +26,7 @@ class UnLoopDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btnYes.setOnClickListener {
+            loopsActivity.unLoopRequest()
             dismiss()
         }
 

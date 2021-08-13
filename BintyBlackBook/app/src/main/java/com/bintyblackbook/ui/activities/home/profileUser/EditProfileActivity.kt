@@ -15,6 +15,7 @@ import java.io.File
 
 class EditProfileActivity : ImagePickerUtility() {
 
+
     override fun selectedImage(imagePath: File?) {
 
     }
@@ -38,11 +39,13 @@ class EditProfileActivity : ImagePickerUtility() {
 
     private fun setData(user: Data?) {
         edtUserName.setText(user?.firstName)
-        edtMobileNo.setText(user?.phone)
-        //ccp.defaultCountryCodeWithPlus =user?.countryCode
-        edtEmail.setText(user?.email)
         edtAbout.setText(user?.description)
-        Glide.with(this).load(user?.image).into(civ_profile)
+        edtEmail.setText(user?.email)
+        edtMobileNo.setText(user?.phone)
+        if(!user?.image.isNullOrEmpty()){
+            Glide.with(this).load(user?.image).into(civ_profile)
+        }
+
     }
 
     private fun setOnClicks() {

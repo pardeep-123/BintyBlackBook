@@ -9,8 +9,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.Data
 import com.bintyblackbook.util.ImagePickerUtility
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getUser
 import kotlinx.android.synthetic.main.activity_edit_profile_business.*
 import java.io.File
 
@@ -34,17 +36,22 @@ class EditProfileBusinessActivity : ImagePickerUtility() {
 
         clickHandles()
 
-        edtName.setText(R.string.john)
-        edtEmail.setText("john@gmail.com")
-        edtMobileNumber.setText("9988776655")
-        edtExperience.setText("2 Year")
-        edtLocation.setText(R.string.arizona_usa)
+        setUserData(getUser(this))
+
+    }
+
+    private fun setUserData(user: Data?) {
+
+        edtName.setText(user?.businessName)
+        edtEmail.setText(user?.email)
+        edtMobileNumber.setText(user?.phone)
+        edtExperience.setText(user?.experience)
+        edtLocation.setText(user?.location)
         spinnerBusinessCategory.setSelection(1)
-        edtWebsiteLink.setText("www.google.com")
-        edtAboutMe.setText(R.string.dummy_text)
+        edtWebsiteLink.setText(user?.websiteLink)
+        edtAboutMe.setText(user?.description)
         riv_video.setImageResource(R.drawable.slider)
         riv_Picture.setImageResource(R.drawable.background)
-
 
     }
 

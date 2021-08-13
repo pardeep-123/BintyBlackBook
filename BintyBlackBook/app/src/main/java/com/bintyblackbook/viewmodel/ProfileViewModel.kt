@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.ui.activities.home.profileBusiness.MyProfileBusinessActivity
@@ -69,15 +70,15 @@ class ProfileViewModel (val context: Context): ViewModel() {
 
     //call business user profile
     fun businessUserProfile(security_key: String, auth: String, user_id: String) {
-        (context as MyProfileBusinessActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.businessUserProfile(
             security_key, auth, user_id
         ).enqueue(object : Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
-                    (context as MyProfileBusinessActivity).dismissProgressDialog()
-                    (context as MyProfileBusinessActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -86,7 +87,7 @@ class ProfileViewModel (val context: Context): ViewModel() {
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as MyProfileBusinessActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA: JSONObject = JSONObject(response.body().toString())
@@ -97,15 +98,15 @@ class ProfileViewModel (val context: Context): ViewModel() {
                             )
                             profileObservable.value = jsonObj
                         } else {
-                            (context as MyProfileBusinessActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            (context as BaseActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 } else {
-                    (context as MyProfileBusinessActivity).dismissProgressDialog()
-                    (context as MyProfileBusinessActivity).showSnackBarMessage("" + response.message())
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

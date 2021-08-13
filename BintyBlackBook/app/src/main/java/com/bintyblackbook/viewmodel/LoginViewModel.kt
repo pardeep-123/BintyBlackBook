@@ -2,6 +2,7 @@ package com.bintyblackbook.viewmodel
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
@@ -21,7 +22,6 @@ class LoginViewModel (val context: Context):ViewModel(){
     var loginObservable=MutableLiveData<LoginSignUpModel>()
     var observable=MutableLiveData<BaseResponseModel>()
 
-
     //Call login Api
     fun loginUser(security_key:String,email:String,password:String,latitude:String,longitude:String,address:String,
     device_type:String,device_token:String){
@@ -32,6 +32,7 @@ class LoginViewModel (val context: Context):ViewModel(){
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
                     (context as LoginActivity).dismissProgressDialog()
+                    Toast.makeText(context,t.localizedMessage,Toast.LENGTH_LONG).show()
                     (context as LoginActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
