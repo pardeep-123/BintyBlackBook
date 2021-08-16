@@ -83,6 +83,7 @@ class HomeFragment : Fragment() {
         homeAdapter?.onItemClick = {homeModel: HomeData ->
             val intent = Intent(activity,HomeItemClickActivity::class.java)
             intent.putExtra(AppConstant.HEADING, homeModel.name)
+            intent.putExtra("id",homeModel.id)
             startActivity(intent)
         }
     }

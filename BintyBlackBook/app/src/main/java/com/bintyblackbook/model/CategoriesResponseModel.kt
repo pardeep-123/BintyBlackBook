@@ -4,20 +4,21 @@ class CategoriesResponseModel:BaseResponseModel() {
      val data: ArrayList<CategoryData> = ArrayList<CategoryData>()
  }
 
-data class CategoryData(
-    val description: String,
-    val id: Int,
-    val image: String,
-    val isSelected: Int,
-    val name: String,
-    val subCategories: ArrayList<SubCategories> = ArrayList<SubCategories>()
-)
+ class CategoryData {
+     val description: String?=null
+     val id: Int=0
+     val image: String?=null
+     val isSelected: Int=0
+     val name: String=""
+     var isSelect=false
+     val subCategories: ArrayList<SubCategories> = ArrayList<SubCategories>()
+ }
 
-data class SubCategories(
-    val categoryId: Int,
-    val description: String,
-    val id: Int,
-    val image: String,
-    val isSelected: Int,
-    val name: String
-)
+ class SubCategories {
+     val categoryId: Int=0
+     val description: String=""
+     val id: Int=0
+     val image: String=""
+      val name: String=""
+     var isSelect=false
+ }

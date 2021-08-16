@@ -2,8 +2,10 @@ package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -11,6 +13,8 @@ import android.widget.*
 import com.bintyblackbook.R
 import com.bintyblackbook.model.InfoRequestModel
 import com.bintyblackbook.model.CategoryData
+import com.bintyblackbook.model.SubCategories
+import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
@@ -22,12 +26,13 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class InfoActivity : ImagePickerUtility() {
+class InfoActivity : ImagePickerUtility(), CustomInterface {
 
     private val myCalendar = Calendar.getInstance()
     private lateinit var date: DatePickerDialog.OnDateSetListener
@@ -44,6 +49,8 @@ class InfoActivity : ImagePickerUtility() {
     var service_business =""
 
     var profile_image=""
+
+    var categoryDialogFragment:CategoryDialogFragment?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,8 +81,9 @@ class InfoActivity : ImagePickerUtility() {
 
         infoViewModel.getCategories(getSecurityKey(this)!!, getUser(this)?.authKey!!)
         infoViewModel.categoryLiveData.observe(this, androidx.lifecycle.Observer {
+
             if(it.code==200){
-                categoryList.addAll(it?.data!!)
+                 categoryList.addAll(it?.data!!)
             }
             else{
                 Log.i("TAG",it.msg.toString())
@@ -102,10 +110,21 @@ class InfoActivity : ImagePickerUtility() {
     }
 
     private fun clickHandles() {
+
+        etSelectCategory.setOnClickListener {
+            runOnUiThread {
+                categoryDialogFragment = CategoryDialogFragment(categoryList, this, this)
+                categoryDialogFragment?.show(this.supportFragmentManager, "dialog")
+            }
+        }
         iv_back.setOnClickListener {
             finish()
         }
 
+        edtSetAvailability.setOnClickListener {
+          val intent= Intent(this,CheckAvailabilityActivity::class.java)
+            startActivity(intent)
+        }
         civ_profile.setOnClickListener {
             getImage(this,0,false)
         }
@@ -335,5 +354,29 @@ class InfoActivity : ImagePickerUtility() {
     fun createRequestBody(param:String): RequestBody {
         val request= param.toRequestBody("text/plain".toMediaTypeOrNull())
         return request
+    }
+
+    override fun callbackMethod(data: ArrayList<CategoryData>) {
+        var categoryId=StringBuilder("")
+        var arrayList=ArrayList<String>()
+        data.forEach{
+            if(it.isSelect){
+                arrayList.add(it.id.toString())
+            }
+        }
+        TextUtils.join(",",arrayList)
+        Log.i("TAG",arrayList.toString())
+    }
+
+    override fun callbackSubCategories(data: ArrayList<SubCategories>) {
+        var categoryId=StringBuilder("")
+        var arrayList=ArrayList<String>()
+        data.forEach{
+            if(it.isSelect){
+                arrayList.add(it.id.toString())
+            }
+        }
+        TextUtils.join(",",arrayList)
+        Log.i("TAG",arrayList.toString())
     }
 }

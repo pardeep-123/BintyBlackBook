@@ -60,8 +60,11 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         e.printStackTrace()
                     }
                 } else {
+                    val jsonObject:JSONObject= JSONObject(response.errorBody()!!.string())
                     (context as MyProfileActivity).dismissProgressDialog()
-                    (context as MyProfileActivity).showSnackBarMessage("" + response.message())
+                    (context as MyProfileActivity).showAlertWithOk(jsonObject.getString("msg").toString())
+
+                    //(context as MyProfileActivity).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -105,8 +108,10 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         e.printStackTrace()
                     }
                 } else {
+                    val jsonObject: JSONObject= JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    (context as BaseActivity).showSnackBarMessage("" + response.message())
+                    (context as BaseActivity).showAlertWithOk(jsonObject.getString("msg"))
+                   // (context as BaseActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

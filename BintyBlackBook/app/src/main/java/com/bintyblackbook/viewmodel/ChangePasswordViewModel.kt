@@ -9,6 +9,7 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
+import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject
 import retrofit2.Call
@@ -42,6 +43,7 @@ class ChangePasswordViewModel (var context: Context):ViewModel(){
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        val error :JSONObject = JSONObject(response.errorBody()!!.string())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             changePassLiveData.value = jsonObj
@@ -53,8 +55,10 @@ class ChangePasswordViewModel (var context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as ChangePasswordActivity).dismissProgressDialog()
-                    (context as ChangePasswordActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                  //  (context as ChangePasswordActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

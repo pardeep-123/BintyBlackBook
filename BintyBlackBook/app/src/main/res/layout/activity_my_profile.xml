@@ -18,14 +18,12 @@
 
             <include layout="@layout/toolbar" />
 
-
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivUserProfile"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:contentDescription="@null"
                 android:src="@drawable/edit_profile" />
 
             <TextView

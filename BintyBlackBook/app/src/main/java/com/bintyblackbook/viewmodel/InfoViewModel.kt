@@ -29,7 +29,7 @@ class InfoViewModel(val context: Context): ViewModel(){
     //get categories api
     fun getCategories(security_key:String,auth_key:String){
 
-        (context as InfoActivity).showProgressDialog()
+        (context as InfoActivity).dismissProgressDialog()
         ApiClient.apiService.getCategories(security_key,auth_key).enqueue(object :
             Callback<JsonElement> {
 
@@ -55,15 +55,16 @@ class InfoViewModel(val context: Context): ViewModel(){
                             categoryLiveData.value = jsonObj
                         }else{
                             showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
-                            //(context as SignupActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 } else {
+                    val jsonDATA : JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as InfoActivity).dismissProgressDialog()
-                    (context as InfoActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                 //   (context as InfoActivity).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -106,8 +107,10 @@ class InfoViewModel(val context: Context): ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
-                    (context as InfoActivity).dismissProgressDialog()
-                    (context as InfoActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -150,8 +153,10 @@ class InfoViewModel(val context: Context): ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
-                    (context as InfoActivity).dismissProgressDialog()
-                    (context as InfoActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }

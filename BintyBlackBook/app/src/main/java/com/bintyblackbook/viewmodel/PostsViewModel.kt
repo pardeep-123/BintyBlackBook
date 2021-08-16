@@ -62,8 +62,10 @@ class PostsViewModel (val context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as AddPostActivity).dismissProgressDialog()
-                    (context as AddPostActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context as AddPostActivity,error.getString("msg").toString(),"OK",{})
+                    //(context as AddPostActivity).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -109,8 +111,10 @@ class PostsViewModel (val context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
-                    (context as TimelineActivity).dismissProgressDialog()
-                    (context as TimelineActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as MyLoopsActivity).dismissProgressDialog()
+                    showAlert(context as MyLoopsActivity,error.getString("msg").toString(),"OK",{})
+                 //   (context as MyLoopsActivity).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -156,8 +160,10 @@ class PostsViewModel (val context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val jsonObject:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as TimelineActivity).dismissProgressDialog()
-                    (context as TimelineActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context, jsonObject.getString("msg").toString(),"OK",{})
+                    //(context as TimelineActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

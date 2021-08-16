@@ -56,8 +56,10 @@ class SignUpViewModel(val context: Context): ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val errorObj:JSONObject= JSONObject(response.errorBody()!!.string())
                     (context as SignupActivity).dismissProgressDialog()
-                    (context as SignupActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context,errorObj.getString("msg"),"OK",{})
+                   // (context as SignupActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

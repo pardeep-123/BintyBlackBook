@@ -1,10 +1,8 @@
 package com.bintyblackbook.ui.activities.home
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -146,7 +144,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun drawerClose() {
+    fun drawerClose() {
         drawerLayout.closeDrawer(GravityCompat.START)
     }
 

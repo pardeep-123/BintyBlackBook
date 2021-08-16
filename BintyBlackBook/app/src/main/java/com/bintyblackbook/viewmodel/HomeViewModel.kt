@@ -2,15 +2,14 @@ package com.bintyblackbook.viewmodel
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
-import com.bintyblackbook.model.BaseResponseModel
-import com.bintyblackbook.model.HomeData
 import com.bintyblackbook.model.HomeResponseModel
-import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
 import com.bintyblackbook.ui.activities.home.HomeActivity
+import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject
 import retrofit2.Call
@@ -19,6 +18,7 @@ import retrofit2.Response
 class HomeViewModel (var context: Context):ViewModel(){
 
     var homeLiveData=MutableLiveData<HomeResponseModel>()
+    var homeListLiveData:LiveData<HomeResponseModel> = homeLiveData
 
 
     // call home list api
@@ -47,6 +47,7 @@ class HomeViewModel (var context: Context):ViewModel(){
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), HomeResponseModel::class.java)
                             homeLiveData.value = jsonObj
+
                         }else{
                             (context as HomeActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
@@ -55,8 +56,10 @@ class HomeViewModel (var context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as HomeActivity).dismissProgressDialog()
-                    (context as HomeActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                   // (context as HomeActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

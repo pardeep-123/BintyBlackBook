@@ -8,6 +8,7 @@ import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.MyLoopsResponse
+import com.bintyblackbook.ui.activities.authentication.InfoActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -58,8 +59,10 @@ class LoopsViewModel (val context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
-                    (context as MyLoopsActivity).dismissProgressDialog()
-                    (context as MyLoopsActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -102,8 +105,10 @@ class LoopsViewModel (val context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
-                    (context as MyLoopsActivity).dismissProgressDialog()
-                    (context as MyLoopsActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }

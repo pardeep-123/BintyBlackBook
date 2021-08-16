@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/themeColor"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:viewBindingIgnore="true">
 
     <include layout="@layout/toolbar" />
 
@@ -19,7 +21,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@id/ivBell"
+            android:id="@id/ivBell1"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -29,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/ivBell"
+            android:layout_toEndOf="@+id/ivBell1"
             android:padding="8dp"
             android:layout_centerVertical="true"
             android:text="Notifications"
@@ -58,7 +60,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@id/ivBell"
+            android:id="@id/ivBell2"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -68,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/ivBell"
+            android:layout_toEndOf="@+id/ivBell2"
             android:padding="8dp"
             android:layout_centerVertical="true"
             android:text="CHANGE PASSWORD"
@@ -88,7 +90,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@id/ivBell"
+            android:id="@id/ivBell3"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -98,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/ivBell"
+            android:layout_toEndOf="@+id/ivBell3"
             android:padding="8dp"
             android:layout_centerVertical="true"
             android:text="PRIVACY POLICY"
@@ -118,7 +120,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@id/ivBell"
+            android:id="@id/ivBell4"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -128,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/ivBell"
+            android:layout_toEndOf="@+id/ivBell4"
             android:padding="8dp"
             android:layout_centerVertical="true"
             android:text="TERMS &amp; CONDITIONS"

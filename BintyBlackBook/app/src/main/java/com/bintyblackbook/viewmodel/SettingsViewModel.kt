@@ -55,8 +55,10 @@ class SettingsViewModel (val context: Context): ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val jsonObject:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as SettingsActivity).dismissProgressDialog()
-                    (context as SettingsActivity).showSnackBarMessage("" + response.message())
+                   // (context as SettingsActivity).showSnackBarMessage("" + response.message())
+                    (context as SettingsActivity).showAlertWithOk(jsonObject.getString("msg"))
                 }
 
             }
@@ -98,8 +100,10 @@ class SettingsViewModel (val context: Context): ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
+                    val errorObj:JSONObject= JSONObject(response.errorBody()!!.string())
                     (context as SettingsActivity).dismissProgressDialog()
-                    (context as SettingsActivity).showSnackBarMessage("" + response.message())
+                    (context as SettingsActivity).showAlertWithOk(errorObj.getString("msg"))
+                   // (context as SettingsActivity).showSnackBarMessage("" + response.message())
                 }
 
             }

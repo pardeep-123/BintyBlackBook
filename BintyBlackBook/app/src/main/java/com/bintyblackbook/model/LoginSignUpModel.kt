@@ -51,11 +51,12 @@ data class Category(
     val subCategories: List<SubCategory>
 )
 
-data class SubCategory(
-    val categoryId: Int,
-    val description: String,
-    val id: Int,
-    val image: String,
-    val isSelected: Int,
-    val name: String
-)
+class SubCategory {
+    val categoryId: Int=0
+    val description: String=""
+    val id: Int=0
+    val image: String=""
+    val isSelected: Int=0
+    val name: String=""
+    var isSelect=false
+}

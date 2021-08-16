@@ -11,7 +11,9 @@ import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.authentication.ForgotPasswordActivity
 import com.bintyblackbook.ui.activities.authentication.LoginActivity
+import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,9 +33,9 @@ class LoginViewModel (val context: Context):ViewModel(){
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
-                    (context as LoginActivity).dismissProgressDialog()
+                    (context).dismissProgressDialog()
                     Toast.makeText(context,t.localizedMessage,Toast.LENGTH_LONG).show()
-                    (context as LoginActivity).showSnackBarMessage("" + t.message)
+                    (context).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -42,23 +44,24 @@ class LoginViewModel (val context: Context):ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as LoginActivity).dismissProgressDialog()
+                    (context).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
-                        if(jsonDATA.getInt("code")==200){
+
+                        if(response.code()==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginSignUpModel::class.java)
                             loginObservable.value = jsonObj
-                        }else{
-                            (context as LoginActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 } else {
-                    (context as LoginActivity).dismissProgressDialog()
-                    (context as LoginActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -100,8 +103,10 @@ class LoginViewModel (val context: Context):ViewModel(){
                         e.printStackTrace()
                     }
                 } else {
-                    (context as ForgotPasswordActivity).dismissProgressDialog()
-                    (context as ForgotPasswordActivity).showSnackBarMessage("" + response.message())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    //(context).showSnackBarMessage("" + response.message())
                 }
 
             }
