@@ -13,10 +13,9 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_image.view.*
 
 
-class HorizontalImagesAdapter(var context: Context) :
-    RecyclerView.Adapter<HorizontalImagesAdapter.HorizontalImagesViewHolder>() {
+class HorizontalImagesAdapter(var context: Context) : RecyclerView.Adapter<HorizontalImagesAdapter.HorizontalImagesViewHolder>() {
     var arrayList= ArrayList<UserMedia>()
-    var onItemClick:((image:String)->Unit)?= null
+    var onItemClick:((image:UserMedia)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalImagesViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_image, parent, false)
@@ -40,7 +39,7 @@ class HorizontalImagesAdapter(var context: Context) :
            // roundedImageView.setImageResource(position)
 
             itemView.setOnClickListener {
-                onItemClick?.invoke(position.image)
+                onItemClick?.invoke(arrayList[pos])
             }
         }
     }

@@ -2,6 +2,8 @@ package com.bintyblackbook.ui.activities.home.profileUser
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.models.AvailabilityModel
@@ -10,19 +12,29 @@ import kotlinx.android.synthetic.main.activity_set_availability.*
 class SetAvailabilityActivity : AppCompatActivity() {
 
     lateinit var arrayList: ArrayList<AvailabilityModel>
+    var adapter: SetAvailabilityAdapter?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_availability)
 
-        rlBack.setOnClickListener {
-            finish()
+        setAdapter()
+
+        setOnClicks()
+
+
+        checkbox_selectAll.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                for(i in 0 until arrayList.size) {
+                    arrayList[i].selected = true
+                }
+                adapter?.notifyDataSetChanged()
+            }
         }
 
-        btnSubmit.setOnClickListener {
-            finish()
-        }
+    }
 
+    private fun setAdapter() {
         arrayList = ArrayList()
 
         arrayList.add(AvailabilityModel("12:00 AM", false))
@@ -52,4 +64,22 @@ class SetAvailabilityActivity : AppCompatActivity() {
 
         rvTime.adapter = SetAvailabilityAdapter(this, arrayList)
     }
+
+    private fun setOnClicks() {
+        rlBack.setOnClickListener {
+            finish()
+        }
+
+        btnSubmit.setOnClickListener {
+            finish()
+        }
+
+        calenderView.setOnDayClickListener {
+         val date= it.calendar.time
+            Log.i("TAG",date.toString())
+        }
+
+    }
+
+
 }

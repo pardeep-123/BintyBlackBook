@@ -42,6 +42,20 @@ class ApiConstants {
         const val NOTIFICATION_STATUS="notification_status"
 
         const val GET_NOTIFICATION_STATUS="get_notification_status"
+
+        const val GET_NOTIFICATION_LIST="get_notification_list"
+
+        const val ALL_CONTENT="all_content"
+
+        const val GET_COMMENTS="get_comments"
+
+        const val GET_OTHER_USER_EVENTS="get_others_user_event"
+
+        const val FAVOURITE_EVENTS="get_favourite_events"
+
+        const val ADD_COMMENT="add_comment"
+
+        const val LIKE_EVENT="like_event"
     }
 
 }

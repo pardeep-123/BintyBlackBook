@@ -9,18 +9,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
+import com.bintyblackbook.model.FavEventData
 import com.bintyblackbook.models.EventsModel
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events.view.*
 
+class FavouriteEventAdapter(var context: Context, var arrayList: ArrayList<FavEventData>) :
+    RecyclerView.Adapter<FavouriteEventAdapter.EventViewHolder>() {
 
-class EventAdapter(var context: Context, var arrayList: ArrayList<EventData>) :
-    RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
-
-    var onItemClick:((eventsModel:EventData)->Unit)?= null
-
-    var onSelectFav:((eventsModel:EventData) ->Unit)?=null
+    var onItemClick:((eventsModel:FavEventData)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events, parent, false)
@@ -42,11 +40,12 @@ class EventAdapter(var context: Context, var arrayList: ArrayList<EventData>) :
         private val ivHeart: ImageView = itemView.ivHeart
 
         fun bind(pos: Int) {
+            ivHeart.visibility=View.GONE
             val eventsModel = arrayList[pos]
             Glide.with(context).load(eventsModel.image).into(roundedImageView)
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
-
+/*
             if (eventsModel.isFavourite == 1){
                 ivHeart.setImageResource(R.drawable.fill_heart)
             }else{
@@ -56,8 +55,7 @@ class EventAdapter(var context: Context, var arrayList: ArrayList<EventData>) :
             ivHeart.setOnClickListener {
                 eventsModel.isFavourite = 1
                 notifyDataSetChanged()
-                onSelectFav?.invoke(eventsModel,)
-            }
+            }*/
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(eventsModel)
@@ -65,5 +63,4 @@ class EventAdapter(var context: Context, var arrayList: ArrayList<EventData>) :
 
         }
     }
-
 }

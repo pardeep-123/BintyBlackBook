@@ -21,6 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <activity android:name=".ui.activities.authentication.CheckAvailabilityActivity"/>
         <activity android:name=".ui.tutorials.GetStartedActivity"></activity>
         <activity
             android:name=".ui.activities.home.profileBusiness.EditProfileBusinessActivity"

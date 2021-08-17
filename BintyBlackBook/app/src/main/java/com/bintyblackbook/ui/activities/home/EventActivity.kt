@@ -10,6 +10,7 @@ import com.bintyblackbook.adapters.EventAdapter
 import com.bintyblackbook.models.EventsModel
 import com.bintyblackbook.models.PhotosModel
 import com.bintyblackbook.util.AppConstant
+import com.bintyblackbook.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -17,10 +18,12 @@ class EventActivity : AppCompatActivity() {
 
     var eventAdapter:EventAdapter? = null
 
+    lateinit var eventsViewModel:EventsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
-        rvEvents.layoutManager = GridLayoutManager(this,2)
+
 
         rlBack.setOnClickListener {
             finish()
@@ -42,16 +45,17 @@ class EventActivity : AppCompatActivity() {
         arrayList.add(EventsModel(R.drawable.girl,"John","Arizona, USA",false))
         arrayList.add(EventsModel(R.drawable.mattrin,"John","Arizona, USA",false))
 
-        eventAdapter = EventAdapter(this,arrayList)
+       // eventAdapter = EventAdapter(this,arrayList)
+        rvEvents.layoutManager = GridLayoutManager(this,2)
         rvEvents.adapter = eventAdapter
         adapterItemClick()
     }
 
     private fun adapterItemClick(){
-        eventAdapter?.onItemClick = {eventsModel: EventsModel ->
+       /* eventAdapter?.onItemClick = {eventsModel: EventsModel ->
             val intent = Intent(this,EventDetailActivity::class.java)
             intent.putExtra(AppConstant.HEADING,eventsModel.name)
             startActivity(intent)
-        }
+        }*/
     }
 }

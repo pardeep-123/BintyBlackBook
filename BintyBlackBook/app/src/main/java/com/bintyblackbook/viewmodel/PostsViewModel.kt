@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
+import com.bintyblackbook.model.CommentsResponse
 import com.bintyblackbook.model.PostResponseModel
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.timeline.AddPostActivity
+import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
 import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -24,6 +26,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
     var addPostLiveData= MutableLiveData<BaseResponseModel>()
     var postListLiveData = MutableLiveData<PostResponseModel>()
+
 
     // call add post api
 
@@ -114,7 +117,6 @@ class PostsViewModel (val context: Context):ViewModel(){
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as MyLoopsActivity).dismissProgressDialog()
                     showAlert(context as MyLoopsActivity,error.getString("msg").toString(),"OK",{})
-                 //   (context as MyLoopsActivity).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -163,11 +165,12 @@ class PostsViewModel (val context: Context):ViewModel(){
                     val jsonObject:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as TimelineActivity).dismissProgressDialog()
                     showAlert(context, jsonObject.getString("msg").toString(),"OK",{})
-                    //(context as TimelineActivity).showSnackBarMessage("" + response.message())
                 }
 
             }
         })
     }
+
+
 
 }

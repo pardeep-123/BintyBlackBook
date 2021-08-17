@@ -1,17 +1,17 @@
 package com.bintyblackbook.ui.activities.home.loop
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.AdapterMyLoops
-import com.bintyblackbook.adapters.HomeAdapter
+import com.bintyblackbook.adapters.SuggestionsAdapter
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.AllData
 import com.bintyblackbook.model.Suggested
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.UnLoopDialogFragment
@@ -19,15 +19,16 @@ import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import kotlinx.android.synthetic.main.activity_my_loops.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.LoopsInterface {
 
     lateinit var loopsViewModel: LoopsViewModel
     var myLoopsAdapter:AdapterMyLoops?=null
+    var suggestionAdapter:SuggestionsAdapter?=null
 
-    var loopList=ArrayList<Suggested>()
+    var loopList = ArrayList<AllData>()
+    var suggestList=ArrayList<Suggested>()
 
     var unloop_id=""
 
@@ -36,6 +37,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         setContentView(R.layout.activity_my_loops)
 
         setAdapter()
+        setSuggestionAdapter()
         setOnClicks()
         loopsViewModel= LoopsViewModel(this)
         headingText.setText("MY LOOPS")
@@ -43,13 +45,32 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         getLoopsList()
     }
 
+    private fun setSuggestionAdapter() {
+        rvSuggestions.layoutManager=LinearLayoutManager(context,RecyclerView.HORIZONTAL,false)
+        suggestionAdapter= SuggestionsAdapter(this,suggestList)
+        rvSuggestions.adapter=suggestionAdapter
+
+    }
+
     private fun getLoopsList() {
         loopsViewModel.loopsList(getSecurityKey(this)!!, getUser(this)?.authKey!!)
         loopsViewModel.loopsLiveData.observe(this, Observer {
 
             if(it.code==200){
-                loopList.addAll(it.data.suggested)
-                myLoopsAdapter?.notifyDataSetChanged()
+                if(it.data.allData.size==0){
+                    rvMyLoops.visibility=View.GONE
+                    tvNoLoops.visibility=View.VISIBLE
+                }
+                else{
+                    rvMyLoops.visibility=View.VISIBLE
+                    tvNoLoops.visibility=View.GONE
+                    loopList.addAll(it.data.allData)
+                    myLoopsAdapter?.notifyDataSetChanged()
+                }
+
+                suggestList.addAll(it.data.suggested)
+                suggestionAdapter?.notifyDataSetChanged()
+
             }
         })
     }
@@ -59,7 +80,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     }
 
     private fun setAdapter() {
-        rvMyLoops.layoutManager = LinearLayoutManager(this)
+        rvMyLoops.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
 
         myLoopsAdapter = AdapterMyLoops(this)
         rvMyLoops.adapter = myLoopsAdapter
@@ -75,11 +96,11 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         }
     }
 
-    override fun onItemClick(data: Suggested, position: Int) {
+    override fun onItemClick(data: AllData, position: Int) {
         startActivity(Intent(context, UserDetailActivity::class.java))
     }
 
-    override fun unLoop(data: Suggested, position: Int) {
+    override fun unLoop(data: AllData, position: Int) {
         unloop_id=data.id.toString()
         val fragmentDialog = UnLoopDialogFragment(this)
         fragmentDialog.show(this.supportFragmentManager,"LoopDialog")

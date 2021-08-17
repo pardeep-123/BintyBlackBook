@@ -6,18 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventAdapter
-import com.bintyblackbook.models.EventsModel
+import com.bintyblackbook.model.EventData
 import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.util.AppConstant
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.fragment_all_event.*
 
 
 class AllEventFragment : Fragment() {
 
+    lateinit var eventsViewModel: EventsViewModel
+
     var eventAdapter: EventAdapter? = null
+    var arrayList= ArrayList<EventData>()
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,23 +36,27 @@ class AllEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        eventsViewModel= EventsViewModel(activity!!)
 
         init()
-        
+        getAllEvents()
     }
-    private fun init(){
-        val arrayList = ArrayList<EventsModel>()
-        arrayList.add(EventsModel(R.drawable.john,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.girl1,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.matinn,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.girl,"John","Arizona, USA",true))
-        arrayList.add(EventsModel(R.drawable.girl1,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.mattrin,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.john,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.matinn,"John","Arizona, USA",true))
-        arrayList.add(EventsModel(R.drawable.girl,"John","Arizona, USA",false))
-        arrayList.add(EventsModel(R.drawable.mattrin,"John","Arizona, USA",false))
 
+    private fun getAllEvents() {
+        eventsViewModel.getOtherUserEvents(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
+
+        eventsViewModel.eventsLiveData.observe(activity!!, Observer {
+            if (it.code==200){
+                if(it.data.size==0){
+                    arrayList.addAll(it.data)
+                    eventAdapter?.notifyDataSetChanged()
+                }
+            }
+
+        })
+    }
+
+    private fun init(){
         eventAdapter = EventAdapter(activity!!,arrayList)
         rvAllEvents.adapter = eventAdapter
         rvAllEvents.layoutManager = GridLayoutManager(activity,2)
@@ -53,10 +64,16 @@ class AllEventFragment : Fragment() {
     }
 
     private fun adapterItemClick(){
-        eventAdapter?.onItemClick = {eventsModel: EventsModel ->
+        eventAdapter?.onItemClick = {eventsModel: EventData ->
             val intent = Intent(activity, EventDetailActivity::class.java)
             intent.putExtra(AppConstant.HEADING,eventsModel.name)
             startActivity(intent)
+        }
+    }
+
+    fun onSelectFavourite(){
+        eventAdapter?.onSelectFav = {eventsModel: EventData ->
+         //   eventsViewModel.likeEvent(getSecurityKey(context!!)!!, getUser(context!!)?.authKey)
         }
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.AllData
 import com.bintyblackbook.model.Suggested
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.row_myloops.view.*
 
 class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops.MyViewHolder>() {
 
-    var list= ArrayList<Suggested>()
+    var list= ArrayList<AllData>()
     lateinit var loopsInterface:LoopsInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -57,7 +58,7 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
     }
 
     interface LoopsInterface{
-        fun onItemClick(data:Suggested,position: Int)
-        fun unLoop(data: Suggested,position: Int)
+        fun onItemClick(data:AllData,position: Int)
+        fun unLoop(data: AllData,position: Int)
     }
 }

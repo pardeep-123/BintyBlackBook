@@ -35,15 +35,6 @@ class TimelineActivity : BaseActivity() {
         setAdapter()
 
         getAllPostList()
-
-//        arrayList.add(TimelineModel(R.drawable.john,"Jhon","2m ago",getString(R.string.dummy_text),"100","50",R.drawable.background,false,true))
-//        arrayList.add(TimelineModel(R.drawable.malli,"Malli","2m ago",getString(R.string.dummy_text),"100","50",null,false,false))
-//        arrayList.add(TimelineModel(R.drawable.matinn,"Matinn","2m ago",getString(R.string.dummy_text),"90","50",null,false,false))
-//        arrayList.add(TimelineModel(R.drawable.alina,"Alina","2m ago",getString(R.string.dummy_text),"100","50",null,true,false))
-//        arrayList.add(TimelineModel(R.drawable.loop1,"Loop","2m ago",getString(R.string.dummy_text),"80","50",null,false,false))
-//        arrayList.add(TimelineModel(R.drawable.sophia12,"Sophia","2m ago",getString(R.string.dummy_text),"30","50",null,false,false))
-//        arrayList.add(TimelineModel(R.drawable.shren,"Shren","2m ago",getString(R.string.dummy_text),"100","50",null,false,false))
-
     }
 
     private fun getAllPostList() {
@@ -60,6 +51,7 @@ class TimelineActivity : BaseActivity() {
                 else{
                     tvNoPost.visibility=View.GONE
                     rvTimeline.visibility=View.VISIBLE
+                    postList.clear()
                     postList.addAll(it?.data!!)
                     timelineAdapter?.notifyDataSetChanged()
                 }
@@ -84,12 +76,14 @@ class TimelineActivity : BaseActivity() {
         }
 
         ivAdd.setOnClickListener {
-            startActivity(Intent(this,AddPostActivity::class.java))
+            val intent=Intent(this,AddPostActivity::class.java)
+            intent.putExtra("type","Add Post")
+            startActivity(intent)
         }
     }
 
     private fun adapterItemClickEditOrDelete(){
-        timelineAdapter?.onItemClick ={ timelineModel: PostData, clickOn: String ->
+        timelineAdapter?.onItemClick = { timelineModel: PostData, clickOn: String ->
             if (clickOn=="imageClick" || clickOn=="nameClick"){
                 val intent = Intent(this,UserDetailActivity::class.java)
                 intent.putExtra("user_id",timelineModel.id)
@@ -120,4 +114,10 @@ class TimelineActivity : BaseActivity() {
             }
         })
     }
+
+    override fun onPause() {
+        super.onPause()
+        getAllPostList()
+    }
+
 }

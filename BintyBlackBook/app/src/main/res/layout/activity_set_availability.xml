@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
-                android:text="@string/set_availability"
+                android:text="@string/set_availability_for_booking_requests"
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp" />
 
@@ -61,6 +61,7 @@
             android:orientation="vertical">
 
             <com.applandeo.materialcalendarview.CalendarView
+                android:id="@+id/calenderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:abbreviationsBarColor="@color/themeColor"
@@ -71,19 +72,38 @@
                 app:pagesColor="@color/themeColor"
                 app:selectionColor="@color/fadePink"
                 app:todayLabelColor="@color/fadePink"
+
                 app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp10">
 
             <TextView
                 android:id="@+id/tvPromote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/romul"
                 android:text="@string/select_time"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp13"
                 android:layout_marginTop="@dimen/dp10"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_selectAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_all"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/whiteColor"
+                    android:buttonTint="@color/whiteColor"
+                    android:layout_marginEnd="@dimen/dp10"/>
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

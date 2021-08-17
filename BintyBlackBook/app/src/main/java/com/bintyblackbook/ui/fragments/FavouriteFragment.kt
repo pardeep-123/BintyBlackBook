@@ -6,18 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventAdapter
+import com.bintyblackbook.adapters.FavouriteEventAdapter
+import com.bintyblackbook.model.FavEventData
 import com.bintyblackbook.models.EventsModel
 import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.util.AppConstant
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.fragment_favourite.*
 
 
 class FavouriteFragment : Fragment() {
 
-    var eventAdapter: EventAdapter? = null
+    var eventAdapter: FavouriteEventAdapter? = null
+    lateinit var eventsViewModel:EventsViewModel
+    var arrayList= ArrayList<FavEventData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,31 +37,31 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        eventsViewModel=EventsViewModel(activity!!)
         init()
+        getEventList()
+    }
+
+    private fun getEventList() {
+        eventsViewModel.favEvents(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
+        eventsViewModel.favEventsLiveData.observe(activity!!, Observer {
+
+            if(it?.data?.size==0){
+                arrayList.addAll(it.data)
+                eventAdapter?.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun init() {
-        val arrayList = ArrayList<EventsModel>()
-        arrayList.add(EventsModel(R.drawable.john, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.girl1, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.matinn, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.girl, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.girl1, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.mattrin, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.john, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.matinn, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.girl, "John", "Arizona, USA", true))
-        arrayList.add(EventsModel(R.drawable.mattrin, "John", "Arizona, USA", true))
-
-        eventAdapter = EventAdapter(activity!!, arrayList)
+        eventAdapter = FavouriteEventAdapter(activity!!, arrayList)
         rvFavorites.adapter = eventAdapter
         rvFavorites.layoutManager = GridLayoutManager(activity, 2)
         adapterItemClick()
     }
 
     private fun adapterItemClick() {
-        eventAdapter?.onItemClick = { eventsModel: EventsModel ->
+        eventAdapter?.onItemClick = { eventsModel: FavEventData ->
             val intent = Intent(activity, EventDetailActivity::class.java)
             intent.putExtra(AppConstant.HEADING, eventsModel.name)
             startActivity(intent)

@@ -71,6 +71,7 @@
         android:id="@+id/ivPost"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:layout_marginTop="@dimen/dp10"
         android:layout_below="@id/rlName"
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/civ_profile"

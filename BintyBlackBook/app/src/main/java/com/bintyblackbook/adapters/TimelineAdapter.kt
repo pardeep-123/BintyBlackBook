@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.PostData
 import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
+import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_timeline.view.*
@@ -59,18 +60,25 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             tvName.text = timelineModel.userName
             //tvTime.text = timelineModel.time
             tvLikes.text = timelineModel.totalLikes.toString()
+            tvMessage.text=timelineModel.description
             tvComments.text = timelineModel.postComments.size.toString()
 
+            if(getUser(context)?.id==arrayList[pos].userId){
+                rlDots.visibility = View.VISIBLE
+            }
+            else{
+                rlDots.visibility = View.GONE
+            }
 
-            if (timelineModel.status==1) {
+         /*   if (timelineModel.status==1) {
                 rlDots.visibility = View.VISIBLE
             } else {
                 rlDots.visibility = View.GONE
             }
+*/
+            if (timelineModel.image != null) {
 
-            if (timelineModel.userImage != null) {
-
-                Glide.with(context).load(timelineModel.userImage).into(ivPost)
+                Glide.with(context).load(timelineModel.image).into(ivPost)
                // ivPost.setImageResource(timelineModel.userImage!!)
                 ivPost.visibility = View.VISIBLE
             } else {
@@ -97,7 +105,9 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }
 
             rlComment.setOnClickListener {
-                context.startActivity(Intent(context, CommentsActivity::class.java))
+                val intent = Intent(context,CommentsActivity::class.java)
+                intent.putExtra("post_id",timelineModel.id)
+                context.startActivity(intent)
             }
 
             rlDots.setOnClickListener {

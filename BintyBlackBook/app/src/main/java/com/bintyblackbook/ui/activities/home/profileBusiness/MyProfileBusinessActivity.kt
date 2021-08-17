@@ -30,14 +30,13 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_my_profile_business)
 
         profileViewModel= ProfileViewModel(this)
-
+        setAdapter()
         getData()
 
         rlBack.setOnClickListener {
             onBackPressed()
         }
 
-        setAdapter()
         setOnClicks()
 
     }
@@ -93,8 +92,10 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun horizontalImagesAdapterClick() {
-        horizontalImagesAdapter?.onItemClick = {image: String ->
-            //riv1.setImageResource(image)
+        horizontalImagesAdapter?.onItemClick = {media: UserMedia ->
+
+            Glide.with(context).load(media.image).into(riv1)
+            //riv1.setImageResource(image.image!!)
         }
     }
 

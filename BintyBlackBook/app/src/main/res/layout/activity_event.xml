@@ -58,5 +58,15 @@
         android:layout_marginEnd="@dimen/dp8"
         android:paddingTop="@dimen/dp15" />
 
+    <TextView
+        android:id="@+id/tvNoEvents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data_found"
+        android:textColor="@color/whiteColor"
+        android:fontFamily="@font/romul"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

@@ -147,7 +147,6 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key:String
     ) : Call<JsonElement>
 
-    @FormUrlEncoded
     @DELETE(ApiConstants.DELETE_POST)
     fun deletePost(
         @Header("security_key") security_key:String,
@@ -167,6 +166,53 @@ interface ApiCallInterface {
     fun getNotificationStatus(
         @Header("security_key") security_key:String,
         @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.ALL_CONTENT)
+    fun allContent(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("type") type:String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.GET_COMMENTS)
+    fun getComments(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("post_id") post_id:String
+    ) : Call<JsonElement>
+
+    @GET(ApiConstants.GET_OTHER_USER_EVENTS)
+    fun getOtherUserEvents(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
+    @GET(ApiConstants.FAVOURITE_EVENTS)
+    fun favEvents(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String
+    ) :Call<JsonElement>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.ADD_COMMENT)
+    fun addComment(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("post_id") post_id:String,
+        @Field("comment") comment:String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.LIKE_EVENT)
+    fun likeEvent(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("event_id") event_id:String,
+        @Field("status") status:String
     ) : Call<JsonElement>
 
 

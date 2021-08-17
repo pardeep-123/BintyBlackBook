@@ -22,10 +22,7 @@ class SetAvailabilityAdapter(var context: Context, var arrayList: ArrayList<Avai
         return AvailabilityViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: SetAvailabilityAdapter.AvailabilityViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: SetAvailabilityAdapter.AvailabilityViewHolder, position: Int) {
         holder.bind(position)
     }
 
@@ -51,6 +48,7 @@ class SetAvailabilityAdapter(var context: Context, var arrayList: ArrayList<Avai
                 availabilityModel.selected = !availabilityModel.selected
                 notifyDataSetChanged()
             }
+
         }
     }
 }

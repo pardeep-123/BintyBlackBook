@@ -51,7 +51,7 @@
                 <Button
                     android:id="@+id/btnUnLoop"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="23dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/btn1"
                     android:fontFamily="@font/romul"

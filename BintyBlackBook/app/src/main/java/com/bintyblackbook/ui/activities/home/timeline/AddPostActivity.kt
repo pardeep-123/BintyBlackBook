@@ -64,7 +64,7 @@ class AddPostActivity : ImagePickerUtility() {
 
     private fun getData() {
 
-        type=intent?.getStringExtra(AppConstant.HEADING).toString()
+       /* type=intent?.getStringExtra(AppConstant.HEADING).toString()
         post_id=intent?.getStringExtra("post_id").toString()
         description=intent?.getStringExtra("description").toString()
         image=intent?.getStringExtra("image").toString()
@@ -74,7 +74,7 @@ class AddPostActivity : ImagePickerUtility() {
         if(type.equals("Edit Past")){
             edtDesc.setText(description)
             Glide.with(this).load(image).into(rivCamera)
-        }
+        }*/
     }
 
     private fun setToolbar() {
@@ -98,7 +98,7 @@ class AddPostActivity : ImagePickerUtility() {
         btnPost.setOnClickListener {
 
             checkValidations()
-            finish()
+
         }
 
     }

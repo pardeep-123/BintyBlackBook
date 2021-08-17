@@ -56,7 +56,7 @@
     <string name="settings">SETTINGS</string>
     <string name="logout">LOGOUT</string>
     <string name="heading">Heading</string>
-    <string name="search">Search</string>
+    <string name="search">Search....</string>
     <string name="arizona_usa">Arizona,USA</string>
     <string name="john">John</string>
     <string name="about">About</string>
@@ -163,5 +163,10 @@
     <string name="err_social_media">Please enter social media</string>
     <string name="err_website_link">Please enter your website link</string>
     <string name="select_category">Select Category</string>
+    <string name="select_all">Select All</string>
+    <string name="set_availability_for_booking_requests">Set Availability for booking requests</string>
+    <string name="tell_us_about_business">Tell Us About Your Business</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="no_loop_found">No Loop Found</string>
 
 </resources>

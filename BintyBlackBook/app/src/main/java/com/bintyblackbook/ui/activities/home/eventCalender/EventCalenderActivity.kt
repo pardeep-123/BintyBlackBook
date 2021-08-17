@@ -5,21 +5,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventCalenderPagerAdapter
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.viewmodel.EventsViewModel
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_event_calender.*
 
-class EventCalenderActivity : AppCompatActivity() {
+class EventCalenderActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_calender)
 
-        rlBack.setOnClickListener {
-            finish()
-        }
-
-        rlCalender.setOnClickListener {
-            startActivity(Intent(this,CalenderActivity::class.java))
-        }
+        setOnClicks()
 
         tabLayout.addTab(tabLayout.newTab().setText("All Events"))
         tabLayout.addTab(tabLayout.newTab().setText("Favourite"))
@@ -41,5 +38,15 @@ class EventCalenderActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    private fun setOnClicks() {
+        rlBack.setOnClickListener {
+            finish()
+        }
+
+        rlCalender.setOnClickListener {
+            startActivity(Intent(this,CalenderActivity::class.java))
+        }
     }
 }

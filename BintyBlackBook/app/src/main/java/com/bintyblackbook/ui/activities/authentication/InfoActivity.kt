@@ -15,6 +15,7 @@ import com.bintyblackbook.model.InfoRequestModel
 import com.bintyblackbook.model.CategoryData
 import com.bintyblackbook.model.SubCategories
 import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
+import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
@@ -57,24 +58,29 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
         super.onCreate(savedInstanceState)
         MyUtils.fullscreen(this)
         setContentView(R.layout.activity_info)
-        mProgress = CustomProgressDialog(this)
-        infoViewModel= InfoViewModel(this)
+        initViews()
+
         setData()
 
         getCategoryData()
         setSpinnerBusinessCategory()
         aboutMeTypingTimeScroll()
 
-        headingText.text = getString(R.string.info)
+        headingText.text = getString(R.string.tell_us_about_business)
         clickHandles()
 
-        date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            myCalendar.set(Calendar.YEAR, year)
-            myCalendar.set(Calendar.MONTH, monthOfYear)
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDateLabel()
-        }
+//        date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//            myCalendar.set(Calendar.YEAR, year)
+//            myCalendar.set(Calendar.MONTH, monthOfYear)
+//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+//            updateDateLabel()
+//        }
 
+    }
+
+    private fun initViews() {
+        mProgress = CustomProgressDialog(this)
+        infoViewModel= InfoViewModel(this)
     }
 
     private fun getCategoryData() {
@@ -122,16 +128,17 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
         }
 
         edtSetAvailability.setOnClickListener {
-          val intent= Intent(this,CheckAvailabilityActivity::class.java)
+            val intent= Intent(this,SetAvailabilityActivity::class.java)
             startActivity(intent)
         }
+
         civ_profile.setOnClickListener {
             getImage(this,0,false)
         }
 
-        edtSetAvailability.setOnClickListener {
+      /*  edtSetAvailability.setOnClickListener {
             datePicker()
-        }
+        }*/
 
         riv_video.setOnClickListener {
             getImage(this,0,true)
