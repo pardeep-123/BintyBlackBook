@@ -67,6 +67,7 @@ class AllEventFragment : Fragment() {
         eventAdapter?.onItemClick = {eventsModel: EventData ->
             val intent = Intent(activity, EventDetailActivity::class.java)
             intent.putExtra(AppConstant.HEADING,eventsModel.name)
+            intent.putExtra("post_id",eventsModel.id.toString())
             startActivity(intent)
         }
     }

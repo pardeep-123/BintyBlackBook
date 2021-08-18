@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.MyLoopsResponse
 import com.bintyblackbook.ui.activities.authentication.InfoActivity
@@ -111,8 +112,127 @@ class LoopsViewModel (val context: Context):ViewModel(){
                     showAlert(context,error.getString("msg").toString(),"OK",{})
                    // (context).showSnackBarMessage("" + response.message())
                 }
-
             }
         })
+    }
+
+    /*
+    send loop request
+     */
+    fun sendLoopReq(securityKey: String,auth_key: String,userId:String){
+
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.sendLoopReq(securityKey,auth_key, userId).enqueue(object : Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+
+                (context as BaseActivity).dismissProgressDialog()
+                (context as BaseActivity).showSnackBarMessage(t.message!!)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as BaseActivity).dismissProgressDialog()
+
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            unLoopLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                }
+            }
+
+        })
+
+    }
+
+
+    /*
+    unSend loop request
+     */
+    fun unSendLoopReq(securityKey: String,auth_key: String,userId:String){
+
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.unSendLoopReq(securityKey,auth_key, userId).enqueue(object : Callback<JsonElement>{
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+
+                (context as BaseActivity).dismissProgressDialog()
+                (context as BaseActivity).showSnackBarMessage(t.message!!)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as BaseActivity).dismissProgressDialog()
+
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            unLoopLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                }
+            }
+
+        })
+    }
+
+
+    /*
+    accept reject loop request
+     */
+    fun acceptRejectRequest(securityKey: String,auth_key: String,userId: String,status:String){
+
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.acceptRejectRequest(securityKey,auth_key,userId,status).enqueue(object : Callback<JsonElement>{
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                (context as BaseActivity).dismissProgressDialog()
+                (context as BaseActivity).showSnackBarMessage(t.message!!)
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as BaseActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            unLoopLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK") {}
+                }
+            }
+
+        })
+
     }
 }

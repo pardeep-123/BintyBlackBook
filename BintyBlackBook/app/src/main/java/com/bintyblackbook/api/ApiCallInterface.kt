@@ -87,10 +87,18 @@ interface ApiCallInterface {
         @Field("user_id") user_id:String
     ):Call<JsonElement>
 
-
     @Multipart
     @POST(ApiConstants.ADD_POST)
     fun addPost(
+        @Header ("security_key") security_key:String,
+        @Header ("auth_key") auth_key:String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
+    ): Call<JsonElement>
+
+    @Multipart
+    @PUT(ApiConstants.EDIT_POST)
+    fun editPost(
         @Header ("security_key") security_key:String,
         @Header ("auth_key") auth_key:String,
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
@@ -116,11 +124,13 @@ interface ApiCallInterface {
     add or edit business profile
      */
 
+    @Multipart
     @PUT(ApiConstants.EDIT_BUSINESS_PROFILE)
     fun addEditInfo(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String,
-        @Body requestBody: RequestBody
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
     ):Call<JsonElement>
 
     /*
@@ -168,6 +178,12 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key: String
     ) : Call<JsonElement>
 
+    @GET(ApiConstants.GET_NOTIFICATION_LIST)
+    fun getNotificationList(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
     @FormUrlEncoded
     @POST(ApiConstants.ALL_CONTENT)
     fun allContent(
@@ -188,6 +204,15 @@ interface ApiCallInterface {
     fun getOtherUserEvents(
         @Header("security_key") security_key:String,
         @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
+    // my events
+    @Multipart
+    @POST(ApiConstants.MY_EVENTS)
+    fun myEvents(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("user_id") userId:String
     ) : Call<JsonElement>
 
     @GET(ApiConstants.FAVOURITE_EVENTS)
@@ -215,5 +240,66 @@ interface ApiCallInterface {
         @Field("status") status:String
     ) : Call<JsonElement>
 
+    //post detail
+
+    @FormUrlEncoded
+    @POST(ApiConstants.POST_DETAIL)
+    fun getPostDetail(
+        @Header("security_key") security_key:String,
+        @Header("auth_key") auth_key: String,
+        @Field("post_id") post_id: String
+    ) : Call<JsonElement>
+
+    //get availability slots
+
+    @FormUrlEncoded
+    @POST(ApiConstants.GET_AVAILABILITY)
+    fun getAvailableSlots(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("user_id") user_id: String
+    ) : Call<JsonElement>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.SEND_LOOP_REQUEST)
+    fun sendLoopReq(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("userId") userId:String
+    ) : Call<JsonElement>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.UNSEND_LOOP_REQUEST)
+    fun unSendLoopReq(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("userId") userId:String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.ACCEPT_REJECT_REQUEST)
+    fun acceptRejectRequest(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("user_id") user_id:String,
+        @Field("status") status:String
+    ) : Call<JsonElement>
+
+    @Multipart
+    @POST(ApiConstants.EDIT_PROFILE)
+    fun editProfile(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
+    ) : Call<JsonElement>
+
+    @GET(ApiConstants.GET_ALL_BOOKINGS)
+    fun getAllBookings(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String
+    ): Call<JsonElement>
 
 }

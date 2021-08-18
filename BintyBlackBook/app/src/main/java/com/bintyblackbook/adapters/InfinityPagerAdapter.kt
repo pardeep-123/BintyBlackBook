@@ -30,6 +30,19 @@ class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Catego
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(context).inflate(R.layout.item_infinity_pager, container, false)
         val roundedImageView = view.roundedImageView
+        val name= view.tvName
+        val location = view.tvLocation
+
+        name.text=arrayList[position].firstName
+
+        if(arrayList[position].userLocation.isEmpty()){
+            location.visibility=View.GONE
+        }
+        else{
+            location.visibility=View.VISIBLE
+            location.text=arrayList[position].userLocation
+        }
+
         Glide.with(context).load(arrayList[position].userImage).into(roundedImageView)
       //  roundedImageView.setImageResource(arrayList[position].userImage)
         container.addView(view)

@@ -54,6 +54,9 @@ class AddPostActivity : ImagePickerUtility() {
         mProgress = CustomProgressDialog(this)
         postsViewModel= PostsViewModel(this)
 
+        type= intent.getStringExtra("screen_type").toString()
+
+
         getData()
 
         setOnClicks()
@@ -64,12 +67,20 @@ class AddPostActivity : ImagePickerUtility() {
 
     private fun getData() {
 
+        if(type.equals("Edit Post")){
+            post_id=intent?.getStringExtra("post_id").toString()
+            description=intent?.getStringExtra("description").toString()
+            image=intent?.getStringExtra("image").toString()
+            Log.i("TAG",image)
+            Glide.with(this).load(image).into(rivCamera)
+            edtDesc.setText(description)
+            btnPost.text = getString(R.string.save)
+//            val uri=Uri.parse(image)
+//            imageFile= saveImage(MediaStore.Images.Media.getBitmap(contentResolver, uri), this)!!
+
+        }
+
        /* type=intent?.getStringExtra(AppConstant.HEADING).toString()
-        post_id=intent?.getStringExtra("post_id").toString()
-        description=intent?.getStringExtra("description").toString()
-        image=intent?.getStringExtra("image").toString()
-        val uri=Uri.parse(image)
-        imageFile= saveImage(MediaStore.Images.Media.getBitmap(contentResolver, uri), this)!!
 
         if(type.equals("Edit Past")){
             edtDesc.setText(description)
@@ -81,8 +92,8 @@ class AddPostActivity : ImagePickerUtility() {
         val heading = intent.getStringExtra(AppConstant.HEADING)
         if (heading != null){
             tvHeading.text = heading
-            rivCamera.setImageResource(R.drawable.background)
-            edtDesc.setText(R.string.dummy_text)
+//            rivCamera.setImageResource(R.drawable.background)
+//            edtDesc.setText(R.string.dummy_text)
             btnPost.text = getString(R.string.save)
         }
     }
@@ -125,7 +136,13 @@ class AddPostActivity : ImagePickerUtility() {
                 imagenPerfil = MultipartBody.Part.createFormData("image", imageFile?.name, requestFile)
             }
 
-            postsViewModel.addPost(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            if(type.equals("Edit Post")){
+                postsViewModel.editPost(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            }
+            else{
+                postsViewModel.addPost(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            }
+
             postsViewModel.addPostLiveData.observe(this, Observer {
                 if(it.code==200){
                     showAlert(this,it?.msg.toString(),getString(R.string.ok)) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp10"
@@ -9,8 +10,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_profile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/dp40"
+        android:layout_height="@dimen/dp40"
         android:src="@drawable/alina" />
 
     <TextView
@@ -23,7 +24,7 @@
         android:layout_toEndOf="@id/civ_profile"
         android:fontFamily="@font/romul"
         android:lines="1"
-        android:text="@string/john"
+        android:text=""
         android:textColor="@color/whiteColor"
         android:textSize="13sp"
         android:textStyle="bold" />
@@ -36,7 +37,7 @@
         android:layout_marginTop="@dimen/dp5"
         android:layout_marginEnd="@dimen/dp5"
         android:fontFamily="@font/romul"
-        android:text="2D ago"
+        android:text=""
         android:textColor="@color/whiteColor"
         android:textSize="12sp" />
 
@@ -49,7 +50,7 @@
         android:layout_marginEnd="@dimen/dp5"
         android:layout_toEndOf="@id/civ_profile"
         android:fontFamily="@font/trajanpro_regular"
-        android:text="@string/dummy_text"
+        android:text=""
         android:textColor="@color/whiteColor"
         android:textSize="12sp" />
 

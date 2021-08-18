@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_loop_request.view.*
 class LoopRequestAdapter(var context: Context) :
     RecyclerView.Adapter<LoopRequestAdapter.LoopRequestViewHolder>() {
 
-    var onItemBtnClick:((clickOn:String)->Unit)? = null
+    var onItemBtnClick:((status:String)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoopRequestViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_loop_request, parent, false)

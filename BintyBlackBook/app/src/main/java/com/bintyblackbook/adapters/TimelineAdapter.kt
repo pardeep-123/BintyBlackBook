@@ -106,7 +106,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
             rlComment.setOnClickListener {
                 val intent = Intent(context,CommentsActivity::class.java)
-                intent.putExtra("post_id",timelineModel.id)
+                intent.putExtra("post_id",timelineModel.id.toString())
                 context.startActivity(intent)
             }
 

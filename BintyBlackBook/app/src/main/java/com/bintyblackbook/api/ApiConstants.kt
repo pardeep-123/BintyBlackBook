@@ -23,6 +23,8 @@ class ApiConstants {
 
         const val ADD_POST="add_post"
 
+        const val EDIT_POST="edit_post"
+
         const val GET_CATEGORIES="get_categories"
 
         const val UPLOAD_MEDIA="upload_media"
@@ -56,6 +58,22 @@ class ApiConstants {
         const val ADD_COMMENT="add_comment"
 
         const val LIKE_EVENT="like_event"
+
+        const val MY_EVENTS="get_my_events"
+
+        const val POST_DETAIL="get_post_detail"
+
+        const val GET_AVAILABILITY="get_availability"
+
+        const val SEND_LOOP_REQUEST="send_loop_request"
+
+        const val UNSEND_LOOP_REQUEST="Unsend_loop_request"
+
+        const val ACCEPT_REJECT_REQUEST="accept_reject_loop_request"
+
+        const val EDIT_PROFILE= "edit_profile"
+
+        const val GET_ALL_BOOKINGS="get_all_booking"
     }
 
 }

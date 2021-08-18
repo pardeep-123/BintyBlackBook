@@ -9,12 +9,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.lifecycle.Observer
+import com.android.library.coachmark.components.CoachMarkInfo
+import com.android.library.coachmark.components.CoachMarkOverlay
+import com.android.library.coachmark.components.CoachMarkSkipButton
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
@@ -93,6 +97,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         tvTermsConditions.setOnClickListener(this)
         tv_loginAcct.setOnClickListener(this)
         signUpBtn.setOnClickListener(this)
+        ivBusinessInfo.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
@@ -115,6 +120,25 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             R.id.businessBtn->{
                 user_type="Business"
                 businessBtnClick()
+            }
+
+            R.id.ivBusinessInfo ->{
+//                CoachMarkOverlay.Builder(context)
+//                    .setOverlayTargetView(ivBusinessInfo)
+//                    .setInfoViewBuilder(
+//                        CoachMarkInfo.Builder(context)
+//                            .setInfoText("TextString").setMargin(30, 30, 30, 30))
+//                            .setSkipButtonBuilder(
+//                                CoachMarkSkipButton.Builder(context)
+//                                    .setButtonClickListener(object : CoachMarkSkipButton.ButtonClickListener {
+//                                        override fun onSkipButtonClick(view: View) {
+//                                            (window.decorView as ViewGroup).removeView(view)
+//
+//                                        }
+//                                    })
+//                                        .build()
+//                                        .show(viewToAttachCoachMark))
+
             }
             R.id.signUpBtn -> {
 

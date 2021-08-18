@@ -5,27 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
-import com.bintyblackbook.models.AvailabilityModel
+import com.bintyblackbook.model.AvailabilityData
+import com.bintyblackbook.model.Slot
+import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.item_time.view.*
 
-class CheckAvailabilityAdapter(var context: Context, var arrayList: ArrayList<AvailabilityModel>) :
+class CheckAvailabilityAdapter(var context: Context) :
     RecyclerView.Adapter<CheckAvailabilityAdapter.AvailabilityViewHolder>() {
+    var arrayList=  ArrayList<Slot>()
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): CheckAvailabilityAdapter.AvailabilityViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckAvailabilityAdapter.AvailabilityViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_time, parent, false)
         return AvailabilityViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: CheckAvailabilityAdapter.AvailabilityViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: CheckAvailabilityAdapter.AvailabilityViewHolder, position: Int) {
         holder.bind(position)
     }
 
@@ -39,8 +35,8 @@ class CheckAvailabilityAdapter(var context: Context, var arrayList: ArrayList<Av
         fun bind(pos: Int) {
             val availabilityModel = arrayList[pos]
 
-            tv_time.text = availabilityModel.time
-
+          //  tv_time.text = availabilityModel.time
+            tv_time.text= MyUtils.getTime(availabilityModel.slots.toString())
 
             itemView.setOnClickListener {
 

@@ -64,7 +64,7 @@
                     android:layout_toStartOf="@id/tvLocation"
                     android:layout_toEndOf="@id/civ_profile"
                     android:fontFamily="@font/romul"
-                    android:text="@string/john"
+                    android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13"
                     android:textStyle="bold" />
@@ -76,7 +76,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/trajanpro_regular"
-                    android:text="@string/arizona_usa"
+                    android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp12" />
 
@@ -101,7 +101,7 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginEnd="@dimen/dp8"
                 android:fontFamily="@font/trajanpro_regular"
-                android:text="@string/dummy_text"
+                android:text=""
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp10" />
 
@@ -124,7 +124,7 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginEnd="@dimen/dp8"
                 android:fontFamily="@font/trajanpro_regular"
-                android:text="@string/_3_year"
+                android:text=""
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp10" />
 
@@ -147,7 +147,7 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginEnd="@dimen/dp8"
                 android:fontFamily="@font/trajanpro_regular"
-                android:text="@string/www_google_com"
+                android:text=""
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp10" />
 

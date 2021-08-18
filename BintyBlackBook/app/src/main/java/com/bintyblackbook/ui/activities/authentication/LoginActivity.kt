@@ -48,9 +48,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                    }
                    saveUser(this,response!!)
 
-                   Log.i("response",t.msg.toString())
-                   val intent=Intent(this,HomeActivity::class.java)
-                   startActivity(intent)
+                   if(response.userType==0){
+                       val intent=Intent(this,HomeActivity::class.java)
+                       startActivity(intent)
+                   }
+                   else if(response.userType==1 && response.experience.isNullOrEmpty()){
+                       val intent =Intent(this,InfoActivity::class.java)
+                       startActivity(intent)
+                   }
+
+                   else{
+                       val intent =Intent(this,HomeActivity::class.java)
+                       startActivity(intent)
+                   }
                }
            else{
                    Toast.makeText(this,t.msg.toString(),Toast.LENGTH_LONG).show()

@@ -118,10 +118,10 @@ class InfoViewModel(val context: Context): ViewModel(){
     }
 
     //add/edit info
-    fun addEditInfo(security_key:String,auth_key:String,requestBody: RequestBody){
+    fun addEditInfo(security_key:String,auth_key:String,request:Map<String,RequestBody>, part:MultipartBody.Part){
 
         (context as InfoActivity).showProgressDialog()
-        ApiClient.apiService.addEditInfo(security_key,auth_key,requestBody).enqueue(object :
+        ApiClient.apiService.addEditInfo(security_key,auth_key,request,part).enqueue(object :
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

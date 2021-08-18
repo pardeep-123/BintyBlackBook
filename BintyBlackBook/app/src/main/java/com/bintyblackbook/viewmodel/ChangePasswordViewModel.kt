@@ -58,7 +58,7 @@ class ChangePasswordViewModel (var context: Context):ViewModel(){
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as ChangePasswordActivity).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK",{})
-                  //  (context as ChangePasswordActivity).showSnackBarMessage("" + response.message())
+
                 }
 
             }

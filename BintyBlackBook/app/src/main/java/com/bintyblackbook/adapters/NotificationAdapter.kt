@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.NotificationListData
 import com.bintyblackbook.models.NotificationModel
 import kotlinx.android.synthetic.main.item_notification.view.*
 
-class NotificationAdapter(var context: Context, var arrayList:ArrayList<NotificationModel>):
+class NotificationAdapter(var context: Context):
     RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
-
-    var onItemClick:((notificationModel:NotificationModel)->Unit)? = null
+     var arrayList= ArrayList<NotificationListData>()
+    var onItemClick:((notificationModel:NotificationListData)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_notification,parent,false)
@@ -33,7 +34,8 @@ class NotificationAdapter(var context: Context, var arrayList:ArrayList<Notifica
 
         fun bind(pos:Int){
             val notificationModel = arrayList[pos]
-            tvMessage.text = notificationModel.notificationMessage
+
+            tvMessage.text=notificationModel.message
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(notificationModel)

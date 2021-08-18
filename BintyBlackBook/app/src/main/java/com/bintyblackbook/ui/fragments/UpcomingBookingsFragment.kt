@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.UpcomingBookingAdapter
 import com.bintyblackbook.models.UpcomingBookingModel
+import com.bintyblackbook.viewmodel.BookingsViewModel
 import kotlinx.android.synthetic.main.fragment_upcoming_bookings.*
 
 
 class UpcomingBookingsFragment : Fragment() {
 
+    lateinit var bookingsViewModel: BookingsViewModel
     lateinit var upcomingArrayList:ArrayList<UpcomingBookingModel>
     var upcomingBookingAdapter:UpcomingBookingAdapter? = null
 
@@ -27,13 +29,20 @@ class UpcomingBookingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvUpcomingBookings.layoutManager = LinearLayoutManager(activity)
+
+        bookingsViewModel= BookingsViewModel(activity!!)
+
         upcomingArrayList = ArrayList()
 
         upcomingArrayList.add(UpcomingBookingModel(R.drawable.alina,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Accepted"))
         upcomingArrayList.add(UpcomingBookingModel(R.drawable.girl1,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Declined"))
         upcomingArrayList.add(UpcomingBookingModel(R.drawable.bamie,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Inprogress"))
+        setAdapter()
 
+    }
+
+    private fun setAdapter() {
+        rvUpcomingBookings.layoutManager = LinearLayoutManager(activity)
         upcomingBookingAdapter = UpcomingBookingAdapter(activity!!,upcomingArrayList)
         rvUpcomingBookings.adapter = upcomingBookingAdapter
     }

@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.BookingRequestAdapter
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.ui.dialogues.CancelDialogFragment
 import kotlinx.android.synthetic.main.activity_booking_request.*
 
-class BookingRequestActivity : AppCompatActivity() {
+class BookingRequestActivity : BaseActivity() {
 
     var bookingRequestAdapter:BookingRequestAdapter? = null
 

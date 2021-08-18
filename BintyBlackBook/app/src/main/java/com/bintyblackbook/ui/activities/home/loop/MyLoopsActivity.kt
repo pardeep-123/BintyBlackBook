@@ -97,7 +97,9 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     }
 
     override fun onItemClick(data: AllData, position: Int) {
-        startActivity(Intent(context, UserDetailActivity::class.java))
+        val intent= Intent(this,UserDetailActivity::class.java)
+        intent.putExtra("user_id",data.user2_id)
+        startActivity(intent)
     }
 
     override fun unLoop(data: AllData, position: Int) {

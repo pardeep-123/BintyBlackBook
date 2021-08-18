@@ -25,6 +25,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
     var horizontalImagesAdapter: HorizontalImagesAdapter? = null
     val arrayList = ArrayList<UserMedia>()
 
+    var response:Data?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile_business)
@@ -58,6 +59,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
         profileViewModel.profileObservable.observe(this, Observer {
             if (it.code==200){
+                response=it.data
                 setData(it.data)
             }
         })
@@ -80,9 +82,6 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
     private fun setAdapter() {
 
-//        arrayList.add(R.drawable.slider)
-//        arrayList.add(R.drawable.small2)
-
        //set adapter
         rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
         horizontalImagesAdapter = HorizontalImagesAdapter(this)
@@ -103,7 +102,9 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         when(v?.id){
 
             R.id.btnSetAvailability ->{
-                startActivity(Intent(this, AvailabilityActivity::class.java))
+                val intent= Intent(this,AvailabilityActivity::class.java)
+                intent.putExtra("user_id",response?.id.toString())
+                startActivity(intent)
             }
 
             R.id.btnEditProfile ->{

@@ -14,30 +14,34 @@ import com.bintyblackbook.ui.dialogues.FragmentDialog
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.LoopsViewModel
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class UserDetailActivity : BaseActivity() {
+class UserDetailActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var profileViewModel: ProfileViewModel
     var horizontalImagesAdapter:HorizontalImagesAdapter? = null
     var loopBtnClick = true
 
     var userId=""
+    var showChatBtn=false
+    var showChatAndUnLoopBtn=false
+    lateinit var loopsViewModel: LoopsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
 
         profileViewModel= ProfileViewModel(this)
-
+        loopsViewModel = LoopsViewModel(this)
+        getIntentData()
         getData()
         rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        val showChatBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_BTN,false)
-        userId=intent.getStringExtra("id").toString()
-        val showChatAndUnLoopBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN,false)
+
         if (showChatBtn){
             btnChat.visibility = View.VISIBLE
         }
@@ -48,43 +52,26 @@ class UserDetailActivity : BaseActivity() {
             btnLoop.visibility = View.GONE
         }
 
-        iv_back.setOnClickListener {
-            finish()
-        }
+        setOnClicks()
 
         headingText.visibility = View.GONE
 
         init()
 
-        btnAvailability.setOnClickListener {
-            val intent = Intent(this,CheckAvailabilityActivity::class.java)
-            startActivity(intent)
-        }
+    }
 
-        btnChat.setOnClickListener {
-            val intent = Intent(this,ChatActivity::class.java)
-            startActivity(intent)
-        }
+    private fun getIntentData() {
+        showChatBtn= intent.getBooleanExtra(AppConstant.SHOW_CHAT_BTN,false)
+        userId=intent.getStringExtra("user_id").toString()
+        showChatAndUnLoopBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN,false)
+    }
 
-        btnLoop.setOnClickListener {
-            if (loopBtnClick){
-                loopBtnClick = false
-                btnLoop.text = getString(R.string.cancel_loop_request)
-                val fragmentDialog = FragmentDialog("LoopRequest")
-                fragmentDialog.show(supportFragmentManager,"LoopDialog")
-            }else{
-                loopBtnClick = true
-                btnLoop.text = getString(R.string.loop)
-                val fragmentDialog = FragmentDialog("LoopRequestCancel")
-                fragmentDialog.show(supportFragmentManager,"LoopDialog")
-            }
-
-        }
-
-        btnEvent.setOnClickListener {
-            val intent = Intent(this,EventActivity::class.java)
-            startActivity(intent)
-        }
+    private fun setOnClicks() {
+        iv_back.setOnClickListener(this)
+        btnAvailability.setOnClickListener(this)
+        btnChat.setOnClickListener(this)
+        btnLoop.setOnClickListener(this)
+        btnEvent.setOnClickListener(this)
     }
 
     private fun getData() {
@@ -125,5 +112,57 @@ class UserDetailActivity : BaseActivity() {
         /*horizontalImagesAdapter?.onItemClick = {image: Int ->
             riv1.setImageResource(image)
         }*/
+    }
+
+    override fun onClick(v: View?) {
+
+        when(v?.id){
+            R.id.iv_back ->{
+                finish()
+            }
+
+            R.id.btnAvailability ->{
+                val intent = Intent(this,CheckAvailabilityActivity::class.java)
+                intent.putExtra("user_id",userId)
+                startActivity(intent)
+            }
+
+            R.id.btnChat ->{
+                val intent = Intent(this,ChatActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.btnLoop ->{
+                if (loopBtnClick){
+                    loopBtnClick = false
+                    btnLoop.text = getString(R.string.cancel_loop_request)
+                    loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+
+                    loopsViewModel.loopsLiveData.observe(this, Observer {
+
+                        if(it.code==200) {
+                            val fragmentDialog = FragmentDialog("LoopRequest")
+                            fragmentDialog.show(supportFragmentManager, "LoopDialog")
+                        }
+                    })
+
+                }else{
+                    loopBtnClick = true
+                    btnLoop.text = getString(R.string.loop)
+                    loopsViewModel.unSendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.unLoopLiveData.observe(this, Observer {
+                        if(it.code==200){
+                            val fragmentDialog = FragmentDialog("LoopRequestCancel")
+                            fragmentDialog.show(supportFragmentManager,"LoopDialog")
+                        }
+                    })
+                }
+            }
+
+            R.id.btnEvent ->{
+                val intent = Intent(this,EventActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }

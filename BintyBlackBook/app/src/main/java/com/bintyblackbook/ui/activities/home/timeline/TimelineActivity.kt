@@ -86,7 +86,7 @@ class TimelineActivity : BaseActivity() {
         timelineAdapter?.onItemClick = { timelineModel: PostData, clickOn: String ->
             if (clickOn=="imageClick" || clickOn=="nameClick"){
                 val intent = Intent(this,UserDetailActivity::class.java)
-                intent.putExtra("user_id",timelineModel.id)
+                intent.putExtra("user_id",timelineModel.userId.toString())
                 intent.putExtra(AppConstant.SHOW_CHAT_BTN,true)
                 startActivity(intent)
 
@@ -95,7 +95,8 @@ class TimelineActivity : BaseActivity() {
                 intent.putExtra("post_id",timelineModel.id)
                 intent.putExtra("description",timelineModel.description)
                 intent.putExtra("image",timelineModel.userImage)
-                intent.putExtra(AppConstant.HEADING,"Edit Past")
+                intent.putExtra(AppConstant.HEADING,"Edit Post")
+                intent.putExtra("screen_type","Edit Post")
                 startActivity(intent)
 
             }else if(clickOn=="deleteClick"){

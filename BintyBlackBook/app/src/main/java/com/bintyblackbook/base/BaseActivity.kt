@@ -43,8 +43,6 @@ open class BaseActivity : AppCompatActivity() {
     private val REQUEST_ID_MULTIPLE_PERMISSIONS = 1
     var imageuri1: Uri = Uri.EMPTY
 
-
-
     private val IMAGE_DIRECTORY = "/windealz"
 
     val TAG = "BaseActivity" // Activity Tag
@@ -57,7 +55,6 @@ open class BaseActivity : AppCompatActivity() {
         mProgress = CustomProgressDialog(this)
 
     }
-
 
     private fun showMessage(isConnected: Boolean) {
 
@@ -79,7 +76,7 @@ open class BaseActivity : AppCompatActivity() {
             }
 
         } catch (e: Exception) {
-Log.e("TAG",e.printStackTrace().toString())
+            Log.e("TAG", e.printStackTrace().toString())
         }
     }
 
@@ -90,27 +87,11 @@ Log.e("TAG",e.printStackTrace().toString())
     override fun onResume() {
         super.onResume()
 
-      //  ConnectivityReceiver.connectivityReceiverListener = this
-
+        //  ConnectivityReceiver.connectivityReceiverListener = this
 
 
     }
 
- /*   *//**
-     * Callback will be called when there is change
-     *//*
-    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        showMessage(isConnected)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        try {
-            unregisterReceiver(ConnectivityReceiver())
-        } catch (e: Exception) {
-            Log.e("TAG",e.printStackTrace().toString())
-        }
-    }*/
 
     //Navigate screen with finish a activity
     fun navigatewithFinish(destination: Class<*>) {
@@ -118,7 +99,6 @@ Log.e("TAG",e.printStackTrace().toString())
         startActivity(intent)
         finish()
     }
-
 
 
     //Show alert message
@@ -130,11 +110,13 @@ Log.e("TAG",e.printStackTrace().toString())
                         AlertDialog.Builder(this@BaseActivity)
                             .setMessage(message)
                             .setCancelable(false)
-                            .setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
-                                override fun onClick(arg0: DialogInterface, arg1: Int) {
-                                    arg0.dismiss()
-                                }
-                            }).create().show()
+                            .setPositiveButton(
+                                android.R.string.ok,
+                                object : DialogInterface.OnClickListener {
+                                    override fun onClick(arg0: DialogInterface, arg1: Int) {
+                                        arg0.dismiss()
+                                    }
+                                }).create().show()
 
                     } catch (ex: Exception) {
                         ex.printStackTrace()
@@ -147,7 +129,6 @@ Log.e("TAG",e.printStackTrace().toString())
     }
 
 
-
     //Show alert message
     fun showFinishAlert(message: String) {
         Handler(Looper.getMainLooper()).post(object : Runnable {
@@ -156,13 +137,15 @@ Log.e("TAG",e.printStackTrace().toString())
                     try {
                         AlertDialog.Builder(this@BaseActivity)
                             .setMessage(message)
-                            .setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
-                                override fun onClick(arg0: DialogInterface, arg1: Int) {
-                                    arg0.dismiss()
-                                    finish()
-                                }
+                            .setPositiveButton(
+                                android.R.string.ok,
+                                object : DialogInterface.OnClickListener {
+                                    override fun onClick(arg0: DialogInterface, arg1: Int) {
+                                        arg0.dismiss()
+                                        finish()
+                                    }
 
-                            }).create().show()
+                                }).create().show()
 
                     } catch (ex: Exception) {
                         ex.printStackTrace()
@@ -199,17 +182,17 @@ Log.e("TAG",e.printStackTrace().toString())
             mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
             mSnackBar?.show()
         } catch (e: Exception) {
-            Log.e("TAG",e.printStackTrace().toString())
+            Log.e("TAG", e.printStackTrace().toString())
         }
     }
 
 
-    fun showProgressDialog(){
+    fun showProgressDialog() {
         mProgress = CustomProgressDialog(this)
         mProgress!!.show()
     }
 
-    fun dismissProgressDialog(){
+    fun dismissProgressDialog() {
 
         mProgress!!.dismiss()
     }
@@ -224,16 +207,17 @@ Log.e("TAG",e.printStackTrace().toString())
         if (checkAndRequestPermissions()) {
             showPopUpPhoto()
         } else {
-            Log.e("TAG","Enable camera Permission")
+            Log.e("TAG", "Enable camera Permission")
         }
     }
 
-    fun showPopUpPhoto(){
+    fun showPopUpPhoto() {
 
         val pictureDialog = AlertDialog.Builder(this)
         pictureDialog.setTitle("Select Action")
         val pictureDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
-        pictureDialog.setItems(pictureDialogItems
+        pictureDialog.setItems(
+            pictureDialogItems
         ) { dialog, which ->
             when (which) {
                 0 -> choosePhotoFromGallary()
@@ -247,7 +231,8 @@ Log.e("TAG",e.printStackTrace().toString())
     fun choosePhotoFromGallary() {
         val galleryIntent = Intent(
             Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
 
         startActivityForResult(galleryIntent, PermissionUtils.GALLERYREQUESTCODE)
     }
@@ -256,7 +241,8 @@ Log.e("TAG",e.printStackTrace().toString())
     fun checkAndRequestPermissions(): Boolean {
 
         val camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-        val writepermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val writepermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 
         val listPermissionsNeeded = ArrayList<String>()
@@ -269,12 +255,15 @@ Log.e("TAG",e.printStackTrace().toString())
         }
 
         if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), REQUEST_ID_MULTIPLE_PERMISSIONS)
+            ActivityCompat.requestPermissions(
+                this,
+                listPermissionsNeeded.toTypedArray(),
+                REQUEST_ID_MULTIPLE_PERMISSIONS
+            )
             return false
         }
         return true
     }
-
 
 
     fun showDialogOK(message: String, okListener: DialogInterface.OnClickListener) {
@@ -287,14 +276,17 @@ Log.e("TAG",e.printStackTrace().toString())
     }
 
 
-
-
     fun explain(msg: String) {
         val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
         dialog.setMessage(msg)
             .setPositiveButton("Yes") { paramDialogInterface, paramInt ->
                 //  permissionsclass.requestPermission(type,code);
-                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:cabuser.com.heyviplimo")))
+                startActivity(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:cabuser.com.heyviplimo")
+                    )
+                )
             }
             .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> finish() }
         dialog.show()
@@ -330,9 +322,6 @@ Log.e("TAG",e.printStackTrace().toString())
     }
 
 
-
-
-
     public fun isGalleryPermissions(): Boolean {
 
         var isGranted: Boolean = false
@@ -363,8 +352,6 @@ Log.e("TAG",e.printStackTrace().toString())
     }
 
 
-
-
     //open camera if permision granted
     private fun camera() {
         var values: ContentValues = ContentValues()
@@ -375,8 +362,6 @@ Log.e("TAG",e.printStackTrace().toString())
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageuri1)
         startActivityForResult(intent, PermissionUtils.CAMERAPERMISSIONCODE)
     }
-
-
 
 
     public fun makeGalleryRequest() {
@@ -425,7 +410,8 @@ Log.e("TAG",e.printStackTrace().toString())
         matrix.postRotate(angle)
         return Bitmap.createBitmap(
             source, 0, 0, source.width, source.height,
-            matrix, true)
+            matrix, true
+        )
     }
 
     @Nullable
@@ -437,7 +423,8 @@ Log.e("TAG",e.printStackTrace().toString())
         if (DocumentsContract.isDocumentUri(this, aUri)) {
             val documentId = DocumentsContract.getDocumentId(aUri)
             if ("com.android.providers.media.documents" == aUri.getAuthority()) {
-                val id = documentId.split((":").toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()[1]
+                val id = documentId.split((":").toRegex()).dropLastWhile({ it.isEmpty() })
+                    .toTypedArray()[1]
                 val selection = MediaStore.Images.Media._ID + "=" + id
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection)
             } else if ("com.android.providers.downloads.documents" == aUri.getAuthority()) {
@@ -490,11 +477,6 @@ Log.e("TAG",e.printStackTrace().toString())
         activeNetworkInfo = cm.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
     }
-
-
-
-
-
 
 
 }

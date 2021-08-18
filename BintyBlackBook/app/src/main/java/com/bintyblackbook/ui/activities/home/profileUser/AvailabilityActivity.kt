@@ -7,39 +7,51 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
 import com.bintyblackbook.adapters.HorizontalCalendarAdapter
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.AvailabilityData
+import com.bintyblackbook.model.Slot
 import com.bintyblackbook.models.AvailabilityModel
 import com.bintyblackbook.models.HorizontalCalendarModel
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.AvailabilityViewModel
 import kotlinx.android.synthetic.main.activity_availability.*
 import kotlinx.android.synthetic.main.activity_availability.rlBack
 import kotlinx.android.synthetic.main.activity_availability.rlNext
 import kotlinx.android.synthetic.main.activity_availability.rlPrevious
 import kotlinx.android.synthetic.main.activity_availability.rvTime
 import java.util.*
+import kotlin.collections.ArrayList
 
-class AvailabilityActivity : AppCompatActivity() {
+class AvailabilityActivity : BaseActivity() {
 
+    lateinit var availabilityViewModel: AvailabilityViewModel
     private val calendar = Calendar.getInstance()
     private var currentMonth = 0
-    lateinit var arrayList: ArrayList<AvailabilityModel>
+    var arrayList = ArrayList<Slot>()
     private var itemPos = 0
+
+    var list= ArrayList<AvailabilityData>()
+    var checkAvailabilityAdapter:CheckAvailabilityAdapter?=null
+
+    var user_id=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_availability)
 
-        rlBack.setOnClickListener {
-            finish()
-        }
+        availabilityViewModel= AvailabilityViewModel(this)
+        user_id= intent?.getStringExtra("user_id").toString()
+        setOnClicks()
 
-        rlAdd.setOnClickListener {
-            startActivity(Intent(this,SetAvailabilityActivity::class.java))
-        }
+        setAdapter()
+
+        getAvailabilityList()
 
         horizontalCalendarSet()
 
-        arrayList = ArrayList()
 
-        arrayList.add(AvailabilityModel("12:00 AM", false))
+   /*     arrayList.add(AvailabilityModel("12:00 AM", false))
         arrayList.add(AvailabilityModel("01:00 AM", false))
         arrayList.add(AvailabilityModel("02:00 AM", false))
         arrayList.add(AvailabilityModel("03:00 AM", false))
@@ -62,9 +74,34 @@ class AvailabilityActivity : AppCompatActivity() {
         arrayList.add(AvailabilityModel("08:00 PM", false))
         arrayList.add(AvailabilityModel("-", false))
         arrayList.add(AvailabilityModel("10:00 PM", false))
-        arrayList.add(AvailabilityModel("11:00 PM", false))
+        arrayList.add(AvailabilityModel("11:00 PM", false))*/
 
-        rvTime.adapter = CheckAvailabilityAdapter(this, arrayList)
+
+    }
+
+    private fun getAvailabilityList() {
+        availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)!!.authKey,user_id)
+
+        availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
+            arrayList.addAll(it.data[0].slots)
+            checkAvailabilityAdapter?.notifyDataSetChanged()
+        })
+    }
+
+    private fun setAdapter() {
+        rvTime.adapter = CheckAvailabilityAdapter(this)
+        checkAvailabilityAdapter=CheckAvailabilityAdapter(this)
+        checkAvailabilityAdapter?.arrayList=arrayList
+    }
+
+    private fun setOnClicks() {
+        rlBack.setOnClickListener {
+            finish()
+        }
+
+        rlAdd.setOnClickListener {
+            startActivity(Intent(this,SetAvailabilityActivity::class.java))
+        }
     }
 
     private fun horizontalCalendarSet() {

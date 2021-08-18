@@ -8,6 +8,7 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.FavEventsResponse
 import com.bintyblackbook.model.UserEventsResponse
+import com.bintyblackbook.ui.activities.home.EventActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -149,6 +150,53 @@ class EventsViewModel(val context: Context) :ViewModel(){
                 } else {
                     val error: JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as EventCalenderActivity).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK"){}
+                }
+            }
+        })
+    }
+
+    /*
+    my events api
+     */
+
+    fun myEvents(securityKey: String,auth_key: String,userId:String){
+        (context as EventActivity).showProgressDialog()
+        ApiClient.apiService.myEvents(securityKey,auth_key, userId).enqueue(object : Callback<JsonElement>{
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+
+                try {
+                    (context as EventActivity).dismissProgressDialog()
+                    (context as EventActivity).showSnackBarMessage(t.localizedMessage)
+                }
+                catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+
+                if (response.isSuccessful){
+                    (context as EventActivity).dismissProgressDialog()
+
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        val error : JSONObject = JSONObject(response.errorBody()!!.string())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), UserEventsResponse::class.java)
+                            eventsLiveData.value = jsonObj
+                        }else{
+                            (context as EventActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                else {
+                    val error: JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as EventActivity).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK"){}
                 }
             }
