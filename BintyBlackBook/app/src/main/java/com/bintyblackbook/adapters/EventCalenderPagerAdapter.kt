@@ -20,8 +20,11 @@ class EventCalenderPagerAdapter(context: Context, fm: FragmentManager, totalTabs
             0 -> {
                 AllEventFragment()
             }
-            else -> {
+            1->{
                 FavouriteFragment()
+            }
+            else -> {
+                AllEventFragment()
             }
 
         }

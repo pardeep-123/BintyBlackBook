@@ -3,8 +3,10 @@ package com.bintyblackbook.viewmodel
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
+import com.bintyblackbook.model.BookingResponse
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -17,12 +19,11 @@ import java.lang.Exception
 class BookingsViewModel (val context: Context): ViewModel(){
 
     val baseLiveData = MutableLiveData<BaseResponseModel>()
-
+    val bookingsLiveData=MutableLiveData<BookingResponse>()
 
     /*
     get all bookings
      */
-
     fun getAllBookings(security_key:String, auth_key:String){
         (context as MyBookingsActivity).showProgressDialog()
 
@@ -44,8 +45,8 @@ class BookingsViewModel (val context: Context): ViewModel(){
                     val jsonObject= JSONObject(response.body()!!.toString())
 
                     if(jsonObject.getInt("code")==200){
-
-
+                        val value= BintyBookApplication.gson.fromJson(response.body(),BookingResponse::class.java)
+                        bookingsLiveData.value=value
                     }
 
                 }else{
@@ -57,7 +58,5 @@ class BookingsViewModel (val context: Context): ViewModel(){
             }
 
         })
-
-
     }
 }

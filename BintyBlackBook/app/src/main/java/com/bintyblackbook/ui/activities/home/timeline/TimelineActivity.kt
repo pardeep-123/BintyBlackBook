@@ -105,6 +105,12 @@ class TimelineActivity : BaseActivity() {
                 dialog.show(supportFragmentManager,"postDelete")
             }
         }
+
+        timelineAdapter?.onCommentClick={ timelineModel: PostData->
+            val intent = Intent(context,CommentsActivity::class.java)
+            intent.putExtra("post_id",timelineModel.id.toString())
+            startActivity(intent)
+        }
     }
 
     fun deletePost(){

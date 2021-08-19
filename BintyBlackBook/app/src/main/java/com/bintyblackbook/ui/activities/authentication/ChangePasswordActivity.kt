@@ -43,12 +43,10 @@ class ChangePasswordActivity : BaseActivity(), View.OnClickListener {
                     && Validations.isEmpty(this,etNewPass,getString(R.string.err_new_pass))
                     && Validations.confirmPassword(this,etNewPass,etConfirmPass,getString(R.string.pass_does_not_match))
                 ){
-                    changePasswordViewModel.changePassword(getSecurityKey(this)!!,
-                        getUser(this)?.authKey.toString(),
+                    changePasswordViewModel.changePassword(getSecurityKey(this)!!, getUser(this)?.authKey.toString(),
                     etOldPass.text.toString(),etConfirmPass.text.toString())
                     setObservables()
                 }
-                finish()
             }
         }
     }
@@ -56,12 +54,12 @@ class ChangePasswordActivity : BaseActivity(), View.OnClickListener {
     private fun setObservables() {
         changePasswordViewModel.changePassLiveData.observe(this, Observer {
             if(it.code==200){
-                showAlertWithOk(it.msg.toString())
-                finish()
+             showAlert(this,it.msg,getString(R.string.ok)){
+                 finish()
+             }
             }
             else{
-                Log.e("TAG",it.msg.toString())
-                showAlertWithOk(it.msg.toString())
+                showAlert(this,it.msg,getString(R.string.ok)){}
             }
         })
     }

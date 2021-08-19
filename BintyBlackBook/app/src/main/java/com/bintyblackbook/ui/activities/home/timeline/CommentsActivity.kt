@@ -13,6 +13,7 @@ import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.CommentsViewModel
 import com.bintyblackbook.viewmodel.PostsViewModel
 import kotlinx.android.synthetic.main.activity_comments.*
+import java.util.*
 
 class CommentsActivity : BaseActivity() {
 

@@ -74,6 +74,11 @@ class ApiConstants {
         const val EDIT_PROFILE= "edit_profile"
 
         const val GET_ALL_BOOKINGS="get_all_booking"
+
+        const val GET_BLOCKED_USERS="get_blocked_user"
+
+        const val UNBLOCK_USER="un_block_user"
+
     }
 
 }

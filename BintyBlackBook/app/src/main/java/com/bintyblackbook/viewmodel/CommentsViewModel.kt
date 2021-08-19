@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.CommentsResponse
-import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject
@@ -27,14 +27,14 @@ class CommentsViewModel(val context: Context): ViewModel(){
    */
 
     fun getComments(securityKey: String,auth_key: String,post_id:String){
-        (context as CommentsActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.getComments(securityKey,auth_key, post_id).enqueue(object :
             Callback<JsonElement> {
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as CommentsActivity).dismissProgressDialog()
-                    (context as CommentsActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -43,7 +43,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as CommentsActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -51,7 +51,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), CommentsResponse::class.java)
                             commentLiveData.value = jsonObj
                         }else{
-                            showAlert(context as CommentsActivity,jsonDATA.getString("msg"),"Ok",{})
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
 
                         }
 
@@ -60,27 +60,25 @@ class CommentsViewModel(val context: Context): ViewModel(){
                     }
                 } else {
                     val jsonObject: JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as CommentsActivity).dismissProgressDialog()
-                    showAlert(context, jsonObject.getString("msg").toString(),"OK",{})
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity, jsonObject.getString("msg").toString(),"OK",{})
                 }
             }
-
         })
     }
 
     /*
     add comment
      */
-
     fun addComment(securityKey: String,auth_key: String,post_id:String,comment:String){
-        (context as CommentsActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addComment(securityKey,auth_key, post_id,comment).enqueue(object :
             Callback<JsonElement> {
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as CommentsActivity).dismissProgressDialog()
-                    (context as CommentsActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -89,7 +87,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as CommentsActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -97,7 +95,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             addCommentLiveData.value = jsonObj
                         }else{
-                            showAlert(context as CommentsActivity,jsonDATA.getString("msg"),"Ok",{})
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
 
                         }
 
@@ -106,8 +104,8 @@ class CommentsViewModel(val context: Context): ViewModel(){
                     }
                 } else {
                     val jsonObject: JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as CommentsActivity).dismissProgressDialog()
-                    showAlert(context, jsonObject.getString("msg").toString(),"OK",{})
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity, jsonObject.getString("msg").toString(),"OK",{})
                 }
             }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppTheme"
+        app:layout_constraintTop_toTopOf="parent"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp">
 
@@ -48,12 +50,25 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tbMain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvComments"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/rlMsgInput"
-        android:layout_below="@id/tbMain"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rlMsgInput"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18" />
 
@@ -63,6 +78,10 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@color/whiteColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:fontFamily="@font/romul"
         android:text="@string/no_data_found"
         android:visibility="gone"
@@ -74,6 +93,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/dp5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvComments"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/type"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18">
@@ -117,4 +140,9 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

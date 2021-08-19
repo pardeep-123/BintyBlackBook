@@ -2,6 +2,7 @@ package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
@@ -24,11 +25,16 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
 
         profileViewModel= ProfileViewModel(this)
 
-        profileViewModel.userProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)!!.id.toString())
-        setObservables()
+        getProfileData()
+
         setOnClicks()
 
         headingText.text = getString(R.string.my_profile)
+    }
+
+    private fun getProfileData() {
+        profileViewModel.userProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)!!.id.toString())
+        setObservables()
     }
 
     private fun setObservables() {
@@ -44,7 +50,10 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         tvEmail.text=it?.email
         tvPhoneNumber.text= it?.countryCode +" " +it?.phone
         tvAbout.text =it?.description
-        Glide.with(this).load(it?.image).into(ivUserProfile)
+        runOnUiThread {
+            Glide.with(this).load(it?.image).into(ivUserProfile)
+        }
+
     }
 
     private fun setOnClicks() {
@@ -60,11 +69,17 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnEditProfile -> {
-                startActivity(Intent(this, EditProfileActivity::class.java))
+                val intent= Intent(this,EditProfileActivity::class.java)
+                startActivity(intent)
             }
             R.id.btnEvent ->{
                 startActivity(Intent(this, EventInProfileActivity::class.java))
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        getProfileData()
     }
 }

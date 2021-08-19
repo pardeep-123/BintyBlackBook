@@ -1,12 +1,9 @@
-
-
 package com.bintyblackbook.ui.activities.home.settings
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
@@ -43,6 +40,17 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     private fun getNotificationStatus() {
         settingsViewModel.getNotificationStatus(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        settingsViewModel.notificationLiveData.observe(this, Observer {
+
+            if(it.data?.notificationStatus==1){
+                ivNotificationToggle.setImageResource(R.drawable.off)
+                clicked=false
+            }
+            else{
+                ivNotificationToggle.setImageResource(R.drawable.on)
+                clicked=true
+            }
+        })
     }
 
     fun clickHandles(){
@@ -84,13 +92,32 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.ivNotificationToggle -> {
                 if (clicked==false) {
-                    ivNotificationToggle.setImageResource(R.drawable.on)
+                    updateNotificationStatus("0")
                     clicked=true
                 } else {
-                    ivNotificationToggle.setImageResource(R.drawable.off)
+                   updateNotificationStatus("1")
                     clicked=false
                 }
             }
         }
+    }
+
+    fun updateNotificationStatus(status:String){
+        settingsViewModel.addNotificationStatus(getSecurityKey(context)!!, getUser(context)?.authKey!!,status)
+
+        settingsViewModel.notificationLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                showAlertWithOk("Notification updated successfully")
+            }
+            if(it?.data?.notificationStatus==1){
+                ivNotificationToggle.setImageResource(R.drawable.off)
+            }
+
+            else{
+                ivNotificationToggle.setImageResource(R.drawable.on)
+            }
+        })
+
     }
 }

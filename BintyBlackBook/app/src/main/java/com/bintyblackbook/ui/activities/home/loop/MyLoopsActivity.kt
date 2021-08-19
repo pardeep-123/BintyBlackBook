@@ -64,6 +64,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
                 else{
                     rvMyLoops.visibility=View.VISIBLE
                     tvNoLoops.visibility=View.GONE
+                    loopList.clear()
                     loopList.addAll(it.data.allData)
                     myLoopsAdapter?.notifyDataSetChanged()
                 }
@@ -98,19 +99,19 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
 
     override fun onItemClick(data: AllData, position: Int) {
         val intent= Intent(this,UserDetailActivity::class.java)
-        intent.putExtra("user_id",data.user2_id)
+        intent.putExtra("user_id",data.user2_id.toString())
         startActivity(intent)
     }
 
     override fun unLoop(data: AllData, position: Int) {
-        unloop_id=data.id.toString()
-        val fragmentDialog = UnLoopDialogFragment(this)
+        unloop_id=data.user2_id.toString()
+        val fragmentDialog = UnLoopDialogFragment(this,data.userName)
         fragmentDialog.show(this.supportFragmentManager,"LoopDialog")
     }
 
     fun unLoopRequest(){
         loopsViewModel.unLoop(getSecurityKey(context)!!, getUser(context)?.authKey!!,unloop_id)
-        loopsViewModel.unLoopLiveData.observe(this, Observer {
+        loopsViewModel.baseLiveData.observe(this, Observer {
             if(it.code==200){
                 showAlertWithOk(it.msg)
             }

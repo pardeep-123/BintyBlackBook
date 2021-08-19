@@ -18,21 +18,26 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 
 class EditProfileActivity : ImagePickerUtility() {
 
     var selectedFile:File?=null
     lateinit var profileViewModel: ProfileViewModel
     var mProgress: CustomProgressDialog? = null
+    var selectedVideoUri:Uri?=null
     private var mSnackBar: Snackbar? = null
-    override fun selectedImage(imagePath: File?) {
 
+    var profile_image:String=""
+
+    override fun selectedImage(imagePath: File?) {
         Glide.with(this).load(imagePath).into(civ_profile)
         selectedFile=imagePath
     }
 
     override fun selectedVideoUri(videoUri: Uri?) {
-
+        selectedVideoUri=videoUri
+        Glide.with(this).load(selectedVideoUri).into(civ_profile)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +60,8 @@ class EditProfileActivity : ImagePickerUtility() {
         edtEmail.setText(user?.email)
         edtMobileNo.setText(user?.phone)
         if(!user?.image.isNullOrEmpty()){
-            Glide.with(this).load(user?.image).into(civ_profile)
+            profile_image=user?.image!!
+            Glide.with(this).load(user.image).into(civ_profile)
         }
 
     }
@@ -81,13 +87,14 @@ class EditProfileActivity : ImagePickerUtility() {
             && Validations.isEmpty(this,edtAbout,"About not be empty")){
 
             val map= HashMap<String,RequestBody>()
-            map.put("name",createRequestBody(edtUserName.text.toString()))
-            map.put("email",createRequestBody(edtEmail.text.toString()))
-            map.put("country_code",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
-            map.put("phone", createRequestBody(edtMobileNo.text.toString()))
-            map.put("description",createRequestBody(edtAbout.text.toString()))
+            map["name"] = createRequestBody(edtUserName.text.toString())
+            map["email"] = createRequestBody(edtEmail.text.toString())
+            map["country_code"] = createRequestBody(ccp.selectedCountryCodeWithPlus.toString())
+            map["phone"] = createRequestBody(edtMobileNo.text.toString())
+            map["description"] = createRequestBody(edtAbout.text.toString())
 
-            var imagenPerfil: MultipartBody.Part? = null
+            var imagenPerfil: MultipartBody.Part?=null
+
             if (selectedFile != null) {
 
                 // create RequestBody instance from file
@@ -96,7 +103,17 @@ class EditProfileActivity : ImagePickerUtility() {
                 imagenPerfil = MultipartBody.Part.createFormData("image", selectedFile?.name, requestFile)
             }
 
-            profileViewModel.editProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil!!)
+
+           /* else {
+                if(!profile_image.isNullOrEmpty()){
+                    val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image!!)
+                    // MultipartBody.Part is used to send also the actual file name
+                    imagenPerfil = MultipartBody.Part.createFormData("image", profile_image, requestFile)
+                }
+            }*/
+            setObservables()
+
+            profileViewModel.editProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             profileViewModel.profileObservable.observe(this, Observer {
                 saveUser(this,it.data!!)
                 showAlert(this,it.msg,getString(R.string.ok)){
@@ -105,6 +122,20 @@ class EditProfileActivity : ImagePickerUtility() {
 
             })
         }
+    }
+
+    private fun setObservables() {
+        profileViewModel.profileObservable.observe(this, Observer {
+
+            if(it.code==200){
+                saveUser(this,it.data!!)
+                showAlert(this,it.msg,getString(R.string.ok)){
+                    finish()
+                }
+                Log.i("TAG",it.msg.toString())
+            }
+
+        })
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -138,11 +169,7 @@ class EditProfileActivity : ImagePickerUtility() {
 
     fun showSnackBarMessage(msg: String) {
         try {
-            mSnackBar = Snackbar.make(
-                getWindow().getDecorView().getRootView(),
-                msg,
-                Snackbar.LENGTH_LONG
-            ) //Assume "rootLayout" as the root layout of every activity.
+            mSnackBar = Snackbar.make(getWindow().getDecorView().getRootView(), msg, Snackbar.LENGTH_LONG) //Assume "rootLayout" as the root layout of every activity.
             mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
             mSnackBar?.show()
         } catch (e: Exception) {

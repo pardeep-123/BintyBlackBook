@@ -9,15 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
-import com.bintyblackbook.models.EventsModel
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events.view.*
 
 
-class EventAdapter(var context: Context, var arrayList: ArrayList<EventData>) :
-    RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
-
+class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+    var arrayList= ArrayList<EventData>()
     var onItemClick:((eventsModel:EventData)->Unit)?= null
 
     var onSelectFav:((eventsModel:EventData) ->Unit)?=null
@@ -47,16 +45,16 @@ class EventAdapter(var context: Context, var arrayList: ArrayList<EventData>) :
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
 
-            if (eventsModel.isFavourite == 1){
+            if(eventsModel.isFavourite==1){
                 ivHeart.setImageResource(R.drawable.fill_heart)
             }else{
-                ivHeart.setImageResource(R.drawable.unfill_heart)
+                ivHeart.setImageResource(R.drawable.heart_new)
             }
 
             ivHeart.setOnClickListener {
                 eventsModel.isFavourite = 1
                 notifyDataSetChanged()
-                onSelectFav?.invoke(eventsModel,)
+                onSelectFav?.invoke(eventsModel)
             }
 
             itemView.setOnClickListener {

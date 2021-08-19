@@ -41,7 +41,6 @@ class AvailabilityViewModel (val context: Context): ViewModel(){
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
                     (context as BaseActivity).dismissProgressDialog()
-
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         val error : JSONObject = JSONObject(response.errorBody()!!.string())

@@ -35,7 +35,7 @@ class HorizontalImagesAdapter(var context: Context) : RecyclerView.Adapter<Horiz
 
         fun bind(pos: Int) {
             val position = arrayList[pos]
-            Glide.with(context).load(position.image).into(roundedImageView)
+            Glide.with(context).load(position.media).into(roundedImageView)
            // roundedImageView.setImageResource(position)
 
             itemView.setOnClickListener {

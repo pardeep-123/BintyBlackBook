@@ -1,16 +1,12 @@
 package com.bintyblackbook.ui.activities.home
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
 import com.bintyblackbook.adapters.HorizontalCalendarAdapter
-import com.bintyblackbook.adapters.HorizontalImagesAdapter
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
-import com.bintyblackbook.models.AvailabilityModel
 import com.bintyblackbook.models.HorizontalCalendarModel
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
@@ -24,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_check_availability.rvDate
 import kotlinx.android.synthetic.main.activity_check_availability.rvTime
 import kotlinx.android.synthetic.main.activity_my_profile_business.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CheckAvailabilityActivity : BaseActivity() {

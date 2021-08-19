@@ -39,7 +39,9 @@ data class Data(
 )
 
 class UserMedia {
- val image:String=""
+    val media:String=""
+    val id:Int=0
+    val userId:Int=0
 }
 
 data class Category(

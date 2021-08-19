@@ -9,16 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.lifecycle.Observer
-import com.android.library.coachmark.components.CoachMarkInfo
-import com.android.library.coachmark.components.CoachMarkOverlay
-import com.android.library.coachmark.components.CoachMarkSkipButton
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
@@ -39,6 +34,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 
 
 class SignupActivity : ImagePickerUtility(), View.OnClickListener {
@@ -285,12 +281,12 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 Log.i("TAG",it.data.toString())
 
                 if(it.data.userType==0){
-                    val intent = Intent(context, HomeActivity::class.java)
+                    val intent = Intent(context,LoginActivity::class.java)
                     startActivity(intent)
                     finishAffinity()
                 }
                 else{
-                    val intent= Intent(context, InfoActivity::class.java)
+                    val intent= Intent(context, LoginActivity::class.java)
                     startActivity(intent)
                 }
 

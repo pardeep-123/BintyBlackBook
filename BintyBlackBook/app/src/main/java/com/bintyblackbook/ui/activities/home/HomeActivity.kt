@@ -38,7 +38,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
         userType = MySharedPreferences.getUserType(this)
-        drawerClose()
 
         if(userType.equals("Business")){
             ll_promote.visibility = View.VISIBLE

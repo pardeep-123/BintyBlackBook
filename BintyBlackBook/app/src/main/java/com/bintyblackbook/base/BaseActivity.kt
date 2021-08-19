@@ -17,7 +17,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
@@ -179,7 +178,7 @@ open class BaseActivity : AppCompatActivity() {
                 msg,
                 Snackbar.LENGTH_LONG
             ) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
+            mSnackBar?.duration = Snackbar.LENGTH_SHORT
             mSnackBar?.show()
         } catch (e: Exception) {
             Log.e("TAG", e.printStackTrace().toString())
@@ -189,12 +188,12 @@ open class BaseActivity : AppCompatActivity() {
 
     fun showProgressDialog() {
         mProgress = CustomProgressDialog(this)
-        mProgress!!.show()
+        mProgress?.show()
     }
 
     fun dismissProgressDialog() {
 
-        mProgress!!.dismiss()
+        mProgress?.dismiss()
     }
 
     fun showToast(msg: String) {
@@ -477,6 +476,9 @@ open class BaseActivity : AppCompatActivity() {
         activeNetworkInfo = cm.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
     }
-
+    override fun onDestroy() {
+        if (mProgress != null && mProgress?.isShowing()!!) mProgress?.dismiss()
+        super.onDestroy()
+    }
 
 }

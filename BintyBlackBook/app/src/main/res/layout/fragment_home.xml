@@ -7,10 +7,23 @@
     android:background="@color/themeColor"
     tools:context=".ui.fragments.HomeFragment">
 
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/whiteColor"
+        android:text="@string/directory"
+        android:textSize="@dimen/sp16"
+        android:fontFamily="@font/romul"
+        android:layout_marginTop="@dimen/dp10"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="@dimen/dp10"
         android:paddingTop="@dimen/dp10" />
 
     <TextView

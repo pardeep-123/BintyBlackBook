@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.CommentsResponse
 import com.bintyblackbook.model.PostResponseModel
@@ -82,16 +83,14 @@ class PostsViewModel (val context: Context):ViewModel(){
 
     fun allPostList(securityKey:String,auth_key:String){
 
-        (context as TimelineActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.getPosts(securityKey,auth_key).enqueue(object :
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as TimelineActivity).dismissProgressDialog()
-                    (context as TimelineActivity).showSnackBarMessage("" + t.message)
-                    Log.e("TAG", "" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -99,16 +98,14 @@ class PostsViewModel (val context: Context):ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as TimelineActivity).dismissProgressDialog()
-
+                    (context as BaseActivity).dismissProgressDialog()
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), PostResponseModel::class.java)
                             postListLiveData.value = jsonObj
                         }else{
-                            showAlert(context as MyLoopsActivity,jsonDATA.getString("msg"),"Ok",{})
-                            //(context as SignupActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -116,10 +113,9 @@ class PostsViewModel (val context: Context):ViewModel(){
                     }
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as MyLoopsActivity).dismissProgressDialog()
-                    showAlert(context as MyLoopsActivity,error.getString("msg").toString(),"OK",{})
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK"){}
                 }
-
             }
         })
     }
@@ -127,18 +123,17 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     delete post
      */
-
     fun deletePost(securityKey:String,auth_key:String,post_id:String){
 
-        (context as TimelineActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.deletePost(securityKey,auth_key,post_id).enqueue(object :
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as TimelineActivity).dismissProgressDialog()
-                    (context as TimelineActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -147,7 +142,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as TimelineActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -155,8 +150,7 @@ class PostsViewModel (val context: Context):ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             addPostLiveData.value = jsonObj
                         }else{
-                            showAlert(context as MyLoopsActivity,jsonDATA.getString("msg"),"Ok",{})
-                            //(context as SignupActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
                         }
 
                     } catch (e: Exception) {
@@ -164,8 +158,8 @@ class PostsViewModel (val context: Context):ViewModel(){
                     }
                 } else {
                     val jsonObject:JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as TimelineActivity).dismissProgressDialog()
-                    showAlert(context, jsonObject.getString("msg").toString(),"OK",{})
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity, jsonObject.getString("msg").toString(),"OK",{})
                 }
 
             }

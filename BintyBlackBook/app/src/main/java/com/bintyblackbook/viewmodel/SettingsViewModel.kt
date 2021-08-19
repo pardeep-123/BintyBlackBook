@@ -24,18 +24,17 @@ class SettingsViewModel (val context: Context): ViewModel(){
     val notificationLiveData=MutableLiveData<NotificationStatusResponse>()
     val contentLiveData = MutableLiveData<ContentResponse>()
 
-    //// add/update notification status
-
+    // add/update notification status
     fun addNotificationStatus(security_key:String,auth_key:String,status:String){
 
-        (context as SettingsActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addNotificationStatus(security_key,auth_key,status
-        ).enqueue(object : retrofit2.Callback<JsonElement> {
+        ).enqueue(object : Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
-                    (context as SettingsActivity).dismissProgressDialog()
-                    (context as SettingsActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -44,7 +43,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as SettingsActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -53,7 +52,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), NotificationStatusResponse::class.java)
                             notificationLiveData.value = jsonObj
                         }else{
-                            (context as SettingsActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            (context as BaseActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -61,8 +60,8 @@ class SettingsViewModel (val context: Context): ViewModel(){
                     }
                 } else {
                     val jsonObject:JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as SettingsActivity).dismissProgressDialog()
-                    (context as SettingsActivity).showAlertWithOk(jsonObject.getString("msg"))
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showAlertWithOk(jsonObject.getString("msg"))
                 }
 
             }
@@ -72,14 +71,14 @@ class SettingsViewModel (val context: Context): ViewModel(){
     //get notification status
     fun getNotificationStatus(security_key:String,auth_key:String){
 
-        (context as SettingsActivity).showProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.getNotificationStatus(security_key,auth_key
-        ).enqueue(object : retrofit2.Callback<JsonElement> {
+        ).enqueue(object : Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
-                    (context as SettingsActivity).dismissProgressDialog()
-                    (context as SettingsActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -88,8 +87,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as SettingsActivity).dismissProgressDialog()
-
+                    (context as BaseActivity).dismissProgressDialog()
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
 
@@ -97,7 +95,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), NotificationStatusResponse::class.java)
                             notificationLiveData.value = jsonObj
                         }else{
-                            (context as SettingsActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            (context as BaseActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -105,8 +103,8 @@ class SettingsViewModel (val context: Context): ViewModel(){
                     }
                 } else {
                     val errorObj:JSONObject= JSONObject(response.errorBody()!!.string())
-                    (context as SettingsActivity).dismissProgressDialog()
-                    (context as SettingsActivity).showAlertWithOk(errorObj.getString("msg"))
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showAlertWithOk(errorObj.getString("msg"))
                 }
 
             }
@@ -117,12 +115,12 @@ class SettingsViewModel (val context: Context): ViewModel(){
     //all content api
 
     fun getContent(security_key: String,auth_key: String,type:String){
-        (context as PrivacyPolicyActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.allContent(security_key, auth_key, type).enqueue(object :Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
-                    (context as PrivacyPolicyActivity).dismissProgressDialog()
-                    (context as PrivacyPolicyActivity).showSnackBarMessage(t.localizedMessage)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
                 }catch (e:java.lang.Exception){
                     e.printStackTrace()
                 }
@@ -131,7 +129,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
 
                 if (response.isSuccessful) {
-                    (context as PrivacyPolicyActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -140,7 +138,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), ContentResponse::class.java)
                             contentLiveData.value = jsonObj
                         }else{
-                            (context as PrivacyPolicyActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            (context as BaseActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -148,8 +146,8 @@ class SettingsViewModel (val context: Context): ViewModel(){
                     }
                 } else {
                     val errorObj:JSONObject= JSONObject(response.errorBody()!!.string())
-                    (context as PrivacyPolicyActivity).dismissProgressDialog()
-                    (context as PrivacyPolicyActivity).showAlertWithOk(errorObj.getString("msg"))
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showAlertWithOk(errorObj.getString("msg"))
                 }
             }
 

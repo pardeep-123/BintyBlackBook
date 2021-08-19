@@ -15,15 +15,10 @@ class EventCalenderActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_calender)
-
         setOnClicks()
 
-        tabLayout.addTab(tabLayout.newTab().setText("All Events"))
-        tabLayout.addTab(tabLayout.newTab().setText("Favourite"))
+        setTabLayout()
 
-        val adapter = EventCalenderPagerAdapter(this, supportFragmentManager, tabLayout.tabCount)
-        viewPager.adapter = adapter
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -38,6 +33,17 @@ class EventCalenderActivity : BaseActivity() {
 
             }
         })
+
+        val adapter = EventCalenderPagerAdapter(this, supportFragmentManager, tabLayout.tabCount)
+        viewPager.adapter = adapter
+        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        viewPager.currentItem = 0
+
+    }
+
+    private fun setTabLayout() {
+        tabLayout.addTab(tabLayout.newTab().setText("All Events"))
+        tabLayout.addTab(tabLayout.newTab().setText("Favourite"))
     }
 
     private fun setOnClicks() {

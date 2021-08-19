@@ -8,5 +8,5 @@ class ContentResponse :BaseResponseModel(){
 class ContentData {
     val id:String?=null
     val privacy:String?=null
-    val terms:String?=null
+    val term:String?=null
 }

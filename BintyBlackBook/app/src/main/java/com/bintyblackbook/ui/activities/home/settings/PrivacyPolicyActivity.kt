@@ -1,9 +1,8 @@
 package com.bintyblackbook.ui.activities.home.settings
 
 import android.os.Bundle
-import android.text.Html
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
@@ -22,12 +21,11 @@ class PrivacyPolicyActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_privacy_policy)
         settingsViewModel= SettingsViewModel(this)
 
-
-        if (intent.getStringExtra("from").equals("terms")) {
-            tvHeading.setText("TERMS & CONDITIONS")
+        if (intent.getStringExtra("from")?.equals("terms")!!) {
+            tvHeading.text = "TERMS & CONDITIONS"
             type="1"
         } else {
-            tvHeading.setText("PRIVACY POLICY")
+            tvHeading.text = "PRIVACY POLICY"
             type="2"
         }
 
@@ -41,11 +39,13 @@ class PrivacyPolicyActivity : BaseActivity(), View.OnClickListener {
         settingsViewModel.contentLiveData.observe(this, Observer {
 
             if (it?.code==200){
-                if(type.equals("1"))
-                    tv_content.text = Html.fromHtml(it.data?.terms)
-            }
-            else{
-                tv_content.text=Html.fromHtml(it.data?.privacy)
+                if(type == "1"){
+                    tv_content.text = HtmlCompat.fromHtml(it.data?.term!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                }
+                 else {
+                    tv_content.text =
+                        HtmlCompat.fromHtml(it.data?.privacy!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                }
             }
 
         })

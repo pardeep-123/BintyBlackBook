@@ -2,7 +2,6 @@ package com.bintyblackbook.ui.activities.home.bookings
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.BookingsPagerAdapter
@@ -15,33 +14,18 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import kotlinx.android.synthetic.main.activity_my_bookings.*
 
-
 class MyBookingsActivity : BaseActivity() {
 
-    lateinit var bookingsViewModel: BookingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_bookings)
-
-        bookingsViewModel= BookingsViewModel(this)
 
         rlBack.setOnClickListener {
             finish()
         }
 
         setTabLayout()
-        getAllBookings()
-    }
-
-    private fun getAllBookings() {
-        bookingsViewModel.getAllBookings(getSecurityKey(this)!!, getUser(this)?.authKey!!)
-
-        bookingsViewModel.baseLiveData.observe(this, Observer {
-            if(it.code==200){
-                Log.i("TAG",it.msg)
-            }
-        })
     }
 
     private fun setTabLayout() {

@@ -35,17 +35,23 @@ class AllEventFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        eventsViewModel= EventsViewModel(activity!!)
+        super.onViewCreated(view,savedInstanceState)
+        eventsViewModel= EventsViewModel()
 
         init()
         getAllEvents()
     }
 
+  /*  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser)
+        getAllEvents()
+    }
+*/
     private fun getAllEvents() {
-        eventsViewModel.getOtherUserEvents(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
+        eventsViewModel.getOtherUserEvents(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
 
-        eventsViewModel.eventsLiveData.observe(activity!!, Observer {
+        eventsViewModel.eventsLiveData.observe(requireActivity(), Observer {
             if (it.code==200){
                 if(it.data.size==0){
                     arrayList.addAll(it.data)
@@ -57,9 +63,11 @@ class AllEventFragment : Fragment() {
     }
 
     private fun init(){
-        eventAdapter = EventAdapter(activity!!,arrayList)
-        rvAllEvents.adapter = eventAdapter
+        eventAdapter = EventAdapter(requireContext())
+
         rvAllEvents.layoutManager = GridLayoutManager(activity,2)
+        rvAllEvents.adapter = eventAdapter
+        eventAdapter?.arrayList=arrayList
         adapterItemClick()
     }
 

@@ -2,13 +2,18 @@ package com.bintyblackbook.ui.activities.home
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.EventData
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.EventsViewModel
 import com.bintyblackbook.viewmodel.PostsViewModel
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -16,16 +21,16 @@ class EventDetailActivity : BaseActivity() {
 
     var heartSelected = true
 
-    var post_id=""
-    lateinit var postsViewModel: PostsViewModel
+    var post_id:Int=0
+    lateinit var eventsViewModel: EventsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail)
 
-        postsViewModel= PostsViewModel(this)
+        eventsViewModel= EventsViewModel()
+        post_id= intent.getIntExtra("post_id",0)
         val heading = intent.getStringExtra(AppConstant.HEADING)
-        post_id=intent.getStringExtra("post_id").toString()
 
         setOnClicks()
 
@@ -33,17 +38,35 @@ class EventDetailActivity : BaseActivity() {
         if (heading != null) {
             headingText.text = heading
         }
-
-
     }
 
-    private fun getEventDetail(postId: String) {
-        postsViewModel.postDetail(getSecurityKey(context)!!, getUser(context)?.authKey!!,post_id)
-        postsViewModel.addPostLiveData.observe(this, Observer {
+    private fun getEventDetail(postId: Int) {
+        eventsViewModel.getOtherUserEvents(context,getSecurityKey(this)!!, getUser(this)?.authKey!!)
 
-            Log.i("TAG",it.msg)
-
+        eventsViewModel.eventsLiveData.observe(this, Observer {
+            if(it.code==200){
+                for(i in 0 until it.data.size){
+                    if(post_id==it?.data!![i].id){
+                        setData(it.data[i])
+                    }
+                }
+            }
         })
+    }
+
+    private fun setData(eventData: EventData) {
+        Glide.with(context).load(eventData.image).into(img_user)
+        tvName.text= eventData.name
+        tvLocation.text=eventData.location
+        tvWebLinks.text=eventData.rsvpLink
+        tvDesc.text=eventData.description
+        if(eventData.isFavourite==1){
+            ivHeart.setImageResource(R.drawable.fill_heart)
+        }
+
+        else{
+            ivHeart.setImageResource(R.drawable.heart_new)
+        }
     }
 
     private fun setOnClicks() {

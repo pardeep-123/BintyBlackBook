@@ -34,9 +34,7 @@ class LoginViewModel (val context: Context):ViewModel(){
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
                     (context).dismissProgressDialog()
-                    Toast.makeText(context,t.localizedMessage,Toast.LENGTH_LONG).show()
                     (context).showSnackBarMessage("" + t.message)
-                    Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -48,7 +46,6 @@ class LoginViewModel (val context: Context):ViewModel(){
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
-
                         if(response.code()==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginSignUpModel::class.java)
                             loginObservable.value = jsonObj
@@ -61,7 +58,6 @@ class LoginViewModel (val context: Context):ViewModel(){
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK",{})
-                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -80,7 +76,6 @@ class LoginViewModel (val context: Context):ViewModel(){
                 try {
                     (context as ForgotPasswordActivity).dismissProgressDialog()
                     (context as ForgotPasswordActivity).showSnackBarMessage("" + t.message)
-                    Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -106,7 +101,6 @@ class LoginViewModel (val context: Context):ViewModel(){
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK",{})
-                    //(context).showSnackBarMessage("" + response.message())
                 }
 
             }

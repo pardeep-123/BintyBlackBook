@@ -36,20 +36,20 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel=HomeViewModel(context!!)
+        homeViewModel=HomeViewModel(requireContext())
 
         init()
 
         //call api for home data
 
-        if(!getUser(context!!)?.authKey.isNullOrEmpty()) {
-            homeViewModel.homeList(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
+        if(!getUser(requireContext())?.authKey.isNullOrEmpty()) {
+            homeViewModel.homeList(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
             getHomeData()
         }
     }
 
     private fun getHomeData() {
-        homeViewModel.homeLiveData.observe(activity!!, Observer {
+        homeViewModel.homeLiveData.observe(requireActivity(), Observer {
 
          //   homeViewModel.homeList(it)
 
@@ -65,7 +65,6 @@ class HomeFragment : Fragment() {
                     homeList.addAll(it.data)
                     homeAdapter?.notifyDataSetChanged()
                 }
-
             }
         })
     }
@@ -73,7 +72,7 @@ class HomeFragment : Fragment() {
     private fun init() {
         rvHome.layoutManager = LinearLayoutManager(activity)
 
-        homeAdapter = HomeAdapter(activity!!)
+        homeAdapter = HomeAdapter(requireActivity())
         rvHome.adapter = homeAdapter
         homeAdapter?.arrayList=homeList
         adapterItemClick()

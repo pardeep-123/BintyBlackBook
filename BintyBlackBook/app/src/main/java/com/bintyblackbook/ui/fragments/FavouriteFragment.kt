@@ -37,14 +37,19 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eventsViewModel=EventsViewModel(activity!!)
+        eventsViewModel=EventsViewModel()
         init()
         getEventList()
     }
 
+    /*override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        getEventList()
+    }*/
+
     private fun getEventList() {
-        eventsViewModel.favEvents(getSecurityKey(context!!)!!, getUser(context!!)?.authKey!!)
-        eventsViewModel.favEventsLiveData.observe(activity!!, Observer {
+        eventsViewModel.favEvents(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
+        eventsViewModel.favEventsLiveData.observe(requireActivity(), Observer {
 
             if(it?.data?.size==0){
                 arrayList.addAll(it.data)
@@ -54,7 +59,7 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun init() {
-        eventAdapter = FavouriteEventAdapter(activity!!, arrayList)
+        eventAdapter = FavouriteEventAdapter(requireActivity(), arrayList)
         rvFavorites.adapter = eventAdapter
         rvFavorites.layoutManager = GridLayoutManager(activity, 2)
         adapterItemClick()

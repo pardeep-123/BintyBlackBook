@@ -22,7 +22,6 @@ class NotificationViewModel (val context: Context): ViewModel(){
     /*
     get notification list
      */
-
     fun getNotificationList(security_key:String, auth_key:String){
         (context as NotificationActivity).showProgressDialog()
 
@@ -31,7 +30,6 @@ class NotificationViewModel (val context: Context): ViewModel(){
                 try {
                     (context as NotificationActivity).dismissProgressDialog()
                     (context as NotificationActivity).showSnackBarMessage("" + t.message)
-                    Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -40,7 +38,6 @@ class NotificationViewModel (val context: Context): ViewModel(){
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
                     (context as NotificationActivity).dismissProgressDialog()
-
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
 

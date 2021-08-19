@@ -23,6 +23,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
     var arrayList= ArrayList<PostData>()
     var myPopupWindow: PopupWindow? = null
     var onItemClick: ((timelineModel: PostData, clickOn: String) -> Unit)? = null
+    var onCommentClick: ((timelineModel: PostData) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false)
@@ -105,9 +106,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }
 
             rlComment.setOnClickListener {
-                val intent = Intent(context,CommentsActivity::class.java)
-                intent.putExtra("post_id",timelineModel.id.toString())
-                context.startActivity(intent)
+              onCommentClick?.invoke(timelineModel)
             }
 
             rlDots.setOnClickListener {

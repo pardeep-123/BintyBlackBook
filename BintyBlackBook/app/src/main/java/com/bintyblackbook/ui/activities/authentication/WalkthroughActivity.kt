@@ -1,6 +1,5 @@
 package com.bintyblackbook.ui.activities.authentication
 
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,14 +7,14 @@ import android.os.Handler
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.bintyblackbook.R
-
+import info.jeovani.viewpagerindicator.ViewPagerIndicator
+import info.jeovani.viewpagerindicator.constants.PagerItemType
 import java.util.*
-import kotlin.collections.ArrayList
 
 class WalkthroughActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private var viewPager: ViewPager? = null
-   // private var viewPagerIndicator: ViewPagerIndicator? = null
+    private var viewPagerIndicator: ViewPagerIndicator? = null
     private var currentPage = 0
     private val NUM_PAGES = 5
     // private var categoryList: ArrayList<String> = ArrayList()
@@ -42,8 +41,8 @@ class WalkthroughActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walkthrough)
-        //viewPagerIndicator = findViewById(R.id.bannerPagerIndicator)
-        viewPager = findViewById(R.id.bannerViewPager)
+        viewPagerIndicator = findViewById(R.id.viewPagerIndicator)
+        viewPager = findViewById(R.id.viewPager)
         initViewPager()
 
         setClicks()
@@ -79,15 +78,15 @@ class WalkthroughActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
         selectedArrayList.add(Color.parseColor("#E53935"))
         unSelectedArrayList.add(Color.parseColor("#E1E1E1"))
 
-//        viewPagerIndicator!!.itemsCount = 3
-//        viewPagerIndicator!!.itemType = PagerItemType.OVAL
-//        viewPagerIndicator!!.itemSelectedColors = selectedArrayList
-//        viewPagerIndicator!!.itemsUnselectedColors = unSelectedArrayList
-//        viewPagerIndicator!!.itemElevation = 0
-//        viewPagerIndicator!!.itemWidth = 7
-//        viewPagerIndicator!!.itemHeight = 7
-//        viewPagerIndicator!!.itemMargin = 3
-//        viewPagerIndicator!!.setBackgroundColor(Color.TRANSPARENT)
+        viewPagerIndicator!!.itemsCount = 3
+        viewPagerIndicator!!.itemType = PagerItemType.OVAL
+        viewPagerIndicator!!.itemSelectedColors = selectedArrayList
+        viewPagerIndicator!!.itemsUnselectedColors = unSelectedArrayList
+        viewPagerIndicator!!.itemElevation = 0
+        viewPagerIndicator!!.itemWidth = 7
+        viewPagerIndicator!!.itemHeight = 7
+        viewPagerIndicator!!.itemMargin = 3
+        viewPagerIndicator!!.setBackgroundColor(Color.TRANSPARENT)
 
         viewPager?.adapter = MySliderAdapter(this, imagesArray , textArray)
 

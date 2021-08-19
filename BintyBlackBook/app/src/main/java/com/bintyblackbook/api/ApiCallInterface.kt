@@ -30,7 +30,6 @@ interface ApiCallInterface {
     /*
        User signUp api
      */
-
     @Multipart
     @POST(ApiConstants.USER_SIGNUP)
     fun userSignUp(
@@ -54,17 +53,19 @@ interface ApiCallInterface {
     fun homeList(@Header ("security_key") security_key:String,
     @Header("auth_key") auth_key:String):Call<JsonElement>
 
+    @FormUrlEncoded
     @POST(ApiConstants.FORGOT_PASSWORD)
     fun forgotPassword(
         @Header("security_key")security_key:String,
-        @Query("email") email:String): Call<JsonElement>
+        @Field("email") email:String): Call<JsonElement>
 
+    @FormUrlEncoded
     @PUT(ApiConstants.CHANGE_PASSWORD)
     fun changePassword(
         @Header ("security_key") security_key:String,
         @Header("auth_key") auth_key:String,
-        @Query("old_password") old_password:String,
-        @Query("new_password") new_password:String
+        @Field("old_password") old_password:String,
+        @Field("new_password") new_password:String
     ): Call<JsonElement>
 
     /*
@@ -207,7 +208,7 @@ interface ApiCallInterface {
     ) : Call<JsonElement>
 
     // my events
-    @Multipart
+    @FormUrlEncoded
     @POST(ApiConstants.MY_EVENTS)
     fun myEvents(
         @Header("security_key") security_key: String,
@@ -288,7 +289,7 @@ interface ApiCallInterface {
     ) : Call<JsonElement>
 
     @Multipart
-    @POST(ApiConstants.EDIT_PROFILE)
+    @PUT(ApiConstants.EDIT_PROFILE)
     fun editProfile(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String,
@@ -300,6 +301,20 @@ interface ApiCallInterface {
     fun getAllBookings(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String
+    ): Call<JsonElement>
+
+    @GET(ApiConstants.GET_BLOCKED_USERS)
+    fun getBlockedUsers(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String
+    ): Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.UNBLOCK_USER)
+    fun unBlockUser(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("loop_id") loop_id:String
     ): Call<JsonElement>
 
 }

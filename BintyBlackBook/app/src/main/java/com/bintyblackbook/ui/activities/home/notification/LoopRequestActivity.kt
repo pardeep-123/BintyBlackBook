@@ -62,7 +62,7 @@ class LoopRequestActivity : AppCompatActivity() {
     private fun acceptRejectRequest(status: String) {
         loopsViewModel.acceptRejectRequest(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)?.id.toString(),status)
 
-        loopsViewModel.unLoopLiveData.observe(this, Observer {
+        loopsViewModel.baseLiveData.observe(this, Observer {
             if(it.code==200){
                 showAlert(this,it.msg,getString(R.string.ok)){}
             }

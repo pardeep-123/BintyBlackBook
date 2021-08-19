@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.BlockedData
 import com.bintyblackbook.ui.activities.home.settings.BlockedContactsActivity
 import com.bintyblackbook.ui.dialogues.BlockUserDialogFragment
 import de.hdodenhof.circleimageview.CircleImageView
@@ -14,13 +15,14 @@ import kotlinx.android.synthetic.main.row_blocked_contacts.view.*
 
 class AdapterBlockedContacts(val context: Context) : RecyclerView.Adapter<AdapterBlockedContacts.MyViewHolder>() {
 
+    var arrayList= ArrayList<BlockedData>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_blocked_contacts, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return arrayList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

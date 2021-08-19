@@ -31,6 +31,7 @@
                 android:layout_marginTop="@dimen/dp15">
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_user"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
@@ -115,6 +116,7 @@
                     android:textSize="@dimen/sp12" />
 
                 <TextView
+                    android:id="@+id/tvWebLinks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp2"
@@ -137,10 +139,11 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/trajanpro_regular"
-                android:text="@string/dummy_big"
+                android:text=""
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp10" />
 

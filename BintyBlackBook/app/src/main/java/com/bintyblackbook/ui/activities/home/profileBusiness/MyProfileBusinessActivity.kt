@@ -72,8 +72,8 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         tvExp.text=it?.experience
         tvWebLink.text=it?.websiteLink
 
-        Glide.with(this).load(it?.image).into(riv1)
-        if(it?.userMedia?.size!! > 0){
+        Glide.with(this).load(it?.userMedia!![0].media).into(riv1)
+        if(it.userMedia.size > 0){
             arrayList.addAll(it.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
         }
@@ -93,7 +93,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
     private fun horizontalImagesAdapterClick() {
         horizontalImagesAdapter?.onItemClick = {media: UserMedia ->
 
-            Glide.with(context).load(media.image).into(riv1)
+            Glide.with(context).load(media.media).into(riv1)
             //riv1.setImageResource(image.image!!)
         }
     }

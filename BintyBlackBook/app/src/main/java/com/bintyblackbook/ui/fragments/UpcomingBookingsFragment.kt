@@ -11,6 +11,7 @@ import com.bintyblackbook.adapters.UpcomingBookingAdapter
 import com.bintyblackbook.models.UpcomingBookingModel
 import com.bintyblackbook.viewmodel.BookingsViewModel
 import kotlinx.android.synthetic.main.fragment_upcoming_bookings.*
+import java.util.*
 
 
 class UpcomingBookingsFragment : Fragment() {
@@ -30,7 +31,7 @@ class UpcomingBookingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bookingsViewModel= BookingsViewModel(activity!!)
+        bookingsViewModel= BookingsViewModel(requireActivity())
 
         upcomingArrayList = ArrayList()
 
@@ -43,7 +44,7 @@ class UpcomingBookingsFragment : Fragment() {
 
     private fun setAdapter() {
         rvUpcomingBookings.layoutManager = LinearLayoutManager(activity)
-        upcomingBookingAdapter = UpcomingBookingAdapter(activity!!,upcomingArrayList)
+        upcomingBookingAdapter = UpcomingBookingAdapter(requireActivity(),upcomingArrayList)
         rvUpcomingBookings.adapter = upcomingBookingAdapter
     }
 }

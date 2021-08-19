@@ -9,6 +9,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.HorizontalImagesAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.Data
+import com.bintyblackbook.model.UserMedia
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.dialogues.FragmentDialog
 import com.bintyblackbook.util.AppConstant
@@ -30,6 +31,7 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
     var showChatBtn=false
     var showChatAndUnLoopBtn=false
     lateinit var loopsViewModel: LoopsViewModel
+    var arrayList= ArrayList<UserMedia>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +40,9 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
         profileViewModel= ProfileViewModel(this)
         loopsViewModel = LoopsViewModel(this)
         getIntentData()
-        getData()
-        rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        init()
 
+        getData()
 
         if (showChatBtn){
             btnChat.visibility = View.VISIBLE
@@ -55,8 +57,6 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
         setOnClicks()
 
         headingText.visibility = View.GONE
-
-        init()
 
     }
 
@@ -84,34 +84,28 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setData(data: Data?) {
-        Glide.with(this).load(data?.image).into(riv1)
-        tvName.text=data?.firstName
-        tvUserAbout.text=data?.description
-        tvUserExp.text=data?.experience
-        tvWebsiteLink.text=data?.websiteLink
-        tvLocation.text=data?.location
+        Glide.with(this).load(data?.userMedia!![0].media).into(riv1)
+        tvName.text=data.firstName
+        tvUserAbout.text=data.description
+        tvUserExp.text=data.experience
+        tvWebsiteLink.text=data.websiteLink
+        tvLocation.text=data.location
+        arrayList.addAll(data.userMedia)
+        horizontalImagesAdapter?.notifyDataSetChanged()
     }
 
     private fun init(){
-        val arrayList = ArrayList<Int>()
-        arrayList.add(R.drawable.slider)
-        arrayList.add(R.drawable.small2)
-        arrayList.add(R.drawable.small3)
-        arrayList.add(R.drawable.small4)
-        arrayList.add(R.drawable.small2)
-        arrayList.add(R.drawable.small3)
-        arrayList.add(R.drawable.small4)
-
+        rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         horizontalImagesAdapter = HorizontalImagesAdapter(this)
         rvImages.adapter = horizontalImagesAdapter
-       // horizontalImagesAdapter?.arrayList=arrayList
+        horizontalImagesAdapter?.arrayList=arrayList
         horizontalImagesAdapterClick()
     }
 
     private fun horizontalImagesAdapterClick(){
-        /*horizontalImagesAdapter?.onItemClick = {image: Int ->
-            riv1.setImageResource(image)
-        }*/
+        horizontalImagesAdapter?.onItemClick = {image: UserMedia ->
+            Glide.with(this).load(image.media).into(riv1)
+        }
     }
 
     override fun onClick(v: View?) {
@@ -138,7 +132,7 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
                     btnLoop.text = getString(R.string.cancel_loop_request)
                     loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
 
-                    loopsViewModel.loopsLiveData.observe(this, Observer {
+                    loopsViewModel.baseLiveData.observe(this, Observer {
 
                         if(it.code==200) {
                             val fragmentDialog = FragmentDialog("LoopRequest")
@@ -150,7 +144,7 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
                     loopBtnClick = true
                     btnLoop.text = getString(R.string.loop)
                     loopsViewModel.unSendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
-                    loopsViewModel.unLoopLiveData.observe(this, Observer {
+                    loopsViewModel.baseLiveData.observe(this, Observer {
                         if(it.code==200){
                             val fragmentDialog = FragmentDialog("LoopRequestCancel")
                             fragmentDialog.show(supportFragmentManager,"LoopDialog")

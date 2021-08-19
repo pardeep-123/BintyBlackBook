@@ -11,16 +11,19 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.EventData
 import com.bintyblackbook.models.EventsModel
+import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 
 
-class EventInProfileAdapter(var context: Context, var arrayList: ArrayList<EventsModel>) :
+class EventInProfileAdapter(var context: Context) :
     RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
 
+    var arrayList= ArrayList<EventData>()
     var myPopupWindow: PopupWindow? = null
-    var onItemClick:((eventsModel:EventsModel,clickOn:String)->Unit)?= null
+    var onItemClick:((eventsModel:EventData,clickOn:String)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events_in_profile, parent, false)
@@ -43,9 +46,9 @@ class EventInProfileAdapter(var context: Context, var arrayList: ArrayList<Event
 
         fun bind(pos: Int) {
             val eventsModel = arrayList[pos]
-            roundedImageView.setImageResource(eventsModel.image!!)
+            Glide.with(context).load(eventsModel.image).into(roundedImageView)
             tvName.text = eventsModel.name
-            tvLocation.text = eventsModel.address
+            tvLocation.text = eventsModel.location
 
             setPopUpWindow(eventsModel)
 
@@ -55,7 +58,7 @@ class EventInProfileAdapter(var context: Context, var arrayList: ArrayList<Event
 
         }
 
-        private fun setPopUpWindow(eventsModel:EventsModel) {
+        private fun setPopUpWindow(eventsModel:EventData) {
             val inflater =
                 context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val  view = inflater.inflate(R.layout.popup, null)
