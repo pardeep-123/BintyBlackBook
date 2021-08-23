@@ -6,32 +6,30 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
 import com.bintyblackbook.adapters.HorizontalCalendarAdapter
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
-import com.bintyblackbook.models.HorizontalCalendarModel
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
-import kotlinx.android.synthetic.main.activity_availability.*
-import kotlinx.android.synthetic.main.activity_check_availability.*
 import kotlinx.android.synthetic.main.activity_check_availability.rlBack
 import kotlinx.android.synthetic.main.activity_check_availability.rlNext
 import kotlinx.android.synthetic.main.activity_check_availability.rlPrevious
 import kotlinx.android.synthetic.main.activity_check_availability.rvDate
 import kotlinx.android.synthetic.main.activity_check_availability.rvTime
-import kotlinx.android.synthetic.main.activity_my_profile_business.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class CheckAvailabilityActivity : BaseActivity() {
+class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderInterface {
 
-    private val calendar = Calendar.getInstance()
-    private var currentMonth = 0
-    //lateinit var arrayList: ArrayList<AvailabilityModel>
     private var itemPos = 0
     var checkAvailabilityAdapter:CheckAvailabilityAdapter?=null
+    var horizontalCalendarAdapter: HorizontalCalendarAdapter?=null
     lateinit var availabilityViewModel: AvailabilityViewModel
     var user_id=""
-    var arrayList = ArrayList<Slot>()
+    var arrayList = ArrayList<AvailabilityData>()
+    var timeList= ArrayList<Slot>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check_availability)
@@ -39,42 +37,15 @@ class CheckAvailabilityActivity : BaseActivity() {
         availabilityViewModel= AvailabilityViewModel(this)
 
         user_id= intent.getStringExtra("user_id").toString()
+
         rlBack.setOnClickListener {
             finish()
         }
+        horizontalCalendarSet()
         setAdapter()
 
         getAvailability()
-        horizontalCalendarSet()
 
-//        arrayList = ArrayList()
-//
-//        arrayList.add(AvailabilityModel("12:00 AM", false))
-//        arrayList.add(AvailabilityModel("01:00 AM", false))
-//        arrayList.add(AvailabilityModel("02:00 AM", false))
-//        arrayList.add(AvailabilityModel("03:00 AM", false))
-//        arrayList.add(AvailabilityModel("04:00 AM", false))
-//        arrayList.add(AvailabilityModel("05:00 AM", false))
-//        arrayList.add(AvailabilityModel("06:00 AM", false))
-//        arrayList.add(AvailabilityModel("07:00 AM", false))
-//        arrayList.add(AvailabilityModel("08:00 AM", false))
-//        arrayList.add(AvailabilityModel("-", false))
-//        arrayList.add(AvailabilityModel("10:00 AM", false))
-//        arrayList.add(AvailabilityModel("-", false))
-//        arrayList.add(AvailabilityModel("12:00 PM", false))
-//        arrayList.add(AvailabilityModel("01:00 PM", false))
-//        arrayList.add(AvailabilityModel("02:00 PM", false))
-//        arrayList.add(AvailabilityModel("03:00 PM", false))
-//        arrayList.add(AvailabilityModel("-", false))
-//        arrayList.add(AvailabilityModel("05:00 PM", false))
-//        arrayList.add(AvailabilityModel("-", false))
-//        arrayList.add(AvailabilityModel("07:00 PM", false))
-//        arrayList.add(AvailabilityModel("08:00 PM", false))
-//        arrayList.add(AvailabilityModel("-", false))
-//        arrayList.add(AvailabilityModel("10:00 PM", false))
-//        arrayList.add(AvailabilityModel("11:00 PM", false))
-
-        //rvTime.adapter = CheckAvailabilityAdapter(this, arrayList)
     }
 
     private fun getAvailability() {
@@ -82,48 +53,29 @@ class CheckAvailabilityActivity : BaseActivity() {
         availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)?.authKey!!,user_id)
         availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
 
-            arrayList.addAll(it?.data!![0].slots)
-            checkAvailabilityAdapter?.notifyDataSetChanged()
+            arrayList.clear()
+            arrayList.addAll(it?.data!!)
+            horizontalCalendarAdapter?.notifyDataSetChanged()
 
         })
     }
 
+    //set adapter for time slots
     private fun setAdapter() {
-
-        rvTime.adapter = CheckAvailabilityAdapter(this)
         checkAvailabilityAdapter=CheckAvailabilityAdapter(this)
-        checkAvailabilityAdapter?.arrayList=arrayList
+        rvTime.adapter =checkAvailabilityAdapter
+
+        checkAvailabilityAdapter?.arrayList=timeList
     }
 
     private fun horizontalCalendarSet() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvDate.layoutManager = layoutManager
 
-        val arrayList = ArrayList<HorizontalCalendarModel>()
-        arrayList.add(HorizontalCalendarModel("Sun", "Jan 01", false))
-        arrayList.add(HorizontalCalendarModel("Mon", "Jan 02", false))
-        arrayList.add(HorizontalCalendarModel("Tue", "Jan 03", false))
-        arrayList.add(HorizontalCalendarModel("Wed", "Jan 04", false))
-        arrayList.add(HorizontalCalendarModel("Thu", "Jan 05", false))
-        arrayList.add(HorizontalCalendarModel("Fri", "Jan 06", false))
-        arrayList.add(HorizontalCalendarModel("Sat", "Jan 07", false))
-        arrayList.add(HorizontalCalendarModel("Sun", "Jan 08", false))
-        arrayList.add(HorizontalCalendarModel("Mon", "Jan 09", false))
-        arrayList.add(HorizontalCalendarModel("Tue", "Jan 10", false))
-        arrayList.add(HorizontalCalendarModel("Wed", "Jan 11", false))
-        arrayList.add(HorizontalCalendarModel("Thu", "Jan 12", false))
-        arrayList.add(HorizontalCalendarModel("Fri", "Jan 13", false))
-        arrayList.add(HorizontalCalendarModel("Sat", "Jan 14", false))
-        arrayList.add(HorizontalCalendarModel("Sun", "Jan 15", false))
-        arrayList.add(HorizontalCalendarModel("Mon", "Jan 16", false))
-        arrayList.add(HorizontalCalendarModel("Tue", "Jan 17", false))
-        arrayList.add(HorizontalCalendarModel("Wed", "Jan 18", false))
-        arrayList.add(HorizontalCalendarModel("Thu", "Jan 19", false))
-        arrayList.add(HorizontalCalendarModel("Fri", "Jan 20", false))
-        arrayList.add(HorizontalCalendarModel("Sat", "Jan 21", false))
-
-        val horizontalCalendarAdapter = HorizontalCalendarAdapter(this, arrayList)
+        horizontalCalendarAdapter = HorizontalCalendarAdapter(this)
         rvDate.adapter = horizontalCalendarAdapter
+        horizontalCalendarAdapter?.calenderInterface=this
+        horizontalCalendarAdapter?.arrayList=arrayList
 
         rvDate.setRecyclerListener {
             itemPos = it.adapterPosition
@@ -135,14 +87,17 @@ class CheckAvailabilityActivity : BaseActivity() {
             }
         }
 
-
-
         rlNext.setOnClickListener {
             if (itemPos >= 0) {
                 rvDate.smoothScrollToPosition(arrayList.size-1)
             }
         }
+    }
 
+    override fun onItemClick(data: AvailabilityData, position: Int) {
+        timeList.clear()
+        timeList.addAll(data.slots)
+        checkAvailabilityAdapter?.notifyDataSetChanged()
     }
 
     /* private fun horizontalCalendarSet() {

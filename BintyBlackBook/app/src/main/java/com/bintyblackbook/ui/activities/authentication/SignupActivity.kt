@@ -239,7 +239,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 return
             }
 
-            if(!selectedImagePath?.exists()!!){
+            if(selectedImagePath?.absolutePath.isNullOrEmpty()){
                 Toast.makeText(context,"Please choose image",Toast.LENGTH_LONG).show()
                 return
             }

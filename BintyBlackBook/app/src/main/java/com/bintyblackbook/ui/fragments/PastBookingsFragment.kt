@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.PastBookingAdapter
+import com.bintyblackbook.model.PastBooking
 import com.bintyblackbook.models.UpcomingBookingModel
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel
 import kotlinx.android.synthetic.main.fragment_past_bookings.*
 
@@ -16,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_past_bookings.*
 class PastBookingsFragment : Fragment() {
 
     lateinit var bookingsViewModel:BookingsViewModel
-    lateinit var upcomingArrayList:ArrayList<UpcomingBookingModel>
+     var upcomingArrayList = ArrayList<PastBooking>()
     var pastBookingAdapter:PastBookingAdapter? = null
 
     override fun onCreateView(
@@ -30,21 +33,33 @@ class PastBookingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bookingsViewModel= BookingsViewModel(activity!!)
-
-        upcomingArrayList = ArrayList()
-
-        upcomingArrayList.add(UpcomingBookingModel(R.drawable.alina,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Accepted"))
-        upcomingArrayList.add(UpcomingBookingModel(R.drawable.girl1,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Declined"))
+        bookingsViewModel= BookingsViewModel(requireActivity())
+//
+//        upcomingArrayList = ArrayList()
+//
+//        upcomingArrayList.add(UpcomingBookingModel(R.drawable.alina,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Accepted"))
+//        upcomingArrayList.add(UpcomingBookingModel(R.drawable.girl1,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Declined"))
 
         setAdapter()
+
+        getData()
+    }
+
+    private fun getData() {
+        bookingsViewModel.getAllBookings(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
+        bookingsViewModel.bookingsLiveData.observe(requireActivity(), androidx.lifecycle.Observer {
+
+            upcomingArrayList.addAll(it?.data?.pastBookings!!)
+            pastBookingAdapter?.notifyDataSetChanged()
+
+        })
     }
 
 
     private fun setAdapter() {
         rvPastBooking.layoutManager=LinearLayoutManager(activity)
-        pastBookingAdapter= PastBookingAdapter(activity!!,upcomingArrayList)
+        pastBookingAdapter= PastBookingAdapter(requireActivity())
         rvPastBooking.adapter=pastBookingAdapter
-        pastBookingAdapter?.notifyDataSetChanged()
+        pastBookingAdapter?.arrayList=upcomingArrayList
     }
 }

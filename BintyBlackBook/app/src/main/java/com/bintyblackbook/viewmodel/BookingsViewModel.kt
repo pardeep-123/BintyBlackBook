@@ -25,7 +25,7 @@ class BookingsViewModel (val context: Context): ViewModel(){
     get all bookings
      */
     fun getAllBookings(security_key:String, auth_key:String){
-        (context as MyBookingsActivity).showProgressDialog()
+       // (context as MyBookingsActivity).showProgressDialog()
 
         ApiClient.apiService.getAllBookings(security_key, auth_key).enqueue(object : Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

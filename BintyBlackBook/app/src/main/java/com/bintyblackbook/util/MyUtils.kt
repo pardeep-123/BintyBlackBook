@@ -1,9 +1,7 @@
 package com.bintyblackbook.util
 
 import android.app.Activity
-import android.content.Context
 import android.os.Build
-import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -12,11 +10,14 @@ import java.util.*
 
 object MyUtils {
 
-    fun fullscreen(context:Activity){
+    fun fullscreen(context: Activity){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             context.window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
-            context.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            context.window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
         }
     }
 
@@ -33,17 +34,18 @@ object MyUtils {
      fun getDate(s: String): String? {
         return try {
             val sdf = SimpleDateFormat("MM/dd/yyyy")
-            val netDate = Date(s.toLong() * 1000 )
+            val netDate = Date(s.toLong() * 1000)
             sdf.format(netDate)
         } catch (e: Exception) {
             e.toString()
         }
     }
 
-    fun getTime(s:String):String?{
+    fun getTime(s: String):String?{
         return try {
-            val sdf = SimpleDateFormat("HH:mm:aa")
-            sdf.format(sdf)
+            val sdf = SimpleDateFormat("HH:mm:a")
+            val netDate = Date(s.toLong() * 1000)
+            sdf.format(netDate)
         } catch (e: Exception) {
             e.toString()
         }
@@ -63,5 +65,29 @@ object MyUtils {
         val df = SimpleDateFormat("yyyy.MM.dd HH:mm")
         return df.parse(date).time
     }
+
+    fun getCurrentDay(s:String) :String {
+            val sdf = SimpleDateFormat("EE")
+            val netDate = Date(s.toLong() * 1000)
+            val dayOfTheWeek = sdf.format(netDate)
+            return dayOfTheWeek
+//        val sdf = SimpleDateFormat("EEEE")
+//        val d = Date()
+//        val dayOfTheWeek = sdf.format(d)
+    }
+
+    fun getCurrentDate(s:String) :String {
+        return try {
+            val sdf = SimpleDateFormat("MMM dd")
+            val netDate = Date(s.toLong() * 1000)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
+        }
+//        val sdf = SimpleDateFormat("EEEE")
+//        val d = Date()
+//        val dayOfTheWeek = sdf.format(d)
+    }
+
 
 }

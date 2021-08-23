@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventAdapter
@@ -37,7 +38,8 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eventsViewModel=EventsViewModel()
+        eventsViewModel= EventsViewModel()
+
         init()
         getEventList()
     }
@@ -51,9 +53,15 @@ class FavouriteFragment : Fragment() {
         eventsViewModel.favEvents(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
         eventsViewModel.favEventsLiveData.observe(requireActivity(), Observer {
 
-            if(it?.data?.size==0){
+            if(it?.data?.size!=0){
+                tvNoFavData.visibility=View.GONE
+                rvFavorites.visibility=View.VISIBLE
+                arrayList.clear()
                 arrayList.addAll(it.data)
                 eventAdapter?.notifyDataSetChanged()
+            }else{
+                tvNoFavData.visibility=View.VISIBLE
+                rvFavorites.visibility=View.GONE
             }
         })
     }

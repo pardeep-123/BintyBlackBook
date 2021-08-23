@@ -1,5 +1,6 @@
 package com.bintyblackbook.viewmodel
 
+import android.content.ClipDescription
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -80,7 +81,6 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     get all post api
      */
-
     fun allPostList(securityKey:String,auth_key:String){
 
         (context as BaseActivity).showProgressDialog()
@@ -259,6 +259,53 @@ class PostsViewModel (val context: Context):ViewModel(){
                 }
 
             }
+        })
+    }
+
+    /*
+    call report post api
+     */
+    fun report_post(securityKey: String,authKey: String,post_id: String,description: String){
+
+        (context as BaseActivity).dismissProgressDialog()
+
+        ApiClient.apiService.reportPost(securityKey,authKey,post_id, description).enqueue(object : Callback<JsonElement>{
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+
+                if(response.isSuccessful){
+                    (context as BaseActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            addPostLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK",{})
+                }
+
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+               try{
+                   (context as BaseActivity).dismissProgressDialog()
+                   (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
+               }catch (e:java.lang.Exception){
+                   e.printStackTrace()
+               }
+            }
+
         })
     }
 

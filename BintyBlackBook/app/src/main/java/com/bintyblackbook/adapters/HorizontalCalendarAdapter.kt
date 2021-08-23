@@ -8,15 +8,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
-import com.bintyblackbook.models.HorizontalCalendarModel
+import com.bintyblackbook.model.AvailabilityData
+import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.calendar_item.view.*
 
-class HorizontalCalendarAdapter(
-    var context: Context,
-    var arrayList: ArrayList<HorizontalCalendarModel>
-) :
-    RecyclerView.Adapter<HorizontalCalendarAdapter.HorizontalCalendarViewHolder>() {
-
+class HorizontalCalendarAdapter(var context: Context) : RecyclerView.Adapter<HorizontalCalendarAdapter.HorizontalCalendarViewHolder>() {
+    var arrayList=  ArrayList<AvailabilityData>()
+    lateinit var calenderInterface:CalenderInterface
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -40,21 +38,26 @@ class HorizontalCalendarAdapter(
         fun bind(pos: Int) {
             val horizontalCalendarModel = arrayList[pos]
 
-            tvWeek.text = horizontalCalendarModel.weekName
-            tvMonthAndDate.text = horizontalCalendarModel.monthAndDate
+            tvWeek.text = MyUtils.getCurrentDay(horizontalCalendarModel.date)
+            tvMonthAndDate.text = MyUtils.getCurrentDate(horizontalCalendarModel.date)
 
             if (horizontalCalendarModel.isSelected) {
-                itemView.background = ContextCompat.getDrawable(context, R.drawable.bg_border_black)
+                itemView.background = ContextCompat.getDrawable(context, R.drawable.bg_border_green)
             } else {
                 itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.fadePink))
-            }
 
-            itemView.setOnClickListener {
-                arrayList.forEachIndexed { index, horizontalCalendarModel ->
-                    horizontalCalendarModel.isSelected = index == pos
-                    notifyDataSetChanged()
+                itemView.setOnClickListener {
+                    arrayList.forEachIndexed { index, horizontalCalendarModel ->
+                        horizontalCalendarModel.isSelected = index == pos
+                        notifyDataSetChanged()
+                    }
+                    calenderInterface.onItemClick(horizontalCalendarModel,pos)
                 }
             }
         }
+    }
+
+    interface CalenderInterface {
+        fun onItemClick(data: AvailabilityData,position: Int)
     }
 }

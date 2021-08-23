@@ -8,8 +8,7 @@ import com.bintyblackbook.ui.fragments.PastBookingsFragment
 import com.bintyblackbook.ui.fragments.UpcomingBookingsFragment
 
 
-class BookingsPagerAdapter(context: Context, fm: FragmentManager, totalTabs: Int) :
-    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class BookingsPagerAdapter(context: Context, fm: FragmentManager, totalTabs: Int) : FragmentPagerAdapter(fm) {
 
     private val mContext: Context = context
     private var mTotalTabs: Int = totalTabs
@@ -20,8 +19,12 @@ class BookingsPagerAdapter(context: Context, fm: FragmentManager, totalTabs: Int
             0 -> {
                 UpcomingBookingsFragment()
             }
-            else -> {
+
+            1 ->{
                 PastBookingsFragment()
+            }
+            else -> {
+                UpcomingBookingsFragment()
             }
 
         }

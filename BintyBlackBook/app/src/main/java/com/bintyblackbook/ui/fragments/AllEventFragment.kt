@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventAdapter
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.ui.activities.home.EventDetailActivity
+import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
@@ -53,19 +56,25 @@ class AllEventFragment : Fragment() {
 
         eventsViewModel.eventsLiveData.observe(requireActivity(), Observer {
             if (it.code==200){
-                if(it.data.size==0){
+
+                (context as EventCalenderActivity).dismissProgressDialog()
+                if(it.data.size!=0){
+                    tvNoEvent.visibility=View.GONE
+                    rvAllEvents.visibility=View.VISIBLE
                     arrayList.addAll(it.data)
                     eventAdapter?.notifyDataSetChanged()
+                }else{
+                    tvNoEvent.visibility=View.VISIBLE
+                    rvAllEvents.visibility=View.GONE
                 }
             }
-
         })
     }
 
     private fun init(){
-        eventAdapter = EventAdapter(requireContext())
 
         rvAllEvents.layoutManager = GridLayoutManager(activity,2)
+        eventAdapter = EventAdapter(requireContext())
         rvAllEvents.adapter = eventAdapter
         eventAdapter?.arrayList=arrayList
         adapterItemClick()

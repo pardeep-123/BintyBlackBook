@@ -6,8 +6,10 @@ import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
@@ -20,8 +22,8 @@ import com.bintyblackbook.ui.activities.home.settings.SettingsActivity
 import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
 import com.bintyblackbook.ui.dialogues.LogoutDialogFragment
 import com.bintyblackbook.ui.fragments.HomeFragment
-import com.bintyblackbook.util.MySharedPreferences
-import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.*
+import com.bintyblackbook.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.drawerhome.*
 
@@ -30,10 +32,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     private lateinit var drawerLayout: DrawerLayout
     var searchClick = false
     var userType:String? = null
+    lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawerhome)
+        settingsViewModel= SettingsViewModel(this)
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
@@ -137,7 +141,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.ll_logout -> {
-                val logoutDialog = LogoutDialogFragment()
+                val logoutDialog = LogoutDialogFragment(this)
                 logoutDialog.show(supportFragmentManager,"logoutDialog")
             }
         }
@@ -153,6 +157,29 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         } else {
             super.onBackPressed()
         }
+    }
+
+    fun logoutUser(){
+        settingsViewModel.logout(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)?.id.toString())
+        settingsViewModel.baseLiveData.observe(this, Observer {
+
+            if(getStatus(context)?.equals("1")!!){
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                this.finishAffinity()
+                clearAllData(context)
+            }
+
+            else{
+                clearAllData(context)
+                clearEmail(context)
+                clearPassword(context)
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                this.finishAffinity()
+            }
+
+        })
 
     }
 }

@@ -1,6 +1,5 @@
 package com.bintyblackbook.ui.dialogues
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.authentication.LoginActivity
+import com.bintyblackbook.ui.activities.home.HomeActivity
 import kotlinx.android.synthetic.main.dialog_fragment_event_delete.*
 
 
-class LogoutDialogFragment : DialogFragment() {
+class LogoutDialogFragment(val homeActivity: HomeActivity) : DialogFragment() {
 
 
     override fun onCreateView(
@@ -29,9 +28,8 @@ class LogoutDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btnYes.setOnClickListener {
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
-            activity?.finishAffinity()
+           homeActivity.logoutUser()
+            dismiss()
         }
 
         btnNo.setOnClickListener {

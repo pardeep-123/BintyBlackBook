@@ -1,7 +1,6 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.PostData
-import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
 import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
@@ -54,8 +52,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         fun bind(pos: Int) {
             val timelineModel = arrayList[pos]
 
-            setPopUpWindow(timelineModel)
-
             Glide.with(context).load(timelineModel.userImage).into(civProfile)
 
             tvName.text = timelineModel.userName
@@ -65,10 +61,10 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             tvComments.text = timelineModel.postComments.size.toString()
 
             if(getUser(context)?.id==arrayList[pos].userId){
-                rlDots.visibility = View.VISIBLE
+                setPopUpWindow(timelineModel,"myProfile")
             }
             else{
-                rlDots.visibility = View.GONE
+                setPopUpWindow(timelineModel,"other")
             }
 
          /*   if (timelineModel.status==1) {
@@ -114,13 +110,24 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }
         }
 
-        private fun setPopUpWindow(timelineModel: PostData) {
-            val inflater =
-                context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        private fun setPopUpWindow(timelineModel: PostData,type:String) {
+            val inflater = context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.popup, null)
 
             val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
             val tvDelete = view.findViewById<TextView>(R.id.tvDelete)
+            val tvReport = view.findViewById<TextView>(R.id.tvReport)
+
+            if(type == "myProfile"){
+                tvEdit.visibility=View.VISIBLE
+                tvDelete.visibility=View.VISIBLE
+                tvReport.visibility=View.GONE
+            }
+            else{
+                tvEdit.visibility=View.GONE
+                tvDelete.visibility=View.GONE
+                tvReport.visibility=View.VISIBLE
+            }
 
             tvEdit.setOnClickListener {
                 myPopupWindow?.dismiss()
@@ -132,8 +139,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
                 onItemClick?.invoke(timelineModel, "deleteClick")
             }
 
-            myPopupWindow = PopupWindow(
-                view,
+            myPopupWindow = PopupWindow(view,
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 true

@@ -33,4 +33,19 @@
         android:text="@string/delete"
         android:textColor="@color/blackColor"
         android:textSize="@dimen/sp13" />
+
+    <TextView
+        android:id="@+id/tvReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp5"
+        android:fontFamily="@font/gisha_bold"
+        android:paddingStart="@dimen/dp10"
+        android:paddingTop="@dimen/dp5"
+        android:paddingEnd="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"
+        android:visibility="gone"
+        android:text="@string/report"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13" />
 </LinearLayout>

@@ -43,7 +43,6 @@ class AvailabilityViewModel (val context: Context): ViewModel(){
                     (context as BaseActivity).dismissProgressDialog()
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
-                        val error : JSONObject = JSONObject(response.errorBody()!!.string())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), AvailabilityResponse::class.java)
                             availableSlotsLiveData.value = jsonObj

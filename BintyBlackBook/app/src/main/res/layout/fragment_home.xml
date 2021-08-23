@@ -16,7 +16,7 @@
         android:text="@string/directory"
         android:textSize="@dimen/sp16"
         android:fontFamily="@font/romul"
-        android:layout_marginTop="@dimen/dp10"/>
+        android:layout_marginTop="6dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHome"

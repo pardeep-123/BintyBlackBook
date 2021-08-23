@@ -29,10 +29,24 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         setContentView(R.layout.activity_login)
         MyUtils.fullscreen(this@LoginActivity)
+        checkStatus()
         loginViewModel= LoginViewModel(this)
         clickHandles()
         tv_createAcct.setPaintFlags(tv_createAcct.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
+    }
+
+    private fun checkStatus() {
+        if(getStatus(context)=="1"){
+            email_text.setText(getEmail(context))
+            password_text.setText(getPassword(context))
+            cbRemember.isChecked=true
+        }
+        else{
+            email_text.setText("")
+            password_text.setText("")
+            !cbRemember.isChecked
+        }
     }
 
     private fun setObservables() {
@@ -40,6 +54,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                if(t?.code==200){
                    val response=t.data
                     Log.i("TAG",response?.userType.toString())
+
+
                    if(response?.userType==0){
                        MySharedPreferences.storeUserType(this,"User")
                    }
@@ -72,6 +88,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         forgotPasswordText.setOnClickListener(this)
         ll_signup.setOnClickListener(this)
         signInBtn.setOnClickListener(this)
+        cbRemember.setOnCheckedChangeListener { p0, isChecked ->
+            if(isChecked){
+                saveStatus(this,"1")
+                saveEmail(this,email_text.text.toString())
+                savePassword(this,password_text.text.toString())
+            }
+            else{
+                saveStatus(this,"0")
+                saveEmail(this,email_text.text.toString())
+                savePassword(this,password_text.text.toString())
+            }
+
+        }
 
     }
 

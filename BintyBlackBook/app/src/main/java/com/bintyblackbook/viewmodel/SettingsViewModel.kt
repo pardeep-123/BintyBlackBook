@@ -23,6 +23,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
 
     val notificationLiveData=MutableLiveData<NotificationStatusResponse>()
     val contentLiveData = MutableLiveData<ContentResponse>()
+    var baseLiveData= MutableLiveData<BaseResponseModel>()
 
     // add/update notification status
     fun addNotificationStatus(security_key:String,auth_key:String,status:String){
@@ -111,6 +112,49 @@ class SettingsViewModel (val context: Context): ViewModel(){
         })
     }
 
+
+    //logout user
+    fun logout(security_key:String,auth_key:String,userId:String){
+
+        (context as BaseActivity).dismissProgressDialog()
+        ApiClient.apiService.logout(security_key,auth_key,userId
+        ).enqueue(object : Callback<JsonElement> {
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                try {
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
+                    Log.e("TAG", "" + t.message)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as BaseActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            baseLiveData.value = jsonObj
+                        }else{
+                            (context as BaseActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val errorObj:JSONObject= JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showAlertWithOk(errorObj.getString("msg"))
+                }
+
+            }
+        })
+    }
 
     //all content api
 

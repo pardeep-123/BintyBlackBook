@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.UpcomingBookingAdapter
+import com.bintyblackbook.model.UpcomingBookings
 import com.bintyblackbook.models.UpcomingBookingModel
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel
 import kotlinx.android.synthetic.main.fragment_upcoming_bookings.*
 import java.util.*
@@ -17,7 +20,7 @@ import java.util.*
 class UpcomingBookingsFragment : Fragment() {
 
     lateinit var bookingsViewModel: BookingsViewModel
-    lateinit var upcomingArrayList:ArrayList<UpcomingBookingModel>
+     var upcomingArrayList = ArrayList<UpcomingBookings>()
     var upcomingBookingAdapter:UpcomingBookingAdapter? = null
 
     override fun onCreateView(
@@ -33,18 +36,26 @@ class UpcomingBookingsFragment : Fragment() {
 
         bookingsViewModel= BookingsViewModel(requireActivity())
 
-        upcomingArrayList = ArrayList()
-
-        upcomingArrayList.add(UpcomingBookingModel(R.drawable.alina,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Accepted"))
-        upcomingArrayList.add(UpcomingBookingModel(R.drawable.girl1,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Declined"))
-        upcomingArrayList.add(UpcomingBookingModel(R.drawable.bamie,"Alisha","Date: 20/01/2021","Time: 9:00 AM","Status: Inprogress"))
         setAdapter()
 
+        getData()
+
+    }
+
+    private fun getData() {
+        bookingsViewModel.getAllBookings(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
+        bookingsViewModel.bookingsLiveData.observe(requireActivity(), {
+
+            upcomingArrayList.addAll(it?.data?.upcomingBookings!!)
+            upcomingBookingAdapter?.notifyDataSetChanged()
+
+        })
     }
 
     private fun setAdapter() {
         rvUpcomingBookings.layoutManager = LinearLayoutManager(activity)
-        upcomingBookingAdapter = UpcomingBookingAdapter(requireActivity(),upcomingArrayList)
+        upcomingBookingAdapter = UpcomingBookingAdapter(requireActivity())
         rvUpcomingBookings.adapter = upcomingBookingAdapter
+        upcomingBookingAdapter?.arrayList=upcomingArrayList
     }
 }

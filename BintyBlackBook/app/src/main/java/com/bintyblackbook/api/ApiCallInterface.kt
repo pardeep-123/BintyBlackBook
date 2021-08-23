@@ -124,7 +124,6 @@ interface ApiCallInterface {
     /*
     add or edit business profile
      */
-
     @Multipart
     @PUT(ApiConstants.EDIT_BUSINESS_PROFILE)
     fun addEditInfo(
@@ -317,4 +316,32 @@ interface ApiCallInterface {
         @Field("loop_id") loop_id:String
     ): Call<JsonElement>
 
+
+    @Multipart
+    @POST(ApiConstants.ADD_EVENT)
+    fun addEvent(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.LOGOUT)
+    fun logout(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("user_id") userId:String
+    ): Call<JsonElement>
+
+    //post_id, description
+
+    @FormUrlEncoded
+    @POST(ApiConstants.REPORT_POST)
+    fun reportPost(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key:String,
+        @Field("post_id") post_id:String,
+        @Field("description") description:String
+    ) : Call<JsonElement>
 }

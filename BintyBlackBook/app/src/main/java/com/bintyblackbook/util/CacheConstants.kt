@@ -6,4 +6,9 @@ object CacheConstants {
 
     const val USER_DATA="user_data"
 
+    const val STATUS="status"
+
+    const val EMAIL="email"
+
+    const val PASSWORD="password"
 }

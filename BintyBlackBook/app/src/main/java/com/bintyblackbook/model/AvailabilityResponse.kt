@@ -8,6 +8,7 @@ class AvailabilityResponse : BaseResponseModel(){
     val date: String= ""
     val id: Int= 0
     val providerId: Int= 0
+     var isSelected=false
     val slots: ArrayList<Slot> = ArrayList<Slot>()
 }
 

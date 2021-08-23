@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import com.bintyblackbook.R
 import com.bintyblackbook.model.InfoRequestModel
 import com.bintyblackbook.model.CategoryData
@@ -210,7 +212,6 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
 
             val request=InfoRequestModel().also { request->
 
-
             request.name=edtName.text.toString()
             request.email=edtEmail.text.toString()
             request.phone=etUserPhoneNumber.text.toString()
@@ -277,6 +278,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
 
                 }
 
+                @RequiresApi(Build.VERSION_CODES.M)
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,

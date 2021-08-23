@@ -37,7 +37,9 @@ class ChatActivity : AppCompatActivity() {
         }
 
         btnBookNow.setOnClickListener {
-           startActivity(Intent(this,CheckAvailabilityActivity::class.java))
+            val intent = Intent(this,CheckAvailabilityActivity::class.java)
+            //intent.putExtra("user_id",userId)
+           startActivity(intent)
         }
 
         rvChat.layoutManager = LinearLayoutManager(this)

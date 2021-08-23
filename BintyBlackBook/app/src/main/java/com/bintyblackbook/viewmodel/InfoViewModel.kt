@@ -100,7 +100,6 @@ class InfoViewModel(val context: Context): ViewModel(){
                                 mediaLiveData.value = jsonObj
                         }else{
                             showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
-                            //(context as SignupActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -110,7 +109,6 @@ class InfoViewModel(val context: Context): ViewModel(){
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK",{})
-                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }
@@ -146,7 +144,6 @@ class InfoViewModel(val context: Context): ViewModel(){
                             mediaLiveData.value = jsonObj
                         }else{
                             showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
-                            //(context as SignupActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -156,7 +153,6 @@ class InfoViewModel(val context: Context): ViewModel(){
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK",{})
-                   // (context).showSnackBarMessage("" + response.message())
                 }
 
             }

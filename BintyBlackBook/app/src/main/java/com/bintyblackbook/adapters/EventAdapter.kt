@@ -48,7 +48,7 @@ class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.Eve
             if(eventsModel.isFavourite==1){
                 ivHeart.setImageResource(R.drawable.fill_heart)
             }else{
-                ivHeart.setImageResource(R.drawable.heart_new)
+                ivHeart.setImageResource(R.drawable.unfill_heart)
             }
 
             ivHeart.setOnClickListener {

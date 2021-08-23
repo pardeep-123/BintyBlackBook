@@ -79,6 +79,12 @@ class ApiConstants {
 
         const val UNBLOCK_USER="un_block_user"
 
+        const val ADD_EVENT= "add_events"
+
+        const val LOGOUT="logout"
+
+        const val REPORT_POST="report_time_line"
+
     }
 
 }

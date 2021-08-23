@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
-import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
 import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.item_time.view.*
 
-class CheckAvailabilityAdapter(var context: Context) :
-    RecyclerView.Adapter<CheckAvailabilityAdapter.AvailabilityViewHolder>() {
+class CheckAvailabilityAdapter(var context: Context) : RecyclerView.Adapter<CheckAvailabilityAdapter.AvailabilityViewHolder>() {
+
     var arrayList=  ArrayList<Slot>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckAvailabilityAdapter.AvailabilityViewHolder {
@@ -35,7 +34,6 @@ class CheckAvailabilityAdapter(var context: Context) :
         fun bind(pos: Int) {
             val availabilityModel = arrayList[pos]
 
-          //  tv_time.text = availabilityModel.time
             tv_time.text= MyUtils.getTime(availabilityModel.slots.toString())
 
             itemView.setOnClickListener {

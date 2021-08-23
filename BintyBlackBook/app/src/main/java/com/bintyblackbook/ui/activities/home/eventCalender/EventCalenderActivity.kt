@@ -2,11 +2,9 @@ package com.bintyblackbook.ui.activities.home.eventCalender
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventCalenderPagerAdapter
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.viewmodel.EventsViewModel
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_event_calender.*
 
@@ -54,5 +52,12 @@ class EventCalenderActivity : BaseActivity() {
         rlCalender.setOnClickListener {
             startActivity(Intent(this,CalenderActivity::class.java))
         }
+    }
+
+    override fun onPause() {
+        if (mProgress != null && mProgress?.isShowing()!!) {
+            mProgress?.dismiss()
+        }
+        super.onPause()
     }
 }

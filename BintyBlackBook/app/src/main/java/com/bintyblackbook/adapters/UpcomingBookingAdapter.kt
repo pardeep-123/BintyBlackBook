@@ -9,17 +9,20 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.UpcomingBookings
 import com.bintyblackbook.models.UpcomingBookingModel
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.ui.dialogues.RequestDialogFragment
+import com.bintyblackbook.util.MyUtils
+import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_upcoming_booking.view.*
 
-class UpcomingBookingAdapter(var context: Context, var arrayList: ArrayList<UpcomingBookingModel>) :
+class UpcomingBookingAdapter(var context: Context) :
     RecyclerView.Adapter<UpcomingBookingAdapter.UpcomingBookingViewHolder>() {
 
-
+    var arrayList = ArrayList<UpcomingBookings>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingBookingViewHolder {
         val view =
             LayoutInflater.from(context).inflate(R.layout.item_upcoming_booking, parent, false)
@@ -44,11 +47,12 @@ class UpcomingBookingAdapter(var context: Context, var arrayList: ArrayList<Upco
 
         fun bind(pos: Int) {
             val upcomingBookingModel = arrayList[pos]
-            civProfile.setImageResource(upcomingBookingModel.image!!)
-            tvName.text = upcomingBookingModel.name
-            tvDate.text = upcomingBookingModel.date
-            tvTime.text = upcomingBookingModel.time
-            tvStatus.text = upcomingBookingModel.status
+            Glide.with(context).load(upcomingBookingModel.userImage).into(civProfile)
+
+            tvName.text = upcomingBookingModel.userName
+            tvDate.text = MyUtils.getDate(upcomingBookingModel.availabilityDate)
+            tvTime.text = MyUtils.getTime(upcomingBookingModel.availabilityDate)
+            //tvStatus.text = upcomingBookingModel.status
 
             btnCancel.setOnClickListener {
                 val requestDialog = RequestDialogFragment()

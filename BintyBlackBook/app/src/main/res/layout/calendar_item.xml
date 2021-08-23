@@ -23,6 +23,7 @@
         android:id="@+id/tv_date_calendar_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/romul"
         android:textColor="@color/blackColor"

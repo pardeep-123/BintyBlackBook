@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,11 +16,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.MediaStore.Images
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -30,7 +34,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.jvm.Throws
 
 
 abstract class ImagePickerUtility : AppCompatActivity() {
@@ -39,7 +42,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
     private val GALLERY_PIC_REQUEST_CODE = 101
     private val CAMERA_REQUEST_CODE = 102
     var mVideoDialog: Boolean = false
-
+    var mPhotoFile: File? = null
     private val GALLERY_VIDEO_REQUEST_CODE = 1001
     private val REQUEST_VIDEO_CAPTURE = 1002
 
@@ -48,6 +51,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
     private var mCode = 0
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     open fun getImage(activity: Activity, code: Int, videoDialog: Boolean) {
         mActivity = activity
         mCode = code
@@ -115,19 +119,37 @@ abstract class ImagePickerUtility : AppCompatActivity() {
 
     open fun captureImage(activity: Activity) {
         mActivity = activity
-
-
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(packageManager) != null) { // Create the File where the photo should go
+            var photoFile: File? = null
+            try {
+                photoFile = createImageFile()
+            } catch (ex: IOException) {
+                ex.printStackTrace()
+            }
+
+            if (photoFile != null) {
+                val photoURI: Uri = FileProvider.getUriForFile(
+                    this,
+                    "com.bintyblackbook",
+                    photoFile
+                )
+                mPhotoFile = photoFile
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
+            }
+        }
+
+       /* val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val photoFile = createImageFile()
 
-        val fileProvider =
-            activity?.let { FileProvider.getUriForFile(it, "com.bintyblackbook", photoFile) }
+        val fileProvider = activity?.let { FileProvider.getUriForFile(it, "com.bintyblackbook", photoFile) }
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
         } else {
             Toast.makeText(activity, "Unable to open camera", Toast.LENGTH_LONG).show()
-        }
+        }*/
 
 
         /* try {
@@ -177,8 +199,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(
-            Intent.createChooser(intent, "Select a File"), GALLERY_PIC_REQUEST_CODE
+        startActivityForResult(Intent.createChooser(intent, "Select a File"), GALLERY_PIC_REQUEST_CODE
         )
     }
 
@@ -188,6 +209,14 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(galleryIntent, GALLERY_VIDEO_REQUEST_CODE)
 
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFileFromCamera(): File? { // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Date())
+        val mFileName = "JPEG_" + timeStamp + "_"
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(mFileName, ".jpg", storageDir)
     }
 
     private fun cameraPermission(permissions: Array<String>): Boolean {
@@ -259,6 +288,7 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -278,11 +308,30 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
+
+            val uri= Uri.fromFile(File(mPhotoFile?.absolutePath))
+            Log.i("file", uri.toString())
+
+            // CALL THIS METHOD TO GET THE ACTUAL PATH
+            val file = File(uri.path)
+
             selectedImage(file)
+//            val photo:Bitmap = data?.data as Bitmap
+//
+//            val tempUri = getImageUri(applicationContext, photo)
+//
+//            // CALL THIS METHOD TO GET THE ACTUAL PATH
+//
+//            // CALL THIS METHOD TO GET THE ACTUAL PATH
+//            val finalFile = File(getRealPathFromURI(tempUri))
+//                Log.i("file", finalFile.absolutePath)
+
+//            val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
+//            selectedImage(file)
 
         } else if (requestCode == GALLERY_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
             val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
+            Log.i("file", file.toString())
             selectedImage(file)
 
         } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
@@ -301,11 +350,10 @@ abstract class ImagePickerUtility : AppCompatActivity() {
 
     abstract fun selectedVideoUri(videoUri: Uri?)
 
-    fun saveImage(myBitmap: Bitmap, ctx : Activity): File? {
+    fun saveImage(myBitmap: Bitmap, ctx: Activity): File? {
         val bytes = ByteArrayOutputStream()
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
-        val imageDirectory =
-            File(ctx.getExternalFilesDir(null).toString() + "IMAGE_DIRECTORY")
+        val imageDirectory = File(ctx.getExternalFilesDir(null).toString() + "IMAGE_DIRECTORY")
         if (!imageDirectory.exists()) {
             imageDirectory.mkdirs()
         }
@@ -317,17 +365,34 @@ abstract class ImagePickerUtility : AppCompatActivity() {
             f.createNewFile()
             val fo = FileOutputStream(f)
             fo.write(bytes.toByteArray())
-            MediaScannerConnection.scanFile(
-                ctx,
-                arrayOf(f.path),
-                arrayOf("image/jpeg"),
-                null
-            )
+            MediaScannerConnection.scanFile(ctx, arrayOf(f.path), arrayOf("image/jpeg"), null)
             fo.close()
             return f
         } catch (e1: IOException) {
             e1.printStackTrace()
         }
         return null
+    }
+
+
+    open fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null)
+        return Uri.parse(path)
+    }
+
+    open fun getRealPathFromURI(uri: Uri?): String? {
+        var path = ""
+        if (contentResolver != null) {
+            val cursor: Cursor? = contentResolver.query(uri!!, null, null, null, null)
+            if (cursor != null) {
+                cursor.moveToFirst()
+                val idx: Int = cursor.getColumnIndex(Images.ImageColumns.DATA)
+                path = cursor.getString(idx)
+                cursor.close()
+            }
+        }
+        return path
     }
 }

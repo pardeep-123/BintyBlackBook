@@ -39,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
-                android:text="@string/home"
+                android:textAlignment="center"
+                android:text="Hey Cosmopolite. \n\n How can we help you?"
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp" />
 

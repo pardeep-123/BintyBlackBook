@@ -192,7 +192,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun dismissProgressDialog() {
-
         mProgress?.dismiss()
     }
 
@@ -477,8 +476,11 @@ open class BaseActivity : AppCompatActivity() {
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
     }
     override fun onDestroy() {
-        if (mProgress != null && mProgress?.isShowing()!!) mProgress?.dismiss()
+        if (mProgress != null && mProgress?.isShowing()!!) {
+            mProgress?.dismiss()
+        }
         super.onDestroy()
+        Log.i("TAG","call on destroy")
     }
 
 }

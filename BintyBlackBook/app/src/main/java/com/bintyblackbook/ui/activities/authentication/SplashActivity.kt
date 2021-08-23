@@ -1,18 +1,19 @@
 package com.bintyblackbook.ui.activities.authentication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
+import kotlinx.android.synthetic.main.activity_splash.*
 
-class SplashActivity : AppCompatActivity() {
+
+class SplashActivity : BaseActivity() {
+
     private val SPLASH_TIME_OUT = 1500
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,23 +22,36 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
         MyUtils.fullscreen(this)
-        Log.i("TAG","splash")
+        val video: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.splash)
+        videoView.setVideoURI(video)
+        videoView.start()
         gotoNext()
     }
 
     private fun gotoNext(){
-        Handler(Looper.getMainLooper()).postDelayed({
 
-            if(!getUser(this)?.authKey.isNullOrEmpty()){
+        videoView.setOnCompletionListener {
+            if (!getUser(context)?.authKey.isNullOrEmpty()) {
                 val intent = Intent(this@SplashActivity, HomeActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            else {
+            } else {
                 val intent = Intent(this@SplashActivity, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-        }, SPLASH_TIME_OUT.toLong())
+        }
+        /* Handler(Looper.getMainLooper()).postDelayed({
+
+             if (!getUser(this)?.authKey.isNullOrEmpty()) {
+                 val intent = Intent(this@SplashActivity, HomeActivity::class.java)
+                 startActivity(intent)
+                 finish()
+             } else {
+                 val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                 startActivity(intent)
+                 finish()
+             }
+         }, SPLASH_TIME_OUT.toLong())*/
     }
 }

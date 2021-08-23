@@ -1,6 +1,7 @@
 package com.bintyblackbook.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
@@ -10,10 +11,14 @@ import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.FavEventsResponse
 import com.bintyblackbook.model.MyLoopsResponse
 import com.bintyblackbook.model.UserEventsResponse
+import com.bintyblackbook.ui.activities.authentication.InfoActivity
+import com.bintyblackbook.ui.activities.home.AddEventActivity
 import com.bintyblackbook.ui.activities.home.EventActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,7 +44,7 @@ class EventsViewModel :ViewModel(){
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
                     (context as BaseActivity).dismissProgressDialog()
-                    (context).showSnackBarMessage(t.localizedMessage)
+                    (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
                 }catch (e:Exception){
                     e.printStackTrace()
                 }
@@ -65,7 +70,7 @@ class EventsViewModel :ViewModel(){
                 } else {
                     val error: JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    showAlert(context as BaseActivity ,error.getString("msg").toString(),"OK",{})
 
                 }
             }
@@ -107,7 +112,7 @@ class EventsViewModel :ViewModel(){
                 } else {
                     val error: JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK"){}
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK"){}
                 }
             }
         })
@@ -157,7 +162,6 @@ class EventsViewModel :ViewModel(){
     /*
     my events api
      */
-
     fun myEvents(context: Context,securityKey: String,auth_key: String,userId:String){
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.myEvents(securityKey,auth_key, userId).enqueue(object : Callback<JsonElement>{
@@ -195,6 +199,48 @@ class EventsViewModel :ViewModel(){
                     (context as BaseActivity).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK"){}
                 }
+            }
+        })
+    }
+
+
+    //add event api
+    fun addEvent(context: Context,security_key:String, auth_key:String, request:Map<String, RequestBody>, part: MultipartBody.Part){
+
+        (context as AddEventActivity).showProgressDialog()
+        ApiClient.apiService.addEvent(security_key,auth_key,request,part).enqueue(object : Callback<JsonElement> {
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                try {
+                    (context as AddEventActivity).dismissProgressDialog()
+                    (context as AddEventActivity).showSnackBarMessage("" + t.message)
+                    Log.e("TAG", "" + t.message)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as AddEventActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            baseEventsLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as AddEventActivity,jsonDATA.getString("msg"),"Ok",{})
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as AddEventActivity).dismissProgressDialog()
+                    showAlert(context as AddEventActivity ,error.getString("msg").toString(),"OK",{})
+                }
+
             }
         })
     }
