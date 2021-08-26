@@ -1,13 +1,16 @@
 package com.bintyblackbook.ui.activities.home.profileUser
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.models.AvailabilityModel
 import kotlinx.android.synthetic.main.activity_set_availability.*
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class SetAvailabilityActivity : AppCompatActivity() {
 
@@ -22,7 +25,6 @@ class SetAvailabilityActivity : AppCompatActivity() {
 
         setOnClicks()
 
-
         checkbox_selectAll.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 for(i in 0 until arrayList.size) {
@@ -32,7 +34,11 @@ class SetAvailabilityActivity : AppCompatActivity() {
             }
         }
 
+        val list = calenderView.selectedDates
+        Log.i("TAG", list.toString())
+
     }
+
 
     private fun setAdapter() {
         arrayList = ArrayList()
@@ -76,7 +82,7 @@ class SetAvailabilityActivity : AppCompatActivity() {
 
         calenderView.setOnDayClickListener {
          val date= it.calendar.time
-            Log.i("TAG",date.toString())
+            Log.i("TAG", date.toString())
         }
 
     }

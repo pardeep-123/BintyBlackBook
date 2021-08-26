@@ -36,8 +36,12 @@ class HorizontalCalendarAdapter(var context: Context) : RecyclerView.Adapter<Hor
         val tvMonthAndDate: TextView = itemView.tv_date_calendar_item
 
         fun bind(pos: Int) {
+
             val horizontalCalendarModel = arrayList[pos]
 
+            if(pos==0){
+                horizontalCalendarModel.isSelected
+            }
             tvWeek.text = MyUtils.getCurrentDay(horizontalCalendarModel.date)
             tvMonthAndDate.text = MyUtils.getCurrentDate(horizontalCalendarModel.date)
 

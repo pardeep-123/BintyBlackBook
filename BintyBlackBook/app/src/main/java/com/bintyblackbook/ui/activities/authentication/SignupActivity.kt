@@ -143,19 +143,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 }
                 else{
                     checkValidationsForBusiness()
-//                    val intent = Intent(context, InfoActivity::class.java)
-//                    startActivity(intent)
                 }
-
-
-               /* if (MySharedPreferences.getUserType(this).equals("User")){
-                    val intent = Intent(context, HomeActivity::class.java)
-                    startActivity(intent)
-                    finishAffinity()
-                }else if(MySharedPreferences.getUserType(this).equals("Business")){
-                    val intent = Intent(context, InfoActivity::class.java)
-                    startActivity(intent)
-                }*/
             }
             R.id.tv_loginAcct ->{
                 finish()

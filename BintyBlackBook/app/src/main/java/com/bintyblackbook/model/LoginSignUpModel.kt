@@ -32,6 +32,7 @@ data class Data(
     val socialId: String,
     val socialMediaHandles: String,
     val socialType: Int,
+    var isLoop:Int,
     val swapInMind: String,
     val userMedia: ArrayList<UserMedia> = ArrayList<UserMedia>(),
     val userType: Int,

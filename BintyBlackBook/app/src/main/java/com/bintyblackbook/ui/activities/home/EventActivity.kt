@@ -2,6 +2,7 @@ package com.bintyblackbook.ui.activities.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -69,6 +70,15 @@ class EventActivity : BaseActivity() {
             intent.putExtra(AppConstant.HEADING,eventsModel.name)
             intent.putExtra("post_id",eventsModel.id)
             startActivity(intent)
+        }
+
+        // status 1 ->like  0 ->dislike
+        eventAdapter?.onSelectFav ={ eventsModel: EventData ->
+            eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,eventsModel.id.toString(),"1")
+            eventsViewModel.baseEventsLiveData.observe(this, Observer {
+
+                Log.i("TAG",it.msg)
+            })
         }
     }
 }

@@ -72,7 +72,6 @@
                 app:pagesColor="@color/themeColor"
                 app:selectionColor="@color/fadePink"
                 app:todayLabelColor="@color/fadePink"
-
                 app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
 
             <RelativeLayout
@@ -91,7 +90,7 @@
                 android:text="@string/select_time"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp13"
-                android:layout_marginTop="@dimen/dp10"/>
+                android:layout_marginTop="@dimen/dp16"/>
 
                 <CheckBox
                     android:id="@+id/checkbox_selectAll"
@@ -101,6 +100,7 @@
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/whiteColor"
                     android:buttonTint="@color/whiteColor"
+                    android:layout_marginTop="@dimen/dp10"
                     android:layout_marginEnd="@dimen/dp10"/>
 
             </RelativeLayout>

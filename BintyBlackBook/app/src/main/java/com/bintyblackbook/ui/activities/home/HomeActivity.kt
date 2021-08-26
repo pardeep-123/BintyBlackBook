@@ -23,6 +23,7 @@ import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
 import com.bintyblackbook.ui.dialogues.LogoutDialogFragment
 import com.bintyblackbook.ui.fragments.HomeFragment
 import com.bintyblackbook.util.*
+import com.bintyblackbook.viewmodel.NotificationViewModel
 import com.bintyblackbook.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.drawerhome.*
@@ -34,10 +35,13 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     var userType:String? = null
     lateinit var settingsViewModel: SettingsViewModel
 
+    lateinit var notificationViewModel: NotificationViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawerhome)
         settingsViewModel= SettingsViewModel(this)
+        notificationViewModel= NotificationViewModel(this)
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
@@ -47,6 +51,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             ll_promote.visibility = View.VISIBLE
         }
 
+        //call api for notification count
+        getNotificationCount()
         clickListenerHandling()
         switchFragment(HomeFragment())
 
@@ -60,6 +66,21 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 searchClick = true
             }
         }
+    }
+    private fun getNotificationCount() {
+        notificationViewModel.getNotificationCount(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        notificationViewModel.notiCountLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                if(it.data?.count!=0){
+                    tvCount.visibility=View.VISIBLE
+                    tvCount.text =it.data?.count.toString()
+                }else{
+                    tvCount.visibility= View.GONE
+                }
+
+            }
+        })
     }
 
     private fun clickListenerHandling() {
@@ -76,6 +97,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         ll_eventCalendar.setOnClickListener(this)
         ll_settings.setOnClickListener(this)
         ll_logout.setOnClickListener(this)
+        ll_add_account.setOnClickListener(this)
     }
 
     protected fun switchFragment(fragment: Fragment) {
@@ -94,7 +116,8 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
             R.id.rlBell -> {
-                startActivity(Intent(context, NotificationActivity::class.java))
+                val intent= Intent(context,NotificationActivity::class.java)
+                startActivity(intent)
             }
             R.id.ll_Profile -> {
                if (userType.equals("User")){
@@ -143,6 +166,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             R.id.ll_logout -> {
                 val logoutDialog = LogoutDialogFragment(this)
                 logoutDialog.show(supportFragmentManager,"logoutDialog")
+            }
+
+            R.id.ll_add_account ->{
+
             }
         }
     }

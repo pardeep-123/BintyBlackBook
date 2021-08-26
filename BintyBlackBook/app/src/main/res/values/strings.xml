@@ -124,7 +124,7 @@
     <string name="cvv">CVV Number</string>
     <string name="add_post">Add Post</string>
     <string name="post">Post</string>
-    <string name="you_can_earn_more_rewards">You can earn more rewards by referring your friends to Binty\'s Black Book. Send them your referral code(pin001).</string>
+    <string name="you_can_earn_more_rewards">You can earn more rewards by referring your friends to Binty\'s Black Book. Send them your referral code(.</string>
     <string name="invite_friend">Invite friend</string>
     <string name="calendar">Calendar</string>
     <string name="my_wallet">My Wallet</string>
@@ -169,5 +169,8 @@
     <string name="suggestions">Suggestions</string>
     <string name="no_loop_found">No Loop Found</string>
     <string name="directory">DIRECTORY</string>
+    <string name="hey_cosmopolite_how_can_we_help_you">Hey Cosmopolite. \n\n How can we help you?</string>
+    <string name="open_to_swap">Open to swap system</string>
+    <string name="swap_in_mind">Swap in mind</string>
 
 </resources>

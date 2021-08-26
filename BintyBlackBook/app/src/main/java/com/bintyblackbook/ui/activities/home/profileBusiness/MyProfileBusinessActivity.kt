@@ -12,6 +12,7 @@ import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.UserMedia
 import com.bintyblackbook.ui.activities.home.profileUser.AvailabilityActivity
 import com.bintyblackbook.ui.activities.home.profileUser.EventInProfileActivity
+import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ProfileViewModel
@@ -71,7 +72,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         tvUserAbout.text=it?.description
         tvExp.text=it?.experience
         tvWebLink.text=it?.websiteLink
-
+        Glide.with(this).load(it?.image).into(civ_profile)
         Glide.with(this).load(it?.userMedia!![0].media).into(riv1)
         if(it.userMedia.size > 0){
             arrayList.addAll(it.userMedia)
@@ -102,7 +103,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         when(v?.id){
 
             R.id.btnSetAvailability ->{
-                val intent= Intent(this,AvailabilityActivity::class.java)
+                val intent= Intent(this, SetAvailabilityActivity::class.java)
                 intent.putExtra("user_id",response?.id.toString())
                 startActivity(intent)
             }

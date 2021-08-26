@@ -68,9 +68,16 @@ class HomeItemClickActivity : BaseActivity() {
 
     private fun adapterItemClick(){
         photoAdapter?.onItemClick = { photosModel ->
-             val intent = Intent(this,UserDetailActivity::class.java)
-             intent.putExtra("user_id",photosModel.userId.toString())
-             startActivity(intent)
+            if(getUser(this)?.userType==1){
+                val intent = Intent(this,OtherUserProfileActivity::class.java)
+                intent.putExtra("user_id",photosModel.userId.toString())
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, UserDetailActivity::class.java)
+                intent.putExtra("user_id", photosModel.userId.toString())
+                startActivity(intent)
+            }
         }
     }
 }

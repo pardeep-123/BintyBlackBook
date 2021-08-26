@@ -574,6 +574,7 @@
             </RadioGroup>
 
             <TextView
+                android:id="@+id/tvSwap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -728,6 +729,16 @@
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/image"
                     android:src="@drawable/upload_icon" />
+
+                <ImageView
+                    android:id="@+id/ivDeletePhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:visibility="gone"
+                    android:src="@drawable/cross"/>
 
             </RelativeLayout>
 

@@ -50,6 +50,26 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         suggestionAdapter= SuggestionsAdapter(this,suggestList)
         rvSuggestions.adapter=suggestionAdapter
 
+        suggestionAdapterClick()
+
+    }
+
+    private fun suggestionAdapterClick() {
+        suggestionAdapter?.onSendLoopRequest= { data: Suggested,pos:Int ->
+
+            loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,data.user2_id.toString())
+            loopsViewModel.baseLiveData.observe(this, Observer {
+                if(it.code==200){
+                    showAlertWithOk(it.msg)
+                    suggestList.removeAt(pos)
+                    suggestionAdapter?.notifyDataSetChanged()
+                }
+                else{
+                    Log.i("TAG",it?.msg.toString())
+                }
+            })
+
+        }
     }
 
     private fun getLoopsList() {
@@ -120,4 +140,5 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
             }
         })
     }
+
 }

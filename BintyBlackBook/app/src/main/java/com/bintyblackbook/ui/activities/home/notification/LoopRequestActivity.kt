@@ -21,16 +21,26 @@ class LoopRequestActivity : AppCompatActivity() {
 
     lateinit var loopsViewModel: LoopsViewModel
 
+    var msg =""
+    var userId=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loop_request)
 
         loopsViewModel= LoopsViewModel(this)
 
+        getIntentData()
         setAdapter()
         rlBack.setOnClickListener {
             onBackPressed()
         }
+
+    }
+
+    private fun getIntentData() {
+        msg= intent.getStringExtra("message").toString()
+        userId= intent.getStringExtra("user_id").toString()
 
     }
 

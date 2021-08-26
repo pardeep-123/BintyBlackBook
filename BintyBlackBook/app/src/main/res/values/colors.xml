@@ -16,4 +16,5 @@
     <color name="lightGray">#DDDDD6</color>
     <color name="lightGray1">#91918D</color>
     <color name="trasnparent">#00ffffff</color>
+    <color name="red_color">#FFD50000</color>
 </resources>

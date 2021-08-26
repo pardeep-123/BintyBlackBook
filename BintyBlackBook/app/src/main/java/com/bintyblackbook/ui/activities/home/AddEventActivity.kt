@@ -147,13 +147,7 @@ class AddEventActivity : ImagePickerUtility() {
     }
 
     private fun timePicker() {
-        TimePickerDialog(
-            this,
-            time,
-            myCalendar[Calendar.HOUR_OF_DAY],
-            myCalendar[Calendar.MINUTE],
-            false
-        ).show()
+        TimePickerDialog(this, time, myCalendar[Calendar.HOUR_OF_DAY], myCalendar[Calendar.MINUTE], false).show()
     }
 
     fun createRequestBody(param:String): RequestBody {
@@ -162,10 +156,7 @@ class AddEventActivity : ImagePickerUtility() {
     }
 
     private fun datePicker() {
-        DatePickerDialog(
-            this@AddEventActivity, date, myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
-            myCalendar[Calendar.DAY_OF_MONTH]
-        ).show()
+        DatePickerDialog(this@AddEventActivity, date, myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH], myCalendar[Calendar.DAY_OF_MONTH]).show()
     }
 
     private fun updateDateLabel() {

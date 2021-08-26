@@ -17,14 +17,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".ui.activities.authentication.CheckAvailabilityActivity"/>
-        <activity android:name=".ui.tutorials.GetStartedActivity"></activity>
+        <activity android:name=".ui.activities.home.loop.LoopSearchActivity"></activity>
+        <activity android:name=".ui.activities.authentication.CheckAvailabilityActivity" />
+        <activity android:name=".ui.tutorials.GetStartedActivity" />
         <activity
             android:name=".ui.activities.home.profileBusiness.EditProfileBusinessActivity"
             android:screenOrientation="portrait" />
@@ -49,9 +49,9 @@
         <activity
             android:name=".ui.activities.home.settings.MyWalletActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ui.activities.authentication.WalkthroughActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activities.authentication.WalkthroughActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.home.eventCalender.CalenderActivity"
             android:screenOrientation="portrait" />
@@ -123,8 +123,9 @@
         <activity
             android:name=".ui.activities.home.settings.PrivacyPolicyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.authentication.ChangePasswordActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.authentication.ChangePasswordActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activities.home.settings.SettingsActivity"
             android:screenOrientation="portrait" />
@@ -139,6 +140,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.home.profileUser.MyProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.OtherUserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.home.HomeActivity"

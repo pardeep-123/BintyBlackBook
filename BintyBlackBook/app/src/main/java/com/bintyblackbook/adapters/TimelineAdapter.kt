@@ -60,12 +60,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             tvMessage.text=timelineModel.description
             tvComments.text = timelineModel.postComments.size.toString()
 
-            if(getUser(context)?.id==arrayList[pos].userId){
-                setPopUpWindow(timelineModel,"myProfile")
-            }
-            else{
-                setPopUpWindow(timelineModel,"other")
-            }
+
 
          /*   if (timelineModel.status==1) {
                 rlDots.visibility = View.VISIBLE
@@ -107,6 +102,13 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
             rlDots.setOnClickListener {
                 myPopupWindow?.showAsDropDown(it, -165, -20)
+            }
+
+            if(getUser(context)?.id==arrayList[pos].userId){
+                setPopUpWindow(timelineModel,"myProfile")
+            }
+            else{
+                setPopUpWindow(timelineModel,"other")
             }
         }
 

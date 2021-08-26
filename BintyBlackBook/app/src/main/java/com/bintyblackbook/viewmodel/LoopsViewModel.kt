@@ -184,7 +184,7 @@ class LoopsViewModel (val context: Context):ViewModel(){
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK",{})
                 }
             }
         })

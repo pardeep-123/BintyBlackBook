@@ -1,7 +1,6 @@
 package com.bintyblackbook.ui.activities.home.notification
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,7 +9,6 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.NotificationAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.NotificationListData
-import com.bintyblackbook.models.NotificationModel
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.NotificationViewModel
@@ -63,11 +61,27 @@ class NotificationActivity : BaseActivity(){
 
     private fun adapterItemClick(){
         notificationAdapter?.onItemClick = {notificationModel: NotificationListData ->
+
+            updateNotificationSeen(notificationModel.id.toString())
             if (notificationModel.type == 1){
-                startActivity(Intent(this,LoopRequestActivity::class.java))
+                val intent= Intent(this, LoopRequestActivity::class.java)
+                intent.putExtra("message",notificationModel.message)
+                intent.putExtra("user_id",notificationModel.user2Id.toString())
+                startActivity(intent)
             }else  if (notificationModel.type == 2){
                 startActivity(Intent(this,BookingRequestActivity::class.java))
             }
         }
+    }
+
+    private fun updateNotificationSeen(id: String) {
+        notificationViewModel.updateNotiSeen(getSecurityKey(this)!!, getUser(this)?.authKey!!,id)
+        notificationViewModel.baseLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                Log.i("===",it.msg)
+            }
+
+        })
     }
 }

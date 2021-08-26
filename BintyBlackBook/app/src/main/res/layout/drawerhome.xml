@@ -352,6 +352,37 @@
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:id="@+id/ll_add_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/image"
+                        android:padding="5dp"
+                        android:src="@drawable/my_profile" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/trajanpro_regular"
+                        android:text="Add/Switch Account"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_logout"
                     android:layout_width="match_parent"

@@ -85,6 +85,11 @@ class ApiConstants {
 
         const val REPORT_POST="report_time_line"
 
+        const val GET_NOTIFICATION_COUNT="get_notification_count"
+
+        const val NOTIFICATION_SEEN="notification_seen"
+
+        const val GET_All_LOOP_REQUEST="get_all_loop_request"
     }
 
 }

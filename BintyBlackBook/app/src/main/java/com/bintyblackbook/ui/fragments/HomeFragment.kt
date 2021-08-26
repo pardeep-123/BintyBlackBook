@@ -16,13 +16,17 @@ import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.HomeViewModel
+import com.bintyblackbook.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
     var homeAdapter: HomeAdapter? = null
     lateinit var homeViewModel: HomeViewModel
+    lateinit var notificationViewModel: NotificationViewModel
     var homeList=ArrayList<HomeData>()
+
+    var count=""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,8 +41,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel=HomeViewModel(requireContext())
+        notificationViewModel= NotificationViewModel(requireContext())
 
         init()
+
 
         //call api for home data
 
@@ -47,6 +53,7 @@ class HomeFragment : Fragment() {
             getHomeData()
         }
     }
+
 
     private fun getHomeData() {
         homeViewModel.homeLiveData.observe(requireActivity(), Observer {

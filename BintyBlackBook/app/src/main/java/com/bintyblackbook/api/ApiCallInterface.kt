@@ -344,4 +344,23 @@ interface ApiCallInterface {
         @Field("post_id") post_id:String,
         @Field("description") description:String
     ) : Call<JsonElement>
+
+    @GET(ApiConstants.GET_NOTIFICATION_COUNT)
+    fun getNotificationCount(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
+    @POST(ApiConstants.NOTIFICATION_SEEN)
+    fun getNotificationSeen(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("notification_id") notification_id:String
+    ) : Call<JsonElement>
+
+    @GET(ApiConstants.GET_All_LOOP_REQUEST)
+    fun getAllRequest(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
 }

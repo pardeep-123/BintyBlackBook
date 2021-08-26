@@ -9,5 +9,4 @@ class AvailabilityModel {
         this.selected = selected
     }
 
-    constructor()
 }
