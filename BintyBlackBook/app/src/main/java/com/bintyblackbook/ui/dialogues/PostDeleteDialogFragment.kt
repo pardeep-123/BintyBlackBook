@@ -12,7 +12,7 @@ import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
 import kotlinx.android.synthetic.main.dialog_fragment_post_delete.*
 
 
-class PostDeleteDialogFragment(val timelineActivity: TimelineActivity) : DialogFragment() {
+class PostDeleteDialogFragment(val timelineActivity: TimelineActivity, val position: Int) : DialogFragment() {
 
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class PostDeleteDialogFragment(val timelineActivity: TimelineActivity) : DialogF
 
         btnYes.setOnClickListener {
             dismiss()
-            timelineActivity.deletePost()
+            timelineActivity.deletePost(position)
         }
 
         btnNo.setOnClickListener {

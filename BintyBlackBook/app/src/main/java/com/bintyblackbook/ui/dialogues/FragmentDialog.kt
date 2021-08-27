@@ -26,6 +26,7 @@ class FragmentDialog(var openBy:String) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.setCancelable(true)
 
         if (openBy == "LoopRequest"){
             tvDesc.text = getString(R.string.your_loop_request_has_been_sent)

@@ -32,11 +32,9 @@ class LoopsViewModel (val context: Context):ViewModel(){
         ApiClient.apiService.getLoops(securityKey,auth_key).enqueue(object : Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.e("TAG",t.localizedMessage)
                 try {
                     (context as BaseActivity).dismissProgressDialog()
                     (context as BaseActivity).showSnackBarMessage("" + t.message)
-                    Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -76,11 +74,10 @@ class LoopsViewModel (val context: Context):ViewModel(){
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.e("TAG",t.localizedMessage)
+
                 try {
                     (context as BaseActivity).dismissProgressDialog()
                     (context as BaseActivity).showSnackBarMessage("" + t.message)
-                    Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

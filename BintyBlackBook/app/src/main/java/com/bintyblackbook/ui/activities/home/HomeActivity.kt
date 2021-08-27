@@ -49,6 +49,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
         if(userType.equals("Business")){
             ll_promote.visibility = View.VISIBLE
+            ll_add_account.visibility = View.VISIBLE
         }
 
         //call api for notification count
@@ -58,11 +59,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
         ivSearch.setOnClickListener {
             if (searchClick){
-                edtSearch.visibility = View.GONE
+                search_events.visibility = View.GONE
                 searchClick = false
                 MyUtils.hideSoftKeyboard(this)
             }else{
-                edtSearch.visibility = View.VISIBLE
+                search_events.visibility = View.VISIBLE
                 searchClick = true
             }
         }
@@ -78,7 +79,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 }else{
                     tvCount.visibility= View.GONE
                 }
-
             }
         })
     }

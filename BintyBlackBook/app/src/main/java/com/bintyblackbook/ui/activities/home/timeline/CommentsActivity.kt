@@ -8,10 +8,8 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CommentsAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.CommentData
-import com.bintyblackbook.model.CommentsResponse
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.CommentsViewModel
-import com.bintyblackbook.viewmodel.PostsViewModel
 import kotlinx.android.synthetic.main.activity_comments.*
 import java.util.*
 
@@ -43,16 +41,13 @@ class CommentsActivity : BaseActivity() {
             if(InternetCheck.isConnectedToInternet(context)
                 && Validations.isEmpty(context,edtMsg,"Please enter your comment")){
 
-                commentsViewModel.addComment(getSecurityKey(context)!!, getUser(context)?.authKey!!,post_id,edtMsg.text.toString())
-
+                commentsViewModel.addComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id,edtMsg.text.toString())
                 commentsViewModel.addCommentLiveData.observe(this, Observer {
 
                     if(it.code==200){
-                        showAlert(context,it.msg,getString(R.string.ok)){
-                            finish()
-                        }
+                        showAlertWithOk(it.msg)
+                        getCommentList(post_id)
                     }
-
                 })
             }
         }
@@ -72,12 +67,12 @@ class CommentsActivity : BaseActivity() {
                     tvNoComments.visibility=View.VISIBLE
                 }
                 else{
-                    tvNoComments.visibility=View.GONE
+                    tvNoComments.visibility= View.GONE
                     rvComments.visibility=View.VISIBLE
-                    arrayList.addAll(it?.data!!)
+                    arrayList.clear()
+                    arrayList.addAll(it.data)
                     commentsAdapter?.notifyDataSetChanged()
                 }
-
             }
         })
     }

@@ -9,13 +9,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.LoopRequestData
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import kotlinx.android.synthetic.main.item_loop_request.view.*
 
 class LoopRequestAdapter(var context: Context) :
     RecyclerView.Adapter<LoopRequestAdapter.LoopRequestViewHolder>() {
 
-    var onItemBtnClick:((status:String)->Unit)? = null
+    var loopList= ArrayList<LoopRequestData>()
+  //  var onItemBtnClick:((status:String,data:loop)->Unit)? = null
+   lateinit var loopRequestInterface:LoopRequestInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoopRequestViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_loop_request, parent, false)
@@ -27,7 +30,7 @@ class LoopRequestAdapter(var context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return 1
+        return loopList.size
     }
 
     inner class LoopRequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,13 +39,21 @@ class LoopRequestAdapter(var context: Context) :
         val btnCancel: Button = itemView.btnCancel
 
         fun bind(pos: Int) {
+            val data= loopList[pos]
+            tvMessage.text= data.message
             btnAccept.setOnClickListener {
-                onItemBtnClick?.invoke("accept")
+                loopRequestInterface.onItemClick("2",data)
+              //  onItemBtnClick?.invoke("2",data)
             }
 
             btnCancel.setOnClickListener {
-                onItemBtnClick?.invoke("cancel")
+                loopRequestInterface.onItemClick("0",data)
+               // onItemBtnClick?.invoke("0",data)
             }
         }
+    }
+
+    interface LoopRequestInterface{
+        fun onItemClick(status: String, data: LoopRequestData)
     }
 }

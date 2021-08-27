@@ -103,7 +103,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun updateNotificationStatus(status:String){
-        settingsViewModel.addNotificationStatus(getSecurityKey(context)!!, getUser(context)?.authKey!!,status)
+        settingsViewModel.updateNotificationStatus(getSecurityKey(context)!!, getUser(context)?.authKey!!,status)
 
         settingsViewModel.notificationLiveData.observe(this, Observer {
 

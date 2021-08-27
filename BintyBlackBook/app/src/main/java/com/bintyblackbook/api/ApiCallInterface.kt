@@ -13,7 +13,6 @@ interface ApiCallInterface {
     /*
     Login API
     */
-
     @FormUrlEncoded
     @POST(ApiConstants.LOGIN)
     fun loginUser(
@@ -157,6 +156,8 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key:String
     ) : Call<JsonElement>
 
+
+    //delete post
     @DELETE(ApiConstants.DELETE_POST)
     fun deletePost(
         @Header("security_key") security_key:String,
@@ -334,16 +335,6 @@ interface ApiCallInterface {
         @Field("user_id") userId:String
     ): Call<JsonElement>
 
-    //post_id, description
-
-    @FormUrlEncoded
-    @POST(ApiConstants.REPORT_POST)
-    fun reportPost(
-        @Header("security_key") security_key: String,
-        @Header("auth_key") auth_key:String,
-        @Field("post_id") post_id:String,
-        @Field("description") description:String
-    ) : Call<JsonElement>
 
     @GET(ApiConstants.GET_NOTIFICATION_COUNT)
     fun getNotificationCount(
@@ -351,6 +342,7 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key: String
     ) : Call<JsonElement>
 
+    @FormUrlEncoded
     @POST(ApiConstants.NOTIFICATION_SEEN)
     fun getNotificationSeen(
         @Header("security_key") security_key: String,
@@ -362,5 +354,14 @@ interface ApiCallInterface {
     fun getAllRequest(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.REPORT_POST)
+    fun reportPost(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("post_id") post_id: String,
+        @Field("description") description:String
     ) : Call<JsonElement>
 }

@@ -52,7 +52,7 @@ class PastBookingAdapter(var context: Context) :
             //tvStatus.text = upcomingBookingModel.status
 
             itemView.setOnClickListener {
-                context.startActivity(Intent(context, UserDetailActivity::class.java))
+               // context.startActivity(Intent(context, UserDetailActivity::class.java))
             }
 
         }

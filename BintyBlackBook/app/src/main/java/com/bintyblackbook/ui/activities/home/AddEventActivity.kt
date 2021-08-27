@@ -1,8 +1,10 @@
 package com.bintyblackbook.ui.activities.home
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +13,10 @@ import com.bintyblackbook.R
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.EventsViewModel
 import com.bumptech.glide.Glide
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_add_event.*
 import kotlinx.android.synthetic.main.activity_signup.*
@@ -34,6 +40,9 @@ class AddEventActivity : ImagePickerUtility() {
     private var mSnackBar: Snackbar? = null
     var imageFile:File?=null
     var selectedImagePath:File?=null
+    private var latitude = ""
+    private var longitude = ""
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
 
     override fun selectedImage(imagePath: File?) {
         Glide.with(this).load(imagePath).into(riv)
@@ -47,6 +56,8 @@ class AddEventActivity : ImagePickerUtility() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
+
+        Places.initialize(this, "AIzaSyAd4ZzHfi-nAp-6IAm1YF5-pVxCAlzW4EA")
         mProgress = CustomProgressDialog(this)
         eventsViewModel= EventsViewModel()
         val heading = intent.getStringExtra(AppConstant.HEADING)
@@ -65,7 +76,6 @@ class AddEventActivity : ImagePickerUtility() {
         rlBack.setOnClickListener {
             finish()
         }
-
 
         date = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
@@ -95,6 +105,20 @@ class AddEventActivity : ImagePickerUtility() {
         btnSave.setOnClickListener {
            checkValidations()
         }
+
+        edtLocation.setOnClickListener {
+            val fields = listOf(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS_COMPONENTS,
+                Place.Field.ADDRESS
+            )
+
+// Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+        }
     }
 
     private fun checkValidations() {
@@ -102,7 +126,7 @@ class AddEventActivity : ImagePickerUtility() {
             && Validations.isEmpty(this,edtEventName,"Please enter event name")
             && Validations.isEmpty(this,edtLocation,getString(R.string.err_location))
             && Validations.isEmpty(this,edtDate,"Please select date")
-            && Validations.isEmpty(this,edtDate,"Please select time")
+            && Validations.isEmpty(this,edtTime,"Please select time")
             && Validations.isEmpty(this,edtLink,"Please enter the link")
             && Validations.isEmpty(this,edtDesc,"Please enter description")
             && Validations.isEmpty(this,edtMoreInfo,"Please enter more info")
@@ -117,13 +141,13 @@ class AddEventActivity : ImagePickerUtility() {
             map.put("name",createRequestBody(edtEventName.text.toString()))
             map.put("location",createRequestBody(edtLocation.text.toString()))
             map.put("date",createRequestBody(edtDate.text.toString()))
-            map.put("time",createRequestBody(edtDate.text.toString()))
+            map.put("time",createRequestBody(edtTime.text.toString()))
             map.put("rsvp_link",createRequestBody(edtLink.text.toString()))
             map.put("description",createRequestBody(edtDesc.text.toString()))
             map.put("more_info",createRequestBody(edtMoreInfo.text.toString()))
             map.put("user_id",createRequestBody(getUser(this)?.id.toString()))
-            map.put("latitude",createRequestBody("0"))
-            map.put("longitude",createRequestBody("0"))
+            map.put("latitude",createRequestBody(latitude))
+            map.put("longitude",createRequestBody(longitude))
 
             var imagenPerfil: MultipartBody.Part? = null
             if (selectedImagePath != null) {
@@ -135,7 +159,7 @@ class AddEventActivity : ImagePickerUtility() {
             }
 
             eventsViewModel.addEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil!!)
-            eventsViewModel.baseEventsLiveData.observe(this, androidx.lifecycle.Observer {
+            eventsViewModel.baseEventsLiveData.observe(this, {
 
                 if(it.code==200){
                     showAlert(this,it.msg,getString(R.string.ok)){
@@ -192,6 +216,21 @@ class AddEventActivity : ImagePickerUtility() {
             mSnackBar?.show()
         } catch (e: Exception) {
             Log.e("TAG",e.printStackTrace().toString())
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val place = Autocomplete.getPlaceFromIntent(data)
+                 edtLocation.setText(place.name.toString())
+                latitude = place.latLng?.latitude.toString()
+                longitude = place.latLng?.longitude.toString()
+                Log.i("string", place.address +place.toString() + "===lat"+latitude +"===long"+longitude)
+            }
+
         }
     }
 }

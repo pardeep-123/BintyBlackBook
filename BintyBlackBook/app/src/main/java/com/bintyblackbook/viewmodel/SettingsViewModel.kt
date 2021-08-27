@@ -26,7 +26,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
     var baseLiveData= MutableLiveData<BaseResponseModel>()
 
     // add/update notification status
-    fun addNotificationStatus(security_key:String,auth_key:String,status:String){
+    fun updateNotificationStatus(security_key:String,auth_key:String,status:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addNotificationStatus(security_key,auth_key,status

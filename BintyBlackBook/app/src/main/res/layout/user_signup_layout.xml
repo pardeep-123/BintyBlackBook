@@ -136,6 +136,7 @@
         android:textColor="@color/blackColor"
         android:textSize="13sp"
         android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:textStyle="bold"/>
 
 </LinearLayout>

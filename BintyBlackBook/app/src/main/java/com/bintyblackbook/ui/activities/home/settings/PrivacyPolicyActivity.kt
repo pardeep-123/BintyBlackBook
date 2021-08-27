@@ -21,7 +21,7 @@ class PrivacyPolicyActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_privacy_policy)
         settingsViewModel= SettingsViewModel(this)
 
-        if (intent.getStringExtra("from")?.equals("terms")!!) {
+        if (intent.getStringExtra("from").toString().equals("terms")) {
             tvHeading.text = "TERMS & CONDITIONS"
             type="1"
         } else {

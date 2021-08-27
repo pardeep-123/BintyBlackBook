@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.UpcomingBookingAdapter
 import com.bintyblackbook.model.UpcomingBookings
-import com.bintyblackbook.models.UpcomingBookingModel
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel
@@ -46,8 +45,17 @@ class UpcomingBookingsFragment : Fragment() {
         bookingsViewModel.getAllBookings(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
         bookingsViewModel.bookingsLiveData.observe(requireActivity(), {
 
-            upcomingArrayList.addAll(it?.data?.upcomingBookings!!)
-            upcomingBookingAdapter?.notifyDataSetChanged()
+            if(it?.data?.upcomingBookings?.size==0){
+                tvNoBookings.visibility=View.GONE
+                rvUpcomingBookings.visibility=View.VISIBLE
+            }
+            else {
+                tvNoBookings.visibility=View.VISIBLE
+                rvUpcomingBookings.visibility=View.GONE
+                upcomingArrayList.clear()
+                upcomingArrayList.addAll(it?.data?.upcomingBookings!!)
+                upcomingBookingAdapter?.notifyDataSetChanged()
+            }
 
         })
     }

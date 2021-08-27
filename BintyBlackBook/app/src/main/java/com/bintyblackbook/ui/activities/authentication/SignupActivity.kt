@@ -49,10 +49,11 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
     var black_owned=""
 
+    private var latitude = ""
+    private var longitude = ""
     lateinit var signUpViewModel: SignUpViewModel
 
     override fun selectedImage(imagePath: File?) {
-        Log.i("TAG",imagePath?.path.toString())
         Glide.with(context).load(imagePath).into(civ_profile)
         selectedImagePath=imagePath
     }

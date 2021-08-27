@@ -32,7 +32,7 @@ class EventCalenderActivity : BaseActivity() {
             }
         })
 
-        val adapter = EventCalenderPagerAdapter(this, supportFragmentManager, tabLayout.tabCount)
+        val adapter = EventCalenderPagerAdapter(supportFragmentManager, tabLayout.tabCount)
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         viewPager.currentItem = 0

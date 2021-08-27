@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
-import com.bintyblackbook.adapters.EventAdapter
 import com.bintyblackbook.adapters.FavouriteEventAdapter
 import com.bintyblackbook.model.FavEventData
-import com.bintyblackbook.models.EventsModel
 import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey

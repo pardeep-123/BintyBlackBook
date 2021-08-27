@@ -83,7 +83,7 @@ class TimelineActivity : BaseActivity() {
     }
 
     private fun adapterItemClickEditOrDelete(){
-        timelineAdapter?.onItemClick = { timelineModel: PostData, clickOn: String ->
+        timelineAdapter?.onItemClick = { timelineModel: PostData, clickOn: String, position:Int ->
             if (clickOn=="imageClick" || clickOn=="nameClick"){
                 val intent = Intent(this,UserDetailActivity::class.java)
                 intent.putExtra("user_id",timelineModel.userId.toString())
@@ -101,7 +101,7 @@ class TimelineActivity : BaseActivity() {
 
             }else if(clickOn=="deleteClick"){
                 post_id=timelineModel.id.toString()
-                val dialog = PostDeleteDialogFragment(this)
+                val dialog = PostDeleteDialogFragment(this,position)
                 dialog.show(supportFragmentManager,"postDelete")
             }
         }
@@ -113,12 +113,12 @@ class TimelineActivity : BaseActivity() {
         }
     }
 
-    fun deletePost(){
-        postsViewModel.deletePost(getSecurityKey(context)!!, getUser(context)?.authKey!!,post_id)
+    fun deletePost(position:Int){
+       postsViewModel.deletePost(getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id)
         postsViewModel.addPostLiveData.observe(this, Observer {
-            if(it.code==200){
-                getAllPostList()
-            }
+            postList.removeAt(position)
+            timelineAdapter?.notifyDataSetChanged()
+
         })
     }
 

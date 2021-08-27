@@ -20,7 +20,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
     var arrayList= ArrayList<PostData>()
     var myPopupWindow: PopupWindow? = null
-    var onItemClick: ((timelineModel: PostData, clickOn: String) -> Unit)? = null
+    var onItemClick: ((timelineModel: PostData, clickOn: String,position:Int) -> Unit)? = null
     var onCommentClick: ((timelineModel: PostData) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
@@ -71,7 +71,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             if (timelineModel.image != null) {
 
                 Glide.with(context).load(timelineModel.image).into(ivPost)
-               // ivPost.setImageResource(timelineModel.userImage!!)
                 ivPost.visibility = View.VISIBLE
             } else {
                 ivPost.visibility = View.GONE
@@ -89,11 +88,11 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }*/
 
             civProfile.setOnClickListener {
-                onItemClick?.invoke(timelineModel, "imageClick")
+                onItemClick?.invoke(timelineModel, "imageClick",pos)
             }
 
             tvName.setOnClickListener {
-                onItemClick?.invoke(timelineModel, "nameClick")
+                onItemClick?.invoke(timelineModel, "nameClick",pos)
             }
 
             rlComment.setOnClickListener {
@@ -105,15 +104,15 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }
 
             if(getUser(context)?.id==arrayList[pos].userId){
-                setPopUpWindow(timelineModel,"myProfile")
+                setPopUpWindow(timelineModel,"myProfile",pos)
             }
             else{
-                setPopUpWindow(timelineModel,"other")
+                setPopUpWindow(timelineModel,"other",pos)
             }
         }
 
-        private fun setPopUpWindow(timelineModel: PostData,type:String) {
-            val inflater = context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        private fun setPopUpWindow(timelineModel: PostData,type:String,position: Int) {
+            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.popup, null)
 
             val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
@@ -133,12 +132,12 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
             tvEdit.setOnClickListener {
                 myPopupWindow?.dismiss()
-                onItemClick?.invoke(timelineModel, "editClick")
+                onItemClick?.invoke(timelineModel, "editClick",position)
             }
 
             tvDelete.setOnClickListener {
                 myPopupWindow?.dismiss()
-                onItemClick?.invoke(timelineModel, "deleteClick")
+                onItemClick?.invoke(timelineModel, "deleteClick",position)
             }
 
             myPopupWindow = PopupWindow(view,

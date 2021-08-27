@@ -8,9 +8,8 @@ import com.bintyblackbook.ui.fragments.AllEventFragment
 import com.bintyblackbook.ui.fragments.FavouriteFragment
 
 
-class EventCalenderPagerAdapter(context: Context, fm: FragmentManager, totalTabs: Int) : FragmentPagerAdapter(fm) {
+class EventCalenderPagerAdapter(fm: FragmentManager, totalTabs: Int) : FragmentPagerAdapter(fm) {
 
-    private val mContext: Context = context
     private var mTotalTabs: Int = totalTabs
 
     // this is for fragment tabs
@@ -23,7 +22,7 @@ class EventCalenderPagerAdapter(context: Context, fm: FragmentManager, totalTabs
                 FavouriteFragment()
             }
             else -> {
-              getItem(position)
+             AllEventFragment()
             }
 
         }

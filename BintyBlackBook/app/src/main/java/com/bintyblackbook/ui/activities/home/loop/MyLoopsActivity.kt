@@ -40,7 +40,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         setSuggestionAdapter()
         setOnClicks()
         loopsViewModel= LoopsViewModel(this)
-        headingText.setText("MY LOOPS")
+        headingText.text = "MY LOOPS"
 
         getLoopsList()
     }
@@ -49,7 +49,6 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         rvSuggestions.layoutManager=LinearLayoutManager(context,RecyclerView.HORIZONTAL,false)
         suggestionAdapter= SuggestionsAdapter(this,suggestList)
         rvSuggestions.adapter=suggestionAdapter
-
         suggestionAdapterClick()
 
     }
@@ -60,7 +59,6 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
             loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,data.user2_id.toString())
             loopsViewModel.baseLiveData.observe(this, Observer {
                 if(it.code==200){
-                    showAlertWithOk(it.msg)
                     suggestList.removeAt(pos)
                     suggestionAdapter?.notifyDataSetChanged()
                 }
@@ -89,6 +87,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
                     myLoopsAdapter?.notifyDataSetChanged()
                 }
 
+                suggestList.clear()
                 suggestList.addAll(it.data.suggested)
                 suggestionAdapter?.notifyDataSetChanged()
 
@@ -102,7 +101,6 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
 
     private fun setAdapter() {
         rvMyLoops.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
-
         myLoopsAdapter = AdapterMyLoops(this)
         rvMyLoops.adapter = myLoopsAdapter
         myLoopsAdapter?.loopsInterface=this
@@ -125,15 +123,16 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
 
     override fun unLoop(data: AllData, position: Int) {
         unloop_id=data.user2_id.toString()
-        val fragmentDialog = UnLoopDialogFragment(this,data.userName)
+        val fragmentDialog = UnLoopDialogFragment(this,data.userName,position)
         fragmentDialog.show(this.supportFragmentManager,"LoopDialog")
     }
 
-    fun unLoopRequest(){
+    fun unLoopRequest(position: Int) {
         loopsViewModel.unLoop(getSecurityKey(context)!!, getUser(context)?.authKey!!,unloop_id)
         loopsViewModel.baseLiveData.observe(this, Observer {
             if(it.code==200){
-                showAlertWithOk(it.msg)
+                loopList.removeAt(position)
+                myLoopsAdapter?.notifyDataSetChanged()
             }
             else{
                 Log.i("TAG",it?.msg.toString())

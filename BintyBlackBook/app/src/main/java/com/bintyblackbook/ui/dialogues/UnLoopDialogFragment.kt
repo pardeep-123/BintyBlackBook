@@ -11,7 +11,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import kotlinx.android.synthetic.main.dialog_fragment_un_loop.*
 
-class UnLoopDialogFragment(val loopsActivity: MyLoopsActivity,val name:String) : DialogFragment() {
+class UnLoopDialogFragment(val loopsActivity: MyLoopsActivity, val name: String,val position: Int) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class UnLoopDialogFragment(val loopsActivity: MyLoopsActivity,val name:String) :
 
         tvDesc.text= getString(R.string.are_you_sure_want_to_unloop_robert_pattinson) +" "+ name +" ?"
         btnYes.setOnClickListener {
-            loopsActivity.unLoopRequest()
+            loopsActivity.unLoopRequest(position)
             dismiss()
         }
 

@@ -2,7 +2,6 @@ package com.bintyblackbook.ui.activities.home.notification
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
@@ -16,10 +15,13 @@ import kotlinx.android.synthetic.main.activity_notification.*
 
 class NotificationActivity : BaseActivity(){
 
+
     lateinit var notificationViewModel: NotificationViewModel
     var notificationAdapter:NotificationAdapter? = null
 
     var arrayList= ArrayList<NotificationListData>()
+
+    var notificationData:NotificationListData?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,8 @@ class NotificationActivity : BaseActivity(){
             else {
                 rvNotification.visibility=View.VISIBLE
                 tvNoData.visibility=View.GONE
-                arrayList.addAll(it.data)
+                arrayList.clear()
+                arrayList.addAll(it?.data!!)
                 notificationAdapter?.notifyDataSetChanged()
             }
         })
@@ -61,16 +64,8 @@ class NotificationActivity : BaseActivity(){
 
     private fun adapterItemClick(){
         notificationAdapter?.onItemClick = {notificationModel: NotificationListData ->
-
+            notificationData=notificationModel
             updateNotificationSeen(notificationModel.id.toString())
-            if (notificationModel.type == 1){
-                val intent= Intent(this, LoopRequestActivity::class.java)
-                intent.putExtra("message",notificationModel.message)
-                intent.putExtra("user_id",notificationModel.user2Id.toString())
-                startActivity(intent)
-            }else  if (notificationModel.type == 2){
-                startActivity(Intent(this,BookingRequestActivity::class.java))
-            }
         }
     }
 
@@ -79,7 +74,14 @@ class NotificationActivity : BaseActivity(){
         notificationViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
-                Log.i("===",it.msg)
+                if (notificationData?.type == 2){
+                    val intent= Intent(this, LoopRequestActivity::class.java)
+                    intent.putExtra("message",notificationData?.message)
+                    intent.putExtra("user_id",notificationData?.user2Id.toString())
+                    startActivity(intent)
+                }else if (notificationData?.type == 1){
+                    startActivity(Intent(this,BookingRequestActivity::class.java))
+                }
             }
 
         })

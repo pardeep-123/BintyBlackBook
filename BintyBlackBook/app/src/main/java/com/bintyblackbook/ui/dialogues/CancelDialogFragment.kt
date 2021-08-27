@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
+import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
+import com.bintyblackbook.ui.activities.home.notification.LoopRequestActivity
 import kotlinx.android.synthetic.main.dialog_fragment_cancel.*
 
 
-class CancelDialogFragment(var clickOn: String) : DialogFragment() {
+class CancelDialogFragment(var loopsActivity:LoopRequestActivity, var clickOn: String) : DialogFragment() {
 
+    var status=""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,19 +30,25 @@ class CancelDialogFragment(var clickOn: String) : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         if (clickOn=="cancelBookingRequest"){
+            status= "0"
             tvMessage.text = getString(R.string.are_you_sure_want_to_cancel_booking)
+        }
+        else if(clickOn=="acceptLoopRequest"){
+            status="2"
+            tvMessage.text= getString(R.string.are_you_sure_ypu_want_to_accept_request)
         }
 
         rlCross.setOnClickListener {
-            dismiss()
+            dialog?.dismiss()
         }
 
         btnYes.setOnClickListener {
-            dismiss()
+            loopsActivity.acceptRejectRequest(status)
+            dialog?.dismiss()
         }
 
         btnNo.setOnClickListener {
-            dismiss()
+            dialog?.dismiss()
         }
     }
 }

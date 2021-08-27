@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventAdapter
-import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
@@ -61,6 +59,7 @@ class AllEventFragment : Fragment() {
                 if(it.data.size!=0){
                     tvNoEvent.visibility=View.GONE
                     rvAllEvents.visibility=View.VISIBLE
+                    arrayList.clear()
                     arrayList.addAll(it.data)
                     eventAdapter?.notifyDataSetChanged()
                 }else{

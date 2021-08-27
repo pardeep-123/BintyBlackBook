@@ -36,7 +36,6 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
                     && Validations.validateEmailAddress(this,email_text)){
                     loginViewModel.forgotPassword(getSecurityKey(this)!!,email_text.text.toString())
                     setObservables()
-
                 }
 
             }
@@ -53,10 +52,8 @@ class ForgotPasswordActivity : BaseActivity(), View.OnClickListener {
             if(it?.code==200){
                 //success
                 showAlert(this,it.msg.toString(),getString(R.string.ok)) {
-                    finish()
+                    this.onBackPressed()
                 }
-                // showAlert(it.msg.toString())
-                finish()
             }
             else{
                 showAlert(this,it.msg.toString(),getString(R.string.ok)) {

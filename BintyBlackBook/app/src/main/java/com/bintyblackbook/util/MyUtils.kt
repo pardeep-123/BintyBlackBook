@@ -44,7 +44,7 @@ object MyUtils {
     fun getTime(s: String):String?{
         return try {
             val sdf = SimpleDateFormat("HH:mm:a")
-            val netDate = Date(s.toLong() * 1000)
+            val netDate = Date(s.toLong())
             sdf.format(netDate)
         } catch (e: Exception) {
             e.toString()

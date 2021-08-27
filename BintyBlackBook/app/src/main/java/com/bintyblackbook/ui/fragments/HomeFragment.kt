@@ -45,7 +45,6 @@ class HomeFragment : Fragment() {
 
         init()
 
-
         //call api for home data
 
         if(!getUser(requireContext())?.authKey.isNullOrEmpty()) {

@@ -29,13 +29,13 @@ class BookingRequestActivity : BaseActivity() {
     }
 
     private fun adapterItemBtnClick(){
-        bookingRequestAdapter?.onItemBtnClick = {clickOn ->
+       /* bookingRequestAdapter?.onItemBtnClick = {clickOn ->
             if (clickOn == "accept"){
                 startActivity(Intent(this, MyBookingsActivity::class.java))
             }else if (clickOn == "cancel"){
                 val dialog  = CancelDialogFragment("cancelBookingRequest")
                 dialog.show(supportFragmentManager,"cancelBookingRequest")
             }
-        }
+        }*/
     }
 }

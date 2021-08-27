@@ -2,7 +2,10 @@ package com.bintyblackbook.util
 
 import android.content.Context
 import android.view.View
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import com.bintyblackbook.R
 import java.util.regex.Pattern
 
@@ -10,6 +13,8 @@ import java.util.regex.Pattern
  * Created by neha on 1/9/2018.
  */
 class Validations {
+
+    val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
 
     companion object {
         /**
@@ -24,10 +29,10 @@ class Validations {
         private fun setError(context: Context, et: View, s: String) {
 
             if (et is EditText) {
-                Toast.makeText(context,s,Toast.LENGTH_LONG).show()
+                Toast.makeText(context, s, Toast.LENGTH_LONG).show()
                 et.requestFocus()
             } else if (et is EditText) {
-                Toast.makeText(context,s,Toast.LENGTH_LONG).show()
+                Toast.makeText(context, s, Toast.LENGTH_LONG).show()
 
                 et.requestFocus()
             }
@@ -50,7 +55,7 @@ class Validations {
             if (isNullOrEmpty(mEtUsername) && mEtUsername.text.toString()
                     .trim { it <= ' ' }.length < 2
             ) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
                 //CommonUtils.showSnackbarMessage(applicationContext, errMessage, R.color.colorAccent)
                 requestFocus(applicationContext, mEtUsername)
                 return false
@@ -71,7 +76,7 @@ class Validations {
             errMessage: String
         ): Boolean {
             if (isContainSpecialCharacter(mEtPassword.text.toString().trim { it <= ' ' })) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
 
                 //CommonUtils.showSnackbarMessage(applicationContext, errMessage, R.color.colorAccent)
                 mEtPassword.requestFocus()
@@ -87,7 +92,11 @@ class Validations {
             val email = (view as EditText).text.toString().trim { it <= ' ' }
             if (email.isEmpty()) {
 
-                Toast.makeText(applicationContext,applicationContext.resources.getString(R.string.err_email),Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    applicationContext.resources.getString(R.string.err_email),
+                    Toast.LENGTH_LONG
+                ).show()
 
                 /*Toasty.error(
                     applicationContext,
@@ -97,8 +106,11 @@ class Validations {
                 requestFocus(applicationContext, view)
                 return false
             } else if (!isValidEmail(email)) {
-                Toast.makeText(applicationContext,applicationContext.resources.getString(R.string.err_valid_email_address)
-                    ,Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    applicationContext.resources.getString(R.string.err_valid_email_address),
+                    Toast.LENGTH_LONG
+                ).show()
 
                 /*Toasty.error(
                     applicationContext,
@@ -125,7 +137,7 @@ class Validations {
             errMessage: String
         ): Boolean {
             if (!mEtPassword.text.toString().trim().equals(mEtCnfPassword.text.toString().trim())) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
                 //CommonUtils.showSnackbarMessage(applicationContext, errMessage, R.color.colorAccent)
                 mEtCnfPassword.requestFocus()
                 return false
@@ -139,7 +151,7 @@ class Validations {
             errMessage: String
         ): Boolean {
             if (mEtPassword.text.toString().trim { it <= ' ' }.length <= 6) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
                 mEtPassword.requestFocus()
                 return false
             }
@@ -152,7 +164,7 @@ class Validations {
             errMessage: String
         ): Boolean {
             if (mEtPassword.text.toString().trim { it <= ' ' }.length != 4) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
 
                 //CommonUtils.showSnackbarMessage(applicationContext, errMessage, R.color.colorAccent)
                 mEtPassword.requestFocus()
@@ -167,7 +179,7 @@ class Validations {
             errMessage: String
         ): Boolean {
             if (isNullOrEmpty(mEtCurrentPassword)) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
 
                 mEtCurrentPassword.requestFocus()
                 return false
@@ -181,7 +193,11 @@ class Validations {
             mEdPhoneNumber: EditText
         ): Boolean {
             if (isNullOrEmpty(mEdPhoneNumber)) {
-                Toast.makeText(applicationContext,applicationContext.resources.getString(R.string.err_phone),Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    applicationContext.resources.getString(R.string.err_phone),
+                    Toast.LENGTH_LONG
+                ).show()
 
                 /*CommonUtils.showSnackbarMessage(
                     applicationContext,
@@ -191,7 +207,11 @@ class Validations {
                 mEdPhoneNumber.requestFocus()
                 return false
             } else if (mEdPhoneNumber.length() < 10 || mEdPhoneNumber.length() > 15) {
-                Toast.makeText(applicationContext,applicationContext.resources.getString(R.string.err_valid_phone),Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    applicationContext.resources.getString(R.string.err_valid_phone),
+                    Toast.LENGTH_LONG
+                ).show()
 
                 /*CommonUtils.showSnackbarMessage(
                     applicationContext,
@@ -213,7 +233,7 @@ class Validations {
             errMessage: String?
         ): Boolean {
             if (!cb_signup.isChecked) {
-                Toast.makeText(applicationContext,errMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, errMessage, Toast.LENGTH_LONG).show()
 
 
                 cb_signup.requestFocus()
@@ -295,7 +315,7 @@ class Validations {
             }
             val password = et.text.toString().trim { it <= ' ' }
 
-            if (password.length > 5) {
+            if (password.length > 7) {
                 return true
             } else {
                 setError(context, et, context.getString(R.string.validPass))

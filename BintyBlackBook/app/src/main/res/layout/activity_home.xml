@@ -48,7 +48,8 @@
                 android:id="@+id/rlBell"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dp10">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -74,29 +75,7 @@
 
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/edtSearch"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/rlBell"
-                android:layout_toEndOf="@id/rlMenu"
-                android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
-                android:hint="@string/search_hint"
-                android:imeOptions="actionDone"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:paddingStart="@dimen/dp10"
-                android:paddingEnd="@dimen/dp25"
-                android:singleLine="true"
-                android:textAllCaps="false"
-                android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12"
-                android:visibility="gone"
-                />
+
 
             <ImageView
                 android:id="@+id/ivSearch"
@@ -110,10 +89,22 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_events"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tbMain"
+        app:queryHint="@string/search"
+        app:iconifiedByDefault="false"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginEnd="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp10"
+        android:background="@drawable/background_rounded_corners"/>
     <RelativeLayout
         android:id="@+id/rl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tbMain" />
+        android:layout_below="@+id/search_events" />
 
 </RelativeLayout>
