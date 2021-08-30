@@ -348,7 +348,8 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     }
 
     override fun selectedImage(imagePath: File?) {
-       photoList.add(UploadPhotoModel("upload",imagePath))
+        refereshImageArray()
+        photoList.add(UploadPhotoModel("upload",imagePath))
         uploadPhotoAdapter?.notifyDataSetChanged()
 //        Glide.with(this).load(imagePath).into(riv_Picture)
 //        ivDeletePhoto.visibility=View.VISIBLE
@@ -358,6 +359,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     }
 
     override fun selectedVideoUri(videoUri: Uri?) {
+        refereshVideoArray()
         videoList.add(UploadVideoModel("upload",videoUri!!))
         videoAdapter?.notifyDataSetChanged()
        // Glide.with(this).load(videoUri).into(riv_video)
@@ -453,6 +455,24 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
                 longitude = place.latLng?.longitude.toString()
             }
 
+        }
+    }
+
+    fun refereshVideoArray(){
+        for (m in videoList){
+            if(m.type.equals("undefined")){
+                videoList.remove(m)
+                break
+            }
+        }
+    }
+
+    fun refereshImageArray(){
+        for (m in photoList){
+            if(m.type.equals("undefined")){
+                photoList.remove(m)
+                break
+            }
         }
     }
 }

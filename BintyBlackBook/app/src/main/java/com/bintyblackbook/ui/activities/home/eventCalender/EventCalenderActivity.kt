@@ -5,10 +5,14 @@ import android.os.Bundle
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventCalenderPagerAdapter
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.ui.fragments.AllEventFragment
+import com.bintyblackbook.ui.fragments.FavouriteFragment
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_event_calender.*
 
 class EventCalenderActivity : BaseActivity() {
+    var fragList: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,30 +22,19 @@ class EventCalenderActivity : BaseActivity() {
         setTabLayout()
 
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-        })
-
-        val adapter = EventCalenderPagerAdapter(supportFragmentManager, tabLayout.tabCount)
-        viewPager.adapter = adapter
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        viewPager.currentItem = 0
-
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = fragList.get(position)
+        }.attach()
     }
 
     private fun setTabLayout() {
-        tabLayout.addTab(tabLayout.newTab().setText("All Events"))
-        tabLayout.addTab(tabLayout.newTab().setText("Favourite"))
+        val adapter = EventCalenderPagerAdapter(supportFragmentManager, this)
+        fragList.clear()
+        fragList.add("All Events")
+        fragList.add("Favourite")
+        adapter.addFragment(AllEventFragment(),"All Events")
+        adapter.addFragment(FavouriteFragment(),"Favourite")
+        viewPager.adapter = adapter
     }
 
     private fun setOnClicks() {

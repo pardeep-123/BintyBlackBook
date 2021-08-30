@@ -23,7 +23,7 @@ class UpcomingBookingsFragment : Fragment() {
     private var mSnackBar: Snackbar? = null
     var mProgress: CustomProgressDialog? = null
     lateinit var bookingsViewModel: BookingsViewModel
-     var upcomingArrayList = ArrayList<UpcomingBookings>()
+    var upcomingArrayList = ArrayList<UpcomingBookings>()
     var upcomingBookingAdapter:UpcomingBookingAdapter? = null
 
     override fun onCreateView(
