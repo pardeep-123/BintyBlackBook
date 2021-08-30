@@ -90,6 +90,8 @@ class ApiConstants {
         const val NOTIFICATION_SEEN="notification_seen"
 
         const val GET_All_LOOP_REQUEST="get_all_loop_request"
+
+        const val DELETE_EVENT= "delete_event"
     }
 
 }

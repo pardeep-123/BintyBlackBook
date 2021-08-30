@@ -165,6 +165,11 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
                 return
             }
+
+            if(selectedImagePath?.absolutePath.isNullOrEmpty()){
+                Toast.makeText(context,"Please choose image",Toast.LENGTH_LONG).show()
+                return
+            }
             val map: HashMap<String, RequestBody> = HashMap()
 
             if(!edtAddPromoCode.text.toString().isNullOrEmpty()){
@@ -186,11 +191,12 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
             })
 
-            map.put("business_name",createRequestBody(uname_text.text.toString()))
-            map.put("phone",createRequestBody(phone_text.text.toString()))
-            map.put("email",createRequestBody(email_text.text.toString()))
-            map.put("password",createRequestBody(confpassword_text.text.toString()))
-            map.put("country_code",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
+            map.put("business_name",createRequestBody(uname_text_business.text.toString()))
+            map.put("userName",createRequestBody(uname_text_business.text.toString()))
+            map.put("phone",createRequestBody(phone_text_business.text.toString()))
+            map.put("email",createRequestBody(email_text_business.text.toString()))
+            map.put("password",createRequestBody(password_text_business.text.toString()))
+            map.put("country_code",createRequestBody(ccp_business.selectedCountryCodeWithPlus.toString()))
             map.put("device_type",createRequestBody("1"))
             map.put("device_token",createRequestBody("12345"))
             map.put("pushKitToken",createRequestBody("1234"))
@@ -266,10 +272,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
             if(it.code==200){
 
-                saveUser(this,it.data!!)
-                Log.i("TAG",it.data.toString())
-
-                if(it.data.userType==0){
+                if(it.data?.userType==0){
                     val intent = Intent(context,LoginActivity::class.java)
                     startActivity(intent)
                     finishAffinity()

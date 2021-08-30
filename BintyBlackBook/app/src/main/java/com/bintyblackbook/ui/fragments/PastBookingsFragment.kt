@@ -10,16 +10,20 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.PastBookingAdapter
 import com.bintyblackbook.model.PastBooking
 import com.bintyblackbook.models.UpcomingBookingModel
+import com.bintyblackbook.util.CustomProgressDialog
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_past_bookings.*
 
 
 class PastBookingsFragment : Fragment() {
 
+    private var mSnackBar: Snackbar? = null
+    var mProgress: CustomProgressDialog? = null
     lateinit var bookingsViewModel:BookingsViewModel
-     var pastBookingList = ArrayList<PastBooking>()
+    var pastBookingList = ArrayList<PastBooking>()
     var pastBookingAdapter:PastBookingAdapter? = null
 
     override fun onCreateView(
@@ -32,7 +36,7 @@ class PastBookingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mProgress = CustomProgressDialog(requireContext())
         bookingsViewModel= BookingsViewModel(requireActivity())
 
         setAdapter()
@@ -59,11 +63,19 @@ class PastBookingsFragment : Fragment() {
         })
     }
 
-
     private fun setAdapter() {
         rvPastBooking.layoutManager=LinearLayoutManager(activity)
         pastBookingAdapter= PastBookingAdapter(requireActivity())
         rvPastBooking.adapter=pastBookingAdapter
         pastBookingAdapter?.arrayList=pastBookingList
+    }
+
+    fun showProgressDialog() {
+        mProgress = CustomProgressDialog(requireContext())
+        mProgress?.show()
+    }
+
+    fun dismissProgressDialog() {
+        mProgress?.dismiss()
     }
 }

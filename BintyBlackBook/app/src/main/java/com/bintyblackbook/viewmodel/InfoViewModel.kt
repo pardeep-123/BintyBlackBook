@@ -20,14 +20,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class InfoViewModel(val context: Context): ViewModel(){
+class InfoViewModel: ViewModel(){
 
     var categoryLiveData=MutableLiveData<CategoriesResponseModel>()
     var mediaLiveData=MutableLiveData<BaseResponseModel>()
     var infoLiveData=MutableLiveData<LoginSignUpModel>()
 
     //get categories api
-    fun getCategories(security_key:String,auth_key:String){
+    fun getCategories(context: Context, security_key:String,auth_key:String){
 
         (context as InfoActivity).dismissProgressDialog()
         ApiClient.apiService.getCategories(security_key,auth_key).enqueue(object :
@@ -71,7 +71,7 @@ class InfoViewModel(val context: Context): ViewModel(){
     }
 
     //upload media api
-    fun uploadMedia(security_key:String,auth_key:String,request:Map<String,RequestBody>, part:MultipartBody.Part){
+    fun uploadMedia(context: Context, security_key:String,auth_key:String,request:Map<String,RequestBody>, part:MultipartBody.Part){
 
         (context as InfoActivity).showProgressDialog()
         ApiClient.apiService.uploadMedia(security_key,auth_key,request,part).enqueue(object :
@@ -115,7 +115,7 @@ class InfoViewModel(val context: Context): ViewModel(){
     }
 
     //add/edit info
-    fun addEditInfo(
+    fun addEditInfo( context: Context,
         security_key:String,
         auth_key:String,
         request:Map<String,RequestBody>, part: MultipartBody.Part?
@@ -157,11 +157,51 @@ class InfoViewModel(val context: Context): ViewModel(){
                     (context).dismissProgressDialog()
                     showAlert(context,error.getString("msg").toString(),"OK",{})
                 }
-
             }
         })
     }
 
+    /*
+    delete media
+     */
 
+    fun deleteMedia(context: Context,security_key: String,auth_key: String,media_id:String){
+        (context as InfoActivity).showProgressDialog()
+        ApiClient.apiService.deleteMedia(security_key, auth_key, media_id).enqueue(object : Callback<JsonElement>{
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as InfoActivity).dismissProgressDialog()
+
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            mediaLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context).dismissProgressDialog()
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                }
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+               try {
+                   (context as InfoActivity).dismissProgressDialog()
+                   (context as InfoActivity).showSnackBarMessage(t.localizedMessage)
+               }catch (e:java.lang.Exception){
+                   e.printStackTrace()
+               }
+            }
+
+        })
+    }
 
 }

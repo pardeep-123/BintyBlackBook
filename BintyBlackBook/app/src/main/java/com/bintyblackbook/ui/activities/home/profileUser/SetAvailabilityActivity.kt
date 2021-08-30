@@ -3,10 +3,10 @@ package com.bintyblackbook.ui.activities.home.profileUser
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.models.AvailabilityModel
+import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.activity_set_availability.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,6 +17,7 @@ class SetAvailabilityActivity : AppCompatActivity() {
     lateinit var arrayList: ArrayList<AvailabilityModel>
     var adapter: SetAvailabilityAdapter?=null
 
+    var list_dates= ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_availability)
@@ -32,13 +33,15 @@ class SetAvailabilityActivity : AppCompatActivity() {
                 }
                 adapter?.notifyDataSetChanged()
             }
+            else{
+              for(i in 0 until arrayList.size){
+                  arrayList[i].selected=false
+              }
+                adapter?.notifyDataSetChanged()
+            }
         }
 
-        val list = calenderView.selectedDates
-        Log.i("TAG", list.toString())
-
     }
-
 
     private fun setAdapter() {
         arrayList = ArrayList()
@@ -68,7 +71,8 @@ class SetAvailabilityActivity : AppCompatActivity() {
         arrayList.add(AvailabilityModel("10:00 PM", false))
         arrayList.add(AvailabilityModel("11:00 PM", false))
 
-        rvTime.adapter = SetAvailabilityAdapter(this, arrayList)
+        adapter=SetAvailabilityAdapter(this, arrayList)
+        rvTime.adapter = adapter
     }
 
     private fun setOnClicks() {
@@ -81,11 +85,9 @@ class SetAvailabilityActivity : AppCompatActivity() {
         }
 
         calenderView.setOnDayClickListener {
-         val date= it.calendar.time
-            Log.i("TAG", date.toString())
+            val date= it.calendar.time
+            list_dates.add(MyUtils.getDate(date.toString())!!)
+            Log.i("TAG", list_dates.toString())
         }
-
     }
-
-
 }

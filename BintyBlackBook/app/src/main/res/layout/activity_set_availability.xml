@@ -66,19 +66,19 @@
                 android:layout_height="wrap_content"
                 app:abbreviationsBarColor="@color/themeColor"
                 app:abbreviationsLabelsColor="@color/whiteColor"
-                app:datePicker="true"
                 app:daysLabelsColor="@color/whiteColor"
                 app:headerColor="@color/fadePink"
                 app:pagesColor="@color/themeColor"
                 app:selectionColor="@color/fadePink"
                 app:todayLabelColor="@color/fadePink"
+                app:type="many_days_picker"
                 app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp16">
 
             <TextView
                 android:id="@+id/tvPromote"

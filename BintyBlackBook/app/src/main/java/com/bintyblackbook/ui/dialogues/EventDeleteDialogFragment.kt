@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
+import com.bintyblackbook.ui.activities.home.profileUser.EventInProfileActivity
 import kotlinx.android.synthetic.main.dialog_fragment_event_delete.*
 
 
-class EventDeleteDialogFragment : DialogFragment() {
-
+class EventDeleteDialogFragment(
+    val eventInProfileActivity: EventInProfileActivity,
+    var event_id: String,
+    val position: Int
+) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +31,7 @@ class EventDeleteDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btnYes.setOnClickListener {
+            eventInProfileActivity.deleteEvent(event_id,position)
             dismiss()
         }
 
@@ -34,4 +39,5 @@ class EventDeleteDialogFragment : DialogFragment() {
             dismiss()
         }
     }
+
 }

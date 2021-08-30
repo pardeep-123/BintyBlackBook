@@ -38,6 +38,7 @@ class SetAvailabilityAdapter(var context: Context, var arrayList: ArrayList<Avai
 
             tv_time.text = availabilityModel.time
 
+
             if (availabilityModel.selected) {
                 itemView.background = ContextCompat.getDrawable(context, R.drawable.bg_border_white)
             } else {

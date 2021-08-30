@@ -43,6 +43,8 @@ class AddEventActivity : ImagePickerUtility() {
     private var latitude = ""
     private var longitude = ""
     private val AUTOCOMPLETE_REQUEST_CODE = 1
+    var heading=""
+    var type = ""
 
     override fun selectedImage(imagePath: File?) {
         Glide.with(this).load(imagePath).into(riv)
@@ -58,11 +60,9 @@ class AddEventActivity : ImagePickerUtility() {
         setContentView(R.layout.activity_add_event)
 
         Places.initialize(this, "AIzaSyAd4ZzHfi-nAp-6IAm1YF5-pVxCAlzW4EA")
-        mProgress = CustomProgressDialog(this)
-        eventsViewModel= EventsViewModel()
-        val heading = intent.getStringExtra(AppConstant.HEADING)
-        if (heading!= null){
-            tvHeading.text = heading
+
+        initViews()
+        getIntentData()
 
 //            riv.setImageResource(R.drawable.one)
 //            edtEventName.setText("Colourful Fiesta")
@@ -71,7 +71,7 @@ class AddEventActivity : ImagePickerUtility() {
 //            edtTime.setText("12:00 AM")
 //            edtDesc.setText(getString(R.string.dummy_text))
 //            edtMoreInfo.setText(getString(R.string.dummy_text))
-        }
+
 
         rlBack.setOnClickListener {
             finish()
@@ -114,11 +114,51 @@ class AddEventActivity : ImagePickerUtility() {
                 Place.Field.ADDRESS_COMPONENTS,
                 Place.Field.ADDRESS
             )
-
-// Start the autocomplete intent.
+            // Start the autocomplete intent.
             val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }
+    }
+
+    private fun getIntentData() {
+        heading = intent.getStringExtra(AppConstant.HEADING).toString()
+        if (heading!= null){
+            tvHeading.text = heading
+        }
+        type= intent.getStringExtra("type").toString()
+        val name= intent.getStringExtra("name").toString()
+        val link= intent.getStringExtra("link").toString()
+        val location= intent.getStringExtra("location").toString()
+        val time= intent.getStringExtra("time").toString()
+        val date= intent.getStringExtra("date").toString()
+        val description= intent.getStringExtra("description").toString()
+        val info= intent.getStringExtra("info").toString()
+
+        if(type=="add"){
+            edtEventName.setText("")
+            edtLocation.setText("")
+            edtDate.setText("")
+            edtTime.setText("")
+            edtLink.setText("")
+            edtDesc.setText("")
+            edtMoreInfo.setText("")
+        }else{
+            edtEventName.setText(name)
+            edtLocation.setText(location)
+            val date= MyUtils.getDate(date)
+            edtDate.setText(date)
+
+            val time= MyUtils.getTime(time)
+            edtTime.setText(time)
+            edtLink.setText(link)
+            edtDesc.setText(description)
+            edtMoreInfo.setText(info)
+        }
+    }
+
+    private fun initViews() {
+        mProgress = CustomProgressDialog(this)
+        eventsViewModel= EventsViewModel()
     }
 
     private fun checkValidations() {

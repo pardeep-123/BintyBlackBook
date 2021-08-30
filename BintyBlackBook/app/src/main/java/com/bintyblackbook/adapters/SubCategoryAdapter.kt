@@ -10,11 +10,10 @@ import com.bintyblackbook.model.SubCategories
 import com.bintyblackbook.ui.activities.authentication.CategoryDialogFragment
 import kotlinx.android.synthetic.main.item_view_sub_categories.view.*
 
-class SubCategoryAdapter(
-    var context: Context, val categoryDialogFragment: CategoryDialogFragment,var list: ArrayList<SubCategories>
+class SubCategoryAdapter(var context: Context, val categoryDialogFragment: CategoryDialogFragment,var list: ArrayList<SubCategories>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-  //  var list= ArrayList<SubCategories>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return MyViewHolderGrid(inflater.inflate(R.layout.item_view_sub_categories, parent, false))
@@ -28,30 +27,23 @@ class SubCategoryAdapter(
     override fun getItemCount(): Int = list.size
 
     class MyViewHolderGrid(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        fun bindItems(
-            data: SubCategories,
-            position: Int,
-            list: ArrayList<SubCategories>,
-            categoryDialogFragment: CategoryDialogFragment
+        fun bindItems(data: SubCategories, position: Int, list: ArrayList<SubCategories>, categoryDialogFragment: CategoryDialogFragment
         ) {
 
             itemView.apply {
                 tvSubCategory.text = data.name
 
-                itemView.cbSubCategory.setOnCheckedChangeListener { p0, isChecked ->
-                    categoryDialogFragment.subCategoryList(list)
+                itemView.cbSubCategory.setOnCheckedChangeListener { p0, isChecked -> categoryDialogFragment.subCategoryList(list)
                     if (isChecked){
+                          list[position].isSelect = true
+                         categoryDialogFragment.subCategoryList(list)
                         cbSubCategory.isChecked=true
                     }else{
                         cbSubCategory.isChecked=false
 
                     }
 
-
-                    //  list[position].isSelect = !list[position].isSelect
-                    // categoryDialogFragment.updateList(list)
                 }
-//
 
                 if (list.get(position).isSelect){
                     cbSubCategory.isChecked=true
@@ -63,8 +55,4 @@ class SubCategoryAdapter(
 
         }
     }
-
-    /*  interface OnRecyclerItemClick{
-          fun onRecyclerItemClick(data: String, id: Int, position: Int)
-      }*/
 }

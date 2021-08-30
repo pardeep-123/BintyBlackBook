@@ -11,8 +11,7 @@ import com.bintyblackbook.model.NotificationListData
 import com.bintyblackbook.models.NotificationModel
 import kotlinx.android.synthetic.main.item_notification.view.*
 
-class NotificationAdapter(var context: Context):
-    RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
+class NotificationAdapter(var context: Context): RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
      var arrayList= ArrayList<NotificationListData>()
     var onItemClick:((notificationModel:NotificationListData)->Unit)? = null
 

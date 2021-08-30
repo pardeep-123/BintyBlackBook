@@ -62,7 +62,6 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/name"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
@@ -74,7 +73,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,7 +92,6 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/email"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
@@ -105,7 +103,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -148,7 +146,6 @@
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@+id/ccp"
                     android:background="@android:color/transparent"
-                    android:fontFamily="@font/romul"
                     android:hint="@string/phone_number"
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
@@ -160,7 +157,7 @@
                     android:textColor="@color/whiteColor"
                     android:textColorHint="@color/colorLightBlack"
                     android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp13"
                     tools:ignore="RtlSymmetry" />
 
             </RelativeLayout>
@@ -206,7 +203,6 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:background="@drawable/bg_curved_edit_text_green"
-                    android:fontFamily="@font/romul"
                     android:hint="@string/select_category"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
@@ -219,7 +215,7 @@
                     android:textColor="@color/whiteColor"
                     android:textColorHint="@color/colorLightBlack"
                     android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="@dimen/sp12"/>
+                    android:textSize="@dimen/sp13"/>
 
             </RelativeLayout>
 
@@ -240,7 +236,6 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/experience"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
@@ -252,7 +247,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -271,7 +266,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/location"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -281,10 +275,11 @@
                 android:padding="@dimen/dp10"
                 android:singleLine="true"
                 android:textAllCaps="false"
+                android:focusable="false"
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <LinearLayout
                 android:id="@+id/llService"
@@ -365,7 +360,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/service_type"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -378,7 +372,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:id="@+id/tvAvailability"
@@ -402,7 +396,6 @@
                 android:drawableEnd="@drawable/calendar"
                 android:drawablePadding="@dimen/dp10"
                 android:focusable="false"
-                android:fontFamily="@font/romul"
                 android:hint="@string/set_availability"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -415,7 +408,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -434,7 +427,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/hours_and_days_of_operation"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -447,8 +439,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
-
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -467,7 +458,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/social_media_handle"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -480,7 +470,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -499,7 +489,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/website_link"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
@@ -511,7 +500,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -591,7 +580,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/romul"
                 android:hint="@string/swaps_in_mind"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
@@ -603,7 +591,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -622,7 +610,6 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:fontFamily="@font/trajanpro_regular"
                 android:gravity="start|top"
                 android:hint="@string/about_the_business"
                 android:importantForAutofill="no"
@@ -635,7 +622,7 @@
                 android:textColor="@color/whiteColor"
                 android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp13" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -662,10 +649,19 @@
                     android:src="@drawable/add_new" />
             </LinearLayout>
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvUploadVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:nestedScrollingEnabled="false"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
+                android:visibility="gone"
                 android:background="@drawable/bg_curved_edit_text_green">
 
                 <com.makeramen.roundedimageview.RoundedImageView
@@ -710,10 +706,19 @@
 
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvUploadPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:nestedScrollingEnabled="false"
+                />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
+                android:visibility="gone"
                 android:background="@drawable/bg_curved_edit_text_green">
 
                 <com.makeramen.roundedimageview.RoundedImageView

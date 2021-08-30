@@ -49,19 +49,16 @@ class SignUpViewModel(val context: Context): ViewModel(){
                             signUpLiveData.value = jsonObj
                         }else{
                             showAlert(context as SignupActivity,jsonDATA.getString("msg"),"Ok",{})
-                            //(context as SignupActivity).showAlertWithOk(jsonDATA.getString("msg"))
-                        }
+                                                  }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 } else {
-                    val errorObj:JSONObject= JSONObject(response.errorBody()!!.string())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as SignupActivity).dismissProgressDialog()
-                    showAlert(context,errorObj.getString("msg"),"OK",{})
-                   // (context as SignupActivity).showSnackBarMessage("" + response.message())
+                    showAlert(context,error.getString("msg").toString(),"OK",{})
                 }
-
             }
         })
     }

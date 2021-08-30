@@ -364,4 +364,18 @@ interface ApiCallInterface {
         @Field("post_id") post_id: String,
         @Field("description") description:String
     ) : Call<JsonElement>
+
+    @DELETE(ApiConstants.DELETE_EVENT)
+    fun deleteEvent(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Query("event_id") event_id: String
+    ) : Call<JsonElement>
+
+    @DELETE(ApiConstants.DELETE_MEDIA)
+    fun deleteMedia(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Query("media_id") media_id:String
+    ) : Call<JsonElement>
 }

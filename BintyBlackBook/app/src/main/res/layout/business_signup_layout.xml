@@ -32,7 +32,7 @@
         android:background="@drawable/email_back">
 
         <com.hbb20.CountryCodePicker
-            android:id="@+id/ccp"
+            android:id="@+id/ccp_business"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -53,7 +53,7 @@
             android:id="@+id/phone_text_business"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ccp"
+            android:layout_toRightOf="@+id/ccp_business"
             android:background="@drawable/email_back"
             android:hint="PHONE NUMBER"
             android:inputType="number"

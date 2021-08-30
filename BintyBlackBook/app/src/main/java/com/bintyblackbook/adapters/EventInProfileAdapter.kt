@@ -1,18 +1,15 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
-import com.bintyblackbook.models.EventsModel
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events_in_profile.view.*
@@ -20,10 +17,10 @@ import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 
 class EventInProfileAdapter(var context: Context) :
     RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
-
+    var p=0
     var arrayList= ArrayList<EventData>()
     var myPopupWindow: PopupWindow? = null
-    var onItemClick:((eventsModel:EventData,clickOn:String)->Unit)?= null
+    var onItemClick:((eventsModel:EventData,clickOn:String,position:Int)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events_in_profile, parent, false)
@@ -50,7 +47,8 @@ class EventInProfileAdapter(var context: Context) :
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
 
-            setPopUpWindow(eventsModel)
+            p=pos
+            setPopUpWindow(eventsModel,p)
 
             rlDots.setOnClickListener {
                 myPopupWindow?.showAsDropDown(it,-165,-20)
@@ -58,9 +56,8 @@ class EventInProfileAdapter(var context: Context) :
 
         }
 
-        private fun setPopUpWindow(eventsModel:EventData) {
-            val inflater =
-                context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        private fun setPopUpWindow(eventsModel: EventData, position: Int) {
+            val inflater = context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val  view = inflater.inflate(R.layout.popup, null)
 
             val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
@@ -68,12 +65,12 @@ class EventInProfileAdapter(var context: Context) :
 
             tvEdit.setOnClickListener {
                 myPopupWindow?.dismiss()
-                onItemClick?.invoke(eventsModel,"editClick")
+                onItemClick?.invoke(eventsModel,"editClick",position)
             }
 
             tvDelete.setOnClickListener {
                 myPopupWindow?.dismiss()
-                onItemClick?.invoke(eventsModel,"deleteClick")
+                onItemClick?.invoke(eventsModel,"deleteClick",position)
             }
 
             myPopupWindow =  PopupWindow (view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);

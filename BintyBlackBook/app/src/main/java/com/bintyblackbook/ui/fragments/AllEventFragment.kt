@@ -14,14 +14,18 @@ import com.bintyblackbook.model.EventData
 import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.util.AppConstant
+import com.bintyblackbook.util.CustomProgressDialog
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.EventsViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_all_event.*
 
 
 class AllEventFragment : Fragment() {
 
+    private var mSnackBar: Snackbar? = null
+    var mProgress: CustomProgressDialog? = null
     lateinit var eventsViewModel: EventsViewModel
 
     var eventAdapter: EventAdapter? = null
@@ -37,6 +41,8 @@ class AllEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view,savedInstanceState)
+
+        mProgress = CustomProgressDialog(requireContext())
         eventsViewModel= EventsViewModel()
 
         init()
@@ -92,5 +98,14 @@ class AllEventFragment : Fragment() {
         eventAdapter?.onSelectFav = {eventsModel: EventData ->
          //   eventsViewModel.likeEvent(getSecurityKey(context!!)!!, getUser(context!!)?.authKey)
         }
+    }
+
+    fun showProgressDialog() {
+        mProgress = CustomProgressDialog(requireContext())
+        mProgress?.show()
+    }
+
+    fun dismissProgressDialog() {
+        mProgress?.dismiss()
     }
 }

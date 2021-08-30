@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
@@ -10,15 +11,27 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.adapters.UploadPhotoAdapter
+import com.bintyblackbook.adapters.UploadVideoAdapter
 import com.bintyblackbook.model.CategoryData
 import com.bintyblackbook.model.SubCategories
+import com.bintyblackbook.model.UploadPhotoModel
+import com.bintyblackbook.model.UploadVideoModel
 import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_add_event.*
 import kotlinx.android.synthetic.main.activity_info.*
+import kotlinx.android.synthetic.main.activity_info.edtLocation
 import kotlinx.android.synthetic.main.toolbar.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -30,17 +43,19 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class InfoActivity : ImagePickerUtility(), CustomInterface {
+class InfoActivity : ImagePickerUtility(), CustomInterface,
+    UploadVideoAdapter.UploadVideoInterface, UploadPhotoAdapter.UploadPhotoInterface {
 
-    private val myCalendar = Calendar.getInstance()
-    private lateinit var date: DatePickerDialog.OnDateSetListener
 
+    var videoAdapter:UploadVideoAdapter?=null
     var imageFile:File?=null
     var selectedVideoUri:Uri?=null
     var mProgress: CustomProgressDialog? = null
     private var mSnackBar: Snackbar? = null
 
+    var list_count=1
     var categoryList = ArrayList<CategoryData>()
+    var videoList= ArrayList<UploadVideoModel>()
 
     lateinit var infoViewModel:InfoViewModel
     var swap_value=""
@@ -49,14 +64,21 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
     var profile_image=""
 
     var categoryDialogFragment:CategoryDialogFragment?=null
-
+    var uploadPhotoAdapter:UploadPhotoAdapter?=null
+    var photoList= ArrayList<UploadPhotoModel>()
+    private var latitude = ""
+    private var longitude = ""
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MyUtils.fullscreen(this)
         setContentView(R.layout.activity_info)
-        initViews()
 
+        Places.initialize(this, "AIzaSyAd4ZzHfi-nAp-6IAm1YF5-pVxCAlzW4EA")
+        initViews()
+        setVideoAdapter()
+        setPhotoAdapter()
         setData()
 
         getCategoryData()
@@ -75,14 +97,36 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
 
     }
 
+    private fun setPhotoAdapter() {
+        rvUploadPhoto.layoutManager= LinearLayoutManager(this,RecyclerView.VERTICAL,false)
+        uploadPhotoAdapter= UploadPhotoAdapter(this)
+        rvUploadPhoto.adapter= uploadPhotoAdapter
+        uploadPhotoAdapter?.uploadPhotoInterface=this
+        uploadPhotoAdapter?.arrayList=photoList
+
+        photoList.add(UploadPhotoModel("undefined",imageFile))
+        uploadPhotoAdapter?.notifyDataSetChanged()
+    }
+
+    private fun setVideoAdapter() {
+        rvUploadVideo.layoutManager=LinearLayoutManager(this,RecyclerView.VERTICAL,false)
+        videoAdapter= UploadVideoAdapter(this)
+        rvUploadVideo.adapter= videoAdapter
+        videoAdapter?.uploadVideoInterface =this
+        videoAdapter?.arrayList=videoList
+
+        videoList.add(UploadVideoModel("undefined",selectedVideoUri))
+        videoAdapter?.notifyDataSetChanged()
+    }
+
     private fun initViews() {
         mProgress = CustomProgressDialog(this)
-        infoViewModel= InfoViewModel(this)
+        infoViewModel= InfoViewModel()
     }
 
     private fun getCategoryData() {
 
-        infoViewModel.getCategories(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        infoViewModel.getCategories(this,getSecurityKey(this)!!, getUser(this)?.authKey!!)
         infoViewModel.categoryLiveData.observe(this, androidx.lifecycle.Observer {
 
             if(it.code==200){
@@ -133,23 +177,31 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
             getImage(this,0,false)
         }
 
+        addNewVideo.setOnClickListener {
+            list_count += 1
+            videoList.add(UploadVideoModel("undefined",selectedVideoUri))
+            videoAdapter?.notifyDataSetChanged()
+        }
+        ivAddImage.setOnClickListener {
+            list_count += 1
+            photoList.add(UploadPhotoModel("undefined",imageFile))
+            uploadPhotoAdapter?.notifyDataSetChanged()
+        }
+
       /*  edtSetAvailability.setOnClickListener {
             datePicker()
         }*/
 
-        riv_video.setOnClickListener {
+      /*  riv_video.setOnClickListener {
             getImage(this,0,true)
         }
 
         riv_Picture.setOnClickListener {
             getImage(this,0,false)
-        }
+        }*/
 
         btnSubmit.setOnClickListener {
-
             checkValidations()
-//            val intent = Intent(this, HomeActivity::class.java)
-//            startActivity(intent)
         }
 
         rgService.setOnCheckedChangeListener { group, checkedId ->
@@ -187,6 +239,19 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
                }
            }
        }
+
+        edtLocation.setOnClickListener {
+            val fields = listOf(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS_COMPONENTS,
+                Place.Field.ADDRESS
+            )
+            // Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+        }
 
     }
 
@@ -246,7 +311,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
                 imagenPerfil = MultipartBody.Part.createFormData("image", imageFile?.name, requestFile)
             }
 
-            infoViewModel.addEditInfo(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            infoViewModel.addEditInfo(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             infoViewModel.infoLiveData.observe(this, androidx.lifecycle.Observer {
 
             })
@@ -283,15 +348,19 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
     }
 
     override fun selectedImage(imagePath: File?) {
-        Glide.with(this).load(imagePath).into(riv_Picture)
-        ivDeletePhoto.visibility=View.VISIBLE
+       photoList.add(UploadPhotoModel("upload",imagePath))
+        uploadPhotoAdapter?.notifyDataSetChanged()
+//        Glide.with(this).load(imagePath).into(riv_Picture)
+//        ivDeletePhoto.visibility=View.VISIBLE
         imageFile=imagePath
         uploadMedia("0")
 
     }
 
     override fun selectedVideoUri(videoUri: Uri?) {
-        Glide.with(this).load(videoUri).into(riv_video)
+        videoList.add(UploadVideoModel("upload",videoUri!!))
+        videoAdapter?.notifyDataSetChanged()
+       // Glide.with(this).load(videoUri).into(riv_video)
         selectedVideoUri=videoUri
         uploadMedia("1")
 
@@ -308,7 +377,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
             request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
         }
 
-        infoViewModel.uploadMedia(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
+        infoViewModel.uploadMedia(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
             if(it.code==200){
                 Toast.makeText(this,"Uploaded media successfully",Toast.LENGTH_LONG).show()
@@ -328,13 +397,17 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
 
     override fun callbackMethod(data: ArrayList<CategoryData>) {
         var categoryId=StringBuilder("")
-        var arrayList=ArrayList<String>()
+        val arrayList=ArrayList<String>()
+        val categoryList= ArrayList<String>()
         data.forEach{
             if(it.isSelect){
+                categoryList.add(it.name.toString())
                 arrayList.add(it.id.toString())
             }
         }
-        TextUtils.join(",",arrayList)
+        val id_list= TextUtils.join(",",arrayList)
+        val name_list= TextUtils.join(",",categoryList)
+        etSelectCategory.setText(name_list)
         Log.i("TAG",arrayList.toString())
     }
 
@@ -346,7 +419,40 @@ class InfoActivity : ImagePickerUtility(), CustomInterface {
                 arrayList.add(it.id.toString())
             }
         }
-        TextUtils.join(",",arrayList)
-        Log.i("TAG",arrayList.toString())
+
+        val id_list= TextUtils.join(",",arrayList)
+        Log.i("subactegory_ids",arrayList.toString())
+    }
+
+    override fun onVideoUpload(position: Int) {
+        getImage(this,0,true)
+    }
+
+    override fun deleteVideo(position: Int) {
+        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,"")
+        infoViewModel.mediaLiveData.observe(this,  {
+
+            if(it.code==200){
+                Log.i("====",it.msg)
+            }
+        })
+    }
+
+    override fun onPhotoUpload(position: Int) {
+        getImage(this,0,false)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val place = Autocomplete.getPlaceFromIntent(data)
+                edtLocation.setText(place.name.toString())
+                latitude = place.latLng?.latitude.toString()
+                longitude = place.latLng?.longitude.toString()
+            }
+
+        }
     }
 }

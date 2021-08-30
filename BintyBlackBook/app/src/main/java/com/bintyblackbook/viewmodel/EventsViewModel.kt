@@ -15,6 +15,7 @@ import com.bintyblackbook.ui.activities.authentication.InfoActivity
 import com.bintyblackbook.ui.activities.home.AddEventActivity
 import com.bintyblackbook.ui.activities.home.EventActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
+import com.bintyblackbook.ui.activities.home.profileUser.EventInProfileActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import okhttp3.MultipartBody
@@ -240,8 +241,50 @@ class EventsViewModel :ViewModel(){
                     (context as AddEventActivity).dismissProgressDialog()
                     showAlert(context as AddEventActivity ,error.getString("msg").toString(),"OK",{})
                 }
-
             }
         })
+    }
+
+    // delete event
+    fun deleteEvent(context: Context, securityKey: String,auth_key: String,event_id: String){
+
+        (context as EventInProfileActivity).showProgressDialog()
+        ApiClient.apiService.deleteEvent(securityKey,auth_key, event_id).enqueue(object : Callback<JsonElement>{
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as EventInProfileActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            baseEventsLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as EventInProfileActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as EventInProfileActivity).dismissProgressDialog()
+                    showAlert(context as EventInProfileActivity ,error.getString("msg").toString(),"OK"){}
+                }
+
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                try {
+                    (context as EventInProfileActivity).dismissProgressDialog()
+                    (context as EventInProfileActivity).showSnackBarMessage(t.localizedMessage)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }
+
+
+        })
+
     }
 }

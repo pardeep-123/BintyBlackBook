@@ -1,6 +1,7 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
     var myPopupWindow: PopupWindow? = null
     var onItemClick: ((timelineModel: PostData, clickOn: String,position:Int) -> Unit)? = null
     var onCommentClick: ((timelineModel: PostData) -> Unit)? = null
+    var p=0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false)
@@ -50,6 +52,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         var rlDots: RelativeLayout = itemView.rlDots
 
         fun bind(pos: Int) {
+
             val timelineModel = arrayList[pos]
 
             Glide.with(context).load(timelineModel.userImage).into(civProfile)
@@ -100,14 +103,15 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }
 
             rlDots.setOnClickListener {
+                p = pos
                 myPopupWindow?.showAsDropDown(it, -165, -20)
-            }
-
-            if(getUser(context)?.id==arrayList[pos].userId){
-                setPopUpWindow(timelineModel,"myProfile",pos)
-            }
-            else{
-                setPopUpWindow(timelineModel,"other",pos)
+                Log.i("=====", getUser(context)?.id.toString() +""+ arrayList[p].userId.toString())
+                if(getUser(context)?.id==arrayList[p].userId){
+                    setPopUpWindow(timelineModel,"myProfile",pos)
+                }
+                else{
+                    setPopUpWindow(timelineModel,"other",pos)
+                }
             }
         }
 

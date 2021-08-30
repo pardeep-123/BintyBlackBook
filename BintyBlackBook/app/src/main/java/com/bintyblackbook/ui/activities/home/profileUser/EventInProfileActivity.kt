@@ -9,7 +9,6 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventInProfileAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
-import com.bintyblackbook.models.EventsModel
 import com.bintyblackbook.ui.activities.home.AddEventActivity
 import com.bintyblackbook.ui.dialogues.EventDeleteDialogFragment
 import com.bintyblackbook.util.AppConstant
@@ -38,9 +37,11 @@ class EventInProfileActivity : BaseActivity() {
         }
 
         rlAdd.setOnClickListener {
-            startActivity(Intent(this, AddEventActivity::class.java))
+            val intent= Intent(this, AddEventActivity::class.java)
+            intent.putExtra(AppConstant.HEADING, "Add Event")
+            intent.putExtra("type","add")
+            startActivity(intent)
         }
-
 
     }
 
@@ -70,15 +71,37 @@ class EventInProfileActivity : BaseActivity() {
     }
 
     private fun adapterItemClick() {
-        eventInProfileAdapter?.onItemClick = {eventsModel: EventData, clickOn: String ->
-            if (clickOn.equals("editClick")){
+
+        eventInProfileAdapter?.onItemClick = {eventsModel: EventData, clickOn: String,position:Int ->
+            if (clickOn == "editClick"){
                 val intent = Intent(this,AddEventActivity::class.java)
                 intent.putExtra(AppConstant.HEADING, "Edit Event")
+                intent.putExtra("type","edit")
+                intent.putExtra("name",eventsModel.name)
+                intent.putExtra("location",eventsModel.location)
+                intent.putExtra("time",eventsModel.time.toString())
+                intent.putExtra("date",eventsModel.date.toString())
+                intent.putExtra("description",eventsModel.description)
+                intent.putExtra("info", eventsModel.moreInfo)
+                intent.putExtra("link",eventsModel.rsvpLink)
                 startActivity(intent)
-            }else if(clickOn.equals("deleteClick")){
-                val eventDeleteDialog = EventDeleteDialogFragment()
+            }else if(clickOn == "deleteClick"){
+                val eventDeleteDialog = EventDeleteDialogFragment(this, eventsModel.id.toString(),position)
                 eventDeleteDialog.show(supportFragmentManager,"eventDelete")
             }
         }
     }
+
+    fun deleteEvent(event_id:String,position:Int){
+        eventsViewModel.deleteEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,event_id)
+        eventsViewModel.baseEventsLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                arrayList.removeAt(position)
+                eventInProfileAdapter?.notifyDataSetChanged()
+            }
+
+        })
+    }
+
 }

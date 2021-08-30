@@ -9,15 +9,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.UpcomingBookingAdapter
 import com.bintyblackbook.model.UpcomingBookings
+import com.bintyblackbook.util.CustomProgressDialog
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_upcoming_bookings.*
 import java.util.*
 
 
 class UpcomingBookingsFragment : Fragment() {
 
+    private var mSnackBar: Snackbar? = null
+    var mProgress: CustomProgressDialog? = null
     lateinit var bookingsViewModel: BookingsViewModel
      var upcomingArrayList = ArrayList<UpcomingBookings>()
     var upcomingBookingAdapter:UpcomingBookingAdapter? = null
@@ -32,7 +36,7 @@ class UpcomingBookingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mProgress = CustomProgressDialog(requireContext())
         bookingsViewModel= BookingsViewModel(requireActivity())
 
         setAdapter()
@@ -46,12 +50,12 @@ class UpcomingBookingsFragment : Fragment() {
         bookingsViewModel.bookingsLiveData.observe(requireActivity(), {
 
             if(it?.data?.upcomingBookings?.size==0){
-                tvNoBookings.visibility=View.GONE
-                rvUpcomingBookings.visibility=View.VISIBLE
-            }
-            else {
                 tvNoBookings.visibility=View.VISIBLE
                 rvUpcomingBookings.visibility=View.GONE
+            }
+            else {
+                tvNoBookings.visibility=View.GONE
+                rvUpcomingBookings.visibility=View.VISIBLE
                 upcomingArrayList.clear()
                 upcomingArrayList.addAll(it?.data?.upcomingBookings!!)
                 upcomingBookingAdapter?.notifyDataSetChanged()
@@ -65,5 +69,14 @@ class UpcomingBookingsFragment : Fragment() {
         upcomingBookingAdapter = UpcomingBookingAdapter(requireActivity())
         rvUpcomingBookings.adapter = upcomingBookingAdapter
         upcomingBookingAdapter?.arrayList=upcomingArrayList
+    }
+
+    fun showProgressDialog() {
+        mProgress = CustomProgressDialog(requireContext())
+        mProgress?.show()
+    }
+
+    fun dismissProgressDialog() {
+        mProgress?.dismiss()
     }
 }

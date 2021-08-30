@@ -53,16 +53,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
        loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
                if(t?.code==200){
                    val response=t.data
-                    Log.i("TAG",response?.userType.toString())
+                   saveUser(this,response!!)
 
-
-                   if(response?.userType==0){
+                   if(response.userType==0){
                        MySharedPreferences.storeUserType(this,"User")
                    }
                    else{
                        MySharedPreferences.storeUserType(this,"Business")
                    }
-                   saveUser(this,response!!)
+
 
                    if(response.userType==0){
                        val intent=Intent(this,HomeActivity::class.java)
