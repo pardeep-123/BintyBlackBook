@@ -378,4 +378,12 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key: String,
         @Query("media_id") media_id:String
     ) : Call<JsonElement>
+
+    @POST(ApiConstants.LIKE_DISLIKE_POST)
+    fun likeDislikePost(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("status") status:String,
+        @Field("post_id") post_id:String
+    ) : Call<JsonElement>
 }

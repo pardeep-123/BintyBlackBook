@@ -18,13 +18,10 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_my_profile_business.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.tvWebLink
-import kotlinx.android.synthetic.main.activity_user_detail.*
-import kotlinx.android.synthetic.main.activity_user_detail.civ_profile
-import kotlinx.android.synthetic.main.activity_user_detail.riv1
 import kotlinx.android.synthetic.main.activity_user_detail.rvImages
+import kotlinx.android.synthetic.main.toolbar.*
 
 class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
@@ -60,6 +57,9 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         btnUnLoopUser.setOnClickListener(this)
         btnUserEvent.setOnClickListener(this)
         btnSwap.setOnClickListener(this)
+        iv_back.setOnClickListener {
+            finish()
+        }
     }
 
     private fun getData() {

@@ -143,7 +143,7 @@ class AddPostActivity : ImagePickerUtility() {
                 postsViewModel.addPost(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             }
 
-            postsViewModel.addPostLiveData.observe(this, Observer {
+            postsViewModel.baseResponseLiveData.observe(this, Observer {
                 if(it.code==200){
                     showAlert(this,it?.msg.toString(),getString(R.string.ok)) {
                         finish()

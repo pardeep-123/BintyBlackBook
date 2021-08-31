@@ -35,6 +35,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="30dp"
                     android:fontFamily="@font/romul"
+                    android:lineSpacingExtra="4dp"
                     android:text="@string/john"
                     android:textColor="@color/blackColor"
                     android:textSize="15sp" />

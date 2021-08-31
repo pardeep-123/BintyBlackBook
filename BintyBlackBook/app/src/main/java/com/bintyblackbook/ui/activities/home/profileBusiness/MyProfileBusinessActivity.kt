@@ -2,6 +2,7 @@ package com.bintyblackbook.ui.activities.home.profileBusiness
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,12 +13,16 @@ import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.UserMedia
 import com.bintyblackbook.ui.activities.home.profileUser.AvailabilityActivity
 import com.bintyblackbook.ui.activities.home.profileUser.EventInProfileActivity
-import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_my_profile_business.*
+import kotlinx.android.synthetic.main.activity_my_profile_business.rvImages
+import kotlinx.android.synthetic.main.activity_my_profile_business.tvBusinessCategory
+import kotlinx.android.synthetic.main.activity_my_profile_business.tvSubCategory
+import kotlinx.android.synthetic.main.activity_my_profile_business.tvWebLink
+
 
 class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
@@ -79,6 +84,22 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
             horizontalImagesAdapter?.notifyDataSetChanged()
         }
 
+        val subCategories= ArrayList<String>()
+        val categories= ArrayList<String>()
+        it.category.forEach {
+            categories.add(it.name)
+            it.subCategories.forEach {
+                subCategories.add(it.name)
+            }
+        }
+        tvSubCategory.text = TextUtils.join("# ",subCategories)
+        tvBusinessCategory.text= TextUtils.join(",", categories)
+        tvService.text= it.services
+        tvSwapInMind.text= it.swapInMind
+        tvTime.text= it.operationTime
+        tvWebLink.text= it.websiteLink
+        txtSocialMedia.text= it.socialMediaHandles
+
     }
 
     private fun setAdapter() {
@@ -95,7 +116,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         horizontalImagesAdapter?.onItemClick = {media: UserMedia ->
 
             Glide.with(context).load(media.media).into(riv1)
-            //riv1.setImageResource(image.image!!)
+
         }
     }
 
@@ -103,7 +124,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         when(v?.id){
 
             R.id.btnSetAvailability ->{
-                val intent= Intent(this, SetAvailabilityActivity::class.java)
+                val intent= Intent(this, AvailabilityActivity::class.java)
                 intent.putExtra("user_id",response?.id.toString())
                 startActivity(intent)
             }
@@ -114,7 +135,8 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnEvent ->{
-                startActivity(Intent(this, EventInProfileActivity::class.java))
+                val intent= Intent(this,EventInProfileActivity::class.java)
+                startActivity(intent)
             }
         }
     }

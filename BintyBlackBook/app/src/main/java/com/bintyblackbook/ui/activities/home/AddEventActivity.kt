@@ -45,6 +45,10 @@ class AddEventActivity : ImagePickerUtility() {
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     var heading=""
     var type = ""
+    var image=""
+
+    var dateStamp=""
+    var timeStamp=""
 
     override fun selectedImage(imagePath: File?) {
         Glide.with(this).load(imagePath).into(riv)
@@ -63,15 +67,6 @@ class AddEventActivity : ImagePickerUtility() {
 
         initViews()
         getIntentData()
-
-//            riv.setImageResource(R.drawable.one)
-//            edtEventName.setText("Colourful Fiesta")
-//            edtLocation.setText(getString(R.string.arizona_usa))
-//            edtDate.setText("20/1/2021")
-//            edtTime.setText("12:00 AM")
-//            edtDesc.setText(getString(R.string.dummy_text))
-//            edtMoreInfo.setText(getString(R.string.dummy_text))
-
 
         rlBack.setOnClickListener {
             finish()
@@ -133,6 +128,7 @@ class AddEventActivity : ImagePickerUtility() {
         val date= intent.getStringExtra("date").toString()
         val description= intent.getStringExtra("description").toString()
         val info= intent.getStringExtra("info").toString()
+        image= intent.getStringExtra("image").toString()
 
         if(type=="add"){
             edtEventName.setText("")
@@ -145,14 +141,15 @@ class AddEventActivity : ImagePickerUtility() {
         }else{
             edtEventName.setText(name)
             edtLocation.setText(location)
-            val date= MyUtils.getDate(date)
-            edtDate.setText(date)
 
-            val time= MyUtils.getTime(time)
+            val date= MyUtils.getDate(date.toLong())
+            edtDate.setText(date)
+            val time= MyUtils.getTime(time.toLong())
             edtTime.setText(time)
             edtLink.setText(link)
             edtDesc.setText(description)
             edtMoreInfo.setText(info)
+            Glide.with(this).load(image).into(riv)
         }
     }
 
@@ -161,6 +158,7 @@ class AddEventActivity : ImagePickerUtility() {
         eventsViewModel= EventsViewModel()
     }
 
+    //pass date and time as timestamp
     private fun checkValidations() {
         if(InternetCheck.isConnectedToInternet(this)
             && Validations.isEmpty(this,edtEventName,"Please enter event name")
@@ -172,16 +170,17 @@ class AddEventActivity : ImagePickerUtility() {
             && Validations.isEmpty(this,edtMoreInfo,"Please enter more info")
         ) {
 
-            if(selectedImagePath?.absolutePath.isNullOrEmpty()){
+            if(selectedImagePath?.absolutePath.isNullOrEmpty() || image.isEmpty()){
                 Toast.makeText(this,"Please choose image", Toast.LENGTH_LONG).show()
                 return
             }
-
+            timeStamp= MyUtils.currentTimeToLong(edtDate.text.toString() +" " +edtTime.text.toString())
+            dateStamp = MyUtils.convertDateToLong(edtDate.text.toString())
             val map: HashMap<String, RequestBody> = HashMap()
             map.put("name",createRequestBody(edtEventName.text.toString()))
             map.put("location",createRequestBody(edtLocation.text.toString()))
-            map.put("date",createRequestBody(edtDate.text.toString()))
-            map.put("time",createRequestBody(edtTime.text.toString()))
+            map.put("date",createRequestBody(dateStamp))
+            map.put("time",createRequestBody(timeStamp))
             map.put("rsvp_link",createRequestBody(edtLink.text.toString()))
             map.put("description",createRequestBody(edtDesc.text.toString()))
             map.put("more_info",createRequestBody(edtMoreInfo.text.toString()))
@@ -198,7 +197,7 @@ class AddEventActivity : ImagePickerUtility() {
                 imagenPerfil = MultipartBody.Part.createFormData("image", selectedImagePath?.name, requestFile)
             }
 
-            eventsViewModel.addEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil!!)
+            eventsViewModel.addEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             eventsViewModel.baseEventsLiveData.observe(this, {
 
                 if(it.code==200){
@@ -224,15 +223,18 @@ class AddEventActivity : ImagePickerUtility() {
     }
 
     private fun updateDateLabel() {
-        val dateFormat = "dd/MM/yy" //In which you need put here
+        val dateFormat = "dd/MM/yyyy" //In which you need put here
         val sdf = SimpleDateFormat(dateFormat, Locale.US)
         edtDate.setText(sdf.format(myCalendar.time))
+
     }
 
     private fun updateTimeLabel() {
         val timeFormat = "hh:mm a" //In which you need put here
         val sdf = SimpleDateFormat(timeFormat, Locale.US)
         edtTime.setText(sdf.format(myCalendar.time))
+
+
     }
 
     fun showProgressDialog(){

@@ -9,12 +9,8 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.FavEventsResponse
-import com.bintyblackbook.model.MyLoopsResponse
 import com.bintyblackbook.model.UserEventsResponse
-import com.bintyblackbook.ui.activities.authentication.InfoActivity
 import com.bintyblackbook.ui.activities.home.AddEventActivity
-import com.bintyblackbook.ui.activities.home.EventActivity
-import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.ui.activities.home.profileUser.EventInProfileActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -206,7 +202,10 @@ class EventsViewModel :ViewModel(){
 
 
     //add event api
-    fun addEvent(context: Context,security_key:String, auth_key:String, request:Map<String, RequestBody>, part: MultipartBody.Part){
+    fun addEvent(
+        context: Context,
+        security_key:String, auth_key:String, request:Map<String, RequestBody>, part: MultipartBody.Part?
+    ){
 
         (context as AddEventActivity).showProgressDialog()
         ApiClient.apiService.addEvent(security_key,auth_key,request,part).enqueue(object : Callback<JsonElement> {

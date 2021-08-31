@@ -7,7 +7,6 @@ import com.bintyblackbook.adapters.EventCalenderPagerAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.fragments.AllEventFragment
 import com.bintyblackbook.ui.fragments.FavouriteFragment
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_event_calender.*
 
@@ -21,9 +20,8 @@ class EventCalenderActivity : BaseActivity() {
 
         setTabLayout()
 
-
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = fragList.get(position)
+            tab.text = fragList[position]
         }.attach()
     }
 
@@ -48,7 +46,7 @@ class EventCalenderActivity : BaseActivity() {
     }
 
     override fun onPause() {
-        if (mProgress != null && mProgress?.isShowing()!!) {
+        if (mProgress != null && mProgress?.isShowing!!) {
             mProgress?.dismiss()
         }
         super.onPause()

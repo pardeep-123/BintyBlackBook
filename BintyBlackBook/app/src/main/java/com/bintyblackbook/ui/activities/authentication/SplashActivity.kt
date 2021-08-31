@@ -31,7 +31,13 @@ class SplashActivity : BaseActivity() {
     private fun gotoNext(){
 
         videoView.setOnCompletionListener {
-            if(getUser(context)?.userType==1 && getUser(context)?.experience.isNullOrEmpty()){
+
+            if(getUser(context)?.authKey.isNullOrEmpty()){
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+           else if(getUser(context)?.userType==1 && getUser(context)?.experience.isNullOrEmpty()){
                 val intent = Intent(this@SplashActivity, LoginActivity::class.java)
                 startActivity(intent)
                 finish()

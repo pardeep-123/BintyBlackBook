@@ -27,7 +27,7 @@ import retrofit2.Response
 
 class PostsViewModel (val context: Context):ViewModel(){
 
-    var addPostLiveData= MutableLiveData<BaseResponseModel>()
+    var baseResponseLiveData= MutableLiveData<BaseResponseModel>()
     var postListLiveData = MutableLiveData<PostResponseModel>()
 
 
@@ -58,7 +58,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as AddPostActivity,jsonDATA.getString("msg"),"Ok",{})
                           //  (context as AddPostActivity).showAlertWithOk(jsonDATA.getString("msg"))
@@ -148,7 +148,7 @@ class PostsViewModel (val context: Context):ViewModel(){
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
                         }
@@ -194,7 +194,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as AddPostActivity,jsonDATA.getString("msg"),"Ok"){}
                             //  (context as AddPostActivity).showAlertWithOk(jsonDATA.getString("msg"))
@@ -242,7 +242,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as EventDetailActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
@@ -279,7 +279,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
@@ -309,4 +309,48 @@ class PostsViewModel (val context: Context):ViewModel(){
         })
     }
 
+    /*
+    like dislike post
+     */
+
+    fun likeDislikePost(securityKey: String,authKey: String,status:String,post_id: String){
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.likeDislikePost(securityKey,authKey,status, post_id).enqueue(object :Callback<JsonElement>{
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if(response.isSuccessful){
+                    (context as BaseActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            baseResponseLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK",{})
+                }
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+               try {
+                   (context as BaseActivity).dismissProgressDialog()
+                   (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
+               }catch (e:java.lang.Exception){
+                   e.printStackTrace()
+               }
+            }
+
+        })
+    }
 }

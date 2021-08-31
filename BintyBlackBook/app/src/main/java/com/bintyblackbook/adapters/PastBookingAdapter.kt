@@ -47,8 +47,8 @@ class PastBookingAdapter(var context: Context) :
 
             Glide.with(context).load(upcomingBookingModel.userImage).into(civProfile)
             tvName.text = upcomingBookingModel.userName
-            tvDate.text = MyUtils.getDate(upcomingBookingModel.availabilityDate)
-            tvTime.text = MyUtils.getTime(upcomingBookingModel.availabilityDate)
+            tvDate.text = MyUtils.getDate(upcomingBookingModel.availabilityDate.toLong())
+            tvTime.text = MyUtils.getTime(upcomingBookingModel.availabilityDate.toLong())
             //tvStatus.text = upcomingBookingModel.status
 
             itemView.setOnClickListener {

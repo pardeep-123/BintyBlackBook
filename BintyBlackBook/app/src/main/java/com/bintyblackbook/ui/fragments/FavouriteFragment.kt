@@ -41,11 +41,6 @@ class FavouriteFragment : Fragment() {
         getEventList()
     }
 
-    /*override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        getEventList()
-    }*/
-
     private fun getEventList() {
         eventsViewModel.favEvents(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
         eventsViewModel.favEventsLiveData.observe(requireActivity(), Observer {

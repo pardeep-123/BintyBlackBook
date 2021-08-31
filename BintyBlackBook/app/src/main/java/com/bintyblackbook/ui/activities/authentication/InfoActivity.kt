@@ -170,6 +170,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
         edtSetAvailability.setOnClickListener {
             val intent= Intent(this,SetAvailabilityActivity::class.java)
+            intent.putExtra("type","info")
             startActivity(intent)
         }
 
@@ -368,7 +369,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
     }
     private fun uploadMedia(type: String) {
-        var map=HashMap<String,RequestBody>()
+        val map=HashMap<String,RequestBody>()
         map.put("type",createRequestBody(type))
 
         var request: MultipartBody.Part? = null

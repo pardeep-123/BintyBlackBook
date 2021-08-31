@@ -2,6 +2,7 @@ package com.bintyblackbook.ui.activities.home.timeline
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -115,7 +116,7 @@ class TimelineActivity : BaseActivity() {
 
     fun deletePost(position:Int){
        postsViewModel.deletePost(getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id)
-        postsViewModel.addPostLiveData.observe(this, Observer {
+        postsViewModel.baseResponseLiveData.observe(this, Observer {
             postList.removeAt(position)
             timelineAdapter?.notifyDataSetChanged()
 
@@ -125,6 +126,17 @@ class TimelineActivity : BaseActivity() {
     override fun onPause() {
         super.onPause()
         getAllPostList()
+    }
+
+    fun likeDislikePost(){
+        postsViewModel.likeDislikePost(getSecurityKey(this)!!, getUser(this)?.authKey!!,"","")
+        postsViewModel.baseResponseLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                Log.i("====",it.msg)
+            }
+
+        })
     }
 
 }

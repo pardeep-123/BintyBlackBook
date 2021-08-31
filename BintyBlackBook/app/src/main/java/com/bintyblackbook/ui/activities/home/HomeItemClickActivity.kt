@@ -22,8 +22,8 @@ class HomeItemClickActivity : BaseActivity() {
     var list=ArrayList<CategoryName>()
 
     var id=0
-
     var userId=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_item_click)

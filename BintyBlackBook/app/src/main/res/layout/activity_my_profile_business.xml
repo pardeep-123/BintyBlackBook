@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/themeColor"
+    android:orientation="vertical"
     tools:context=".ui.activities.home.profileBusiness.MyProfileBusinessActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -52,22 +52,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="@dimen/dp18"
-            android:layout_marginEnd="@dimen/dp18">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp18"
-                android:layout_marginEnd="@dimen/dp18"
-                android:orientation="vertical">
+            android:layout_marginEnd="@dimen/dp18"
+            android:orientation="vertical">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/riv1"
@@ -156,7 +149,54 @@
                     android:layout_marginTop="@dimen/dp15"
                     android:layout_marginEnd="@dimen/dp8"
                     android:fontFamily="@font/romul"
-                    android:text="@string/experience"
+                    android:text="@string/business_category"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvBusinessCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/trajanpro_regular"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="Sub Category"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSubCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text=""
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/years_in_business"
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13"
                     android:textStyle="bold" />
@@ -167,7 +207,89 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp8"
                     android:layout_marginEnd="@dimen/dp8"
-                    android:fontFamily="@font/trajanpro_regular"
+                    android:fontFamily="@font/romul"
+                    android:text=""
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="Services Provided"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text=""
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/open_to_swap"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/swap_in_mind"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSwapInMind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text=""
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp10" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="Hours and days of operation"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp10" />
@@ -190,7 +312,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp8"
                     android:layout_marginEnd="@dimen/dp8"
-                    android:fontFamily="@font/trajanpro_regular"
+                    android:fontFamily="@font/romul"
+                    android:text=""
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/social_media_handle"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtSocialMedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp10" />
@@ -217,7 +362,7 @@
                     android:text="@string/edit_profile"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp13"/>
+                    android:textSize="@dimen/sp13" />
 
                 <Button
                     android:id="@+id/btnEvent"
@@ -232,8 +377,6 @@
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13" />
             </LinearLayout>
-
-        </LinearLayout>
 
     </ScrollView>
 

@@ -5,12 +5,14 @@ import android.os.Build
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 object MyUtils {
 
-    fun fullscreen(context: Activity){
+    fun fullscreen(context: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             context.window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
@@ -31,25 +33,26 @@ object MyUtils {
         )
     }
 
-     fun getDate(s: String): String? {
+    fun getDate(timeStamp: Long): String? {
         return try {
             val sdf = SimpleDateFormat("MM/dd/yyyy")
-            val netDate = Date(s.toLong() * 1000)
+            val netDate = Date(timeStamp * 1000L)
             sdf.format(netDate)
-        } catch (e: Exception) {
-            e.toString()
+        } catch (ex: java.lang.Exception) {
+            "xx"
         }
     }
 
-    fun getTime(s: String):String?{
+    fun getTime(timeStamp: Long): String? {
         return try {
-            val sdf = SimpleDateFormat("HH:mm:a")
-            val netDate = Date(s.toLong())
+            val sdf = SimpleDateFormat("hh:mm a")
+            val netDate = Date(timeStamp * 1000L)
             sdf.format(netDate)
-        } catch (e: Exception) {
-            e.toString()
+        } catch (ex: java.lang.Exception) {
+            "xx"
         }
     }
+
 
     fun convertLongToTime(time: Long): String {
         val date = Date(time)
@@ -57,37 +60,76 @@ object MyUtils {
         return format.format(date)
     }
 
-    fun currentTimeToLong(): Long {
-        return System.currentTimeMillis()
+    fun currentTimeToLong(time:String): String {
+        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm a")
+        val date = (formatter.parse(time).time /1000).toString()
+        return date
     }
 
-    fun convertDateToLong(date: String): Long {
-        val df = SimpleDateFormat("yyyy.MM.dd HH:mm")
-        return df.parse(date).time
+    fun convertDateToLong(date: String): String {
+
+        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val date = (formatter.parse(date).time /1000).toString()
+        return date
     }
 
-    fun getCurrentDay(s:String) :String {
-            val sdf = SimpleDateFormat("EE")
-            val netDate = Date(s.toLong() * 1000)
-            val dayOfTheWeek = sdf.format(netDate)
-            return dayOfTheWeek
-//        val sdf = SimpleDateFormat("EEEE")
-//        val d = Date()
-//        val dayOfTheWeek = sdf.format(d)
+    fun getCurrentDay(s: Long): String {
+        val sdf = SimpleDateFormat("EE")
+        val netDate = Date(s.toLong() * 1000)
+        val dayOfTheWeek = sdf.format(netDate)
+        return dayOfTheWeek
     }
 
-    fun getCurrentDate(s:String) :String {
+    fun getCurrentDate(timeStamp: Long): String? {
         return try {
             val sdf = SimpleDateFormat("MMM dd")
-            val netDate = Date(s.toLong() * 1000)
+            val netDate = Date(timeStamp * 1000L)
             sdf.format(netDate)
-        } catch (e: Exception) {
-            e.toString()
+        } catch (ex: java.lang.Exception) {
+            "xx"
         }
-//        val sdf = SimpleDateFormat("EEEE")
-//        val d = Date()
-//        val dayOfTheWeek = sdf.format(d)
     }
 
+    fun getDateInUTC(datesToConvert: String?): String? {
+        var dateFormat = "MM/dd/yyyy hh:mm a"
+        var dateToReturn = datesToConvert
+        val sdf = SimpleDateFormat(dateFormat)
+        sdf.timeZone = TimeZone.getDefault()
+        var gmt: Date? = null
+        val sdfOutPutToSend = SimpleDateFormat(dateFormat)
+        sdfOutPutToSend.timeZone = TimeZone.getTimeZone("UTC")
+        try {
+            gmt = sdf.parse(datesToConvert)
+            dateToReturn = (gmt!!.time / 1000).toString()
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return dateToReturn
+    }
+
+    fun getTimeInUTC(timeToConvert: String?): String? {
+        var dateFormat = "hh:mm aa"
+        var dateToReturn = timeToConvert
+        val sdf = SimpleDateFormat(dateFormat)
+        sdf.timeZone = TimeZone.getDefault()
+        var gmt: Date? = null
+        val sdfOutPutToSend = SimpleDateFormat(dateFormat)
+        sdfOutPutToSend.timeZone = TimeZone.getTimeZone("UTC")
+        try {
+            gmt = sdf.parse(timeToConvert)
+            dateToReturn = (gmt!!.time / 1000).toString()
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return dateToReturn
+    }
+
+
+    fun convertTimeStempToDate(timestamp: Long): String? {
+        val cal = Calendar.getInstance(Locale.ENGLISH)
+        cal.timeInMillis = timestamp
+        val outputFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm:a")
+        return outputFormat.format(cal.time)
+    }
 
 }
