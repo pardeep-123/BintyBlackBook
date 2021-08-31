@@ -25,7 +25,7 @@ class BookingsViewModel (val context: Context): ViewModel(){
     get all bookings
      */
     fun getAllBookings(security_key:String, auth_key:String){
-       // (context as MyBookingsActivity).showProgressDialog()
+        (context as MyBookingsActivity).showProgressDialog()
 
         ApiClient.apiService.getAllBookings(security_key, auth_key).enqueue(object : Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -41,6 +41,7 @@ class BookingsViewModel (val context: Context): ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful){
+                    (context as MyBookingsActivity).dismissProgressDialog()
 
                     val jsonObject= JSONObject(response.body()!!.toString())
 

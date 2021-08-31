@@ -30,7 +30,7 @@ class AllEventFragment : Fragment() {
 
     var eventAdapter: EventAdapter? = null
     var arrayList= ArrayList<EventData>()
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,12 +49,12 @@ class AllEventFragment : Fragment() {
         getAllEvents()
     }
 
-  /*  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser)
-        getAllEvents()
-    }
-*/
+    /*  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+          super.setUserVisibleHint(isVisibleToUser)
+          if (isVisibleToUser)
+          getAllEvents()
+      }
+  */
     private fun getAllEvents() {
         eventsViewModel.getOtherUserEvents(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
 
@@ -96,7 +96,7 @@ class AllEventFragment : Fragment() {
 
     fun onSelectFavourite(){
         eventAdapter?.onSelectFav = {eventsModel: EventData ->
-         //   eventsViewModel.likeEvent(getSecurityKey(context!!)!!, getUser(context!!)?.authKey)
+            //   eventsViewModel.likeEvent(getSecurityKey(context!!)!!, getUser(context!!)?.authKey)
         }
     }
 
