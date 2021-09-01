@@ -19,8 +19,10 @@ import com.bintyblackbook.viewmodel.HomeViewModel
 import com.bintyblackbook.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
+
 class HomeFragment : Fragment() {
 
+    var searchClick = false
     var homeAdapter: HomeAdapter? = null
     lateinit var homeViewModel: HomeViewModel
     lateinit var notificationViewModel: NotificationViewModel
@@ -46,18 +48,25 @@ class HomeFragment : Fragment() {
         init()
 
         //call api for home data
-
         if(!getUser(requireContext())?.authKey.isNullOrEmpty()) {
             homeViewModel.homeList(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
             getHomeData()
         }
-    }
 
+      /*  ivSearch.setOnClickListener {
+            if (searchClick){
+                edtSearch.visibility = View.GONE
+                searchClick = false
+                MyUtils.hideSoftKeyboard(requireActivity())
+            }else{
+                edtSearch.visibility = View.VISIBLE
+                searchClick = true
+            }
+        }*/
+    }
 
     private fun getHomeData() {
         homeViewModel.homeLiveData.observe(requireActivity(), Observer {
-
-         //   homeViewModel.homeList(it)
 
             if(it?.code==200){
                 if(it.data.size==0){
@@ -77,7 +86,6 @@ class HomeFragment : Fragment() {
 
     private fun init() {
         rvHome.layoutManager = LinearLayoutManager(activity)
-
         homeAdapter = HomeAdapter(requireActivity())
         rvHome.adapter = homeAdapter
         homeAdapter?.arrayList=homeList

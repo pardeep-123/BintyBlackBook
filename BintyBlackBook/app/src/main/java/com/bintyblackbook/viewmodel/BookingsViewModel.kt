@@ -16,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class BookingsViewModel (val context: Context): ViewModel(){
+class BookingsViewModel : ViewModel(){
 
     val baseLiveData = MutableLiveData<BaseResponseModel>()
     val bookingsLiveData=MutableLiveData<BookingResponse>()
@@ -24,7 +24,7 @@ class BookingsViewModel (val context: Context): ViewModel(){
     /*
     get all bookings
      */
-    fun getAllBookings(security_key:String, auth_key:String){
+    fun getAllBookings(context: Context, security_key:String, auth_key:String){
         (context as MyBookingsActivity).showProgressDialog()
 
         ApiClient.apiService.getAllBookings(security_key, auth_key).enqueue(object : Callback<JsonElement>{

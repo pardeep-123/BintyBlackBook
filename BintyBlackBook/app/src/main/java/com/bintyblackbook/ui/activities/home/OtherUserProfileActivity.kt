@@ -39,7 +39,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_other_user_profile)
 
         profileViewModel= ProfileViewModel(this)
-        loopsViewModel= LoopsViewModel(this)
+        loopsViewModel= LoopsViewModel()
 
         getIntentData()
         setAdapter()
@@ -149,7 +149,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 if (loopBtnClick){
                     loopBtnClick = false
                     btnLoopUser.text = getString(R.string.cancel_loop_request)
-                    loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.sendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
 
                     loopsViewModel.baseLiveData.observe(this, Observer {
 
@@ -162,7 +162,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 }else{
                     loopBtnClick = true
                     btnLoopUser.text = getString(R.string.loop)
-                    loopsViewModel.unSendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.unSendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
                     loopsViewModel.baseLiveData.observe(this, Observer {
                         if(it.code==200){
                             val fragmentDialog = FragmentDialog("LoopRequestCancel")
@@ -173,7 +173,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnUnLoopUser ->{
-                loopsViewModel.unLoop(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                loopsViewModel.unLoop(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
                 loopsViewModel.baseLiveData.observe(this, Observer {
                     if(it.code==200){
                         showAlertWithOk(it.msg)

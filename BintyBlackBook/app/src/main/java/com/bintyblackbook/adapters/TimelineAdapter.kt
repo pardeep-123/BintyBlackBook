@@ -97,7 +97,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             rlDots.setOnClickListener {
                 p = pos
                 myPopupWindow?.showAsDropDown(it, -165, -20)
-                Log.i("=====", getUser(context)?.id.toString() +""+ arrayList[p].userId.toString())
 
                 if(getUser(context)?.id==arrayList[p].userId){
                     setPopUpWindow(timelineModel,"myProfile",p)

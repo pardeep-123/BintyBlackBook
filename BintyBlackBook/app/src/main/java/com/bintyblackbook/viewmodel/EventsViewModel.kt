@@ -270,7 +270,6 @@ class EventsViewModel :ViewModel(){
                     (context as EventInProfileActivity).dismissProgressDialog()
                     showAlert(context as EventInProfileActivity ,error.getString("msg").toString(),"OK"){}
                 }
-
             }
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -281,9 +280,45 @@ class EventsViewModel :ViewModel(){
                     e.printStackTrace()
                 }
             }
+        })
+    }
 
+    //edit event
+    fun editEvent(context: Context, securityKey: String,auth_key: String,request: Map<String, RequestBody>,part: MultipartBody.Part?){
+        (context as AddEventActivity).showProgressDialog()
+        ApiClient.apiService.editEvent(securityKey,auth_key,request,part).enqueue(object : Callback<JsonElement>{
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as AddEventActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            baseEventsLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as AddEventActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as AddEventActivity).dismissProgressDialog()
+                    showAlert(context as AddEventActivity ,error.getString("msg").toString(),"OK"){}
+                }
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+               try{
+                   (context as AddEventActivity).dismissProgressDialog()
+                   (context as AddEventActivity).showSnackBarMessage(t.localizedMessage)
+               }catch (e:Exception){
+                   e.printStackTrace()
+               }
+            }
 
         })
-
     }
 }

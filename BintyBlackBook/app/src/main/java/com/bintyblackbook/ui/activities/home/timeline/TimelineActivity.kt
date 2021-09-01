@@ -30,7 +30,7 @@ class TimelineActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timeline)
 
-        postsViewModel= PostsViewModel(this)
+        postsViewModel= PostsViewModel()
         setOnClicks()
 
         setAdapter()
@@ -39,7 +39,7 @@ class TimelineActivity : BaseActivity() {
     }
 
     private fun getAllPostList() {
-        postsViewModel.allPostList(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        postsViewModel.allPostList(this,getSecurityKey(this)!!, getUser(this)?.authKey!!)
 
         postsViewModel.postListLiveData.observe(this, Observer {
 
@@ -93,9 +93,9 @@ class TimelineActivity : BaseActivity() {
 
             }else if (clickOn=="editClick"){
                 val intent = Intent(this,AddPostActivity::class.java)
-                intent.putExtra("post_id",timelineModel.id)
+                intent.putExtra("post_id",timelineModel.id.toString())
                 intent.putExtra("description",timelineModel.description)
-                intent.putExtra("image",timelineModel.userImage)
+                intent.putExtra("image",timelineModel.image)
                 intent.putExtra(AppConstant.HEADING,"Edit Post")
                 intent.putExtra("screen_type","Edit Post")
                 startActivity(intent)
@@ -115,7 +115,7 @@ class TimelineActivity : BaseActivity() {
     }
 
     fun deletePost(position:Int){
-       postsViewModel.deletePost(getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id)
+       postsViewModel.deletePost(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id)
         postsViewModel.baseResponseLiveData.observe(this, Observer {
             postList.removeAt(position)
             timelineAdapter?.notifyDataSetChanged()
@@ -123,13 +123,13 @@ class TimelineActivity : BaseActivity() {
         })
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onRestart() {
         getAllPostList()
+        super.onRestart()
     }
 
     fun likeDislikePost(){
-        postsViewModel.likeDislikePost(getSecurityKey(this)!!, getUser(this)?.authKey!!,"","")
+        postsViewModel.likeDislikePost(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,"","")
         postsViewModel.baseResponseLiveData.observe(this, Observer {
 
             if(it.code==200){

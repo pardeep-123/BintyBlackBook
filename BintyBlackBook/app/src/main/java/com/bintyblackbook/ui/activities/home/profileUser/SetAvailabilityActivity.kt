@@ -113,6 +113,9 @@ class SetAvailabilityActivity : BaseActivity() {
             finish()
         }
 
+        val selected_date= calenderView.selectedDate.get(0)
+        Log.i("selected_date",selected_date.toString())
+
         calenderView.setOnDayClickListener {
             val date= it.calendar.time
             list_dates.add(MyUtils.getDate(date.time.toLong())!!)

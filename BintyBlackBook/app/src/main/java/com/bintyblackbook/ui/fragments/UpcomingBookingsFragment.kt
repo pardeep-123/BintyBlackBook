@@ -37,7 +37,7 @@ class UpcomingBookingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mProgress = CustomProgressDialog(requireContext())
-        bookingsViewModel= BookingsViewModel(requireActivity())
+        bookingsViewModel= BookingsViewModel()
 
         setAdapter()
 
@@ -46,7 +46,7 @@ class UpcomingBookingsFragment : Fragment() {
     }
 
     private fun getData() {
-        bookingsViewModel.getAllBookings(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
+        bookingsViewModel.getAllBookings(requireActivity(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
         bookingsViewModel.bookingsLiveData.observe(requireActivity(), {
 
             if(it?.data?.upcomingBookings?.size==0){

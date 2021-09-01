@@ -19,14 +19,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SettingsViewModel (val context: Context): ViewModel(){
+class SettingsViewModel : ViewModel(){
 
     val notificationLiveData=MutableLiveData<NotificationStatusResponse>()
     val contentLiveData = MutableLiveData<ContentResponse>()
     var baseLiveData= MutableLiveData<BaseResponseModel>()
 
     // add/update notification status
-    fun updateNotificationStatus(security_key:String,auth_key:String,status:String){
+    fun updateNotificationStatus(context: Context,security_key:String,auth_key:String,status:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addNotificationStatus(security_key,auth_key,status
@@ -70,7 +70,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
     }
 
     //get notification status
-    fun getNotificationStatus(security_key:String,auth_key:String){
+    fun getNotificationStatus(context: Context,security_key:String,auth_key:String){
 
         (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.getNotificationStatus(security_key,auth_key
@@ -114,7 +114,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
 
 
     //logout user
-    fun logout(security_key:String,auth_key:String,userId:String){
+    fun logout(context: Context,security_key:String,auth_key:String,userId:String){
 
         (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.logout(security_key,auth_key,userId
@@ -158,7 +158,7 @@ class SettingsViewModel (val context: Context): ViewModel(){
 
     //all content api
 
-    fun getContent(security_key: String,auth_key: String,type:String){
+    fun getContent(context: Context,security_key: String,auth_key: String,type:String){
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.allContent(security_key, auth_key, type).enqueue(object :Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

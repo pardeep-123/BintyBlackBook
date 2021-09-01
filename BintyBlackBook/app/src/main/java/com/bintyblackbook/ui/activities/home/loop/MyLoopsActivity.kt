@@ -39,7 +39,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         setAdapter()
         setSuggestionAdapter()
         setOnClicks()
-        loopsViewModel= LoopsViewModel(this)
+        loopsViewModel= LoopsViewModel()
         headingText.text = "MY LOOPS"
 
         getLoopsList()
@@ -56,7 +56,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     private fun suggestionAdapterClick() {
         suggestionAdapter?.onSendLoopRequest= { data: Suggested,pos:Int ->
 
-            loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,data.user2_id.toString())
+            loopsViewModel.sendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,data.user2_id.toString())
             loopsViewModel.baseLiveData.observe(this, Observer {
                 if(it.code==200){
                     suggestList.removeAt(pos)
@@ -71,7 +71,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     }
 
     private fun getLoopsList() {
-        loopsViewModel.loopsList(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        loopsViewModel.loopsList(this,getSecurityKey(this)!!, getUser(this)?.authKey!!)
         loopsViewModel.loopsLiveData.observe(this, Observer {
 
             if(it.code==200){
@@ -97,6 +97,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
 
     private fun setOnClicks() {
         iv_back.setOnClickListener(this)
+        edtSearch_loops.setOnClickListener(this)
     }
 
     private fun setAdapter() {
@@ -111,6 +112,11 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         when (view.id) {
             R.id.iv_back -> {
                 finish()
+            }
+
+            R.id.edtSearch_loops ->{
+                val intent= Intent(this,LoopSearchActivity::class.java)
+                startActivity(intent)
             }
         }
     }
@@ -128,7 +134,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     }
 
     fun unLoopRequest(position: Int) {
-        loopsViewModel.unLoop(getSecurityKey(context)!!, getUser(context)?.authKey!!,unloop_id)
+        loopsViewModel.unLoop(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,unloop_id)
         loopsViewModel.baseLiveData.observe(this, Observer {
             if(it.code==200){
                 loopList.removeAt(position)

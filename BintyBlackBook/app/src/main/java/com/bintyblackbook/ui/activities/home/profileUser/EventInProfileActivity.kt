@@ -72,29 +72,6 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
         //adapterItemClick()
     }
 
-  /*  private fun adapterItemClick() {
-
-        eventInProfileAdapter?.onItemClick = {eventsModel: EventData, clickOn: String,position:Int ->
-            if (clickOn == "editClick"){
-                val intent = Intent(this,AddEventActivity::class.java)
-                intent.putExtra(AppConstant.HEADING, "Edit Event")
-                intent.putExtra("type","edit")
-                intent.putExtra("name",eventsModel.name)
-                intent.putExtra("location",eventsModel.location)
-                intent.putExtra("time",eventsModel.time.toString())
-                intent.putExtra("date",eventsModel.date.toString())
-                intent.putExtra("description",eventsModel.description)
-                intent.putExtra("info", eventsModel.moreInfo)
-                intent.putExtra("link",eventsModel.rsvpLink)
-                intent.putExtra("image",eventsModel.image)
-                startActivity(intent)
-            }else if(clickOn == "deleteClick"){
-                val eventDeleteDialog = EventDeleteDialogFragment(this, eventsModel.id.toString(),position)
-                eventDeleteDialog.show(supportFragmentManager,"eventDelete")
-            }
-        }
-    }
-*/
     fun deleteEvent(event_id:String,position:Int){
         eventsViewModel.deleteEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,event_id)
         eventsViewModel.baseEventsLiveData.observe(this, Observer {
@@ -107,9 +84,10 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
         })
     }
 
-    override fun onEditClick(data: EventData, clickOn: String, position: Int) {
+    override fun onEditClick(data: EventData,position: Int) {
         val intent = Intent(this,AddEventActivity::class.java)
         intent.putExtra(AppConstant.HEADING, "Edit Event")
+        intent.putExtra("event_id",data.id.toString())
         intent.putExtra("type","edit")
         intent.putExtra("name",data.name)
         intent.putExtra("location",data.location)
@@ -122,9 +100,13 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
         startActivity(intent)
     }
 
-    override fun onDeleteClick(data: EventData, clickOn: String, position: Int) {
+    override fun onDeleteClick(data: EventData, position: Int) {
         val eventDeleteDialog = EventDeleteDialogFragment(this, data.id.toString(),position)
         eventDeleteDialog.show(supportFragmentManager,"eventDelete")
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        getMyEvents()
+    }
 }

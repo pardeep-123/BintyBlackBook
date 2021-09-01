@@ -2,6 +2,8 @@ package com.bintyblackbook.ui.activities.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
@@ -15,7 +17,7 @@ import com.bintyblackbook.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.activity_home_item_click.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class HomeItemClickActivity : BaseActivity() {
+class HomeItemClickActivity : BaseActivity(), TextWatcher {
 
     var photoAdapter:PhotoAdapter? = null
     lateinit var homeViewModel: HomeViewModel
@@ -41,8 +43,10 @@ class HomeItemClickActivity : BaseActivity() {
             headingText.text = getHeading
         }
 
-        init()
+        setAdapter()
         getData()
+
+        edtSearch.addTextChangedListener(this)
     }
 
     private fun getData() {
@@ -58,9 +62,9 @@ class HomeItemClickActivity : BaseActivity() {
         })
     }
 
-    private fun init(){
+    private fun setAdapter(){
         rvPhotos.layoutManager = GridLayoutManager(this, 2)
-        photoAdapter = PhotoAdapter(this)
+        photoAdapter = PhotoAdapter(list,this)
         rvPhotos.adapter = photoAdapter
         photoAdapter?.arrayList=list
         adapterItemClick()
@@ -79,5 +83,17 @@ class HomeItemClickActivity : BaseActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        photoAdapter!!.filter.filter(s.toString().trim())
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+
     }
 }

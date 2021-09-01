@@ -41,7 +41,6 @@ class AllEventFragment : Fragment() {
         super.onViewCreated(view,savedInstanceState)
 
         eventsViewModel= EventsViewModel()
-
         init()
         getAllEvents()
     }

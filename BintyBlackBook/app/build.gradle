@@ -109,4 +109,9 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+    //socket
+    implementation('io.socket:socket.io-client:0.8.3') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 }

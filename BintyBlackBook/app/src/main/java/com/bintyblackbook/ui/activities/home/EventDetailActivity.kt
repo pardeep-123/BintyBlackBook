@@ -1,19 +1,17 @@
 package com.bintyblackbook.ui.activities.home
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.util.AppConstant
+import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.EventsViewModel
 import com.bintyblackbook.viewmodel.PostsViewModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -23,12 +21,14 @@ class EventDetailActivity : BaseActivity() {
 
     var post_id:Int=0
     lateinit var eventsViewModel: EventsViewModel
+    lateinit var postsViewModel: PostsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail)
 
         eventsViewModel= EventsViewModel()
+        postsViewModel=PostsViewModel()
         post_id= intent.getIntExtra("post_id",0)
         val heading = intent.getStringExtra(AppConstant.HEADING)
 
@@ -58,6 +58,7 @@ class EventDetailActivity : BaseActivity() {
         Glide.with(context).load(eventData.image).into(img_user)
         tvName.text= eventData.name
         tvLocation.text=eventData.location
+        tvTIme.text= MyUtils.getDate(eventData.date.toLong())+" " +MyUtils.getTime(eventData?.time.toLong())
         tvWebLinks.text=eventData.rsvpLink
         tvDesc.text=eventData.description
         if(eventData.isFavourite==1){

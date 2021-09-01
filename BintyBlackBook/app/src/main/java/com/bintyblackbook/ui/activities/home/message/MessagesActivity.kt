@@ -27,7 +27,6 @@ class MessagesActivity : BaseActivity(), View.OnClickListener {
             tab.text = fragList[position]
         }.attach()
 
-      //  rvMessages.adapter = MessagesAdapter(this,arrayList)
     }
 
     private fun setTabLayout() {

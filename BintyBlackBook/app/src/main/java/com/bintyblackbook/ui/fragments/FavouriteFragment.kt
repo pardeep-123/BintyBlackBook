@@ -51,6 +51,7 @@ class FavouriteFragment : Fragment() {
                 arrayList.clear()
                 arrayList.addAll(it.data)
                 eventAdapter?.notifyDataSetChanged()
+
             }else{
                 tvNoFavData.visibility=View.VISIBLE
                 rvFavorites.visibility=View.GONE

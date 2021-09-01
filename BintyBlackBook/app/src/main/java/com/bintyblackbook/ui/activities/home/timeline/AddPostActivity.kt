@@ -2,10 +2,8 @@ package com.bintyblackbook.ui.activities.home.timeline
 
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.util.*
@@ -52,7 +50,7 @@ class AddPostActivity : ImagePickerUtility() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
         mProgress = CustomProgressDialog(this)
-        postsViewModel= PostsViewModel(this)
+        postsViewModel= PostsViewModel()
 
         type= intent.getStringExtra("screen_type").toString()
 
@@ -71,7 +69,6 @@ class AddPostActivity : ImagePickerUtility() {
             post_id=intent?.getStringExtra("post_id").toString()
             description=intent?.getStringExtra("description").toString()
             image=intent?.getStringExtra("image").toString()
-            Log.i("TAG",image)
             Glide.with(this).load(image).into(rivCamera)
             edtDesc.setText(description)
             btnPost.text = getString(R.string.save)
@@ -92,8 +89,7 @@ class AddPostActivity : ImagePickerUtility() {
         val heading = intent.getStringExtra(AppConstant.HEADING)
         if (heading != null){
             tvHeading.text = heading
-//            rivCamera.setImageResource(R.drawable.background)
-//            edtDesc.setText(R.string.dummy_text)
+
             btnPost.text = getString(R.string.save)
         }
     }
@@ -119,12 +115,12 @@ class AddPostActivity : ImagePickerUtility() {
         if(InternetCheck.isConnectedToInternet(this)
             && Validations.isEmpty(this,edtDesc,getString(R.string.err_add_desc))){
 
-            if(!imageFile?.exists()!!){
+            if(imageFile?.absolutePath.isNullOrEmpty() && image.isEmpty()){
                 Toast.makeText(this,"Please choose an image",Toast.LENGTH_LONG).show()
                 return
             }
             val map: HashMap<String, RequestBody> = HashMap()
-            map.put("description",createRequestBody(edtDesc.text.toString()))
+             map.put("description",createRequestBody(edtDesc.text.toString()))
 
             var imagenPerfil: MultipartBody.Part? = null
             if (imageFile != null) {
@@ -137,10 +133,11 @@ class AddPostActivity : ImagePickerUtility() {
             }
 
             if(type.equals("Edit Post")){
-                postsViewModel.editPost(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+                map.put("post_id",createRequestBody(post_id))
+                postsViewModel.editPost(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             }
             else{
-                postsViewModel.addPost(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+                postsViewModel.addPost(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             }
 
             postsViewModel.baseResponseLiveData.observe(this, Observer {

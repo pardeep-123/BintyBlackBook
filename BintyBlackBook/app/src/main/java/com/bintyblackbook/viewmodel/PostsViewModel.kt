@@ -25,7 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PostsViewModel (val context: Context):ViewModel(){
+class PostsViewModel :ViewModel(){
 
     var baseResponseLiveData= MutableLiveData<BaseResponseModel>()
     var postListLiveData = MutableLiveData<PostResponseModel>()
@@ -33,7 +33,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
     // call add post api
 
-    fun addPost(securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
+    fun addPost(context: Context,securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
 
         (context as AddPostActivity).showProgressDialog()
         ApiClient.apiService.addPost(securityKey,authKey,request,file
@@ -81,7 +81,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     get all post api
      */
-    fun allPostList(securityKey:String,auth_key:String){
+    fun allPostList(context: Context,securityKey:String,auth_key:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.getPosts(securityKey,auth_key).enqueue(object :
@@ -123,7 +123,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     delete post
      */
-    fun deletePost(securityKey:String,auth_key:String,post_id:String){
+    fun deletePost(context: Context,securityKey:String,auth_key:String,post_id:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.deletePost(securityKey,auth_key,post_id).enqueue(object :
@@ -169,7 +169,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
     // call edit post api
 
-    fun editPost(securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
+    fun editPost(context: Context,securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
 
         (context as AddPostActivity).showProgressDialog()
         ApiClient.apiService.editPost(securityKey,authKey,request,file
@@ -217,7 +217,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     call post detail api
      */
 
-    fun postDetail(securityKey: String,authKey: String,post_id: String){
+    fun postDetail(context: Context, securityKey: String,authKey: String,post_id: String){
 
         (context as EventDetailActivity).showProgressDialog()
 
@@ -265,7 +265,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     call report post api
      */
-    fun report_post(securityKey: String,authKey: String,post_id: String,description: String){
+    fun report_post(context: Context,securityKey: String,authKey: String,post_id: String,description: String){
 
         (context as BaseActivity).dismissProgressDialog()
 
@@ -313,7 +313,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     like dislike post
      */
 
-    fun likeDislikePost(securityKey: String,authKey: String,status:String,post_id: String){
+    fun likeDislikePost(context: Context,securityKey: String,authKey: String,status:String,post_id: String){
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.likeDislikePost(securityKey,authKey,status, post_id).enqueue(object :Callback<JsonElement>{
 

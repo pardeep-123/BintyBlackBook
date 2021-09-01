@@ -1,10 +1,8 @@
 package com.bintyblackbook.ui.activities.home.notification
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +10,9 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.LoopRequestAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoopRequestData
-import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.CancelDialogFragment
-import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
-import com.bintyblackbook.util.showAlert
 import com.bintyblackbook.viewmodel.LoopRequestViewModel
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import kotlinx.android.synthetic.main.activity_loop_request.*
@@ -37,7 +32,7 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loop_request)
 
-        loopsViewModel= LoopsViewModel(this)
+        loopsViewModel= LoopsViewModel()
         loopRequestViewModel= LoopRequestViewModel()
 
         getIntentData()
@@ -98,7 +93,7 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
     }*/
 
      fun acceptRejectRequest(status: String) {
-        loopsViewModel.acceptRejectRequest(getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
+        loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
         loopsViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){

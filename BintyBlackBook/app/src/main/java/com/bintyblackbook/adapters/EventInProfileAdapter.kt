@@ -16,13 +16,11 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 
 
-class EventInProfileAdapter(var context: Context) :
-    RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
+class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
 
     var arrayList= ArrayList<EventData>()
     var myPopupWindow: PopupWindow? = null
     lateinit var eventProfileInterface: EventProfileInterface
-    //var onItemClick:((eventsModel:EventData,clickOn:String,position:Int)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events_in_profile, parent, false)
@@ -55,29 +53,26 @@ class EventInProfileAdapter(var context: Context) :
             else{
                 imgDFavourite.setImageResource(R.drawable.unfill_heart)
             }
-            setPopUpWindow(pos)
 
             rlDots.setOnClickListener {
                 myPopupWindow?.showAsDropDown(it,-165,-20)
             }
-
+            setPopUpWindow(eventsModel,pos)
         }
 
-        private fun setPopUpWindow(position: Int) {
+        private fun setPopUpWindow(eventsModel: EventData, position: Int) {
             val inflater = context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val  view = inflater.inflate(R.layout.popup, null)
-
             val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
             val tvDelete = view.findViewById<TextView>(R.id.tvDelete)
 
             tvEdit.setOnClickListener {
-                eventProfileInterface.onEditClick(arrayList[position],"editClick",position)
+                eventProfileInterface.onEditClick(eventsModel,position)
                 myPopupWindow?.dismiss()
-
             }
 
             tvDelete.setOnClickListener {
-                eventProfileInterface.onEditClick(arrayList[position],"deleteClick",position)
+                eventProfileInterface.onDeleteClick(eventsModel,position)
                 myPopupWindow?.dismiss()
             }
 
@@ -86,7 +81,7 @@ class EventInProfileAdapter(var context: Context) :
     }
 
     interface EventProfileInterface{
-        fun onEditClick(data: EventData,clickOn:String,position: Int)
-        fun onDeleteClick(data: EventData,clickOn:String, position: Int)
+        fun onEditClick(data: EventData,position: Int)
+        fun onDeleteClick(data: EventData,position: Int)
     }
 }

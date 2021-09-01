@@ -38,7 +38,7 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_user_detail)
 
         profileViewModel= ProfileViewModel(this)
-        loopsViewModel = LoopsViewModel(this)
+        loopsViewModel = LoopsViewModel()
         getIntentData()
         init()
 
@@ -130,7 +130,7 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
                 if (loopBtnClick){
                     loopBtnClick = false
                     btnLoop.text = getString(R.string.cancel_loop_request)
-                    loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.sendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
 
                     loopsViewModel.baseLiveData.observe(this, Observer {
 
@@ -143,7 +143,7 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
                 }else{
                     loopBtnClick = true
                     btnLoop.text = getString(R.string.loop)
-                    loopsViewModel.unSendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.unSendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
                     loopsViewModel.baseLiveData.observe(this, Observer {
                         if(it.code==200){
                             val fragmentDialog = FragmentDialog("LoopRequestCancel")

@@ -10,24 +10,35 @@
     <include layout="@layout/toolbar"/>
 
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_loops"
+    <EditText
+        android:id="@+id/edtSearch_loops"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:queryHint="@string/search"
-        app:iconifiedByDefault="false"
-        android:layout_marginStart="@dimen/dp16"
-        android:layout_marginEnd="@dimen/dp16"
+        android:layout_height="45dp"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp18"
+        android:background="@drawable/bg_curved_white"
+        android:drawableEnd="@drawable/search"
+        android:drawablePadding="@dimen/dp10"
+        android:hint="@string/search"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:focusable="false"
         android:layout_marginTop="@dimen/dp10"
-        android:background="@drawable/background_rounded_corners"/>
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13" />
 
     <TextView
         android:id="@+id/tvSuggestions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/suggestions"
-        app:layout_constraintTop_toBottomOf="@id/search_loops"
+        app:layout_constraintTop_toBottomOf="@id/edtSearch_loops"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp16"

@@ -46,7 +46,7 @@ class AddEventActivity : ImagePickerUtility() {
     var heading=""
     var type = ""
     var image=""
-
+    var event_id=""
     var dateStamp=""
     var timeStamp=""
 
@@ -129,6 +129,7 @@ class AddEventActivity : ImagePickerUtility() {
         val description= intent.getStringExtra("description").toString()
         val info= intent.getStringExtra("info").toString()
         image= intent.getStringExtra("image").toString()
+        event_id= intent.getStringExtra("event_id").toString()
 
         if(type=="add"){
             edtEventName.setText("")
@@ -141,7 +142,6 @@ class AddEventActivity : ImagePickerUtility() {
         }else{
             edtEventName.setText(name)
             edtLocation.setText(location)
-
             val date= MyUtils.getDate(date.toLong())
             edtDate.setText(date)
             val time= MyUtils.getTime(time.toLong())
@@ -170,11 +170,12 @@ class AddEventActivity : ImagePickerUtility() {
             && Validations.isEmpty(this,edtMoreInfo,"Please enter more info")
         ) {
 
-            if(selectedImagePath?.absolutePath.isNullOrEmpty() || image.isEmpty()){
+            if(selectedImagePath?.absolutePath.isNullOrEmpty() && image.isEmpty()){
                 Toast.makeText(this,"Please choose image", Toast.LENGTH_LONG).show()
                 return
             }
             timeStamp= MyUtils.currentTimeToLong(edtDate.text.toString() +" " +edtTime.text.toString())
+            Log.i("timestamp",timeStamp)
             dateStamp = MyUtils.convertDateToLong(edtDate.text.toString())
             val map: HashMap<String, RequestBody> = HashMap()
             map.put("name",createRequestBody(edtEventName.text.toString()))
@@ -197,7 +198,12 @@ class AddEventActivity : ImagePickerUtility() {
                 imagenPerfil = MultipartBody.Part.createFormData("image", selectedImagePath?.name, requestFile)
             }
 
-            eventsViewModel.addEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            if(type.equals("add")){
+                eventsViewModel.addEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            } else{
+                map.put("event_id",createRequestBody(event_id))
+                eventsViewModel.editEvent(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            }
             eventsViewModel.baseEventsLiveData.observe(this, {
 
                 if(it.code==200){
