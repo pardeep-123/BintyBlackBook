@@ -29,6 +29,7 @@
             android:fontFamily="@font/romul"
             android:lines="1"
             android:text="@string/john"
+            android:lineSpacingExtra="4dp"
             android:textColor="@color/whiteColor"
             android:textSize="@dimen/sp13"
             android:textStyle="bold" />
@@ -120,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/romul"
-            android:text="219"
+            android:text=""
             android:textColor="@color/whiteColor"
             android:textSize="@dimen/sp12" />
 

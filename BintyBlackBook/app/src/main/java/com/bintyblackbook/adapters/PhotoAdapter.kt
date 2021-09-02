@@ -4,17 +4,22 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.CategoryData
 import com.bintyblackbook.model.CategoryName
 import com.bintyblackbook.models.PhotosModel
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_photos.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class PhotoAdapter(var context: Context) : RecyclerView.Adapter<PhotoAdapter.HorizontalPhotoViewHolder>() {
+class PhotoAdapter(var list: ArrayList<CategoryName>, var context: Context) : RecyclerView.Adapter<PhotoAdapter.HorizontalPhotoViewHolder>(),Filterable {
 
     var arrayList= ArrayList<CategoryName>()
     var onItemClick:((photosModel:CategoryName)->Unit)?= null
@@ -50,4 +55,57 @@ class PhotoAdapter(var context: Context) : RecyclerView.Adapter<PhotoAdapter.Hor
 
         }
     }
-}
+
+    override fun getFilter(): Filter {
+
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                val charSearch=constraint.toString()
+                if(charSearch.isEmpty()){
+                    arrayList=list
+                } else{
+                    val resultList=ArrayList<CategoryName>()
+                    for(row in list){
+                        if (row.firstName.toUpperCase(Locale.US).contains(constraint.toString().toUpperCase(Locale.US))
+                            || row.categoryName.toLowerCase(Locale.US).contains(
+                                constraint.toString().toLowerCase(
+                                    Locale.US
+                                )
+                            )
+                            || row.userLocation.toLowerCase(Locale.US).contains(
+                                constraint.toString().toLowerCase(
+                                    Locale.US
+                                )
+                            )
+                            || row.userLocation.toUpperCase(Locale.US).contains(
+                                constraint.toString().toUpperCase(
+                                    Locale.US
+                                )
+                            )
+                        ) {
+                            resultList.add(row)
+                        }
+                    }
+                    arrayList=resultList
+                }
+                val filterResults=FilterResults()
+                filterResults.values=arrayList
+                return filterResults
+
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                arrayList=results?.values as ArrayList<CategoryName>
+                notifyDataSetChanged()
+                /*if(list.size>0){
+                    HomeFragment.tv_Notfound.visibility= View.GONE
+                }else{
+                    HomeFragment.tv_Notfound.visibility= View.VISIBLE
+                }*/
+
+                }
+              }
+            }
+
+
+        }

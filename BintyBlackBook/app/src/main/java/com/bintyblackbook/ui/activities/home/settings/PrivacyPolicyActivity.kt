@@ -19,7 +19,7 @@ class PrivacyPolicyActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy_policy)
-        settingsViewModel= SettingsViewModel(this)
+        settingsViewModel= SettingsViewModel()
 
         if (intent.getStringExtra("from").toString().equals("terms")) {
             tvHeading.text = "TERMS & CONDITIONS"
@@ -35,7 +35,7 @@ class PrivacyPolicyActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun getContent() {
-        settingsViewModel.getContent(getSecurityKey(context)!!, getUser(context)?.authKey!!,type)
+        settingsViewModel.getContent(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,type)
         settingsViewModel.contentLiveData.observe(this, Observer {
 
             if (it?.code==200){

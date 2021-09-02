@@ -7,9 +7,6 @@ import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AvailabilityResponse
-import com.bintyblackbook.model.BaseResponseModel
-import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
-import com.bintyblackbook.ui.activities.home.profileUser.AvailabilityActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject

@@ -65,12 +65,21 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp5"
                 android:drawablePadding="@dimen/dp5"
+                android:layout_toStartOf="@id/ivFavourite"
                 android:fontFamily="@font/trajanpro_regular"
                 android:lines="1"
                 android:text="@string/arizona_usa"
                 android:textColor="@color/blackColor"
                 android:textSize="@dimen/sp12"
                 app:drawableStartCompat="@drawable/location" />
+
+            <ImageView
+                android:id="@+id/ivFavourite"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/image"
+                android:src="@drawable/unfill_heart" />
 
         </RelativeLayout>
     </RelativeLayout>

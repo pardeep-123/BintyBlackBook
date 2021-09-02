@@ -34,7 +34,9 @@ class CheckAvailabilityAdapter(var context: Context) : RecyclerView.Adapter<Chec
         fun bind(pos: Int) {
             val availabilityModel = arrayList[pos]
 
-            tv_time.text= MyUtils.getTime(availabilityModel.slots.toString())
+            val date= MyUtils.getTime(availabilityModel.slots)
+
+            tv_time.text= date
 
             itemView.setOnClickListener {
 

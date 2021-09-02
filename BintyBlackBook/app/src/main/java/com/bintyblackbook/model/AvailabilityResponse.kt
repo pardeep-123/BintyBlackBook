@@ -5,7 +5,7 @@ class AvailabilityResponse : BaseResponseModel(){
 
 }
  class AvailabilityData{
-    val date: String= ""
+    val date: Long?=null
     val id: Int= 0
     val providerId: Int= 0
      var isSelected=false
@@ -15,6 +15,6 @@ class AvailabilityResponse : BaseResponseModel(){
 data class Slot(
     val availabilityId: Int,
     val id: Int,
-    val slots: Int,
+    val slots: Long,
     val status: Int
 )

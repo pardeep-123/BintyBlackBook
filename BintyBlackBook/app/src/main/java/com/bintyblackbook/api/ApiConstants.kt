@@ -92,6 +92,12 @@ class ApiConstants {
         const val GET_All_LOOP_REQUEST="get_all_loop_request"
 
         const val DELETE_EVENT= "delete_event"
+
+        const val LIKE_DISLIKE_POST="like_dislike_post"
+
+        const val EDIT_EVENT="edit_event"
+
+        const val GET_ALL_USERS="getAllUsers"
     }
 
 }

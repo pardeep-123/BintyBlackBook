@@ -18,13 +18,10 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_my_profile_business.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.tvWebLink
-import kotlinx.android.synthetic.main.activity_user_detail.*
-import kotlinx.android.synthetic.main.activity_user_detail.civ_profile
-import kotlinx.android.synthetic.main.activity_user_detail.riv1
 import kotlinx.android.synthetic.main.activity_user_detail.rvImages
+import kotlinx.android.synthetic.main.toolbar.*
 
 class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
@@ -42,7 +39,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_other_user_profile)
 
         profileViewModel= ProfileViewModel(this)
-        loopsViewModel= LoopsViewModel(this)
+        loopsViewModel= LoopsViewModel()
 
         getIntentData()
         setAdapter()
@@ -60,6 +57,9 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         btnUnLoopUser.setOnClickListener(this)
         btnUserEvent.setOnClickListener(this)
         btnSwap.setOnClickListener(this)
+        iv_back.setOnClickListener {
+            finish()
+        }
     }
 
     private fun getData() {
@@ -149,7 +149,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 if (loopBtnClick){
                     loopBtnClick = false
                     btnLoopUser.text = getString(R.string.cancel_loop_request)
-                    loopsViewModel.sendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.sendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
 
                     loopsViewModel.baseLiveData.observe(this, Observer {
 
@@ -162,7 +162,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 }else{
                     loopBtnClick = true
                     btnLoopUser.text = getString(R.string.loop)
-                    loopsViewModel.unSendLoopReq(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.unSendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
                     loopsViewModel.baseLiveData.observe(this, Observer {
                         if(it.code==200){
                             val fragmentDialog = FragmentDialog("LoopRequestCancel")
@@ -173,7 +173,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnUnLoopUser ->{
-                loopsViewModel.unLoop(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                loopsViewModel.unLoop(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
                 loopsViewModel.baseLiveData.observe(this, Observer {
                     if(it.code==200){
                         showAlertWithOk(it.msg)

@@ -25,15 +25,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PostsViewModel (val context: Context):ViewModel(){
+class PostsViewModel :ViewModel(){
 
-    var addPostLiveData= MutableLiveData<BaseResponseModel>()
+    var baseResponseLiveData= MutableLiveData<BaseResponseModel>()
     var postListLiveData = MutableLiveData<PostResponseModel>()
 
 
     // call add post api
 
-    fun addPost(securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
+    fun addPost(context: Context,securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
 
         (context as AddPostActivity).showProgressDialog()
         ApiClient.apiService.addPost(securityKey,authKey,request,file
@@ -58,7 +58,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as AddPostActivity,jsonDATA.getString("msg"),"Ok",{})
                           //  (context as AddPostActivity).showAlertWithOk(jsonDATA.getString("msg"))
@@ -81,7 +81,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     get all post api
      */
-    fun allPostList(securityKey:String,auth_key:String){
+    fun allPostList(context: Context,securityKey:String,auth_key:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.getPosts(securityKey,auth_key).enqueue(object :
@@ -123,7 +123,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     delete post
      */
-    fun deletePost(securityKey:String,auth_key:String,post_id:String){
+    fun deletePost(context: Context,securityKey:String,auth_key:String,post_id:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.deletePost(securityKey,auth_key,post_id).enqueue(object :
@@ -148,7 +148,7 @@ class PostsViewModel (val context: Context):ViewModel(){
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
                         }
@@ -169,7 +169,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
     // call edit post api
 
-    fun editPost(securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
+    fun editPost(context: Context,securityKey:String, authKey:String, request:Map<String, RequestBody>, file: MultipartBody.Part?){
 
         (context as AddPostActivity).showProgressDialog()
         ApiClient.apiService.editPost(securityKey,authKey,request,file
@@ -194,7 +194,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as AddPostActivity,jsonDATA.getString("msg"),"Ok"){}
                             //  (context as AddPostActivity).showAlertWithOk(jsonDATA.getString("msg"))
@@ -217,7 +217,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     call post detail api
      */
 
-    fun postDetail(securityKey: String,authKey: String,post_id: String){
+    fun postDetail(context: Context, securityKey: String,authKey: String,post_id: String){
 
         (context as EventDetailActivity).showProgressDialog()
 
@@ -242,7 +242,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as EventDetailActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
@@ -265,7 +265,7 @@ class PostsViewModel (val context: Context):ViewModel(){
     /*
     call report post api
      */
-    fun report_post(securityKey: String,authKey: String,post_id: String,description: String){
+    fun report_post(context: Context,securityKey: String,authKey: String,post_id: String,description: String){
 
         (context as BaseActivity).dismissProgressDialog()
 
@@ -279,7 +279,7 @@ class PostsViewModel (val context: Context):ViewModel(){
 
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addPostLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
@@ -309,4 +309,48 @@ class PostsViewModel (val context: Context):ViewModel(){
         })
     }
 
+    /*
+    like dislike post
+     */
+
+    fun likeDislikePost(context: Context,securityKey: String,authKey: String,status:String,post_id: String){
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.likeDislikePost(securityKey,authKey,status, post_id).enqueue(object :Callback<JsonElement>{
+
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if(response.isSuccessful){
+                    (context as BaseActivity).dismissProgressDialog()
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            baseResponseLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                else {
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK",{})
+                }
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+               try {
+                   (context as BaseActivity).dismissProgressDialog()
+                   (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
+               }catch (e:java.lang.Exception){
+                   e.printStackTrace()
+               }
+            }
+
+        })
+    }
 }

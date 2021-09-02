@@ -230,6 +230,7 @@
                 android:layout_marginEnd="@dimen/dp8"
                 android:fontFamily="@font/romul"
                 android:text=""
+                android:lineSpacingExtra="4dp"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp10" />
 

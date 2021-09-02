@@ -25,7 +25,7 @@ class EditProfileActivity : ImagePickerUtility() {
     var selectedFile:File?=null
     lateinit var profileViewModel: ProfileViewModel
     var mProgress: CustomProgressDialog? = null
-    var selectedVideoUri:Uri?=null
+    var selectedVideoFile:File?=null
     private var mSnackBar: Snackbar? = null
 
     var profile_image:String=""
@@ -35,9 +35,9 @@ class EditProfileActivity : ImagePickerUtility() {
         selectedFile=imagePath
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
-        selectedVideoUri=videoUri
-        Glide.with(this).load(selectedVideoUri).into(civ_profile)
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
+//        selectedVideoFile=videoUri
+//        Glide.with(this).load(selectedVideoFile).into(civ_profile)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

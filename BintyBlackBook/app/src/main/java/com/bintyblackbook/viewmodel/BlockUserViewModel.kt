@@ -8,16 +8,12 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.BlockListResponseModel
-import com.bintyblackbook.model.CommentsResponse
-import com.bintyblackbook.ui.activities.home.settings.BlockedContactsActivity
-import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 class BlockUserViewModel : ViewModel() {
 

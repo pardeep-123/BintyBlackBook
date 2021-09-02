@@ -2,25 +2,34 @@ package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.models.AvailabilityModel
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getSecurityKey
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.AvailabilityViewModel
 import kotlinx.android.synthetic.main.activity_set_availability.*
-import java.util.*
 import kotlin.collections.ArrayList
 
-
-class SetAvailabilityActivity : AppCompatActivity() {
+class SetAvailabilityActivity : BaseActivity() {
 
     lateinit var arrayList: ArrayList<AvailabilityModel>
     var adapter: SetAvailabilityAdapter?=null
-
+    lateinit var availabilityViewModel: AvailabilityViewModel
     var list_dates= ArrayList<String>()
+    var type=""
+    var user_id=""
+    var dates_list= ArrayList<AvailabilityData>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_availability)
+        availabilityViewModel= AvailabilityViewModel(this)
+        getIntentData()
 
         setAdapter()
 
@@ -40,6 +49,27 @@ class SetAvailabilityActivity : AppCompatActivity() {
                 adapter?.notifyDataSetChanged()
             }
         }
+
+        calenderView.setOnDayClickListener {
+            val selectedDate= it.calendar.timeInMillis
+        }
+    }
+
+    private fun getIntentData() {
+        type= intent.getStringExtra("type").toString()
+        user_id= intent.getStringExtra("user_id").toString()
+        if(type == "check_slots"){
+
+            checkAvailability()
+        }
+    }
+
+    private fun checkAvailability() {
+        availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)?.authKey!!,user_id)
+        availabilityViewModel.availableSlotsLiveData.observe(this, Observer {
+            dates_list.clear()
+            dates_list.addAll(it.data)
+        })
 
     }
 
@@ -80,13 +110,16 @@ class SetAvailabilityActivity : AppCompatActivity() {
             finish()
         }
 
-        btnSubmit.setOnClickListener {
+        btnSubmitDate.setOnClickListener {
             finish()
         }
 
+        val selected_date= calenderView.selectedDate.get(0)
+        Log.i("selected_date",selected_date.toString())
+
         calenderView.setOnDayClickListener {
             val date= it.calendar.time
-            list_dates.add(MyUtils.getDate(date.toString())!!)
+            list_dates.add(MyUtils.getDate(date.time.toLong())!!)
             Log.i("TAG", list_dates.toString())
         }
     }

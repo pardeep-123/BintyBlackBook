@@ -91,23 +91,32 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_events"
+    <EditText
+        android:id="@+id/edtSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tbMain"
-        app:queryHint="@string/search"
-        app:iconifiedByDefault="false"
+        android:layout_height="45dp"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp18"
+        android:background="@drawable/bg_curved_white"
+        android:drawableEnd="@drawable/search"
+        android:drawablePadding="@dimen/dp10"
+        android:hint="@string/search"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="@dimen/dp10"
+        android:paddingEnd="@dimen/dp10"
         android:visibility="gone"
-        android:layout_marginStart="@dimen/dp16"
-        android:layout_marginEnd="@dimen/dp16"
+        android:textColor="@color/blackColor"
         android:layout_marginTop="@dimen/dp10"
-        android:background="@drawable/background_rounded_corners"
-        tools:visibility="visible"/>
+        android:layout_below="@id/tbMain"
+        android:textSize="@dimen/sp13" />
+
+
     <RelativeLayout
         android:id="@+id/rl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_events" />
+        android:layout_below="@+id/edtSearch" />
 
 </RelativeLayout>

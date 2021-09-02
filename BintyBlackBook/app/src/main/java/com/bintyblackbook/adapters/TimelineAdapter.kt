@@ -63,14 +63,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             tvMessage.text=timelineModel.description
             tvComments.text = timelineModel.postComments.size.toString()
 
-
-
-         /*   if (timelineModel.status==1) {
-                rlDots.visibility = View.VISIBLE
-            } else {
-                rlDots.visibility = View.GONE
-            }
-*/
             if (timelineModel.image != null) {
 
                 Glide.with(context).load(timelineModel.image).into(ivPost)
@@ -79,13 +71,13 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
                 ivPost.visibility = View.GONE
             }
 
-         /*   if (timelineModel.heartFilled) {
+            if (timelineModel.isLike==1) {
                 ivHeart.setImageResource(R.drawable.heart_new)
             } else {
                 ivHeart.setImageResource(R.drawable.like)
             }
 
-            rlHeart.setOnClickListener {
+          /*  rlHeart.setOnClickListener {
                 timelineModel.isLike = !timelineModel.heartFilled
                 notifyDataSetChanged()
             }*/
@@ -105,12 +97,12 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             rlDots.setOnClickListener {
                 p = pos
                 myPopupWindow?.showAsDropDown(it, -165, -20)
-                Log.i("=====", getUser(context)?.id.toString() +""+ arrayList[p].userId.toString())
+
                 if(getUser(context)?.id==arrayList[p].userId){
-                    setPopUpWindow(timelineModel,"myProfile",pos)
+                    setPopUpWindow(timelineModel,"myProfile",p)
                 }
                 else{
-                    setPopUpWindow(timelineModel,"other",pos)
+                    setPopUpWindow(timelineModel,"other",p)
                 }
             }
         }
@@ -118,7 +110,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         private fun setPopUpWindow(timelineModel: PostData,type:String,position: Int) {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(R.layout.popup, null)
-
             val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
             val tvDelete = view.findViewById<TextView>(R.id.tvDelete)
             val tvReport = view.findViewById<TextView>(R.id.tvReport)

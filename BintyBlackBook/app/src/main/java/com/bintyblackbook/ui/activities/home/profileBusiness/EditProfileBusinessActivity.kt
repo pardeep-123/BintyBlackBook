@@ -1,7 +1,6 @@
 package com.bintyblackbook.ui.activities.home.profileBusiness
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -22,7 +21,7 @@ class EditProfileBusinessActivity : ImagePickerUtility() {
 
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
 
     }
 

@@ -9,6 +9,7 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.model.CategoriesResponseModel
+import com.bintyblackbook.model.UploadMediaResponse
 import com.bintyblackbook.ui.activities.authentication.InfoActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -23,7 +24,8 @@ import retrofit2.Response
 class InfoViewModel: ViewModel(){
 
     var categoryLiveData=MutableLiveData<CategoriesResponseModel>()
-    var mediaLiveData=MutableLiveData<BaseResponseModel>()
+    var mediaLiveData=MutableLiveData<UploadMediaResponse>()
+    var baseLiveData=MutableLiveData<BaseResponseModel>()
     var infoLiveData=MutableLiveData<LoginSignUpModel>()
 
     //get categories api
@@ -54,7 +56,7 @@ class InfoViewModel: ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), CategoriesResponseModel::class.java)
                             categoryLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -63,9 +65,8 @@ class InfoViewModel: ViewModel(){
                 } else {
                     val jsonDATA : JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as InfoActivity).dismissProgressDialog()
-                    showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                    showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
                 }
-
             }
         })
     }
@@ -95,10 +96,10 @@ class InfoViewModel: ViewModel(){
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
-                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), UploadMediaResponse::class.java)
                                 mediaLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -107,7 +108,7 @@ class InfoViewModel: ViewModel(){
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    showAlert(context,error.getString("msg").toString(),"OK"){}
                 }
 
             }
@@ -144,9 +145,9 @@ class InfoViewModel: ViewModel(){
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginSignUpModel::class.java)
-                            mediaLiveData.value = jsonObj
+                            infoLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -155,7 +156,7 @@ class InfoViewModel: ViewModel(){
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    showAlert(context,error.getString("msg").toString(),"OK"){}
                 }
             }
         })
@@ -177,9 +178,9 @@ class InfoViewModel: ViewModel(){
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            mediaLiveData.value = jsonObj
+                            baseLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok",{})
+                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -188,7 +189,7 @@ class InfoViewModel: ViewModel(){
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    showAlert(context,error.getString("msg").toString(),"OK"){}
                 }
             }
 

@@ -65,11 +65,10 @@
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/riv"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/camera12"
                 app:riv_corner_radius="@dimen/dp5" />
-
 
             <EditText
                 android:id="@+id/edtEventName"

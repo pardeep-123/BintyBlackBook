@@ -5,5 +5,5 @@ import java.io.File
 
 data class UploadVideoModel(
     var type:String,
-    var video_url:Uri?
+    var video_url:String?
 )

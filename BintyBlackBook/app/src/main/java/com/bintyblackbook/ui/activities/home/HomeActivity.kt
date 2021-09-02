@@ -40,7 +40,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawerhome)
-        settingsViewModel= SettingsViewModel(this)
+        settingsViewModel= SettingsViewModel()
         notificationViewModel= NotificationViewModel(this)
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -57,16 +57,16 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         clickListenerHandling()
         switchFragment(HomeFragment())
 
-        ivSearch.setOnClickListener {
+      /*  ivSearch.setOnClickListener {
             if (searchClick){
-                search_events.visibility = View.GONE
+                edtSearch.visibility = View.GONE
                 searchClick = false
                 MyUtils.hideSoftKeyboard(this)
             }else{
-                search_events.visibility = View.VISIBLE
+                edtSearch.visibility = View.VISIBLE
                 searchClick = true
             }
-        }
+        }*/
     }
     private fun getNotificationCount() {
         notificationViewModel.getNotificationCount(getSecurityKey(this)!!, getUser(this)?.authKey!!)
@@ -105,7 +105,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         fragmentTransaction.replace(R.id.rl_main, fragment)
         fragmentTransaction.commit()
     }
-
 
     override fun onClick(view: View) {
         when (view.id) {
@@ -187,7 +186,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun logoutUser(){
-        settingsViewModel.logout(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)?.id.toString())
+        settingsViewModel.logout(this,getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)?.id.toString())
         settingsViewModel.baseLiveData.observe(this, Observer {
 
             if(getStatus(context)?.equals("1")!!){

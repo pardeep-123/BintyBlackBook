@@ -16,7 +16,6 @@ class BintyBookApplication  : Application() {
     companion object {
 
         lateinit var gson: Gson
-        lateinit var prefs: SharedPreferences
 
         fun hideKeyboard(activity: Activity) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -26,23 +25,12 @@ class BintyBookApplication  : Application() {
             else
                 activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         }
-
-
     }
 
 
     override fun onCreate() {
         super.onCreate()
-       // prefs = PreferenceHelper.defaultPrefs(applicationContext)
         gson = Gson()
-//        if (prefs.contains(PreferenceHelper.Key.REGISTEREDUSER)) { // if data is stored in shared prefrences
-//            val gson_String = prefs.getString(PreferenceHelper.Key.REGISTEREDUSER, "")
-//            user_obj = gson.fromJson(gson_String.toString(),LoginSignUpModel::class.java) as LoginSignUpModel
-//        } else {
-//            user_obj = LoginSignUpModel()
-//        }
-
-
 
     }
 }

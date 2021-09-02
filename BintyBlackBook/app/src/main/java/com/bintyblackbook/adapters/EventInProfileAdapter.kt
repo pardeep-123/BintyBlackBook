@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -15,12 +16,11 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 
 
-class EventInProfileAdapter(var context: Context) :
-    RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
-    var p=0
+class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
+
     var arrayList= ArrayList<EventData>()
     var myPopupWindow: PopupWindow? = null
-    var onItemClick:((eventsModel:EventData,clickOn:String,position:Int)->Unit)?= null
+    lateinit var eventProfileInterface: EventProfileInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events_in_profile, parent, false)
@@ -40,40 +40,48 @@ class EventInProfileAdapter(var context: Context) :
         private val rlDots:RelativeLayout = itemView.rlDots
         private val tvName: TextView = itemView.tvName
         private val tvLocation: TextView = itemView.tvLocation
+        private val imgDFavourite:ImageView= itemView.ivFavourite
 
         fun bind(pos: Int) {
             val eventsModel = arrayList[pos]
             Glide.with(context).load(eventsModel.image).into(roundedImageView)
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
-
-            p=pos
-            setPopUpWindow(eventsModel,p)
+            if(eventsModel.isFavourite==1){
+                imgDFavourite.setImageResource(R.drawable.fill_heart)
+            }
+            else{
+                imgDFavourite.setImageResource(R.drawable.unfill_heart)
+            }
 
             rlDots.setOnClickListener {
                 myPopupWindow?.showAsDropDown(it,-165,-20)
             }
-
+            setPopUpWindow(eventsModel,pos)
         }
 
         private fun setPopUpWindow(eventsModel: EventData, position: Int) {
             val inflater = context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val  view = inflater.inflate(R.layout.popup, null)
-
             val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
             val tvDelete = view.findViewById<TextView>(R.id.tvDelete)
 
             tvEdit.setOnClickListener {
+                eventProfileInterface.onEditClick(eventsModel,position)
                 myPopupWindow?.dismiss()
-                onItemClick?.invoke(eventsModel,"editClick",position)
             }
 
             tvDelete.setOnClickListener {
+                eventProfileInterface.onDeleteClick(eventsModel,position)
                 myPopupWindow?.dismiss()
-                onItemClick?.invoke(eventsModel,"deleteClick",position)
             }
 
             myPopupWindow =  PopupWindow (view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
         }
+    }
+
+    interface EventProfileInterface{
+        fun onEditClick(data: EventData,position: Int)
+        fun onDeleteClick(data: EventData,position: Int)
     }
 }

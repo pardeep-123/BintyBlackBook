@@ -72,6 +72,7 @@
                 app:selectionColor="@color/fadePink"
                 app:todayLabelColor="@color/fadePink"
                 app:type="many_days_picker"
+                app:datePicker="true"
                 app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
 
             <RelativeLayout
@@ -123,7 +124,7 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/btnSubmit"
+                android:id="@+id/btnSubmitDate"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="@dimen/dp18"

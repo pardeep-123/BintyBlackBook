@@ -24,8 +24,6 @@ import kotlinx.android.synthetic.main.fragment_all_event.*
 
 class AllEventFragment : Fragment() {
 
-    private var mSnackBar: Snackbar? = null
-    var mProgress: CustomProgressDialog? = null
     lateinit var eventsViewModel: EventsViewModel
 
     var eventAdapter: EventAdapter? = null
@@ -42,26 +40,17 @@ class AllEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view,savedInstanceState)
 
-        mProgress = CustomProgressDialog(requireContext())
         eventsViewModel= EventsViewModel()
-
         init()
         getAllEvents()
     }
 
-    /*  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-          super.setUserVisibleHint(isVisibleToUser)
-          if (isVisibleToUser)
-          getAllEvents()
-      }
-  */
     private fun getAllEvents() {
         eventsViewModel.getOtherUserEvents(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
 
         eventsViewModel.eventsLiveData.observe(requireActivity(), Observer {
             if (it.code==200){
 
-                (context as EventCalenderActivity).dismissProgressDialog()
                 if(it.data.size!=0){
                     tvNoEvent.visibility=View.GONE
                     rvAllEvents.visibility=View.VISIBLE
@@ -100,12 +89,4 @@ class AllEventFragment : Fragment() {
         }
     }
 
-    fun showProgressDialog() {
-        mProgress = CustomProgressDialog(requireContext())
-        mProgress?.show()
-    }
-
-    fun dismissProgressDialog() {
-        mProgress?.dismiss()
-    }
 }

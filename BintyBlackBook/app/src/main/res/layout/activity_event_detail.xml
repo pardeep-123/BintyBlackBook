@@ -58,7 +58,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp5">
+                android:layout_marginTop="@dimen/dp10">
 
                 <TextView
                     android:id="@+id/tvName"
@@ -69,7 +69,7 @@
                     android:layout_toStartOf="@id/tvLocation"
                     android:fontFamily="@font/trajanpro_regular"
                     android:lines="1"
-                    android:text="@string/john"
+                    android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13" />
 
@@ -81,7 +81,7 @@
                     android:drawablePadding="@dimen/dp5"
                     android:fontFamily="@font/trajanpro_regular"
                     android:lines="1"
-                    android:text="@string/arizona_usa"
+                    android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp12"
                     app:drawableStartCompat="@drawable/loaction" />
@@ -92,6 +92,7 @@
                 android:id="@+id/tvTIme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="@dimen/dp2"
                 android:layout_marginEnd="@dimen/dp5"
                 android:fontFamily="@font/trajanpro_regular"
@@ -103,6 +104,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView

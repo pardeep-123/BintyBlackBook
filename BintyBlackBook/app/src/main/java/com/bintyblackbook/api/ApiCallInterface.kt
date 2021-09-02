@@ -327,6 +327,16 @@ interface ApiCallInterface {
         @Part file: MultipartBody.Part?
     ) : Call<JsonElement>
 
+
+    @Multipart
+    @PUT(ApiConstants.EDIT_EVENT)
+    fun editEvent(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
+    ) : Call<JsonElement>
+
     @FormUrlEncoded
     @POST(ApiConstants.LOGOUT)
     fun logout(
@@ -378,4 +388,20 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key: String,
         @Query("media_id") media_id:String
     ) : Call<JsonElement>
+
+    @POST(ApiConstants.LIKE_DISLIKE_POST)
+    fun likeDislikePost(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("status") status:String,
+        @Field("post_id") post_id:String
+    ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.GET_ALL_USERS)
+    fun getAllUsers(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("keyword") keyword:String?
+    ): Call<JsonElement>
 }

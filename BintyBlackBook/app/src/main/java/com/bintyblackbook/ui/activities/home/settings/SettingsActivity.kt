@@ -23,7 +23,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         headingText.setText("SETTINGS")
-        settingsViewModel=SettingsViewModel(this)
+        settingsViewModel=SettingsViewModel()
 
         getNotificationStatus()
 
@@ -39,7 +39,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun getNotificationStatus() {
-        settingsViewModel.getNotificationStatus(getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        settingsViewModel.getNotificationStatus(this,getSecurityKey(this)!!, getUser(this)?.authKey!!)
         settingsViewModel.notificationLiveData.observe(this, Observer {
 
             if(it.data?.notificationStatus==1){
@@ -103,7 +103,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun updateNotificationStatus(status:String){
-        settingsViewModel.updateNotificationStatus(getSecurityKey(context)!!, getUser(context)?.authKey!!,status)
+        settingsViewModel.updateNotificationStatus(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,status)
 
         settingsViewModel.notificationLiveData.observe(this, Observer {
 

@@ -34,8 +34,8 @@ class UploadPhotoAdapter(val context: Context): RecyclerView.Adapter<UploadPhoto
         var img_upload: ImageView = itemView.findViewById(R.id.img_upload)
         var img_delete: ImageView = itemView.findViewById(R.id.ivDeletePhoto)
 
-        fun bind(pos:Int){
-            val data = arrayList[pos]
+        fun bind(position:Int){
+            val data = arrayList[position]
 
             if(data.type=="undefined"){
                 imageView.visibility= View.VISIBLE
@@ -50,12 +50,17 @@ class UploadPhotoAdapter(val context: Context): RecyclerView.Adapter<UploadPhoto
             }
 
             img_upload.setOnClickListener {
-                uploadPhotoInterface.onPhotoUpload(pos)
+                uploadPhotoInterface.onPhotoUpload(position)
+            }
+
+            img_delete.setOnClickListener {
+                uploadPhotoInterface.onDeletePhoto(position)
             }
         }
     }
 
     interface UploadPhotoInterface{
         fun onPhotoUpload(position: Int)
+        fun onDeletePhoto(position: Int)
     }
 }

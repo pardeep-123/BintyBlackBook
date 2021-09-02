@@ -1,7 +1,6 @@
 package com.bintyblackbook.ui.activities.home.settings
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer

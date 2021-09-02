@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.SignUpViewModel
@@ -45,7 +44,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
     private var mSnackBar: Snackbar? = null
 
     var selectedImagePath:File?=null
-    var selectedVideoUri:Uri?=null
+    var selectedVideoFile:String?=null
 
     var black_owned=""
 
@@ -58,8 +57,8 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         selectedImagePath=imagePath
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
-        selectedVideoUri=videoUri!!
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
+        selectedVideoFile=videoPath
     }
 
     fun showProgressDialog(){
