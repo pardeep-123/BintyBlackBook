@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.bintyblackbook.R
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /*
@@ -83,6 +84,31 @@ class Validations {
                 return false
             }
             return true
+        }
+
+
+        //    ^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$
+//    ^                 # start-of-string
+//    (?=.*[0-9])       # a digit must occur at least once
+//    (?=.*[a-z])       # a lower case letter must occur at least once
+//    (?=.*[A-Z])       # an upper case letter must occur at least once
+//    (?=.*[@#$%^&+=])  # a special character must occur at least once you can replace with your special characters
+//    (?=\\S+$)          # no whitespace allowed in the entire string
+//    .{4,}             # anything, at least six places though
+//    $                 # end-of-string
+
+        fun isValidPassword(password: String): Boolean {
+
+            val pattern: Pattern
+            val matcher: Matcher
+
+            val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$"
+
+            pattern = Pattern.compile(PASSWORD_PATTERN)
+            matcher = pattern.matcher(password)
+
+            return matcher.matches()
+
         }
 
         public fun validateEmailAddress(
