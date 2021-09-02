@@ -71,7 +71,7 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
         rlAdd.setOnClickListener {
             val intent= Intent(this,SetAvailabilityActivity::class.java)
             intent.putExtra("user_id",user_id)
-            intent.putExtra("type","check")
+            intent.putExtra("type","check_slots")
             startActivity(intent)
         }
     }

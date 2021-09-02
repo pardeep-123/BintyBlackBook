@@ -1,7 +1,6 @@
 package com.bintyblackbook.ui.activities.home.message
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
@@ -20,7 +19,7 @@ class NewGroupActivity : ImagePickerUtility() {
 
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
 
     }
 

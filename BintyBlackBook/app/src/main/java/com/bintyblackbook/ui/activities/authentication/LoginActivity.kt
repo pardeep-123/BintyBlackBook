@@ -113,7 +113,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                 if (InternetCheck.isConnectedToInternet(this)
                     && Validations.validateEmailAddress(this, email_text)
-                    && Validations.isValidPassword(this,password_text)
+                    && Validations.isEmpty(this,password_text,getString(R.string.err_password))
                 ) {
                     //call api or pass any intent here
                     loginViewModel.loginUser(getSecurityKey(this)!!,email_text.text.toString(),password_text.text.toString(),"","","","1","12345")

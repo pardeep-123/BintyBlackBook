@@ -12,13 +12,14 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaScannerConnection
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import android.provider.Settings
-import android.util.Log
 import android.view.Gravity
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -168,12 +169,9 @@ abstract class ImagePickerUtility : AppCompatActivity() {
 
     open fun captureVideo(activity: Activity) {
         mActivity = activity
-
-        val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-        if (takeVideoIntent.resolveActivity(packageManager) != null) {
-            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE)
-        }
-
+        val i = Intent(Intent.ACTION_PICK, Images.Media.EXTERNAL_CONTENT_URI)
+        i.type = "video/*"
+        startActivityForResult(i, REQUEST_VIDEO_CAPTURE)
 
     }
 
@@ -199,15 +197,25 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(Intent.createChooser(intent, "Select a File"), GALLERY_PIC_REQUEST_CODE
+        startActivityForResult(
+            Intent.createChooser(intent, "Select a File"),
+            GALLERY_PIC_REQUEST_CODE
         )
     }
 
     open fun openGalleryForVideo(activity: Activity) {
         mActivity = activity
+        val intent = Intent()
+        intent.type = "video/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Video"),
+            GALLERY_VIDEO_REQUEST_CODE
+        )
 
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(galleryIntent, GALLERY_VIDEO_REQUEST_CODE)
+        // intent.setAction(Intent.ACTION_GET_CONTENT);
+//        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+//        startActivityForResult(galleryIntent, GALLERY_VIDEO_REQUEST_CODE)
 
     }
 
@@ -310,45 +318,47 @@ abstract class ImagePickerUtility : AppCompatActivity() {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
             val uri= Uri.fromFile(File(mPhotoFile?.absolutePath))
-            Log.i("file", uri.toString())
 
             // CALL THIS METHOD TO GET THE ACTUAL PATH
             val file = File(uri.path)
 
             selectedImage(file)
-//            val photo:Bitmap = data?.data as Bitmap
-//
-//            val tempUri = getImageUri(applicationContext, photo)
-//
-//            // CALL THIS METHOD TO GET THE ACTUAL PATH
-//
-//            // CALL THIS METHOD TO GET THE ACTUAL PATH
-//            val finalFile = File(getRealPathFromURI(tempUri))
-//                Log.i("file", finalFile.absolutePath)
-
-//            val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
-//            selectedImage(file)
 
         } else if (requestCode == GALLERY_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
             val file=saveImage(MediaStore.Images.Media.getBitmap(contentResolver, data?.data), this)!!
-            Log.i("file", file.toString())
             selectedImage(file)
 
         } else if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
             val videoUri = intent.data
-            /*videoView.setVideoURI(videoUri)*/
-            selectedVideoUri(videoUri)
+            //selectedVideoUri(videoUri)
         } else if (requestCode == GALLERY_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {
-            val videoUri = intent.data
-            /*videoView.setVideoURI(videoUri)*/
-            selectedVideoUri(videoUri)
+
+            val selectedImage: Uri = data?.data!!
+
+            val media = getPath(selectedImage)
+            val thumb = ThumbnailUtils.createVideoThumbnail(media!!, MediaStore.Video.Thumbnails.MINI_KIND)
+
+            val path: String = getPathFromUri(mActivity, getImageUri(mActivity!!, thumb!!)!!)!!
+
+            selectedVideoUri(path, media)
+
+
+           /*
+            val selectedImageUri: Uri = data?.data!!
+
+            Log.i("====videoUri", selectedImageUri.toString())
+
+           val selectedImagePath = getPath(selectedImageUri)
+            val file = File(selectedImageUri.path)
+            selectedVideoUri(file)*/
+
         }
     }
 
 
     abstract fun selectedImage(imagePath: File?)
 
-    abstract fun selectedVideoUri(videoUri: Uri?)
+    abstract fun selectedVideoUri(imagePath: String?, videoPath: String?)
 
     fun saveImage(myBitmap: Bitmap, ctx: Activity): File? {
         val bytes = ByteArrayOutputStream()
@@ -394,5 +404,70 @@ abstract class ImagePickerUtility : AppCompatActivity() {
             }
         }
         return path
+    }
+
+    // UPDATED!
+    open fun getPath(uri: Uri?): String? {
+        val projection = arrayOf(MediaStore.Video.Media._ID)
+        val cursor = contentResolver.query(uri!!, projection, null, null, null)
+        if (cursor != null) {
+            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            val column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
+            cursor.moveToFirst()
+            return cursor.getString(column_index)
+        } else
+            return null
+    }
+
+
+    open fun getPathFromUri(context: Context?, uri: Uri): String? {
+        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+           if (isMediaDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":").toTypedArray()
+                val type = split[0]
+                var contentUri: Uri? = null
+                if ("image" == type) {
+                    contentUri = Images.Media.EXTERNAL_CONTENT_URI
+                } else if ("video" == type) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                } else if ("audio" == type) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
+                val selection = "_id=?"
+                val selectionArgs = arrayOf(split[1])
+                return getDataColumn(context!!, contentUri, selection, selectionArgs)
+            }
+        }
+        return null
+    }
+
+    open fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
+
+    open fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>
+    ): String? {
+        var cursor: Cursor? = null
+        val column = "_data"
+        val projection = arrayOf(column)
+        try {
+            cursor =
+                context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val index = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(index)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
     }
 }

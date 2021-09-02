@@ -3,7 +3,6 @@ package com.bintyblackbook.ui.activities.home.profileUser
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
-import com.applandeo.materialcalendarview.EventDay
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
@@ -15,7 +14,6 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
 import kotlinx.android.synthetic.main.activity_set_availability.*
 import kotlin.collections.ArrayList
-
 
 class SetAvailabilityActivity : BaseActivity() {
 
@@ -52,12 +50,15 @@ class SetAvailabilityActivity : BaseActivity() {
             }
         }
 
+        calenderView.setOnDayClickListener {
+            val selectedDate= it.calendar.timeInMillis
+        }
     }
 
     private fun getIntentData() {
         type= intent.getStringExtra("type").toString()
         user_id= intent.getStringExtra("user_id").toString()
-        if(type.equals("check")){
+        if(type == "check_slots"){
 
             checkAvailability()
         }
@@ -109,7 +110,7 @@ class SetAvailabilityActivity : BaseActivity() {
             finish()
         }
 
-        btnSubmit.setOnClickListener {
+        btnSubmitDate.setOnClickListener {
             finish()
         }
 

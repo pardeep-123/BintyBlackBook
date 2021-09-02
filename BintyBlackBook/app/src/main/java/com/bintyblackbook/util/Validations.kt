@@ -92,31 +92,13 @@ class Validations {
             val email = (view as EditText).text.toString().trim { it <= ' ' }
             if (email.isEmpty()) {
 
-                Toast.makeText(
-                    applicationContext,
-                    applicationContext.resources.getString(R.string.err_email),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, applicationContext.resources.getString(R.string.err_email), Toast.LENGTH_LONG).show()
 
-                /*Toasty.error(
-                    applicationContext,
-                    applicationContext.resources.getString(R.string.err_email),
-                    R.color.colorAccent
-                ).show()*/
                 requestFocus(applicationContext, view)
                 return false
             } else if (!isValidEmail(email)) {
-                Toast.makeText(
-                    applicationContext,
-                    applicationContext.resources.getString(R.string.err_valid_email_address),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, applicationContext.resources.getString(R.string.err_valid_email_address), Toast.LENGTH_LONG).show()
 
-                /*Toasty.error(
-                    applicationContext,
-                    applicationContext.resources.getString(R.string.err_valid_email_address),
-                    R.color.colorAccent
-                ).show()*/
                 requestFocus(applicationContext, view)
                 return false
             } else {

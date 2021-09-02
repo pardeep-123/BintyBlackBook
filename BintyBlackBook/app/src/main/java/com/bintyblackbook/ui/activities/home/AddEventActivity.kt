@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -55,7 +54,7 @@ class AddEventActivity : ImagePickerUtility() {
         selectedImagePath=imagePath
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
 
     }
 

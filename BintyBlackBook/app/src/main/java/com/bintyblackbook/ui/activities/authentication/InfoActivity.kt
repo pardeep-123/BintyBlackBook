@@ -2,9 +2,7 @@ package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -16,11 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.UploadPhotoAdapter
 import com.bintyblackbook.adapters.UploadVideoAdapter
-import com.bintyblackbook.model.CategoryData
-import com.bintyblackbook.model.SubCategories
-import com.bintyblackbook.model.UploadPhotoModel
-import com.bintyblackbook.model.UploadVideoModel
-import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
+import com.bintyblackbook.model.*
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
@@ -29,7 +23,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_add_event.*
 import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_info.edtLocation
 import kotlinx.android.synthetic.main.toolbar.*
@@ -39,20 +32,19 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.lang.StringBuilder
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class InfoActivity : ImagePickerUtility(), CustomInterface,
     UploadVideoAdapter.UploadVideoInterface, UploadPhotoAdapter.UploadPhotoInterface {
 
+    var mediaList= ArrayList<MediaData>()
 
     var videoAdapter:UploadVideoAdapter?=null
     var imageFile:File?=null
-    var selectedVideoUri:Uri?=null
+    var selectedVideoFile:String?=null
     var mProgress: CustomProgressDialog? = null
     private var mSnackBar: Snackbar? = null
-
     var list_count=1
     var categoryList = ArrayList<CategoryData>()
     var videoList= ArrayList<UploadVideoModel>()
@@ -103,7 +95,6 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         rvUploadPhoto.adapter= uploadPhotoAdapter
         uploadPhotoAdapter?.uploadPhotoInterface=this
         uploadPhotoAdapter?.arrayList=photoList
-
         photoList.add(UploadPhotoModel("undefined",imageFile))
         uploadPhotoAdapter?.notifyDataSetChanged()
     }
@@ -114,8 +105,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         rvUploadVideo.adapter= videoAdapter
         videoAdapter?.uploadVideoInterface =this
         videoAdapter?.arrayList=videoList
-
-        videoList.add(UploadVideoModel("undefined",selectedVideoUri))
+        videoList.add(UploadVideoModel("undefined",selectedVideoFile))
         videoAdapter?.notifyDataSetChanged()
     }
 
@@ -141,12 +131,11 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
     fun showProgressDialog(){
         mProgress = CustomProgressDialog(this)
-        mProgress!!.show()
+        mProgress?.show()
     }
 
     fun dismissProgressDialog(){
-
-        mProgress!!.dismiss()
+        mProgress?.dismiss()
     }
     private fun setData() {
         edtName.setText(getUser(this)?.businessName)
@@ -169,8 +158,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         }
 
         edtSetAvailability.setOnClickListener {
-            val intent= Intent(this,SetAvailabilityActivity::class.java)
-            intent.putExtra("type","info")
+            val intent= Intent(this,SetUserAvailabilityActivity::class.java)
             startActivity(intent)
         }
 
@@ -180,7 +168,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
         addNewVideo.setOnClickListener {
             list_count += 1
-            videoList.add(UploadVideoModel("undefined",selectedVideoUri))
+            videoList.add(UploadVideoModel("undefined",selectedVideoFile))
             videoAdapter?.notifyDataSetChanged()
         }
         ivAddImage.setOnClickListener {
@@ -188,18 +176,6 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
             photoList.add(UploadPhotoModel("undefined",imageFile))
             uploadPhotoAdapter?.notifyDataSetChanged()
         }
-
-      /*  edtSetAvailability.setOnClickListener {
-            datePicker()
-        }*/
-
-      /*  riv_video.setOnClickListener {
-            getImage(this,0,true)
-        }
-
-        riv_Picture.setOnClickListener {
-            getImage(this,0,false)
-        }*/
 
         btnSubmit.setOnClickListener {
             checkValidations()
@@ -294,7 +270,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
             map.put("device_token",createRequestBody("12345"))
             map.put("pushKitToken",createRequestBody("12345"))
             map.put("uuid",createRequestBody("12345"))
-
+            map.put("availability",createRequestBody(""))
             map.put("swapInMind",createRequestBody(edtEmail.text.toString()))
             map.put("isSwapSystem",createRequestBody(swap_value))
             map.put("operationTime",createRequestBody(edtHrsDays.text.toString()))
@@ -359,31 +335,48 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
         refereshVideoArray()
-        videoList.add(UploadVideoModel("upload",videoUri!!))
-        videoAdapter?.notifyDataSetChanged()
-       // Glide.with(this).load(videoUri).into(riv_video)
-        selectedVideoUri=videoUri
-        uploadMedia("1")
-
+        Glide.with(this).load(imagePath).into(riv_video)
+        videoList.add(UploadVideoModel("upload",videoPath))
+       /* if(videoFile!=null){
+            videoList.add(UploadVideoModel("upload",videoFile))
+            videoAdapter?.notifyDataSetChanged()
+            Glide.with(this).load(videoFile).into(riv_video)
+            selectedVideoFile=videoFile
+            uploadMedia("1")
+        }*/
     }
     private fun uploadMedia(type: String) {
         val map=HashMap<String,RequestBody>()
         map.put("type",createRequestBody(type))
 
         var request: MultipartBody.Part? = null
-        if (imageFile != null) {
 
-            val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+        if(type.equals("0")){
+            if (imageFile != null) {
 
-            request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+
+                request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
+            }
         }
+
+        else{
+            if (selectedVideoFile != null) {
+
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedVideoFile!!)
+
+                request = MultipartBody.Part.createFormData("media", selectedVideoFile, requestFile)
+            }
+        }
+
 
         infoViewModel.uploadMedia(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
             if(it.code==200){
                 Toast.makeText(this,"Uploaded media successfully",Toast.LENGTH_LONG).show()
+                mediaList.addAll(it.data)
             }
 
             else{
@@ -443,6 +436,12 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
     override fun onPhotoUpload(position: Int) {
         getImage(this,0,false)
+    }
+
+    override fun onDeletePhoto(position: Int) {
+        photoList.removeAt(position)
+        Log.i("list_size",photoList.toString())
+        uploadPhotoAdapter?.notifyDataSetChanged()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

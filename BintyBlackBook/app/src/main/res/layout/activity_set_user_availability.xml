@@ -61,7 +61,7 @@
             android:orientation="vertical">
 
             <com.applandeo.materialcalendarview.CalendarView
-                android:id="@+id/calenderView"
+                android:id="@+id/calenderView_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:abbreviationsBarColor="@color/themeColor"
@@ -71,7 +71,7 @@
                 app:pagesColor="@color/themeColor"
                 app:selectionColor="@color/fadePink"
                 app:todayLabelColor="@color/fadePink"
-                app:type="many_days_picker"
+                app:type="one_day_picker"
                 app:datePicker="true"
                 app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
 
@@ -81,20 +81,20 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/dp16">
 
-            <TextView
-                android:id="@+id/tvPromote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/romul"
-                android:text="@string/select_time"
-                android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp13"
-                android:layout_marginTop="@dimen/dp16"/>
+                <TextView
+                    android:id="@+id/tvPromote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/select_time"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp13"
+                    android:layout_marginTop="@dimen/dp16"/>
 
                 <CheckBox
-                    android:id="@+id/checkbox_selectAll"
+                    android:id="@+id/checkbox_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/select_all"
@@ -124,7 +124,7 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/btnSubmitDate"
+                android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="@dimen/dp18"

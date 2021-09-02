@@ -1,6 +1,5 @@
 package com.bintyblackbook.ui.activities.home.timeline
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -34,7 +33,7 @@ class AddPostActivity : ImagePickerUtility() {
         imageFile=imagePath!!
     }
 
-    override fun selectedVideoUri(videoUri: Uri?) {
+    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
 
     }
     fun showProgressDialog(){
