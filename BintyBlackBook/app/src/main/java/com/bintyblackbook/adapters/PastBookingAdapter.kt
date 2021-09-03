@@ -1,7 +1,6 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.PastBooking
-import com.bintyblackbook.models.UpcomingBookingModel
-import com.bintyblackbook.ui.activities.home.EventDetailActivity
-import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.util.MyUtils
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_past_booking.view.*
 
-class PastBookingAdapter(var context: Context) :
-    RecyclerView.Adapter<PastBookingAdapter.PastBookingViewHolder>() {
+class PastBookingAdapter(var context: Context) : RecyclerView.Adapter<PastBookingAdapter.PastBookingViewHolder>() {
 
     var arrayList = ArrayList<PastBooking>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PastBookingViewHolder {
@@ -49,7 +44,11 @@ class PastBookingAdapter(var context: Context) :
             tvName.text = upcomingBookingModel.userName
             tvDate.text = MyUtils.getDate(upcomingBookingModel.availabilityDate.toLong())
             tvTime.text = MyUtils.getTime(upcomingBookingModel.availabilityDate.toLong())
-            //tvStatus.text = upcomingBookingModel.status
+
+            //handle booking status here
+            if(upcomingBookingModel.status==2){
+                tvStatus.text=""
+            }
 
             itemView.setOnClickListener {
                // context.startActivity(Intent(context, UserDetailActivity::class.java))

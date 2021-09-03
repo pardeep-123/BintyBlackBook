@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -119,21 +118,6 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             }
 
             R.id.ivBusinessInfo ->{
-//                CoachMarkOverlay.Builder(context)
-//                    .setOverlayTargetView(ivBusinessInfo)
-//                    .setInfoViewBuilder(
-//                        CoachMarkInfo.Builder(context)
-//                            .setInfoText("TextString").setMargin(30, 30, 30, 30))
-//                            .setSkipButtonBuilder(
-//                                CoachMarkSkipButton.Builder(context)
-//                                    .setButtonClickListener(object : CoachMarkSkipButton.ButtonClickListener {
-//                                        override fun onSkipButtonClick(view: View) {
-//                                            (window.decorView as ViewGroup).removeView(view)
-//
-//                                        }
-//                                    })
-//                                        .build()
-//                                        .show(viewToAttachCoachMark))
 
             }
             R.id.signUpBtn -> {
@@ -225,16 +209,18 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             && Validations.isValidPhoneNumber(context,phone_text,getString(R.string.err_valid_phone))
             && Validations.validateEmailAddress(context,email_text)
             && Validations.isValidPassword(context,password_text)
-            && Validations.confirmPassword(context,password_text,confpassword_text,"Password does not match")
-            && Validations.isEmpty(context,about_text,"About not be empty")
+            &&Validations.isValidPasswordText(context,password_text,getString(R.string.err_pass_valid))
+            && Validations.isEmpty(context,confpassword_text,getString(R.string.err_confirm_password))
+            && Validations.confirmPassword(context,password_text,confpassword_text,getString(R.string.err_password_not_match))
+            && Validations.isEmpty(context,about_text,getString(R.string.err_about))
         ){
             if(!cbAccept.isChecked){
-                Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,getString(R.string.err_terms_conditions),Toast.LENGTH_LONG).show()
                 return
             }
 
             if(selectedImagePath?.absolutePath.isNullOrEmpty()){
-                Toast.makeText(context,"Please choose image",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,getString(R.string.please_choose_image),Toast.LENGTH_LONG).show()
                 return
             }
 

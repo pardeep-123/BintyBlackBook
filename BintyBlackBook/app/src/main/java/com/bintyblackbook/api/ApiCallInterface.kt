@@ -158,7 +158,9 @@ interface ApiCallInterface {
 
 
     //delete post
-    @DELETE(ApiConstants.DELETE_POST)
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "delete_post", hasBody = true)
+    //@DELETE(ApiConstants.DELETE_POST)
     fun deletePost(
         @Header("security_key") security_key:String,
         @Header("auth_key") auth_key: String,
@@ -375,18 +377,22 @@ interface ApiCallInterface {
         @Field("description") description:String
     ) : Call<JsonElement>
 
-    @DELETE(ApiConstants.DELETE_EVENT)
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "delete_event", hasBody = true)
+ //   @DELETE(ApiConstants.DELETE_EVENT)
     fun deleteEvent(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String,
-        @Query("event_id") event_id: String
+        @Field("event_id") event_id: String
     ) : Call<JsonElement>
 
-    @DELETE(ApiConstants.DELETE_MEDIA)
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = ApiConstants.DELETE_MEDIA, hasBody = true)
     fun deleteMedia(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String,
-        @Query("media_id") media_id:String
+        @Field("media_id") media_id:String
     ) : Call<JsonElement>
 
     @POST(ApiConstants.LIKE_DISLIKE_POST)

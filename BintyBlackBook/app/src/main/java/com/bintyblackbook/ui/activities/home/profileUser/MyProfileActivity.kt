@@ -78,8 +78,8 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onRestart() {
+        super.onRestart()
         getProfileData()
     }
 }

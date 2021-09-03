@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.item_events.view.*
 
 class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     var arrayList= ArrayList<EventData>()
+    var isFavourite = false
     var onItemClick:((eventsModel:EventData)->Unit)?= null
 
     var onSelectFav:((eventsModel:EventData) ->Unit)?=null
@@ -45,20 +46,28 @@ class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.Eve
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
 
+            /*if (isFavourite){
+                ivHeart.setImageResource(R.drawable.unfill_heart)
+                isFavourite = false
+
+            }else{
+                ivHeart.setImageResource(R.drawable.fill_heart)
+                isFavourite = true
+            }*/
+
             if(eventsModel.isFavourite==1){
                 ivHeart.setImageResource(R.drawable.fill_heart)
             }else{
                 ivHeart.setImageResource(R.drawable.unfill_heart)
             }
-
             ivHeart.setOnClickListener {
                 eventsModel.isFavourite = 1
                 notifyDataSetChanged()
-                onSelectFav?.invoke(eventsModel)
+                onSelectFav?.invoke(arrayList[pos])
             }
 
             itemView.setOnClickListener {
-                onItemClick?.invoke(eventsModel)
+                onItemClick?.invoke(arrayList[pos])
             }
 
         }

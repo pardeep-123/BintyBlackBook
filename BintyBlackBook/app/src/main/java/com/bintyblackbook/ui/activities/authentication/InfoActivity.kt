@@ -39,6 +39,10 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     UploadVideoAdapter.UploadVideoInterface, UploadPhotoAdapter.UploadPhotoInterface {
 
     var mediaList= ArrayList<MediaData>()
+    var categoty_id=""
+    var category_name=""
+    var subCategory_id=""
+    var subCategory_name=""
 
     var videoAdapter:UploadVideoAdapter?=null
     var imageFile:File?=null
@@ -392,7 +396,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     }
 
     override fun callbackMethod(data: ArrayList<CategoryData>) {
-        var categoryId=StringBuilder("")
+
         val arrayList=ArrayList<String>()
         val categoryList= ArrayList<String>()
         data.forEach{
@@ -401,23 +405,25 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
                 arrayList.add(it.id.toString())
             }
         }
-        val id_list= TextUtils.join(",",arrayList)
-        val name_list= TextUtils.join(",",categoryList)
-        etSelectCategory.setText(name_list)
+        categoty_id = TextUtils.join(",",arrayList)
+        category_name= TextUtils.join(",",categoryList)
+        etSelectCategory.setText(category_name)
         Log.i("TAG",arrayList.toString())
     }
 
     override fun callbackSubCategories(data: ArrayList<SubCategories>) {
-        var categoryId=StringBuilder("")
-        var arrayList=ArrayList<String>()
+
+        val id_list=ArrayList<String>()
+        val name_list=ArrayList<String>()
         data.forEach{
             if(it.isSelect){
-                arrayList.add(it.id.toString())
+                id_list.add(it.id.toString())
+                name_list.add(it.name)
             }
         }
-
-        val id_list= TextUtils.join(",",arrayList)
-        Log.i("subactegory_ids",arrayList.toString())
+        subCategory_id= TextUtils.join(",",id_list)
+        subCategory_name= TextUtils.join(",",name_list)
+        Log.i("subactegory_ids","====ids"+ subCategory_id +"====names"+subCategory_name)
     }
 
     override fun onVideoUpload(position: Int) {

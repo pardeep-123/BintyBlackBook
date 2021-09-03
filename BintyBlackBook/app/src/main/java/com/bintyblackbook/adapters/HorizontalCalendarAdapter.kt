@@ -15,10 +15,8 @@ import kotlinx.android.synthetic.main.calendar_item.view.*
 class HorizontalCalendarAdapter(var context: Context) : RecyclerView.Adapter<HorizontalCalendarAdapter.HorizontalCalendarViewHolder>() {
     var arrayList=  ArrayList<AvailabilityData>()
     lateinit var calenderInterface:CalenderInterface
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): HorizontalCalendarViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalCalendarViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.calendar_item, parent, false)
         return HorizontalCalendarViewHolder(view)
     }
@@ -37,11 +35,8 @@ class HorizontalCalendarAdapter(var context: Context) : RecyclerView.Adapter<Hor
 
         fun bind(pos: Int) {
 
-            val horizontalCalendarModel = arrayList[pos]
 
-            if(pos==0){
-                horizontalCalendarModel.isSelected=true
-            }
+            val horizontalCalendarModel = arrayList[pos]
 
             tvWeek.text = MyUtils.getCurrentDay(horizontalCalendarModel.date!!)
             tvMonthAndDate.text = MyUtils.getCurrentDate(horizontalCalendarModel.date)

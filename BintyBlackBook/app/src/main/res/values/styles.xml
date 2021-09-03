@@ -6,12 +6,24 @@
         <item name="colorPrimaryDark">@color/themeColor</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="popupMenuStyle">@style/popupMenuStyle</item>
     </style>
 
     <style name="TabFont" parent="@android:style/TextAppearance.Small">
         <item name="android:fontFamily">@font/trajanpro_regular</item>
     </style>
 
+    <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@color/whiteColor</item>
+        <item name="android:itemPadding">25dp</item>
+        <item name="android:width">@dimen/dp100</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:listPreferredItemPaddingLeft">5dp</item>
+        <item name="android:listPreferredItemPaddingRight">5dp</item>
+        <item name="android:listPreferredItemHeightSmall">70dp</item>
+
+
+    </style>
     <style name="CalendarTheme" parent="AppTheme">
         <item name="android:textColorPrimary">@color/whiteColor</item>
         <item name="colorControlActivated">@color/fadePink</item>

@@ -48,11 +48,18 @@ class UpcomingBookingAdapter(var context: Context) :
         fun bind(pos: Int) {
             val upcomingBookingModel = arrayList[pos]
             Glide.with(context).load(upcomingBookingModel.userImage).into(civProfile)
-
             tvName.text = upcomingBookingModel.userName
-            tvDate.text = MyUtils.getDate(upcomingBookingModel.availabilityDate.toLong())
-            tvTime.text = MyUtils.getTime(upcomingBookingModel.availabilityDate.toLong())
-            //tvStatus.text = upcomingBookingModel.status
+            tvDate.text= MyUtils.getDate(upcomingBookingModel.availabilityDate.toLong())
+            tvTime.text= MyUtils.getTime(upcomingBookingModel.availabilityDate.toLong())
+
+            //set booking status here
+            if (upcomingBookingModel.status==0){
+                tvStatus.text=""
+            }else if(upcomingBookingModel.status==1){
+                tvStatus.text=""
+            }else{
+                tvStatus.text=""
+            }
 
             btnCancel.setOnClickListener {
                 val requestDialog = RequestDialogFragment()

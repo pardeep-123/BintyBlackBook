@@ -46,7 +46,7 @@ class EventDetailActivity : BaseActivity() {
         eventsViewModel.eventsLiveData.observe(this, Observer {
             if(it.code==200){
                 for(i in 0 until it.data.size){
-                    if(post_id==it?.data!![i].id){
+                    if(postId== it?.data?.get(i)?.id){
                         setData(it.data[i])
                     }
                 }

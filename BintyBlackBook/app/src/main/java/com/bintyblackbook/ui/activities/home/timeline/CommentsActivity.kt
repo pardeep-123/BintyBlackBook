@@ -39,12 +39,13 @@ class CommentsActivity : BaseActivity() {
     private fun setOnClicks() {
         rlSend.setOnClickListener {
             if(InternetCheck.isConnectedToInternet(context)
-                && Validations.isEmpty(context,edtMsg,"Please enter your comment")){
+                && Validations.isEmpty(context,edtMsg,getString(R.string.err_comment))){
 
                 commentsViewModel.addComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id,edtMsg.text.toString())
                 commentsViewModel.addCommentLiveData.observe(this, Observer {
 
                     if(it.code==200){
+                        edtMsg.text.clear()
                         showAlertWithOk(it.msg)
                         getCommentList(post_id)
                     }

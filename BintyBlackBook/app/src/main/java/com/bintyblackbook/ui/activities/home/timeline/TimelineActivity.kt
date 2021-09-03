@@ -11,6 +11,7 @@ import com.bintyblackbook.adapters.TimelineAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.PostData
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
+import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
 import com.bintyblackbook.ui.dialogues.PostDeleteDialogFragment
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
@@ -86,10 +87,16 @@ class TimelineActivity : BaseActivity() {
     private fun adapterItemClickEditOrDelete(){
         timelineAdapter?.onItemClick = { timelineModel: PostData, clickOn: String, position:Int ->
             if (clickOn=="imageClick" || clickOn=="nameClick"){
-                val intent = Intent(this,UserDetailActivity::class.java)
-                intent.putExtra("user_id",timelineModel.userId.toString())
-                intent.putExtra(AppConstant.SHOW_CHAT_BTN,true)
-                startActivity(intent)
+
+                if(timelineModel.userId== getUser(context)?.id){
+                    val intent= Intent(this, MyProfileActivity::class.java)
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(this,UserDetailActivity::class.java)
+                    intent.putExtra("user_id",timelineModel.userId.toString())
+                    intent.putExtra(AppConstant.SHOW_CHAT_BTN,true)
+                    startActivity(intent)
+                }
 
             }else if (clickOn=="editClick"){
                 val intent = Intent(this,AddPostActivity::class.java)

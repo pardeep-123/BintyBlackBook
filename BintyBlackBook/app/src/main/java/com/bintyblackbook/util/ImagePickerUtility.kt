@@ -140,31 +140,6 @@ abstract class ImagePickerUtility : AppCompatActivity() {
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
             }
         }
-
-       /* val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val photoFile = createImageFile()
-
-        val fileProvider = activity?.let { FileProvider.getUriForFile(it, "com.bintyblackbook", photoFile) }
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
-        if (takePictureIntent.resolveActivity(packageManager) != null) {
-            startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
-        } else {
-            Toast.makeText(activity, "Unable to open camera", Toast.LENGTH_LONG).show()
-        }*/
-
-
-        /* try {
-             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-             val photoFile: File = createFileForImage()!!
-             imageAbsolutePath = photoFile.absolutePath
-             intent.putExtra(
-                 MediaStore.EXTRA_OUTPUT,
-                 FileProvider.getUriForFile(this, "com.android.cameraclick", photoFile)
-             )
-             startActivityForResult(intent, CAMERA_REQUEST_CODE)
-         } catch (e: IOException) {
-             e.printStackTrace()
-         }*/
     }
 
     open fun captureVideo(activity: Activity) {
@@ -212,11 +187,6 @@ abstract class ImagePickerUtility : AppCompatActivity() {
             Intent.createChooser(intent, "Select Video"),
             GALLERY_VIDEO_REQUEST_CODE
         )
-
-        // intent.setAction(Intent.ACTION_GET_CONTENT);
-//        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
-//        startActivityForResult(galleryIntent, GALLERY_VIDEO_REQUEST_CODE)
-
     }
 
     @Throws(IOException::class)

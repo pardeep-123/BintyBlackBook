@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.HomeData
-import com.bintyblackbook.models.HomeModel
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
 import kotlinx.android.synthetic.main.item_home.view.*
 
@@ -34,19 +33,19 @@ class HomeAdapter(val context: Context) :
         val tvHeading: TextView = itemView.tvHeading
         val horizontal_cycle: HorizontalInfiniteCycleViewPager = itemView.horizontal_cycle
 
-        fun bind(pos: Int) {
-            val model = arrayList[pos]
+        fun bind(position: Int) {
+            val model = arrayList[position]
             tvHeading.text = model.name
 
             val infinityPagerAdapter = InfinityPagerAdapter(context, model.categoryName)
             horizontal_cycle.adapter = infinityPagerAdapter
 
             itemView.setOnClickListener {
-                onItemClick?.invoke(model)
+                onItemClick?.invoke(arrayList[position])
             }
 
             infinityPagerAdapter.onInfinityPagerItemClick = {infinityPagerItemPosition: Int ->
-                onItemClick?.invoke(model)
+              onItemClick?.invoke(arrayList[position])
             }
         }
     }

@@ -97,17 +97,23 @@ class Validations {
 //    .{4,}             # anything, at least six places though
 //    $                 # end-of-string
 
-        fun isValidPassword(password: String): Boolean {
-
+        fun isValidPasswordText(context: Context, et: EditText, hint: String): Boolean {
+            val data = et.text.toString().trim { it <= ' ' }
             val pattern: Pattern
             val matcher: Matcher
 
             val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$"
 
             pattern = Pattern.compile(PASSWORD_PATTERN)
-            matcher = pattern.matcher(password)
+            matcher = pattern.matcher(data)
 
-            return matcher.matches()
+            if(!matcher.matches()){
+                Toast.makeText(context, hint,Toast.LENGTH_LONG).show()
+                return false
+            }
+            else{
+                return true
+            }
 
         }
 

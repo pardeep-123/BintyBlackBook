@@ -64,7 +64,6 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
     private fun setAdapter() {
         checkAvailabilityAdapter=CheckAvailabilityAdapter(this)
         rvTime.adapter =checkAvailabilityAdapter
-
         checkAvailabilityAdapter?.arrayList=timeList
     }
 

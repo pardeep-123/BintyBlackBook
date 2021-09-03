@@ -24,31 +24,31 @@ import kotlinx.android.synthetic.main.toolbar.*
 class UserDetailActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var profileViewModel: ProfileViewModel
-    var horizontalImagesAdapter:HorizontalImagesAdapter? = null
+    var horizontalImagesAdapter: HorizontalImagesAdapter? = null
     var loopBtnClick = true
 
-    var userId=""
-    var showChatBtn=false
-    var showChatAndUnLoopBtn=false
+    var userId = ""
+    var showChatBtn = false
+    var showChatAndUnLoopBtn = false
     lateinit var loopsViewModel: LoopsViewModel
-    var arrayList= ArrayList<UserMedia>()
+    var arrayList = ArrayList<UserMedia>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
 
-        profileViewModel= ProfileViewModel(this)
+        profileViewModel = ProfileViewModel(this)
         loopsViewModel = LoopsViewModel()
         getIntentData()
         init()
 
         getData()
 
-        if (showChatBtn){
+        if (showChatBtn) {
             btnChat.visibility = View.VISIBLE
         }
 
-        if (showChatAndUnLoopBtn){
+        if (showChatAndUnLoopBtn) {
             btnChat.visibility = View.VISIBLE
             btnUnLoop.visibility = View.VISIBLE
             btnLoop.visibility = View.GONE
@@ -61,9 +61,9 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun getIntentData() {
-        showChatBtn= intent.getBooleanExtra(AppConstant.SHOW_CHAT_BTN,false)
-        userId=intent.getStringExtra("user_id").toString()
-        showChatAndUnLoopBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN,false)
+        showChatBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_BTN, false)
+        userId = intent.getStringExtra("user_id").toString()
+        showChatAndUnLoopBtn = intent.getBooleanExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN, false)
     }
 
     private fun setOnClicks() {
@@ -75,9 +75,13 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun getData() {
-        profileViewModel.businessUserProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!,userId)
+        profileViewModel.businessUserProfile(
+            getSecurityKey(this)!!,
+            getUser(this)?.authKey!!,
+            userId
+        )
         profileViewModel.profileObservable.observe(this, Observer {
-            if(it.code==200){
+            if (it.code == 200) {
                 setData(it?.data)
             }
         })
@@ -85,76 +89,73 @@ class UserDetailActivity : BaseActivity(), View.OnClickListener {
 
     private fun setData(data: Data?) {
         Glide.with(this).load(data?.userMedia!![0].media).into(riv1)
-        tvName.text=data.firstName
-        tvUserAbout.text=data.description
-        tvUserExp.text=data.experience
-        tvWebsiteLink.text=data.websiteLink
-        tvLocation.text=data.location
+        tvName.text = data.firstName
+        tvUserAbout.text = data.description
+        tvUserExp.text = data.experience
+        tvWebsiteLink.text = data.websiteLink
+        tvLocation.text = data.location
         arrayList.addAll(data.userMedia)
         horizontalImagesAdapter?.notifyDataSetChanged()
     }
 
-    private fun init(){
+    private fun init() {
         rvImages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         horizontalImagesAdapter = HorizontalImagesAdapter(this)
         rvImages.adapter = horizontalImagesAdapter
-        horizontalImagesAdapter?.arrayList=arrayList
+        horizontalImagesAdapter?.arrayList = arrayList
         horizontalImagesAdapterClick()
     }
 
-    private fun horizontalImagesAdapterClick(){
-        horizontalImagesAdapter?.onItemClick = {image: UserMedia ->
+    private fun horizontalImagesAdapterClick() {
+        horizontalImagesAdapter?.onItemClick = { image: UserMedia ->
             Glide.with(this).load(image.media).into(riv1)
         }
     }
 
     override fun onClick(v: View?) {
 
-        when(v?.id){
-            R.id.iv_back ->{
+        when (v?.id) {
+            R.id.iv_back -> {
                 finish()
             }
 
-            R.id.btnAvailability ->{
-                val intent = Intent(this,CheckAvailabilityActivity::class.java)
-                intent.putExtra("user_id",userId)
+            R.id.btnAvailability -> {
+                val intent = Intent(this, CheckAvailabilityActivity::class.java)
+                intent.putExtra("user_id", userId)
                 startActivity(intent)
             }
 
-            R.id.btnChat ->{
-                val intent = Intent(this,ChatActivity::class.java)
+            R.id.btnChat -> {
+                val intent = Intent(this, ChatActivity::class.java)
                 startActivity(intent)
             }
 
-            R.id.btnLoop ->{
-                if (loopBtnClick){
-                    loopBtnClick = false
+            R.id.btnLoop -> {
+
+                if (btnLoop.text.equals(getString(R.string.loop))) {
                     btnLoop.text = getString(R.string.cancel_loop_request)
-                    loopsViewModel.sendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
-
+                    loopsViewModel.sendLoopReq(this, getSecurityKey(context)!!, getUser(context)?.authKey!!, userId)
                     loopsViewModel.baseLiveData.observe(this, Observer {
 
-                        if(it.code==200) {
+                        if (it.code == 200) {
                             val fragmentDialog = FragmentDialog("LoopRequest")
                             fragmentDialog.show(supportFragmentManager, "LoopDialog")
                         }
                     })
-
-                }else{
-                    loopBtnClick = true
+                } else {
                     btnLoop.text = getString(R.string.loop)
-                    loopsViewModel.unSendLoopReq(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
+                    loopsViewModel.unSendLoopReq(this, getSecurityKey(context)!!, getUser(context)?.authKey!!, userId)
                     loopsViewModel.baseLiveData.observe(this, Observer {
-                        if(it.code==200){
+                        if (it.code == 200) {
                             val fragmentDialog = FragmentDialog("LoopRequestCancel")
-                            fragmentDialog.show(supportFragmentManager,"LoopDialog")
+                            fragmentDialog.show(supportFragmentManager, "LoopDialog")
                         }
                     })
                 }
             }
 
-            R.id.btnEvent ->{
-                val intent = Intent(this,EventActivity::class.java)
+            R.id.btnEvent -> {
+                val intent = Intent(this, EventActivity::class.java)
                 startActivity(intent)
             }
         }

@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.PastBookingAdapter
 import com.bintyblackbook.model.PastBooking
-import com.bintyblackbook.models.UpcomingBookingModel
-import com.bintyblackbook.util.CustomProgressDialog
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel

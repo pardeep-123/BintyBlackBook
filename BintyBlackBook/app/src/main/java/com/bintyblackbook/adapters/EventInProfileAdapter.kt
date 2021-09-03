@@ -2,12 +2,13 @@ package com.bintyblackbook.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
@@ -19,21 +20,51 @@ import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventInProfileAdapter.EventViewHolder>() {
 
     var arrayList= ArrayList<EventData>()
-    var myPopupWindow: PopupWindow? = null
     lateinit var eventProfileInterface: EventProfileInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_events_in_profile, parent, false)
+        val view = LayoutInflater.from(context).inflate(
+            R.layout.item_events_in_profile,
+            parent,
+            false
+        )
         return EventViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.bind(position)
+
+        holder.itemView.rlDots.setOnClickListener {
+
+            val popup = PopupMenu(context,  holder.itemView.rlDots)
+
+            popup.inflate(R.menu.profile_menu)
+
+            popup.setOnMenuItemClickListener { item ->
+                when (item?.itemId) {
+                    R.id.edit -> {
+                        eventProfileInterface.onEditClick(arrayList[position], position)
+                    }
+
+                    R.id.delete -> {
+                      eventProfileInterface.onDeleteClick(arrayList[position], position)
+                    }
+                }
+                true
+            }
+
+            popup.show()
+
+        }
     }
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
+
+  /*  override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }*/
 
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val roundedImageView: RoundedImageView = itemView.roundedImageView
@@ -47,41 +78,19 @@ class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventIn
             Glide.with(context).load(eventsModel.image).into(roundedImageView)
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
+
             if(eventsModel.isFavourite==1){
                 imgDFavourite.setImageResource(R.drawable.fill_heart)
             }
             else{
                 imgDFavourite.setImageResource(R.drawable.unfill_heart)
             }
-
-            rlDots.setOnClickListener {
-                myPopupWindow?.showAsDropDown(it,-165,-20)
-            }
-            setPopUpWindow(eventsModel,pos)
         }
 
-        private fun setPopUpWindow(eventsModel: EventData, position: Int) {
-            val inflater = context.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val  view = inflater.inflate(R.layout.popup, null)
-            val tvEdit = view.findViewById<TextView>(R.id.tvEdit)
-            val tvDelete = view.findViewById<TextView>(R.id.tvDelete)
-
-            tvEdit.setOnClickListener {
-                eventProfileInterface.onEditClick(eventsModel,position)
-                myPopupWindow?.dismiss()
-            }
-
-            tvDelete.setOnClickListener {
-                eventProfileInterface.onDeleteClick(eventsModel,position)
-                myPopupWindow?.dismiss()
-            }
-
-            myPopupWindow =  PopupWindow (view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-        }
     }
 
     interface EventProfileInterface{
-        fun onEditClick(data: EventData,position: Int)
-        fun onDeleteClick(data: EventData,position: Int)
+        fun onEditClick(data: EventData, position: Int)
+        fun onDeleteClick(data: EventData, position: Int)
     }
 }

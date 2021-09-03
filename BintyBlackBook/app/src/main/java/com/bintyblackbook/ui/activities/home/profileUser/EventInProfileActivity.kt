@@ -1,8 +1,14 @@
 package com.bintyblackbook.ui.activities.home.profileUser
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
@@ -21,7 +27,7 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
 
     lateinit var eventsViewModel: EventsViewModel
     var eventInProfileAdapter: EventInProfileAdapter? = null
-
+    var myPopupWindow: PopupWindow? = null
     var arrayList= ArrayList<EventData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,8 +107,10 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
     }
 
     override fun onDeleteClick(data: EventData, position: Int) {
+        myPopupWindow?.dismiss()
         val eventDeleteDialog = EventDeleteDialogFragment(this, data.id.toString(),position)
         eventDeleteDialog.show(supportFragmentManager,"eventDelete")
+
     }
 
     override fun onRestart() {

@@ -23,7 +23,9 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         MyUtils.fullscreen(this)
         val video: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.splash)
+        videoView.setMediaController(null)
         videoView.setVideoURI(video)
+
         videoView.start()
         gotoNext()
     }

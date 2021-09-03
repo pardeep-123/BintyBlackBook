@@ -55,7 +55,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         //call api for notification count
         getNotificationCount()
         clickListenerHandling()
-        switchFragment(HomeFragment())
+
 
       /*  ivSearch.setOnClickListener {
             if (searchClick){
@@ -71,7 +71,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     private fun getNotificationCount() {
         notificationViewModel.getNotificationCount(getSecurityKey(this)!!, getUser(this)?.authKey!!)
         notificationViewModel.notiCountLiveData.observe(this, Observer {
-
+            switchFragment(HomeFragment())
             if(it.code==200){
                 if(it.data?.count!=0){
                     tvCount.visibility=View.VISIBLE
