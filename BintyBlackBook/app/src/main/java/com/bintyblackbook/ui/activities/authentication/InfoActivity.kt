@@ -339,17 +339,13 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
     }
 
-    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
+    override fun selectedVideoUri(imagePath: String?) {
         refereshVideoArray()
         Glide.with(this).load(imagePath).into(riv_video)
-        videoList.add(UploadVideoModel("upload",videoPath))
-       /* if(videoFile!=null){
-            videoList.add(UploadVideoModel("upload",videoFile))
-            videoAdapter?.notifyDataSetChanged()
-            Glide.with(this).load(videoFile).into(riv_video)
-            selectedVideoFile=videoFile
-            uploadMedia("1")
-        }*/
+        videoList.add(UploadVideoModel("upload",imagePath))
+        selectedVideoFile=imagePath
+        uploadMedia("1")
+
     }
     private fun uploadMedia(type: String) {
         val map=HashMap<String,RequestBody>()
@@ -357,16 +353,14 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
         var request: MultipartBody.Part? = null
 
-        if(type.equals("0")){
+        if(type == "0"){
             if (imageFile != null) {
 
                 val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
 
                 request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
             }
-        }
-
-        else{
+        } else{
             if (selectedVideoFile != null) {
 
                 val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedVideoFile!!)
@@ -374,7 +368,6 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
                 request = MultipartBody.Part.createFormData("media", selectedVideoFile, requestFile)
             }
         }
-
 
         infoViewModel.uploadMedia(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {

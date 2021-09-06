@@ -23,7 +23,7 @@
             android:text="@string/heading"
             android:textAllCaps="true"
             android:textColor="@color/whiteColor"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/ivArrow"
@@ -43,19 +43,10 @@
         app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"
         app:icvp_scroll_duration="250"
         app:icvp_max_page_scale="0.7"
-        android:layout_marginTop="@dimen/dp10"
         app:icvp_medium_scaled="false"
         app:icvp_min_page_scale="0.55"
         app:icvp_min_page_scale_offset="5dp"
-
         app:icvp_center_page_scale_offset="30dp"
         />
-
-    <!--app:icvp_max_page_scale="0.9"
-    app:icvp_medium_scaled="false"
-    app:icvp_min_page_scale="0.55"
-    app:icvp_min_page_scale_offset="5dp"-->
-
-
 
 </LinearLayout>

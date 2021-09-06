@@ -9,6 +9,7 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.CommentsResponse
+import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject
@@ -110,5 +111,25 @@ class CommentsViewModel(val context: Context): ViewModel(){
             }
 
         })
+    }
+
+    fun deleteComment(securityKey: String,auth_key: String,comment_id:String){
+        (context as CommentsActivity).showProgressDialog()
+        ApiClient.apiService.deleteComment(securityKey,auth_key, comment_id).enqueue(object :Callback<JsonElement>{
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+               try {
+                   (context as CommentsActivity).dismissProgressDialog()
+                   (context as CommentsActivity).showSnackBarMessage(t.localizedMessage.toString())
+               }catch (e:java.lang.Exception){
+                   e.printStackTrace()
+               }
+            }
+
+        })
+
     }
 }

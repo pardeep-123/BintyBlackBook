@@ -33,7 +33,7 @@ class AddPostActivity : ImagePickerUtility() {
         imageFile=imagePath!!
     }
 
-    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
+    override fun selectedVideoUri(imagePath: String?) {
 
     }
     fun showProgressDialog(){
@@ -111,20 +111,19 @@ class AddPostActivity : ImagePickerUtility() {
 
     private fun checkValidations() {
 
+        //imageFile is optional
         if(InternetCheck.isConnectedToInternet(this)
             && Validations.isEmpty(this,edtDesc,getString(R.string.err_add_desc))){
 
-            if(imageFile?.absolutePath.isNullOrEmpty() && image.isEmpty()){
+          /*  if(imageFile?.absolutePath.isNullOrEmpty() && image.isEmpty()){
                 Toast.makeText(this,"Please choose an image",Toast.LENGTH_LONG).show()
                 return
-            }
+            }*/
             val map: HashMap<String, RequestBody> = HashMap()
              map.put("description",createRequestBody(edtDesc.text.toString()))
 
             var imagenPerfil: MultipartBody.Part? = null
             if (imageFile != null) {
-
-                Log.i("Register", imageFile?.path!!)
 
                 val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
 
@@ -144,8 +143,7 @@ class AddPostActivity : ImagePickerUtility() {
                     showAlert(this,it?.msg.toString(),getString(R.string.ok)) {
                         finish()
                     }
-                }
-                else{
+                } else{
                     showAlert(this,it.msg.toString(),getString(R.string.ok)){}
                 }
             })
@@ -164,7 +162,7 @@ class AddPostActivity : ImagePickerUtility() {
                 msg,
                 Snackbar.LENGTH_LONG
             ) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
+            mSnackBar?.duration = Snackbar.LENGTH_SHORT
             mSnackBar?.show()
         } catch (e: Exception) {
             Log.e("TAG",e.printStackTrace().toString())

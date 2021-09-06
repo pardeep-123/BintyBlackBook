@@ -37,7 +37,7 @@
         android:textColor="@color/whiteColor"
         android:layout_below="@+id/edtSearch"
         android:text="@string/directory"
-        android:textSize="@dimen/sp16"
+        android:textSize="@dimen/sp13"
         android:fontFamily="@font/romul"
         android:layout_marginTop="10dp"/>
 

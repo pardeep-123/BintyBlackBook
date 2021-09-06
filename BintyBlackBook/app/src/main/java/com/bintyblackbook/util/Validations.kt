@@ -34,7 +34,6 @@ class Validations {
                 et.requestFocus()
             } else if (et is EditText) {
                 Toast.makeText(context, s, Toast.LENGTH_LONG).show()
-
                 et.requestFocus()
             }
         }
@@ -324,7 +323,7 @@ class Validations {
 
 
         fun isValidPassword(context: Context, et: EditText): Boolean {
-            if (!isEmpty(context, et, "Please enter Valid Password")) {
+            if (!isEmpty(context, et, "Please enter Password")) {
                 return false
             }
             val password = et.text.toString().trim { it <= ' ' }

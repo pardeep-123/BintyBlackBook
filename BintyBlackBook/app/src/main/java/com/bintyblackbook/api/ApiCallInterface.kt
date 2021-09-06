@@ -160,7 +160,6 @@ interface ApiCallInterface {
     //delete post
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "delete_post", hasBody = true)
-    //@DELETE(ApiConstants.DELETE_POST)
     fun deletePost(
         @Header("security_key") security_key:String,
         @Header("auth_key") auth_key: String,
@@ -410,4 +409,12 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key: String,
         @Field("keyword") keyword:String?
     ): Call<JsonElement>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = ApiConstants.DELETE_COMMENT, hasBody = true)
+    fun deleteComment(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("comment_id") comment_id:String
+    ) : Call<JsonElement>
 }

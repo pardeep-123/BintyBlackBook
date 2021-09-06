@@ -45,6 +45,8 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
 
         getAvailabilityList()
 
+
+
     }
 
     private fun getAvailabilityList() {

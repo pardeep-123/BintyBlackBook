@@ -20,6 +20,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -179,14 +180,11 @@ abstract class ImagePickerUtility : AppCompatActivity() {
     }
 
     open fun openGalleryForVideo(activity: Activity) {
-        mActivity = activity
         val intent = Intent()
         intent.type = "video/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Video"),
-            GALLERY_VIDEO_REQUEST_CODE
-        )
+        intent.action = Intent.ACTION_PICK
+        startActivityForResult(Intent.createChooser(intent, "Select Video"),GALLERY_VIDEO_REQUEST_CODE)
+
     }
 
     @Throws(IOException::class)
@@ -303,32 +301,26 @@ abstract class ImagePickerUtility : AppCompatActivity() {
             //selectedVideoUri(videoUri)
         } else if (requestCode == GALLERY_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {
 
-            val selectedImage: Uri = data?.data!!
+            val uriPathHelper = URIPathHelper()
+            val videoFullPath = uriPathHelper.getPath(this, data?.data!!)
+            selectedVideoUri(videoFullPath)
+            Log.i("videoPath",videoFullPath.toString())
+
+        /*    val selectedImage: Uri = data?.data!!
 
             val media = getPath(selectedImage)
             val thumb = ThumbnailUtils.createVideoThumbnail(media!!, MediaStore.Video.Thumbnails.MINI_KIND)
 
             val path: String = getPathFromUri(mActivity, getImageUri(mActivity!!, thumb!!)!!)!!
 
-            selectedVideoUri(path, media)
-
-
-           /*
-            val selectedImageUri: Uri = data?.data!!
-
-            Log.i("====videoUri", selectedImageUri.toString())
-
-           val selectedImagePath = getPath(selectedImageUri)
-            val file = File(selectedImageUri.path)
-            selectedVideoUri(file)*/
-
+            selectedVideoUri(path, media)*/
         }
     }
 
 
     abstract fun selectedImage(imagePath: File?)
 
-    abstract fun selectedVideoUri(imagePath: String?, videoPath: String?)
+    abstract fun selectedVideoUri(imagePath: String?)
 
     fun saveImage(myBitmap: Bitmap, ctx: Activity): File? {
         val bytes = ByteArrayOutputStream()

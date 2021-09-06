@@ -12,6 +12,11 @@ import java.util.*
 
 object MyUtils {
 
+    private const val SECOND_MILLIS = 1000
+    private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
+    private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
+    private const val DAY_MILLIS = 24 * HOUR_MILLIS
+
     fun fullscreen(context: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             context.window.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -60,16 +65,16 @@ object MyUtils {
         return format.format(date)
     }
 
-    fun currentTimeToLong(time:String): String {
+    fun currentTimeToLong(time: String): String {
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm a")
-        val date = (formatter.parse(time).time /1000).toString()
+        val date = (formatter.parse(time).time / 1000).toString()
         return date
     }
 
     fun convertDateToLong(date: String): String {
 
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val date = (formatter.parse(date).time /1000).toString()
+        val date = (formatter.parse(date).time / 1000).toString()
         return date
     }
 
@@ -130,6 +135,33 @@ object MyUtils {
         cal.timeInMillis = timestamp
         val outputFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm:a")
         return outputFormat.format(cal.time)
+    }
+
+    fun getTimeAgo(time: Long): String? {
+        var time = time
+        if (time < 1000000000000L) {
+            time *= 1000
+        }
+        val now = System.currentTimeMillis()
+        if (time > now || time <= 0) {
+            return null
+        }
+        val diff = now - time
+        return if (diff < MINUTE_MILLIS) {
+            "just now"
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            "a minute ago"
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            (diff / MINUTE_MILLIS).toString() + " minutes ago"
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            "an hour ago"
+        } else if (diff < 24 * HOUR_MILLIS) {
+            (diff / HOUR_MILLIS).toString() + " hours ago"
+        } else if (diff < 48 * HOUR_MILLIS) {
+            "yesterday"
+        } else {
+            (diff / DAY_MILLIS).toString() + " days ago"
+        }
     }
 
 }

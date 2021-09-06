@@ -7,8 +7,8 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/roundedImageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:riv_corner_radius="@dimen/dp5"
         android:scaleType="fitXY"
         android:src="@drawable/slider"/>

@@ -16,7 +16,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18"
-        android:background="@drawable/bg_curved_white"
+        android:background="@drawable/background_rounded_corners"
         android:drawableEnd="@drawable/search"
         android:drawablePadding="@dimen/dp10"
         android:hint="@string/search"

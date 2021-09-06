@@ -85,6 +85,10 @@ class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventIn
             else{
                 imgDFavourite.setImageResource(R.drawable.unfill_heart)
             }
+
+            itemView.setOnClickListener {
+                eventProfileInterface.onItemClick(arrayList[pos],pos)
+            }
         }
 
     }
@@ -92,5 +96,6 @@ class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventIn
     interface EventProfileInterface{
         fun onEditClick(data: EventData, position: Int)
         fun onDeleteClick(data: EventData, position: Int)
+        fun onItemClick(data:EventData, position: Int)
     }
 }

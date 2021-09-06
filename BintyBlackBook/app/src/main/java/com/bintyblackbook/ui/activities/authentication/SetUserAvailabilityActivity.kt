@@ -1,18 +1,14 @@
 package com.bintyblackbook.ui.activities.authentication
 
-
 import android.os.Bundle
 import android.util.Log
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.models.AvailabilityModel
-import kotlinx.android.synthetic.main.activity_set_availability.*
 import kotlinx.android.synthetic.main.activity_set_availability.rvTime
 import kotlinx.android.synthetic.main.activity_set_user_availability.*
-import kotlinx.android.synthetic.main.fragment_availability.*
 import kotlinx.android.synthetic.main.fragment_availability.checkbox_select
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,6 +23,9 @@ class SetUserAvailabilityActivity :BaseActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_availability)
 
+        rl_back.setOnClickListener {
+            finish()
+        }
         setAdapter()
         checkbox_select.setOnCheckedChangeListener { buttonView, isChecked ->
 
@@ -48,7 +47,7 @@ class SetUserAvailabilityActivity :BaseActivity(){
             val clickedDayCalendar: Calendar = it.calendar
             selected_date= clickedDayCalendar.time.toString()
 
-            Log.i("selectedDate",selected_date.toString())
+            Log.i("selectedDate",selected_date)
         }
 
         setOnClicks()
@@ -56,7 +55,6 @@ class SetUserAvailabilityActivity :BaseActivity(){
 
     private fun setOnClicks() {
         btnSubmit.setOnClickListener {
-
         }
     }
 

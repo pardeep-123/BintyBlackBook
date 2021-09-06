@@ -56,8 +56,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         selectedImagePath=imagePath
     }
 
-    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
-        selectedVideoFile=videoPath
+    override fun selectedVideoUri(imagePath: String?) {
     }
 
     fun showProgressDialog(){
@@ -257,6 +256,9 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
             if(it.code==200){
 
+                Toast.makeText(this,"We have sent you a verification mail. Please verify your email and then login. We have sent you a verification mail. Please verify your email and then login.",
+                Toast.LENGTH_LONG).show()
+
                 if(it.data?.userType==0){
                     val intent = Intent(context,LoginActivity::class.java)
                     startActivity(intent)
@@ -266,9 +268,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                     val intent= Intent(context, LoginActivity::class.java)
                     startActivity(intent)
                 }
-
             }
-
             else{
                 Log.e("TAG",it.msg.toString())
             }

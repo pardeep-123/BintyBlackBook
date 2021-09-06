@@ -54,7 +54,7 @@ class AddEventActivity : ImagePickerUtility() {
         selectedImagePath=imagePath
     }
 
-    override fun selectedVideoUri(imagePath: String?, videoPath: String?) {
+    override fun selectedVideoUri(imagePath: String?) {
 
     }
 
@@ -168,9 +168,7 @@ class AddEventActivity : ImagePickerUtility() {
             && Validations.isEmpty(this, edtDate, getString(R.string.err_date))
             && Validations.isEmpty(this, edtTime, getString(R.string.err_time))
             && Validations.isEmpty(this, edtLink, getString(R.string.err_web_link))
-            && Validations.isEmpty(this, edtDesc, getString(R.string.err_description))
-            && Validations.isEmpty(this, edtMoreInfo, getString(R.string.err_more_info))
-        ) {
+            && Validations.isEmpty(this, edtDesc, getString(R.string.err_description))) {
 
            // if(type.equals("add")){
                 if(selectedImagePath?.absolutePath.isNullOrEmpty() && image.isNullOrEmpty()){
@@ -254,7 +252,7 @@ class AddEventActivity : ImagePickerUtility() {
     }
 
     private fun updateDateLabel() {
-        val dateFormat = "dd/MM/yyyy" //In which you need put here
+        val dateFormat = "MM/dd/yyyy" //In which you need put here
         val sdf = SimpleDateFormat(dateFormat, Locale.US)
         edtDate.setText(sdf.format(myCalendar.time))
 

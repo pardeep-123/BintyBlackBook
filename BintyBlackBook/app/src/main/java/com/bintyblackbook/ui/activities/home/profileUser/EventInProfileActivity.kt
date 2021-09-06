@@ -1,14 +1,9 @@
 package com.bintyblackbook.ui.activities.home.profileUser
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
@@ -16,6 +11,7 @@ import com.bintyblackbook.adapters.EventInProfileAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.ui.activities.home.AddEventActivity
+import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.ui.dialogues.EventDeleteDialogFragment
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
@@ -111,6 +107,12 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
         val eventDeleteDialog = EventDeleteDialogFragment(this, data.id.toString(),position)
         eventDeleteDialog.show(supportFragmentManager,"eventDelete")
 
+    }
+
+    override fun onItemClick(data: EventData, position: Int) {
+        val intent = Intent(this, EventDetailActivity::class.java)
+        intent.putExtra("post_id",data.id)
+        startActivity(intent)
     }
 
     override fun onRestart() {

@@ -35,7 +35,7 @@ class EditProfileActivity : ImagePickerUtility() {
         selectedFile=imagePath
     }
 
-    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
+    override fun selectedVideoUri(imagePath: String?) {
 //        selectedVideoFile=videoUri
 //        Glide.with(this).load(selectedVideoFile).into(civ_profile)
     }

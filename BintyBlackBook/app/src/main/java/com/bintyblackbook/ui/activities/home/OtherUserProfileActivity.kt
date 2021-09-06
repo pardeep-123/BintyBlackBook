@@ -73,6 +73,19 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     private fun setData(data: Data?) {
 
+        if(data?.isSwapSystem=="0"){
+            tvOpenToSwap.visibility=View.GONE
+            tvSwapMind.visibility=View.GONE
+            tvSwaps.visibility=View.GONE
+        }
+
+        else{
+            tvOpenToSwap.visibility=View.VISIBLE
+            tvSwapMind.visibility=View.VISIBLE
+            tvSwaps.visibility=View.VISIBLE
+            tvSwaps.text= data?.swapInMind
+        }
+
         if(data?.isLoop==0){
             btnChatUser.visibility=View.GONE
             btnUnLoopUser.visibility=View.GONE
@@ -101,12 +114,21 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         //tvSubCategory.text= TextUtils.join(",")
         tvBusinessYrs.text = data.experience
         tvServices.text= data.services
-        tvSwaps.text= data.swapInMind
+
         tvOperationTime.text= data.operationTime
         tvWebLink.text = data.websiteLink
         tvSocialMedia.text= data.socialMediaHandles
         Glide.with(this).load(data.image).into(civ_profile_user)
-        Glide.with(this).load(data.userMedia[0].media).into(rivUser)
+
+        if(data.userMedia[0].media.endsWith(".jpg")){
+            Glide.with(this).load(data.userMedia[0].media).into(rivUser)
+        }else if(data.userMedia[0].media.endsWith(".3gp")){
+
+        }
+        else{
+
+        }
+
         if(data.userMedia.size > 0){
             arrayList.addAll(data.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
@@ -127,7 +149,17 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     private fun horizontalImagesAdapterClick(){
         horizontalImagesAdapter?.onItemClick = {image: UserMedia ->
-            Glide.with(this).load(image.media).into(rivUser)
+            if (image.media.endsWith(".jpg")) {
+                rivUser.visibility=View.VISIBLE
+                videoView.visibility=View.GONE
+                Glide.with(this).load(image.media).into(rivUser)
+//photo
+                } else if (image.media.endsWith(".3gp")) {
+//video
+                rivUser.visibility=View.GONE
+                videoView.visibility=View.VISIBLE
+            }
+
         }
     }
 

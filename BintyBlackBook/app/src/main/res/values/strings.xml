@@ -173,9 +173,9 @@
     <string name="open_to_swap">Open to swap system</string>
     <string name="swap_in_mind">Swap in mind</string>
     <string name="are_you_sure_ypu_want_to_accept_request">Are you sure you want to accept the request</string>
-    <string name="err_password">Please enter your password</string>
+    <string name="err_password">Please enter the Password </string>
     <string name="err_pass_valid">Password should be minimum of 8 characters and must contains a capital letter, small letter, number and a special character.</string>
-    <string name="err_confirm_password">Please re-enter your password</string>
+    <string name="err_confirm_password"> Please enter confirm password </string>
     <string name="err_password_not_match">Password does not match</string>
     <string name="err_about">About not be empty</string>
     <string name="err_terms_conditions"><![CDATA[Please accept terms & conditions]]></string>
@@ -183,7 +183,7 @@
     <string name="err_comment">Please enter your comment</string>
     <string name="err_more_info">Please enter more info</string>
     <string name="err_description">Please enter description</string>
-    <string name="err_web_link">Please enter the link</string>
+    <string name="err_web_link">Please enter the rsvp link</string>
     <string name="err_time">Please select time</string>
     <string name="err_date">Please select date</string>
     <string name="err_event_name">Please enter event name</string>

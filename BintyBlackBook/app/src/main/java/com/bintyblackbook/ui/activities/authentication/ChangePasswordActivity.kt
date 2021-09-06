@@ -19,7 +19,7 @@ class ChangePasswordActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
-        headingText.setText("CHANGE PASSWORD")
+        headingText.text = "CHANGE PASSWORD"
 
         changePasswordViewModel= ChangePasswordViewModel(this)
         setOnClicks()
@@ -41,8 +41,10 @@ class ChangePasswordActivity : BaseActivity(), View.OnClickListener {
                 if(InternetCheck.isConnectedToInternet(this)
                     && Validations.isEmpty(this,etOldPass,getString(R.string.err_old_pass))
                     && Validations.isEmpty(this,etNewPass,getString(R.string.err_new_pass))
-                    && Validations.confirmPassword(this,etNewPass,etConfirmPass,getString(R.string.pass_does_not_match))
-                ){
+                    && Validations.isValidPasswordText(this,etNewPass,getString(R.string.err_pass_valid))
+                    && Validations.isEmpty(this,etConfirmPass,getString(R.string.err_confirm_password))
+                    && Validations.confirmPassword(this,etNewPass,etConfirmPass,getString(R.string.pass_does_not_match))){
+
                     changePasswordViewModel.changePassword(getSecurityKey(this)!!, getUser(this)?.authKey.toString(),
                     etOldPass.text.toString(),etConfirmPass.text.toString())
                     setObservables()
@@ -57,8 +59,7 @@ class ChangePasswordActivity : BaseActivity(), View.OnClickListener {
              showAlert(this,it.msg,getString(R.string.ok)){
                  finish()
              }
-            }
-            else{
+            } else{
                 showAlert(this,it.msg,getString(R.string.ok)){}
             }
         })

@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
-import kotlinx.android.synthetic.main.dialog_fragment_block_user.*
+import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
+import kotlinx.android.synthetic.main.dialog_fragment_block_user.btnNo
+import kotlinx.android.synthetic.main.dialog_fragment_block_user.btnYes
+import kotlinx.android.synthetic.main.dialog_fragment_block_user.rlCross
+import kotlinx.android.synthetic.main.dialog_fragment_report_user.*
 
 
-class ReportUserDialogFragment : DialogFragment() {
+class ReportUserDialogFragment(val timelineActivity: TimelineActivity) : DialogFragment() {
 
 
     override fun onCreateView(
@@ -32,6 +36,7 @@ class ReportUserDialogFragment : DialogFragment() {
 
         btnYes.setOnClickListener {
             dismiss()
+            timelineActivity.reportPost(edtReport.text.toString())
         }
 
         btnNo.setOnClickListener {

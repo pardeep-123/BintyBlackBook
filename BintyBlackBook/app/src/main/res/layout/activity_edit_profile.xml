@@ -60,7 +60,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:textAllCaps="false"
-            android:textColor="@color/lightGray1"
+            android:textColor="@color/blackColor"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -86,6 +86,7 @@
                 app:ccp_showNameCode="false"
                 app:ccp_textSize="@dimen/sp13"
                 app:ccp_arrowSize="@dimen/dp20"
+                app:ccpDialog_textColor="@color/blackColor"
                 app:ccpDialog_keyboardAutoPopup="false"/>
 
 
@@ -105,7 +106,7 @@
                 android:paddingBottom="10dp"
                 android:singleLine="true"
                 android:textAllCaps="false"
-                android:textColor="@color/lightGray1"
+                android:textColor="@color/blackColor"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -125,7 +126,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:textAllCaps="false"
-            android:textColor="@color/lightGray1"
+            android:textColor="@color/blackColor"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -145,7 +146,7 @@
             android:paddingTop="20dp"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
-            android:textColor="@color/lightGray1"
+            android:textColor="@color/blackColor"
             android:textSize="13sp"
             android:textStyle="bold" />
 

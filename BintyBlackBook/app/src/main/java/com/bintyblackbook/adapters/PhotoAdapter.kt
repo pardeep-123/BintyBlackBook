@@ -47,7 +47,13 @@ class PhotoAdapter(var list: ArrayList<CategoryName>, var context: Context) : Re
             Glide.with(context).load(photosModel.userImage).into(roundedImageView)
            // roundedImageView.setImageResource(photosModel.image!!)
             tvName.text = photosModel.firstName
-            tvLocation.text = photosModel.userLocation
+
+            if(photosModel.userLocation.isNullOrEmpty()){
+                tvLocation.visibility=View.GONE
+            }else{
+                tvLocation.visibility=View.VISIBLE
+                tvLocation.text = photosModel.userLocation
+            }
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(photosModel)

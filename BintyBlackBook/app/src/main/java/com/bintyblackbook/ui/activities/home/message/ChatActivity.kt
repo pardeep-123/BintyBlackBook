@@ -74,9 +74,9 @@ class ChatActivity : AppCompatActivity() {
         }
 
         tvReport.setOnClickListener {
-            myPopupWindow?.dismiss()
-            val dialogFragment = ReportUserDialogFragment()
-            dialogFragment.show(supportFragmentManager, "reportUser")
+//            myPopupWindow?.dismiss()
+//            val dialogFragment = ReportUserDialogFragment()
+//            dialogFragment.show(supportFragmentManager, "reportUser")
         }
 
         myPopupWindow =  PopupWindow (view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);

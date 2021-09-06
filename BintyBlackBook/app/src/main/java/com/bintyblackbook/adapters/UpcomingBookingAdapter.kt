@@ -53,13 +53,18 @@ class UpcomingBookingAdapter(var context: Context) :
             tvTime.text= MyUtils.getTime(upcomingBookingModel.availabilityDate.toLong())
 
             //set booking status here
-            if (upcomingBookingModel.status==0){
-                tvStatus.text=""
+            if(upcomingBookingModel.status==0){
+                tvStatus.text="PENDING"
             }else if(upcomingBookingModel.status==1){
-                tvStatus.text=""
+                tvStatus.text="ACCEPTED"
+            }else if(upcomingBookingModel.status==2){
+                tvStatus.text="DECLINED"
+            }else if(upcomingBookingModel.status==3){
+                tvStatus.text="IN PROCESS"
             }else{
-                tvStatus.text=""
+                tvStatus.text="COMPLETED"
             }
+
 
             btnCancel.setOnClickListener {
                 val requestDialog = RequestDialogFragment()

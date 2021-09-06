@@ -19,7 +19,7 @@ class NewGroupActivity : ImagePickerUtility() {
 
     }
 
-    override fun selectedVideoUri(imagePath: String?, videoPath:String?) {
+    override fun selectedVideoUri(imagePath: String?) {
 
     }
 

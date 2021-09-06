@@ -3,6 +3,7 @@ package com.bintyblackbook.ui.activities.home.profileUser
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
+import com.applandeo.materialcalendarview.EventDay
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
@@ -13,7 +14,9 @@ import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
 import kotlinx.android.synthetic.main.activity_set_availability.*
+import java.util.*
 import kotlin.collections.ArrayList
+
 
 class SetAvailabilityActivity : BaseActivity() {
 
@@ -50,9 +53,7 @@ class SetAvailabilityActivity : BaseActivity() {
             }
         }
 
-        calenderView.setOnDayClickListener {
-            val selectedDate= it.calendar.timeInMillis
-        }
+
     }
 
     private fun getIntentData() {
@@ -65,7 +66,11 @@ class SetAvailabilityActivity : BaseActivity() {
     }
 
     private fun checkAvailability() {
-        availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)?.authKey!!,user_id)
+        availabilityViewModel.getAvailableSlots(
+            getSecurityKey(context)!!,
+            getUser(context)?.authKey!!,
+            user_id
+        )
         availabilityViewModel.availableSlotsLiveData.observe(this, Observer {
             dates_list.clear()
             dates_list.addAll(it.data)
@@ -115,7 +120,7 @@ class SetAvailabilityActivity : BaseActivity() {
         }
 
         val selected_date= calenderView.selectedDate.get(0)
-        Log.i("selected_date",selected_date.toString())
+        Log.i("selected_date", selected_date.toString())
 
         calenderView.setOnDayClickListener {
             val date= it.calendar.time

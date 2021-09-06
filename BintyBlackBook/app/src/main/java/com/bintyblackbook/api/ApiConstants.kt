@@ -98,6 +98,8 @@ class ApiConstants {
         const val EDIT_EVENT="edit_event"
 
         const val GET_ALL_USERS="getAllUsers"
+
+        const val DELETE_COMMENT="delete_comment"
     }
 
 }
