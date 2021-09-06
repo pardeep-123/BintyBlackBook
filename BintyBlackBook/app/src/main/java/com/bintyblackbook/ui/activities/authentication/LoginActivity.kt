@@ -1,3 +1,4 @@
+
 package com.bintyblackbook.ui.activities.authentication
 
 import android.content.Intent
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var loginViewModel: LoginViewModel
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
