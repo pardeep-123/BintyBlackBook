@@ -68,7 +68,7 @@ class AllEventFragment : Fragment() {
     private fun init(){
 
         rvAllEvents.layoutManager = GridLayoutManager(activity,2)
-        eventAdapter = EventAdapter(requireContext())
+        eventAdapter = EventAdapter(requireContext(),arrayList)
         rvAllEvents.adapter = eventAdapter
         eventAdapter?.arrayList=arrayList
         adapterItemClick()
@@ -78,7 +78,13 @@ class AllEventFragment : Fragment() {
         eventAdapter?.onItemClick = {eventsModel: EventData ->
             val intent = Intent(activity, EventDetailActivity::class.java)
             intent.putExtra(AppConstant.HEADING,eventsModel.name)
-            intent.putExtra("post_id",eventsModel.id)
+            intent.putExtra("user_id",eventsModel.userId)
+            intent.putExtra("image",eventsModel.image)
+            intent.putExtra("location",eventsModel.location)
+            intent.putExtra("date",eventsModel.date)
+            intent.putExtra("desc",eventsModel.description)
+            intent.putExtra("web_link",eventsModel.rsvpLink)
+            intent.putExtra("is_favourite",eventsModel.isFavourite.toString())
             startActivity(intent)
         }
     }

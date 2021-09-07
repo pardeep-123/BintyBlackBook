@@ -80,13 +80,12 @@
                 android:fontFamily="@font/romul"
                 app:ccp_autoDetectCountry="true"
                 app:ccp_autoDetectLanguage="true"
-                app:ccp_contentColor="@color/lightGray1"
+                app:ccp_contentColor="@color/blackColor"
                 app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
                 app:ccp_showFlag="false"
                 app:ccp_showNameCode="false"
                 app:ccp_textSize="@dimen/sp13"
                 app:ccp_arrowSize="@dimen/dp20"
-                app:ccpDialog_textColor="@color/blackColor"
                 app:ccpDialog_keyboardAutoPopup="false"/>
 
 

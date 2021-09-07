@@ -2,6 +2,8 @@ package com.bintyblackbook.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.HomeAdapter
 import com.bintyblackbook.model.HomeData
+import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.HomeItemClickActivity
+import com.bintyblackbook.ui.activities.home.notification.NotificationActivity
 import com.bintyblackbook.util.AppConstant
+import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.HomeViewModel
@@ -20,7 +25,7 @@ import com.bintyblackbook.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
 
     var searchClick = false
     var homeAdapter: HomeAdapter? = null
@@ -47,22 +52,24 @@ class HomeFragment : Fragment() {
 
         init()
 
+        setOnClicks()
+
         //call api for home data
         if(!getUser(requireContext())?.authKey.isNullOrEmpty()) {
             homeViewModel.homeList(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
             getHomeData()
         }
 
-      /*  ivSearch.setOnClickListener {
-            if (searchClick){
-                edtSearch.visibility = View.GONE
-                searchClick = false
-                MyUtils.hideSoftKeyboard(requireActivity())
-            }else{
-                edtSearch.visibility = View.VISIBLE
-                searchClick = true
-            }
-        }*/
+
+    }
+
+    private fun setOnClicks() {
+        edtSearch.addTextChangedListener(this)
+        ivSearch.setOnClickListener(this)
+
+        rlMenu.setOnClickListener(this)
+
+        rlBell.setOnClickListener(this)
     }
 
     private fun getHomeData() {
@@ -81,12 +88,28 @@ class HomeFragment : Fragment() {
                     homeAdapter?.notifyDataSetChanged()
                 }
             }
+            //call api for notification count
+            getNotificationCount()
         })
     }
 
+    private fun getNotificationCount() {
+        notificationViewModel.getNotificationCount(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
+        notificationViewModel.notiCountLiveData.observe(requireActivity(), Observer {
+
+            if(it.code==200){
+                if(it.data?.count!=0){
+                    tvCount.visibility=View.VISIBLE
+                    tvCount.text =it.data?.count.toString()
+                }else{
+                    tvCount.visibility= View.GONE
+                }
+            }
+        })
+    }
     private fun init() {
         rvHome.layoutManager = LinearLayoutManager(activity)
-        homeAdapter = HomeAdapter(requireActivity())
+        homeAdapter = HomeAdapter(requireActivity(),homeList)
         rvHome.adapter = homeAdapter
         homeAdapter?.arrayList=homeList
         adapterItemClick()
@@ -99,5 +122,42 @@ class HomeFragment : Fragment() {
             intent.putExtra("id",homeModel.id)
             startActivity(intent)
         }
+    }
+
+    override fun onClick(v: View?) {
+
+        when(v?.id){
+            R.id.ivSearch ->{
+                if (searchClick){
+                    edtSearch.visibility = View.GONE
+                    searchClick = false
+                    MyUtils.hideSoftKeyboard(requireActivity())
+                }else{
+                    edtSearch.visibility = View.VISIBLE
+                    searchClick = true
+                }
+            }
+
+            R.id.rlMenu ->{
+                (activity as HomeActivity).openDrawer()
+            }
+
+            R.id.rlBell ->{
+                val intent= Intent(context, NotificationActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        homeAdapter?.filter?.filter(s.toString().trim())
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+
     }
 }

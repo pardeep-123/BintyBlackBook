@@ -28,7 +28,6 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
     var searchRequestAdapter:SearchRequestAdapter?=null
     var searchLoopsAdapter: SearchLoopsAdapter?=null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loop_search)

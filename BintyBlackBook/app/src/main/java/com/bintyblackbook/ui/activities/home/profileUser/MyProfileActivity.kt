@@ -2,7 +2,6 @@ package com.bintyblackbook.ui.activities.home.profileUser
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
@@ -12,8 +11,12 @@ import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
+
 
 class MyProfileActivity : BaseActivity(), View.OnClickListener {
 
@@ -33,17 +36,29 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun getProfileData() {
-        profileViewModel.userProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)!!.id.toString())
+        profileViewModel.userProfile(
+            getSecurityKey(this)!!,
+            getUser(this)?.authKey!!,
+            getUser(this)!!.id.toString()
+        )
         setObservables()
     }
 
     private fun setObservables() {
             profileViewModel.profileObservable.observe(this, Observer {
-                if(it.code==200){
+                if (it.code == 200) {
                     setData(it.data)
                 }
             })
     }
+
+    var options: RequestOptions = RequestOptions()
+        .centerCrop()
+        .placeholder(R.drawable.progress_animation)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .priority(Priority.HIGH)
+        .dontAnimate()
+        .dontTransform()
 
     private fun setData(it: Data?) {
         tvUserName.text=it?.firstName
@@ -51,10 +66,12 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         tvPhoneNumber.text= it?.countryCode +" " +it?.phone
         tvAbout.text =it?.description
         runOnUiThread {
-            Glide.with(this).load(it?.image).into(ivUserProfile)
+            Glide.with(this).load(it?.image).apply(options).into(ivUserProfile)
         }
 
     }
+
+
 
     private fun setOnClicks() {
         iv_back.setOnClickListener(this)
@@ -69,10 +86,10 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnEditProfile -> {
-                val intent= Intent(this,EditProfileActivity::class.java)
+                val intent = Intent(this, EditProfileActivity::class.java)
                 startActivity(intent)
             }
-            R.id.btnEvent ->{
+            R.id.btnEvent -> {
                 startActivity(Intent(this, EventInProfileActivity::class.java))
             }
         }

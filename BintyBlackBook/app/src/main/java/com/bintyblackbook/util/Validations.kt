@@ -11,11 +11,10 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /*
- * Created by neha on 1/9/2018.
+ * Created by diksha on 20/08/2021
  */
 class Validations {
 
-    val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
 
     companion object {
         /**

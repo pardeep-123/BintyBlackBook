@@ -66,8 +66,7 @@ class CommentsActivity : BaseActivity() {
                 if(it.data.size==0){
                     rvComments.visibility=View.GONE
                     tvNoComments.visibility=View.VISIBLE
-                }
-                else{
+                } else{
                     tvNoComments.visibility= View.GONE
                     rvComments.visibility=View.VISIBLE
                     arrayList.clear()
@@ -83,5 +82,17 @@ class CommentsActivity : BaseActivity() {
         commentsAdapter = CommentsAdapter(this)
         rvComments.adapter = commentsAdapter
         commentsAdapter?.arrayList=arrayList
+    }
+
+    fun deleteComment(){
+        commentsViewModel.deleteComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,"")
+        commentsViewModel.addCommentLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                arrayList.removeAt(0)
+                commentsAdapter?.notifyDataSetChanged()
+            }
+
+        })
     }
 }

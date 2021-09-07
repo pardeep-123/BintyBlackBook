@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.authentication.ChangePasswordActivity
@@ -23,14 +24,14 @@ class ChangePasswordViewModel (var context: Context):ViewModel(){
     // call change password api
 
     fun changePassword(securityKey:String,authKey:String,oldPass:String,newPass:String){
-        (context as ChangePasswordActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.changePassword(securityKey,authKey,oldPass,newPass
         ).enqueue(object : retrofit2.Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {
-                    (context as ChangePasswordActivity).dismissProgressDialog()
-                    (context as ChangePasswordActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -39,16 +40,15 @@ class ChangePasswordViewModel (var context: Context):ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as ChangePasswordActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
-                        val error :JSONObject = JSONObject(response.errorBody()!!.string())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             changePassLiveData.value = jsonObj
                         }else{
-                            (context as ChangePasswordActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                            (context as BaseActivity).showAlertWithOk(jsonDATA.getString("msg"))
                         }
 
                     } catch (e: Exception) {
@@ -56,8 +56,8 @@ class ChangePasswordViewModel (var context: Context):ViewModel(){
                     }
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as ChangePasswordActivity).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity,error.getString("msg").toString(),"OK",{})
 
                 }
 

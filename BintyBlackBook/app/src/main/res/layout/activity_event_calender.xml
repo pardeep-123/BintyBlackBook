@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,6 +17,7 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppTheme"
+        app:layout_constraintTop_toTopOf="parent"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp">
 
@@ -64,14 +66,15 @@
     </androidx.appcompat.widget.Toolbar>
 
     <EditText
-        android:id="@+id/edtSearch"
+        android:id="@+id/edtSearchEvent"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18"
-        android:background="@drawable/background_rounded_corners"
+        android:background="@drawable/bg_curved_searchbar"
         android:drawableEnd="@drawable/search"
         android:drawablePadding="@dimen/dp10"
+        app:layout_constraintTop_toBottomOf="@+id/tbMain"
         android:hint="@string/search"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
@@ -88,6 +91,8 @@
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginTop="@dimen/dp15"
         android:layout_marginEnd="@dimen/dp18"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/edtSearchEvent"
         app:tabIndicatorColor="@color/fadePink"
         app:tabSelectedTextColor="@color/fadePink"
         app:tabTextAppearance="@style/TabFont"
@@ -100,6 +105,81 @@
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginTop="@dimen/dp15"
         android:layout_marginEnd="@dimen/dp8"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAllEvent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edtSearchEvent"
+        android:layout_marginTop="@dimen/dp20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvFavEvents"
+        android:textAlignment="center"
+        android:text="All Events"
+        android:textSize="@dimen/sp14"
+        android:padding="6dp"
+        android:fontFamily="@font/trajanpro_regular"
+        android:textColor="@color/whiteColor"/>
+    <View
+        android:id="@+id/viewAllEvent"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/tvAllEvent"
+        android:layout_marginTop="@dimen/dp10"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/fadePink"
+        app:layout_constraintEnd_toStartOf="@id/viewFavEvent"
+        />
+
+    <TextView
+        android:id="@+id/tvFavEvents"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edtSearchEvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dp20"
+        android:textAlignment="center"
+        android:textSize="@dimen/sp14"
+        android:padding="6dp"
+        android:fontFamily="@font/trajanpro_regular"
+        app:layout_constraintStart_toEndOf="@+id/tvAllEvent"
+        android:textColor="@color/whiteColor"
+        android:text="Favourite"/>
+
+    <View
+        android:id="@+id/viewFavEvent"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/tvFavEvents"
+        android:layout_marginTop="@dimen/dp10"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/themeColor"
+        app:layout_constraintStart_toEndOf="@+id/viewAllEvent"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEvents"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp8"
+        app:layout_constraintTop_toBottomOf="@id/viewFavEvent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/dp16"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFavEvents"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp8"
+        app:layout_constraintTop_toBottomOf="@id/viewFavEvent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/dp16"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

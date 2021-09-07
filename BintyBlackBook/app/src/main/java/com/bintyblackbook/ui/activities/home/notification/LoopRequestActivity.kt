@@ -38,15 +38,15 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
         getIntentData()
         setAdapter()
         getLoopRequest()
+
         rlBack.setOnClickListener {
-            onBackPressed()
+          finish()
         }
     }
 
     private fun getLoopRequest() {
         loopRequestViewModel.getLoopRequest(this, getSecurityKey(context)!!, getUser(context)?.authKey!!)
         loopRequestViewModel.loopReqLiveData.observe(this, Observer {
-            Log.i("TAG",it.msg)
             if(it.data.size==0){
                 rvLoopRequest.visibility=View.GONE
                 noReqFound.visibility=View.VISIBLE
@@ -76,22 +76,6 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
        // adapterItemBtnClick()
     }
 
-   /* private fun adapterItemBtnClick(){
-        loopRequestAdapter?.onItemBtnClick = {clickOn ->
-            if (clickOn == "2"){
-
-                val dialog  = CancelDialogFragment(this,"acceptLoopRequest")
-                dialog.show(supportFragmentManager,"acceptLoopRequest")
-               *//* val intent = Intent(this, UserDetailActivity::class.java)
-                intent.putExtra(AppConstant.SHOW_CHAT_AND_UN_LOOP_BTN,true)
-                startActivity(intent)*//*
-            }else if (clickOn == "0"){
-                val dialog  = CancelDialogFragment(this,"cancelLoopRequest")
-                dialog.show(supportFragmentManager,"cancelLoopRequest")
-            }
-        }
-    }*/
-
      fun acceptRejectRequest(status: String) {
         loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
         loopsViewModel.baseLiveData.observe(this, Observer {
@@ -99,7 +83,6 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
             if(it.code==200){
                 showToast(it.msg)
             }
-
         })
     }
 

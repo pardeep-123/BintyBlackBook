@@ -4,22 +4,28 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
+import com.bintyblackbook.model.HomeData
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
-    var arrayList= ArrayList<EventData>()
+class EventAdapter(var context: Context, var list: ArrayList<EventData>) :
+    RecyclerView.Adapter<EventAdapter.EventViewHolder>(), Filterable {
+    var arrayList = ArrayList<EventData>()
     var isFavourite = false
-    var onItemClick:((eventsModel:EventData)->Unit)?= null
+    var onItemClick: ((eventsModel: EventData) -> Unit)? = null
 
-    var onSelectFav:((eventsModel:EventData) ->Unit)?=null
+    var onSelectFav: ((eventsModel: EventData) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events, parent, false)
@@ -55,9 +61,9 @@ class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.Eve
                 isFavourite = true
             }*/
 
-            if(eventsModel.isFavourite==1){
+            if (eventsModel.isFavourite == 1) {
                 ivHeart.setImageResource(R.drawable.fill_heart)
-            }else{
+            } else {
                 ivHeart.setImageResource(R.drawable.unfill_heart)
             }
             ivHeart.setOnClickListener {
@@ -73,4 +79,53 @@ class EventAdapter(var context: Context) : RecyclerView.Adapter<EventAdapter.Eve
         }
     }
 
-}
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    arrayList = list
+                } else {
+                    val resultList = ArrayList<EventData>()
+                    for (row in list) {
+                        if (row.name.toUpperCase(Locale.US).contains(
+                                constraint.toString().toUpperCase(
+                                    Locale.US
+                                )
+                            )
+
+                            || row.name.toLowerCase(Locale.US).contains(
+                                constraint.toString().toLowerCase(
+                                    Locale.US
+                                )
+                            )
+                            || row.location.toUpperCase(Locale.US).contains(
+                                constraint.toString().toUpperCase(
+                                    Locale.US
+                                )
+                            )
+                            || row.location.toLowerCase(Locale.US).contains(
+                                constraint.toString().toLowerCase(
+                                    Locale.US
+                                )
+                            )
+                        ) {
+                            resultList.add(row)
+                        }
+                    }
+                    arrayList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = arrayList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                arrayList = results?.values as ArrayList<EventData>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+
+    }

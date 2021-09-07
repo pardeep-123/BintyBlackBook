@@ -9,14 +9,17 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.LoopRequestData
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
+import com.bintyblackbook.util.MyUtils
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_booking_request.view.*
 
-class BookingRequestAdapter(var context: Context):
-    RecyclerView.Adapter<BookingRequestAdapter.BookingRequestViewHolder>() {
+class BookingRequestAdapter(var context: Context): RecyclerView.Adapter<BookingRequestAdapter.BookingRequestViewHolder>() {
 
-    var onItemBtnClick:((clickOn:String)->Unit)? = null
+    var loopList= ArrayList<LoopRequestData>()
+    lateinit var loopRequestInterface: LoopRequestInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingRequestViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_booking_request,parent,false)
@@ -28,7 +31,7 @@ class BookingRequestAdapter(var context: Context):
     }
 
     override fun getItemCount(): Int {
-        return 1
+        return loopList.size
     }
 
     inner class BookingRequestViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
@@ -37,13 +40,22 @@ class BookingRequestAdapter(var context: Context):
         val btnCancel: Button = itemView.btnCancel
 
         fun bind(pos: Int) {
+            val data= loopList[pos]
+            tvMessage.text= data.userName+" "+"has send you loop request"
+            Glide.with(context).load(data.userImage).into(itemView.civ_profile)
+            itemView.tvTime.text= MyUtils.getTimeAgo(data.created.toLong())
             btnAccept.setOnClickListener {
-                onItemBtnClick?.invoke("accept")
+                loopRequestInterface.onItemClick("2",data,pos)
+
             }
 
             btnCancel.setOnClickListener {
-                onItemBtnClick?.invoke("cancel")
+                loopRequestInterface.onItemClick("0",data,pos)
+
             }
         }
+    }
+    interface LoopRequestInterface{
+        fun onItemClick(status: String, data: LoopRequestData,position: Int)
     }
 }

@@ -58,7 +58,7 @@ class EventActivity : BaseActivity() {
 
     private fun init(){
         rvEvents.layoutManager = GridLayoutManager(this,2)
-        eventAdapter= EventAdapter(this)
+        eventAdapter= EventAdapter(this,arrayList)
         rvEvents.adapter = eventAdapter
         eventAdapter?.arrayList=arrayList
         adapterItemClick()
@@ -68,7 +68,14 @@ class EventActivity : BaseActivity() {
         eventAdapter?.onItemClick = {eventsModel: EventData ->
             val intent = Intent(this,EventDetailActivity::class.java)
             intent.putExtra(AppConstant.HEADING,eventsModel.name)
-            intent.putExtra("post_id",eventsModel.id)
+            intent.putExtra("user_id",eventsModel.userId)
+            intent.putExtra("image",eventsModel.image)
+            intent.putExtra("location",eventsModel.location)
+            intent.putExtra("time",eventsModel.time.toString())
+            intent.putExtra("date",eventsModel.date.toString())
+            intent.putExtra("desc",eventsModel.description)
+            intent.putExtra("web_link",eventsModel.rsvpLink)
+            intent.putExtra("is_favourite",eventsModel.isFavourite.toString())
             startActivity(intent)
         }
 

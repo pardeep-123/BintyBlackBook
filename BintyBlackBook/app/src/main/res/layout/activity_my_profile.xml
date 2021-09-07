@@ -30,20 +30,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="26dp"
                 android:fontFamily="@font/romul"
                 android:text="@string/name"
                 android:textColor="@color/whiteColor"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/romul"
-                android:text="ELLEN POULSEN"
+                android:layout_marginTop="@dimen/dp16"
+                android:text=""
                 android:textColor="@color/fadePink"
                 android:textSize="13sp" />
 
@@ -51,20 +50,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/dp16"
                 android:fontFamily="@font/romul"
                 android:text="@string/email"
                 android:textColor="@color/whiteColor"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/romul"
-                android:text="ELLENPOULSEN@GMAIL.COM"
+                android:layout_marginTop="@dimen/dp16"
+                android:text=""
                 android:textColor="@color/fadePink"
                 android:textSize="13sp" />
 
@@ -72,20 +70,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/dp16"
                 android:fontFamily="@font/romul"
                 android:text="@string/phone_number"
                 android:textColor="@color/whiteColor"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/romul"
-                android:text="+65 7847584754"
+                android:layout_marginTop="@dimen/dp16"
+                android:text=""
                 android:textColor="@color/fadePink"
                 android:textSize="13sp" />
 
@@ -93,21 +90,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/dp16"
                 android:fontFamily="@font/romul"
                 android:text="@string/about"
                 android:textColor="@color/whiteColor"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/romul"
+                android:layout_marginTop="@dimen/dp16"
                 android:lineSpacingExtra="5dp"
-                android:text="@string/dummy_text"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="@color/fadePink"
                 android:textSize="@dimen/sp11" />
@@ -117,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/btn1"
                 android:fontFamily="@font/romul"
@@ -132,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/btn1"

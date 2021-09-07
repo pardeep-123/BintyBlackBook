@@ -83,7 +83,7 @@ class HomeItemClickActivity : BaseActivity(), TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        photoAdapter!!.filter.filter(s.toString().trim())
+        photoAdapter?.filter?.filter(s.toString().trim())
     }
 
     override fun afterTextChanged(s: Editable?) {

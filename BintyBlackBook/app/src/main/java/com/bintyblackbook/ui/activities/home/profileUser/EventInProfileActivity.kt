@@ -111,7 +111,15 @@ class EventInProfileActivity : BaseActivity(), EventInProfileAdapter.EventProfil
 
     override fun onItemClick(data: EventData, position: Int) {
         val intent = Intent(this, EventDetailActivity::class.java)
-        intent.putExtra("post_id",data.id)
+        intent.putExtra(AppConstant.HEADING,data.name)
+        intent.putExtra("user_id",data.userId)
+        intent.putExtra("image",data.image)
+        intent.putExtra("location",data.location)
+        intent.putExtra("time",data.time.toString())
+        intent.putExtra("date",data.date.toString())
+        intent.putExtra("desc",data.description)
+        intent.putExtra("web_link",data.rsvpLink)
+        intent.putExtra("is_favourite",data.isFavourite.toString())
         startActivity(intent)
     }
 

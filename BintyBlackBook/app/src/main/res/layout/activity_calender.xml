@@ -70,6 +70,7 @@
         app:pagesColor="@color/themeColor"
         app:selectionColor="@color/fadePink"
         app:todayLabelColor="@color/fadePink"
+        app:type="one_day_picker"
         app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
 
     <Button

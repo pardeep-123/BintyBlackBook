@@ -1,8 +1,6 @@
 package com.bintyblackbook.ui.activities.authentication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R

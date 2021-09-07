@@ -78,6 +78,13 @@ object MyUtils {
         return date
     }
 
+    fun convertDateToTimeStamp(date:String): String{
+        val formatter: DateFormat= SimpleDateFormat("EE, MMM dd yyyy")
+        val date= (formatter.parse(date).time /1000).toString()
+        return date
+
+    }
+
     fun getCurrentDay(s: Long): String {
         val sdf = SimpleDateFormat("EE")
         val netDate = Date(s.toLong() * 1000)
@@ -162,6 +169,17 @@ object MyUtils {
         } else {
             (diff / DAY_MILLIS).toString() + " days ago"
         }
+    }
+
+    fun getDayDate(timestamp:Long):String{
+        return try {
+            val sdf = SimpleDateFormat("EE,MMM dd yyyy")
+            val netDate = Date(timestamp * 1000L)
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+
     }
 
 }

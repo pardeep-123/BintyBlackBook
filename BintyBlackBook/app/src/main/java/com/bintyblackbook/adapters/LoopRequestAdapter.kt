@@ -17,7 +17,6 @@ class LoopRequestAdapter(var context: Context) :
     RecyclerView.Adapter<LoopRequestAdapter.LoopRequestViewHolder>() {
 
     var loopList= ArrayList<LoopRequestData>()
-  //  var onItemBtnClick:((status:String,data:loop)->Unit)? = null
    lateinit var loopRequestInterface:LoopRequestInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoopRequestViewHolder {

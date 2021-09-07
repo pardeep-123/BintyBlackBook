@@ -15,7 +15,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/roundedImageView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             android:src="@drawable/john"
@@ -70,13 +70,13 @@
                 android:lines="1"
                 android:text="@string/arizona_usa"
                 android:textColor="@color/blackColor"
-                android:textSize="@dimen/sp12"
+                android:textSize="@dimen/sp11"
                 app:drawableStartCompat="@drawable/location" />
 
             <ImageView
                 android:id="@+id/ivFavourite"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/image"
                 android:src="@drawable/unfill_heart" />

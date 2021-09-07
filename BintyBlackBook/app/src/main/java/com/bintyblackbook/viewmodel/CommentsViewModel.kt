@@ -114,10 +114,30 @@ class CommentsViewModel(val context: Context): ViewModel(){
     }
 
     fun deleteComment(securityKey: String,auth_key: String,comment_id:String){
-        (context as CommentsActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
+
         ApiClient.apiService.deleteComment(securityKey,auth_key, comment_id).enqueue(object :Callback<JsonElement>{
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful) {
+                    (context as BaseActivity).dismissProgressDialog()
 
+                    try {
+                        val jsonDATA : JSONObject = JSONObject(response.body().toString())
+                        if(jsonDATA.getInt("code")==200){
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
+                            addCommentLiveData.value = jsonObj
+                        }else{
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    val jsonObject: JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity, jsonObject.getString("msg").toString(),"OK",{})
+                }
             }
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

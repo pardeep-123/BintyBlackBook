@@ -53,10 +53,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         }
 
         //call api for notification count
-        getNotificationCount()
+        //getNotificationCount()
         clickListenerHandling()
 
-
+        switchFragment(HomeFragment())
       /*  ivSearch.setOnClickListener {
             if (searchClick){
                 edtSearch.visibility = View.GONE
@@ -68,7 +68,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             }
         }*/
     }
-    private fun getNotificationCount() {
+    /*private fun getNotificationCount() {
         notificationViewModel.getNotificationCount(getSecurityKey(this)!!, getUser(this)?.authKey!!)
         notificationViewModel.notiCountLiveData.observe(this, Observer {
             switchFragment(HomeFragment())
@@ -81,11 +81,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         })
-    }
+    }*/
 
     private fun clickListenerHandling() {
-        rlMenu.setOnClickListener(this)
-        rlBell.setOnClickListener(this)
+//        rlMenu.setOnClickListener(this)
+//        rlBell.setOnClickListener(this)
         ll_Home.setOnClickListener(this)
         ll_Profile.setOnClickListener(this)
         ll_mybooking.setOnClickListener(this)
@@ -112,12 +112,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
                 drawerClose()
             }
             R.id.rlMenu -> {
-                drawerLayout.openDrawer(GravityCompat.START)
+                openDrawer()
             }
-            R.id.rlBell -> {
-                val intent= Intent(context,NotificationActivity::class.java)
-                startActivity(intent)
-            }
+//            R.id.rlBell -> {
+//                val intent= Intent(context,NotificationActivity::class.java)
+//                startActivity(intent)
+//            }
             R.id.ll_Profile -> {
                if (userType.equals("User")){
                    val intent = Intent(context, MyProfileActivity::class.java)
@@ -171,6 +171,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 
             }
         }
+    }
+
+     fun openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START)
     }
 
     fun drawerClose() {

@@ -13,8 +13,7 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.activity_notification.*
 
-class NotificationActivity : BaseActivity(){
-
+class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdapterInterface{
 
     lateinit var notificationViewModel: NotificationViewModel
     var notificationAdapter:NotificationAdapter? = null
@@ -40,8 +39,9 @@ class NotificationActivity : BaseActivity(){
     private fun setAdapter() {
         notificationAdapter = NotificationAdapter(this)
         rvNotification.adapter = notificationAdapter
+        notificationAdapter?.notificationAdapterInterface=this
         notificationAdapter?.arrayList=arrayList
-        adapterItemClick()
+
     }
 
     private fun getNotificationList() {
@@ -62,28 +62,42 @@ class NotificationActivity : BaseActivity(){
         })
     }
 
-    private fun adapterItemClick(){
-        notificationAdapter?.onItemClick = {notificationModel: NotificationListData ->
-            notificationData=notificationModel
-            updateNotificationSeen(notificationModel.id.toString())
-        }
-    }
-
-    private fun updateNotificationSeen(id: String) {
-        notificationViewModel.updateNotiSeen(getSecurityKey(this)!!, getUser(this)?.authKey!!,id)
+    private fun updateNotificationSeen(data: NotificationListData) {
+        notificationViewModel.updateNotiSeen(getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
         notificationViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
                 if (notificationData?.type == 2){
                     val intent= Intent(this, LoopRequestActivity::class.java)
-                    intent.putExtra("message",notificationData?.message)
-                    intent.putExtra("user_id",notificationData?.user2Id.toString())
+                    intent.putExtra("message",data.message)
+                    intent.putExtra("user_id",data.user2Id.toString())
                     startActivity(intent)
                 }else if (notificationData?.type == 1){
                     startActivity(Intent(this,BookingRequestActivity::class.java))
                 }
             }
-
         })
+    }
+
+    override fun onItemClick(data: NotificationListData, position: Int) {
+        if(data.isSeen==1){
+            if (data.type == 2){
+                val intent= Intent(this, LoopRequestActivity::class.java)
+                intent.putExtra("message",data.message)
+                intent.putExtra("user_id",data.user2Id.toString())
+                startActivity(intent)
+            }else if (data.type == 1){
+                val intent= Intent(this,BookingRequestActivity::class.java)
+                intent.putExtra("message",data.message)
+                intent.putExtra("user_id",data.user2Id.toString())
+
+                startActivity(intent)
+            }
+        }
+
+        else{
+            updateNotificationSeen(data)
+        }
+
     }
 }

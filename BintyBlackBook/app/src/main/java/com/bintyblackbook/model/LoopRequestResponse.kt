@@ -14,6 +14,7 @@ data class LoopRequestData(
     val id: Int,
     val otherUserId: Int,
     val providerId: Int,
+    val user2Id:Int,
     val slots: ArrayList<Slot>,
     val status: Int,
     val userId: Int,

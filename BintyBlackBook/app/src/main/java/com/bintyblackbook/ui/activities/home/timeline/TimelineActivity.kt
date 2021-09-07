@@ -49,9 +49,7 @@ class TimelineActivity : BaseActivity(),TimelineAdapter.TimeLineInterface {
                 if(it?.data?.size==0){
                     tvNoPost.visibility=View.VISIBLE
                     rvTimeline.visibility=View.GONE
-                }
-
-                else{
+                } else{
                     tvNoPost.visibility=View.GONE
                     rvTimeline.visibility=View.VISIBLE
                     postList.clear()
