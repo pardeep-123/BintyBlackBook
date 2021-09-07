@@ -35,13 +35,18 @@
                 android:src="@drawable/slider"
                 app:riv_corner_radius="5dp" />
 
+
             <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@id/videoView"
+                android:id="@+id/videoView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                app:use_controller="false"
+                app:show_timeout="10000"
+                app:repeat_toggle_modes="one"
+                app:fastforward_increment="30000"
+                app:rewind_increment="30000"
                 android:visibility="visible"
-                app:resize_mode="fit"/>
-
+                 />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvImages"

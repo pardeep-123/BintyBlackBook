@@ -1,10 +1,12 @@
 package com.bintyblackbook.ui.activities.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
@@ -18,6 +20,14 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.extractor.ExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import kotlinx.android.synthetic.main.activity_other_user_profile.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.tvWebLink
 import kotlinx.android.synthetic.main.activity_user_detail.rvImages
@@ -31,6 +41,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     var horizontalImagesAdapter:HorizontalImagesAdapter? = null
     var arrayList= ArrayList<UserMedia>()
     var loopBtnClick = true
+    private var exoplayer: SimpleExoPlayer? = null
 
     var loop_id=""
 
@@ -224,4 +235,20 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             }
         }
     }
+
+    private fun initializePlayer() {
+        val trackSelector = DefaultTrackSelector()
+        exoplayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
+        val mediaUri = Uri.parse("")
+        val dataSourceFactory = DefaultHttpDataSourceFactory("exoplayer_video")
+        val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
+        val mediaSource: MediaSource =
+            ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null)
+        videoView.setPlayer(exoplayer)
+        exoplayer?.prepare(mediaSource)
+        exoplayer?.playWhenReady = true
+        //mediaSession?.isActive = true
+
+    }
+
 }

@@ -110,7 +110,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     //exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.2'
 
     //socket
     implementation('io.socket:socket.io-client:1.0.0') {
