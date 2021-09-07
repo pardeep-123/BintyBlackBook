@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/welcomeViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/mainViewPagerIndicator"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bg"
+        android:elevation="2dp"
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp16"
+            android:fontFamily="@font/gisha_bold"
+            android:gravity="center"
+            android:text="Discover New People"
+            android:textColor="@color/blackColor"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_heading_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp16"
+            android:fontFamily="@font/trajanpro_regular"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:maxLines="4"
+            android:text="Professional Entwined will make you most happy to connect with others. You will love meeting with a new people, being social, and engaging in empowering discussions."
+            android:textColor="@color/blackColor"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintTop_toBottomOf="@+id/tv_heading" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <info.jeovani.viewpagerindicator.ViewPagerIndicator
+        android:id="@+id/mainViewPagerIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginBottom="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:vpi_item_height="@dimen/dp5"
+        app:vpi_item_type="rectangle"
+        app:vpi_item_width="@dimen/dp15"
+        app:vpi_items_count="3"
+        app:vpi_selected_primary_color="@color/colorPrimary"
+        app:vpi_unselected_primary_color="@color/grey"
+        app:vpi_view_pager="@+id/welcomeViewPager" />
+
+    <TextView
+        android:id="@+id/tvSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp20"
+        android:background="@drawable/background_rounded_corners"
+        android:elevation="@dimen/dp2"
+        android:fontFamily="@font/gisha_bold"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp12"
+        android:paddingTop="2dp"
+        android:paddingRight="@dimen/dp12"
+        android:paddingBottom="4dp"
+        android:text="Skip"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
