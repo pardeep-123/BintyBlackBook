@@ -84,8 +84,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     }*/
 
     private fun clickListenerHandling() {
-//        rlMenu.setOnClickListener(this)
-//        rlBell.setOnClickListener(this)
         ll_Home.setOnClickListener(this)
         ll_Profile.setOnClickListener(this)
         ll_mybooking.setOnClickListener(this)

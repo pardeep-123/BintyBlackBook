@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.row_messages.view.*
 
-class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData>) : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>() {
+class SwapsAdapter(val context: Context,var arrayList: ArrayList<MessageData>) : RecyclerView.Adapter<SwapsAdapter.MessagesViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesViewHolder {
@@ -49,10 +49,7 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
             tv_msg.text= messageModel.lastMessage
 
             itemView.setOnClickListener {
-
-                val intent=Intent(context, ChatActivity::class.java)
-                intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
-                context.startActivity(intent)
+                context.startActivity(Intent(context,ChatActivity::class.java))
             }
         }
     }

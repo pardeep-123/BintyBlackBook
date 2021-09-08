@@ -20,10 +20,8 @@ import com.bintyblackbook.ui.fragments.FavouriteFragment
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.EventsViewModel
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_event_calender.*
-import kotlinx.android.synthetic.main.fragment_all_event.*
-import kotlinx.android.synthetic.main.fragment_favourite.*
+
 
 class EventCalenderActivity : BaseActivity(), TextWatcher {
     var fragList: ArrayList<String> = ArrayList()
@@ -70,13 +68,14 @@ class EventCalenderActivity : BaseActivity(), TextWatcher {
             if (it.code==200){
 
                 if(it.data.size!=0){
-                   // tvNoEvent.visibility= View.GONE
+                    tvNoEventData.visibility= View.GONE
                     rvEvents.visibility= View.VISIBLE
+                    rvFavEvents.visibility=View.GONE
                     arrayList.clear()
                     arrayList.addAll(it.data)
                     eventAdapter?.notifyDataSetChanged()
                 }else{
-                  //  tvNoEvent.visibility= View.VISIBLE
+                    tvNoEventData.visibility= View.VISIBLE
                     rvEvents.visibility= View.GONE
                 }
             }
@@ -142,14 +141,15 @@ class EventCalenderActivity : BaseActivity(), TextWatcher {
         eventsViewModel.favEventsLiveData.observe(this, Observer {
 
             if(it?.data?.size!=0){
-             //   tvNoFavData.visibility=View.GONE
+                tvNoEventData.visibility=View.GONE
+                rvEvents.visibility=View.GONE
                 rvFavEvents.visibility=View.VISIBLE
                 favEventList.clear()
                 favEventList.addAll(it.data)
                 favEventAdapter?.notifyDataSetChanged()
 
             }else{
-               // tvNoFavData.visibility=View.VISIBLE
+                tvNoEventData.visibility=View.VISIBLE
                 rvFavEvents.visibility=View.GONE
             }
         })

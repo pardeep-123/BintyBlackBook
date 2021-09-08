@@ -182,4 +182,17 @@
         app:layout_constraintTop_toBottomOf="@id/viewFavEvent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="@dimen/dp16"/>
+
+    <TextView
+        android:id="@+id/tvNoEventData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tvAllEvent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/no_data_found"
+        android:textColor="@color/whiteColor"
+        android:fontFamily="@font/romul"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

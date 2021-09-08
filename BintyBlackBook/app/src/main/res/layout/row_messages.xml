@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/email_back"
@@ -43,12 +43,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="5dp"
                     android:fontFamily="@font/romul"
                     android:lineSpacingExtra="3dp"
                     android:text="HI WHAT ARE YOU DOING?"
-                    android:textColor="@color/grey1"
+                    android:textColor="@color/blackColor"
                     android:textSize="@dimen/sp11" />
             </LinearLayout>
 
@@ -74,8 +74,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_profile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/dp50"
+            android:layout_height="@dimen/dp50"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="20dp"

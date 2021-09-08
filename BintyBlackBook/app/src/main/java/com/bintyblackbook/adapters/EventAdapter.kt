@@ -13,6 +13,9 @@ import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.model.HomeData
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_events.view.*
 import java.util.*
@@ -48,7 +51,18 @@ class EventAdapter(var context: Context, var list: ArrayList<EventData>) :
 
         fun bind(pos: Int) {
             val eventsModel = arrayList[pos]
-            Glide.with(context).load(eventsModel.image).into(roundedImageView)
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.progress_animation)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .dontAnimate()
+                .dontTransform()
+
+            if(!eventsModel.image.isNullOrEmpty()){
+                Glide.with(context).load(eventsModel.image).apply(options).into(roundedImageView)
+            }
+
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
 

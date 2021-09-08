@@ -31,7 +31,7 @@
             android:textColor="@color/blackColor"
             android:textSize="@dimen/sp13" />
 
-        <!--<TextView
+        <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:fontFamily="@font/trajanpro_regular"
             android:text="2:00 pm"
             android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp10" />-->
+            android:textSize="@dimen/sp10" />
     </RelativeLayout>
 
 

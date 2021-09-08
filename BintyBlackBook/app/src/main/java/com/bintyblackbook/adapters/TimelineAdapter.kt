@@ -16,6 +16,9 @@ import com.bintyblackbook.model.PostData
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 import kotlinx.android.synthetic.main.item_timeline.view.*
@@ -61,8 +64,15 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         var rlDots: RelativeLayout = itemView.rlDots
 
         fun bind(timelineModel: PostData, pos: Int) {
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.progress_animation)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .dontAnimate()
+                .dontTransform()
 
-            Glide.with(context).load(timelineModel.userImage).into(civProfile)
+            Glide.with(context).load(timelineModel.userImage).apply(options).into(civProfile)
 
             tvName.text = timelineModel.userName
             //tvTime.text = timelineModel.time
@@ -71,9 +81,9 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             tvComments.text = timelineModel.postComments.size.toString()
             tvTime.text= MyUtils.getTimeAgo(timelineModel.created.toLong())
 
-            if (timelineModel.image != null) {
+            if (!timelineModel.image.isNullOrEmpty()) {
 
-                Glide.with(context).load(timelineModel.image).into(ivPost)
+                Glide.with(context).load(timelineModel.image).apply(options).into(ivPost)
                 ivPost.visibility = View.VISIBLE
             } else {
                 ivPost.visibility = View.GONE

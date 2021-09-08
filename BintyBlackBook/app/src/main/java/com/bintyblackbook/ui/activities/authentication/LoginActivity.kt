@@ -10,10 +10,12 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.home.HomeActivity
+import com.bintyblackbook.ui.activities.welcome.WelcomeTutorial
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
@@ -55,6 +57,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                if(t?.code==200){
                    val response=t.data
                    saveUser(this,response!!)
+                   BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, response.id.toString())
 
                    if(response.userType==0){
                        MySharedPreferences.storeUserType(this,"User")
@@ -65,7 +68,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
 
                    if(response.userType==0){
-                       val intent=Intent(this,HomeActivity::class.java)
+                       val intent=Intent(this,WelcomeTutorial::class.java)
                        startActivity(intent)
                    }
                    else if(response.userType==1 && response.experience.isNullOrEmpty()){

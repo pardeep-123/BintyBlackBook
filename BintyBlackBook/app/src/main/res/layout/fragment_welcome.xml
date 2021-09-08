@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteColor">
-
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/welcomeViewPager"
@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:background="@drawable/bg"
         android:elevation="2dp"
         android:paddingTop="4dp"
@@ -33,6 +33,7 @@
             android:layout_marginRight="@dimen/dp16"
             android:fontFamily="@font/gisha_bold"
             android:gravity="center"
+            android:visibility="gone"
             android:text="Discover New People"
             android:textColor="@color/blackColor"
             android:textSize="@dimen/sp14"
@@ -43,15 +44,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp16"
             android:layout_marginRight="@dimen/dp16"
             android:fontFamily="@font/trajanpro_regular"
             android:gravity="center"
             android:lineSpacingExtra="1dp"
             android:maxLines="4"
-            android:text="Professional Entwined will make you most happy to connect with others. You will love meeting with a new people, being social, and engaging in empowering discussions."
-            android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp10"
+            android:text="Welcome to B3, short for Binty’s Black Book\n\nA place where you can connect with old and new friends, book services, find businesses, promote events, post opportunities and much more!"
+            android:textColor="@color/whiteColor"
+            android:textSize="@dimen/sp12"
             app:layout_constraintTop_toBottomOf="@+id/tv_heading" />
 
 
@@ -61,15 +62,15 @@
         android:id="@+id/mainViewPagerIndicator"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp20"
         android:layout_marginBottom="@dimen/dp10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:vpi_item_height="@dimen/dp5"
-        app:vpi_item_type="rectangle"
+        app:vpi_item_type="oval"
         app:vpi_item_width="@dimen/dp15"
-        app:vpi_items_count="3"
-        app:vpi_selected_primary_color="@color/colorPrimary"
+        app:vpi_items_count="5"
+        app:vpi_selected_primary_color="@color/whiteColor"
         app:vpi_unselected_primary_color="@color/grey"
         app:vpi_view_pager="@+id/welcomeViewPager" />
 
@@ -79,17 +80,16 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp10"
         android:layout_marginBottom="@dimen/dp20"
-        android:background="@drawable/background_rounded_corners"
         android:elevation="@dimen/dp2"
-        android:fontFamily="@font/gisha_bold"
+        android:fontFamily="@font/romul"
         android:gravity="center"
         android:paddingLeft="@dimen/dp12"
         android:paddingTop="2dp"
         android:paddingRight="@dimen/dp12"
         android:paddingBottom="4dp"
         android:text="Skip"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/sp12"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp14"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 

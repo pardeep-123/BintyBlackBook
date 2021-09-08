@@ -19,6 +19,14 @@ fun getStatus(context: Context): String? {
     return Prefs.with(context).getString(CacheConstants.STATUS, "")
 }
 
+fun saveMsgType(context: Context,type:Int){
+    Prefs.with(context).save(CacheConstants.MSG_TYPE,type)
+}
+
+fun getMsgType(context: Context):Int{
+    return Prefs.with(context).getInt(CacheConstants.MSG_TYPE,1)
+}
+
 fun saveStatus(context: Context,status:String){
     Prefs.with(context).save(CacheConstants.STATUS,status)
 }

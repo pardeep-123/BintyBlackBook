@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import androidx.lifecycle.Observer
+import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.model.Data
 import com.bintyblackbook.util.*
@@ -115,6 +116,7 @@ class EditProfileActivity : ImagePickerUtility() {
 
             profileViewModel.editProfile(getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             profileViewModel.profileObservable.observe(this, Observer {
+
                 saveUser(this,it.data!!)
                 showAlert(this,it.msg,getString(R.string.ok)){
                     finish()

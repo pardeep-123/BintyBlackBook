@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/themeColor"
         android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppTheme"
         app:contentInsetEnd="0dp"
@@ -68,24 +70,93 @@
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutMsg"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/tvMsgs"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/fadePink"
-        app:tabSelectedTextColor="@color/fadePink"
-        app:tabTextAppearance="@style/TabFont"
-        app:tabTextColor="@color/whiteColor"
-        android:layout_marginTop="@dimen/dp18"
+        app:layout_constraintTop_toBottomOf="@id/tbMain"
+        android:layout_marginTop="@dimen/dp20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvSwaps"
+        android:textAlignment="center"
+        android:text="Messages"
+        android:textSize="@dimen/sp14"
+        android:padding="6dp"
+        android:fontFamily="@font/trajanpro_regular"
+        android:textColor="@color/fadePink"/>
+    <View
+        android:id="@+id/viewMsgs"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/tvMsgs"
+        android:layout_marginTop="@dimen/dp10"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/fadePink"
+        app:layout_constraintEnd_toStartOf="@id/viewSwaps"
         />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPageMsg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/dp18"
-        android:layout_marginTop="@dimen/dp15"
-        android:layout_marginEnd="@dimen/dp8"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <TextView
+        android:id="@+id/tvSwaps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tbMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dp20"
+        android:textAlignment="center"
+        android:textSize="@dimen/sp14"
+        android:padding="6dp"
+        android:fontFamily="@font/trajanpro_regular"
+        app:layout_constraintStart_toEndOf="@+id/tvMsgs"
+        android:textColor="@color/whiteColor"
+        android:text="Swaps"/>
 
-</LinearLayout>
+    <View
+        android:id="@+id/viewSwaps"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSwaps"
+        android:layout_marginTop="@dimen/dp10"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/themeColor"
+        app:layout_constraintStart_toEndOf="@+id/viewMsgs"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAllMsg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp8"
+        app:layout_constraintTop_toBottomOf="@id/viewSwaps"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/dp16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSwaps"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginEnd="@dimen/dp8"
+        app:layout_constraintTop_toBottomOf="@id/viewSwaps"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/dp16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <TextView
+        android:id="@+id/tvNoMsgs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tvMsgs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/no_data_found"
+        android:textColor="@color/whiteColor"
+        android:fontFamily="@font/romul"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

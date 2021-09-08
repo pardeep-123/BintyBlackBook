@@ -3,6 +3,6 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_john">
+    android:background="@drawable/tutorial_3">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

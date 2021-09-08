@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
@@ -14,9 +13,11 @@ import com.bintyblackbook.adapters.HorizontalImagesAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.UserMedia
+import com.bintyblackbook.ui.activities.home.message.MessagesActivity
 import com.bintyblackbook.ui.dialogues.FragmentDialog
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
+import com.bintyblackbook.util.saveMsgType
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
@@ -88,9 +89,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             tvOpenToSwap.visibility=View.GONE
             tvSwapMind.visibility=View.GONE
             tvSwaps.visibility=View.GONE
-        }
-
-        else{
+        } else{
             tvOpenToSwap.visibility=View.VISIBLE
             tvSwapMind.visibility=View.VISIBLE
             tvSwaps.visibility=View.VISIBLE
@@ -101,8 +100,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             btnChatUser.visibility=View.GONE
             btnUnLoopUser.visibility=View.GONE
             btnLoopUser.visibility=View.VISIBLE
-        }
-        else{
+        } else{
             btnChatUser.visibility=View.VISIBLE
             btnUnLoopUser.visibility=View.VISIBLE
             btnLoopUser.visibility= View.GONE
@@ -133,8 +131,8 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
         if(data.userMedia[0].media.endsWith(".jpg")){
             Glide.with(this).load(data.userMedia[0].media).into(rivUser)
-        }else if(data.userMedia[0].media.endsWith(".3gp")){
-
+        }else if(data.userMedia[0].media.endsWith(".mp4")){
+                initializePlayer(data.userMedia[0].media)
         }
         else{
 
@@ -165,10 +163,11 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 videoView.visibility=View.GONE
                 Glide.with(this).load(image.media).into(rivUser)
 //photo
-                } else if (image.media.endsWith(".3gp")) {
+                } else if (image.media.endsWith(".mp4")) {
 //video
                 rivUser.visibility=View.GONE
                 videoView.visibility=View.VISIBLE
+                initializePlayer(image.media)
             }
 
         }
@@ -231,19 +230,21 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnSwap ->{
-
+                //navigate to chat listing
+                saveMsgType(this,2)
+                val intent= Intent(this,MessagesActivity::class.java)
+                startActivity(intent)
             }
         }
     }
 
-    private fun initializePlayer() {
+    private fun initializePlayer(media: String) {
         val trackSelector = DefaultTrackSelector()
         exoplayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
-        val mediaUri = Uri.parse("")
+        val mediaUri = Uri.parse(media)
         val dataSourceFactory = DefaultHttpDataSourceFactory("exoplayer_video")
         val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
-        val mediaSource: MediaSource =
-            ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null)
+        val mediaSource: MediaSource = ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null)
         videoView.setPlayer(exoplayer)
         exoplayer?.prepare(mediaSource)
         exoplayer?.playWhenReady = true

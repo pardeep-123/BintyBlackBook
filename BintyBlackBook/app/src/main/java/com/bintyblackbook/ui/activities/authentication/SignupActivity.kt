@@ -13,6 +13,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
 import com.bintyblackbook.util.*
@@ -141,7 +142,9 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             && Validations.isValidPhoneNumber(context,phone_text_business,getString(R.string.err_valid_phone))
             && Validations.validateEmailAddress(context,email_text_business)
             && Validations.isValidPassword(context,password_text_business)
-            && Validations.confirmPassword(context,password_text_business,confpassword_text_business,"Password does not match")
+            &&Validations.isValidPasswordText(context,password_text_business,getString(R.string.err_pass_valid))
+            && Validations.isEmpty(context,confpassword_text,getString(R.string.err_confirm_password))
+            && Validations.confirmPassword(context,password_text_business,confpassword_text_business,getString(R.string.err_password_not_match))
         ){
             if(!cbAccept.isChecked){
                 Toast.makeText(context,"Please accept terms & conditions",Toast.LENGTH_LONG).show()
@@ -253,7 +256,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
     private fun setObservables() {
         signUpViewModel.signUpLiveData.observe(this, Observer {
-
+            BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, it.data?.id.toString())
             if(it.code==200){
 
                 Toast.makeText(this,"We have sent you a verification mail. Please verify your email and then login. We have sent you a verification mail. Please verify your email and then login.",

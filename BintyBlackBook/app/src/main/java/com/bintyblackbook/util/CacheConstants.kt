@@ -11,4 +11,6 @@ object CacheConstants {
     const val EMAIL="email"
 
     const val PASSWORD="password"
+
+    const val MSG_TYPE="msg_type"
 }
