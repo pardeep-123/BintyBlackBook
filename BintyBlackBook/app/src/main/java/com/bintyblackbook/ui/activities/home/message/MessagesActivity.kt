@@ -5,28 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
-import com.bintyblackbook.adapters.EventAdapter
 import com.bintyblackbook.adapters.MessagesAdapter
 import com.bintyblackbook.adapters.SwapsAdapter
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.GetInboxMessageListResponse
 import com.bintyblackbook.model.MessageData
 import com.bintyblackbook.models.EditMessageModel
 import com.bintyblackbook.socket.SocketManager
-import com.bintyblackbook.ui.activities.home.loop.MessageFragment
 import com.bintyblackbook.util.getMsgType
 import com.bintyblackbook.util.getUser
-import com.google.android.material.tabs.TabLayoutMediator
-import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_event_calender.*
 import kotlinx.android.synthetic.main.activity_messages.*
-import kotlinx.android.synthetic.main.activity_messages.rlBack
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -39,6 +28,7 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
     var type="msg"
     val list = ArrayList<MessageData>()
     var swapList= ArrayList<MessageData>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messages)
@@ -81,10 +71,6 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
             }
 
             R.id.tvMsgs ->{
-                if(socketManager==null){
-                    socketManager!!.initializeSocket()
-                }
-
                 type="msg"
                 tvSwaps.setTextColor(ContextCompat.getColor(context, R.color.whiteColor))
                 viewSwaps.setBackgroundColor(ContextCompat.getColor(context,R.color.themeColor))
@@ -97,10 +83,6 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
             }
 
             R.id.tvSwaps ->{
-                if(socketManager==null){
-                    socketManager!!.initializeSocket()
-                }
-
                 type="swap"
                 tvSwaps.setTextColor(ContextCompat.getColor(context, R.color.fadePink))
                 viewSwaps.setBackgroundColor(ContextCompat.getColor(context,R.color.fadePink))
@@ -128,7 +110,7 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
             SocketManager.GET_CHAT_LIST_LISTENER -> {
                 try {
                     dismissProgressDialog()
-                    var data = args.get(0) as JSONObject
+                    val data = args.get(0) as JSONObject
                     val chatListArray = data.getJSONArray("chatListing")
                     val swapListArray = data.getJSONArray("swapListing")
 
@@ -141,33 +123,54 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
                             rvSwaps.visibility=View.GONE
                             for (i in 0 until chatListArray.length()) {
                                 val objects = chatListArray.getJSONObject(i)
+
+                                Log.i("objects",objects.toString())
                                 val getInboxMessageListResponse = MessageData()
-                                getInboxMessageListResponse.id = objects.getInt("id")
-                                getInboxMessageListResponse.senderId = objects.getInt("senderId")
-                                getInboxMessageListResponse.receiverId = objects.getInt("receiverId")
-                                getInboxMessageListResponse.lastMessageId = objects.getInt("lastMessageId")
-                                getInboxMessageListResponse.deletedId = objects.getInt("deletedId")
-                                getInboxMessageListResponse.created = objects.getInt("created")
-                                getInboxMessageListResponse.updated = objects.getInt("updated")
-                                getInboxMessageListResponse.user_id = objects.getInt("user_id")
-                                getInboxMessageListResponse.lastMessage = objects.getString("lastMessage")
-                                getInboxMessageListResponse.userName = objects.getString("userName")
-                                getInboxMessageListResponse.userImage = objects.getString("userImage")
-                                getInboxMessageListResponse.created_at = objects.getInt("created_at")
-                                getInboxMessageListResponse.unreadcount = objects.getInt("unreadcount")
-                                getInboxMessageListResponse.messageType=objects.getInt("messageType")
-                                getInboxMessageListResponse.isOnline=objects.getInt("isOnline")
-                                getInboxMessageListResponse.groupId=objects.getInt("groupId")
-                                getInboxMessageListResponse.type=objects.getInt("type")
                                 getInboxMessageListResponse.isGroup=objects.getInt("isGroup")
-                                getInboxMessageListResponse.pushKitToken=objects.getString("pushKitToken")
+                                val isGroup= getInboxMessageListResponse.isGroup
+                                if(isGroup==0){
+                                    getInboxMessageListResponse.id = objects.getInt("id")
+                                    getInboxMessageListResponse.senderId = objects.getInt("senderId")
+                                    getInboxMessageListResponse.receiverId = objects.getInt("receiverId")
+                                    getInboxMessageListResponse.lastMessageId = objects.getInt("lastMessageId")
+                                    getInboxMessageListResponse.deletedId = objects.getInt("deletedId")
+                                    getInboxMessageListResponse.created = objects.getInt("created")
+                                    getInboxMessageListResponse.updated = objects.getInt("updated")
+                                    getInboxMessageListResponse.user_id = objects.getInt("user_id")
+                                    getInboxMessageListResponse.lastMessage = objects.getString("lastMessage")
+                                    getInboxMessageListResponse.userName = objects.getString("userName")
+                                    getInboxMessageListResponse.userImage = objects.getString("userImage")
+                                    getInboxMessageListResponse.created_at = objects.getInt("created_at")
+                                    getInboxMessageListResponse.unreadcount = objects.getInt("unreadcount")
+                                    getInboxMessageListResponse.messageType=objects.getInt("messageType")
+                                    getInboxMessageListResponse.isOnline=objects.getInt("isOnline")
+                                    getInboxMessageListResponse.groupId=objects.getInt("groupId")
+                                    getInboxMessageListResponse.type=objects.getInt("type")
+                                    getInboxMessageListResponse.pushKitToken=objects.getString("pushKitToken")
+                                }else{
+                                    getInboxMessageListResponse.id = objects.getInt("id")
+                                    getInboxMessageListResponse.userName= objects.getString("name")
+                                    getInboxMessageListResponse.userImage= objects.getString("image")
+                                    getInboxMessageListResponse.created = objects.getInt("createdAt")
+                                    getInboxMessageListResponse.totalUsers= objects.getInt("totalUsers")
+                                    getInboxMessageListResponse.unreadcount=objects.getInt("unreadcount")
+                                    getInboxMessageListResponse.lastMessage= objects.getString("lastMessage")
+                                    getInboxMessageListResponse.lastMessageCreated= objects.getInt("lastMessageCreated")
+                                    getInboxMessageListResponse.messageType= objects.getInt("messageType")
+                                    getInboxMessageListResponse.adminId= objects.getString("adminId")
+                                    getInboxMessageListResponse.groupMessagesCount= objects.getInt("groupMessagesCount")
+                                    getInboxMessageListResponse.deleteMessagesCount= objects.getInt("deleteMessagesCount")
+                                    getInboxMessageListResponse.userId= objects.getString("userId")
+                                    getInboxMessageListResponse.groupId=objects.getInt("groupId")
+                                    getInboxMessageListResponse.isGroup=objects.getInt("isGroup")
+                                }
+
                                 list.add(getInboxMessageListResponse)
                             }
                             Log.i("sizecheck",""+list.size)
                             runOnUiThread {
                                 rvAllMsg.adapter= MessagesAdapter(this,list)
                             }
-
                         }
                         else{
                             rvSwaps.visibility=View.GONE
@@ -238,4 +241,8 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        socketManager?.unRegister(this)
+    }
 }

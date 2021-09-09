@@ -31,5 +31,6 @@ data class AllData(
     val userName: String,
     val userType: Int,
     val user_id: Int,
-    val uuid: String
+    val uuid: String,
+    var selected:Boolean
 )

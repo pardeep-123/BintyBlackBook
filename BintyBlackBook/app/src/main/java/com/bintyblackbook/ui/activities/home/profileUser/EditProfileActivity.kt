@@ -25,7 +25,6 @@ class EditProfileActivity : ImagePickerUtility() {
 
     var selectedFile:File?=null
     lateinit var profileViewModel: ProfileViewModel
-    var mProgress: CustomProgressDialog? = null
     var selectedVideoFile:File?=null
     private var mSnackBar: Snackbar? = null
 
@@ -157,26 +156,6 @@ class EditProfileActivity : ImagePickerUtility() {
     fun createRequestBody(param:String): RequestBody {
         val request=  RequestBody.create("text/plain".toMediaTypeOrNull(),param)
         return request
-    }
-
-    fun showProgressDialog(){
-        mProgress = CustomProgressDialog(this)
-        mProgress!!.show()
-    }
-
-    fun dismissProgressDialog(){
-
-        mProgress!!.dismiss()
-    }
-
-    fun showSnackBarMessage(msg: String) {
-        try {
-            mSnackBar = Snackbar.make(getWindow().getDecorView().getRootView(), msg, Snackbar.LENGTH_LONG) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
-            mSnackBar?.show()
-        } catch (e: Exception) {
-            Log.e("TAG",e.printStackTrace().toString())
-        }
     }
 
 }

@@ -28,5 +28,12 @@ class MessageData{
     var uuid:String=""
     var pushKitToken:String=""
     var isGroup:Int=0
+    var image: String=""
+    var totalUsers:Int=0
+    var lastMessageCreated:Int=0
+    var adminId:String=""
+    var deleteMessagesCount:Int=0
+    var groupMessagesCount:Int=0
+    var userId:String=""
 }
 

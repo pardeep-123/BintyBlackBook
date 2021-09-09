@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
+import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.model.CategoriesResponseModel
@@ -31,24 +32,23 @@ class InfoViewModel: ViewModel(){
     //get categories api
     fun getCategories(context: Context, security_key:String,auth_key:String){
 
-        (context as InfoActivity).dismissProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.getCategories(security_key,auth_key).enqueue(object :
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as InfoActivity).dismissProgressDialog()
-                    (context as InfoActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
-
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as InfoActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -56,16 +56,15 @@ class InfoViewModel: ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), CategoriesResponseModel::class.java)
                             categoryLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
-
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 } else {
                     val jsonDATA : JSONObject = JSONObject(response.errorBody()!!.string())
-                    (context as InfoActivity).dismissProgressDialog()
-                    showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                 }
             }
         })
@@ -74,15 +73,15 @@ class InfoViewModel: ViewModel(){
     //upload media api
     fun uploadMedia(context: Context, security_key:String,auth_key:String,request:Map<String,RequestBody>, part:MultipartBody.Part){
 
-        (context as InfoActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.uploadMedia(security_key,auth_key,request,part).enqueue(object :
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as InfoActivity).dismissProgressDialog()
-                    (context as InfoActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -91,7 +90,7 @@ class InfoViewModel: ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as InfoActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -99,7 +98,7 @@ class InfoViewModel: ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), UploadMediaResponse::class.java)
                                 mediaLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -165,14 +164,13 @@ class InfoViewModel: ViewModel(){
     /*
     delete media
      */
-
     fun deleteMedia(context: Context,security_key: String,auth_key: String,media_id:String){
-        (context as InfoActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.deleteMedia(security_key, auth_key, media_id).enqueue(object : Callback<JsonElement>{
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as InfoActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -180,7 +178,7 @@ class InfoViewModel: ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             baseLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {
@@ -195,8 +193,8 @@ class InfoViewModel: ViewModel(){
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                try {
-                   (context as InfoActivity).dismissProgressDialog()
-                   (context as InfoActivity).showSnackBarMessage(t.localizedMessage)
+                   (context as BaseActivity).dismissProgressDialog()
+                   (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
                }catch (e:java.lang.Exception){
                    e.printStackTrace()
                }

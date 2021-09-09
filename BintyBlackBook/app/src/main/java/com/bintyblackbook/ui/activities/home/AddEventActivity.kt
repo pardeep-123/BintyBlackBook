@@ -35,7 +35,6 @@ class AddEventActivity : ImagePickerUtility() {
     private lateinit var date: OnDateSetListener
     private lateinit var time: TimePickerDialog.OnTimeSetListener
     lateinit var eventsViewModel: EventsViewModel
-    var mProgress: CustomProgressDialog? = null
     private var mSnackBar: Snackbar? = null
     var imageFile:File?=null
     var selectedImagePath:File?=null
@@ -262,30 +261,6 @@ class AddEventActivity : ImagePickerUtility() {
         val timeFormat = "hh:mm a" //In which you need put here
         val sdf = SimpleDateFormat(timeFormat, Locale.US)
         edtTime.setText(sdf.format(myCalendar.time))
-    }
-
-    fun showProgressDialog(){
-        mProgress = CustomProgressDialog(this)
-        mProgress?.show()
-    }
-
-    fun dismissProgressDialog(){
-
-        mProgress?.dismiss()
-    }
-
-    fun showSnackBarMessage(msg: String) {
-        try {
-            mSnackBar = Snackbar.make(
-                getWindow().getDecorView().getRootView(),
-                msg,
-                Snackbar.LENGTH_LONG
-            ) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
-            mSnackBar?.show()
-        } catch (e: Exception) {
-           e.printStackTrace()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

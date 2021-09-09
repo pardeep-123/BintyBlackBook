@@ -10,8 +10,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_profile"
-        android:layout_width="@dimen/dp40"
-        android:layout_height="@dimen/dp40"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:src="@drawable/alina" />
 
     <TextView
@@ -26,20 +26,33 @@
         android:lines="1"
         android:text=""
         android:textColor="@color/whiteColor"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/sp11"/>
 
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_toStartOf="@+id/rlDots"
         android:layout_marginTop="@dimen/dp5"
         android:layout_marginEnd="@dimen/dp5"
         android:fontFamily="@font/romul"
         android:text=""
         android:textColor="@color/whiteColor"
-        android:textSize="12sp" />
+        android:textSize="@dimen/sp9" />
+
+    <RelativeLayout
+        android:id="@+id/rlDots"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/image"
+            android:src="@drawable/dots" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvComment"
@@ -49,9 +62,8 @@
         android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp5"
         android:layout_toEndOf="@id/civ_profile"
-        android:fontFamily="@font/trajanpro_regular"
         android:text=""
         android:textColor="@color/whiteColor"
-        android:textSize="12sp" />
+        android:textSize="@dimen/sp14" />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.bintyblackbook.viewmodel
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +9,8 @@ import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoginSignUpModel
+import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.ui.activities.home.profileUser.EditProfileActivity
-import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import okhttp3.MultipartBody
@@ -57,9 +58,20 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         e.printStackTrace()
                     }
                 } else {
-                    val jsonObject:JSONObject= JSONObject(response.errorBody()!!.string())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    (context as BaseActivity).showAlertWithOk(jsonObject.getString("msg").toString())
+
+                    if(error.getInt("code")==401){
+                        showAlert(context,error.getString("msg").toString(),"OK"){
+                            context.startActivity(
+                                Intent((context as BaseActivity),
+                                    LoginActivity::class.java)
+                            )
+                        }
+                    }
+                    else {
+                        showAlert(context, error.getString("msg").toString(), "OK") {}
+                    }
                 }
 
             }
@@ -100,9 +112,17 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         e.printStackTrace()
                     }
                 } else {
-                    val jsonObject: JSONObject= JSONObject(response.errorBody()!!.string())
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    (context as BaseActivity).showAlertWithOk(jsonObject.getString("msg"))
+
+                    if(error.getInt("code")==401){
+                        showAlert(context,error.getString("msg").toString(),"OK"){
+                            context.startActivity(Intent((context as BaseActivity),LoginActivity::class.java))
+                        }
+                    }
+                    else {
+                        showAlert(context, error.getString("msg").toString(), "OK") {}
+                    }
                 }
 
             }
@@ -147,9 +167,17 @@ class ProfileViewModel (val context: Context): ViewModel() {
                         e.printStackTrace()
                     }
                 } else {
-                    val jsonObject: JSONObject= JSONObject(response.errorBody()!!.string())
-                    (context as EditProfileActivity).dismissProgressDialog()
-                    showAlert( (context as EditProfileActivity),jsonObject.getString("msg"),"Ok"){}
+                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+
+                    if(error.getInt("code")==401){
+                        showAlert(context,error.getString("msg").toString(),"OK"){
+                            context.startActivity(Intent((context as BaseActivity),LoginActivity::class.java))
+                        }
+                    }
+                    else {
+                        showAlert(context, error.getString("msg").toString(), "OK") {}
+                    }
                 }
             }
 

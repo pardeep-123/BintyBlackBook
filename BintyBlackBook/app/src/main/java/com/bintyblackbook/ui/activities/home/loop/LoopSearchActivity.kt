@@ -112,7 +112,6 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
 
     override fun acceptRequest(status: String, data: AllUsersData) {
         accepCancelRequest(status,data)
-
     }
 
     override fun cancelRequest(status: String, data: AllUsersData) {

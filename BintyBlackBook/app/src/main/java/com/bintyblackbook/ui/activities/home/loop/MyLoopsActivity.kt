@@ -12,6 +12,7 @@ import com.bintyblackbook.adapters.AdapterMyLoops
 import com.bintyblackbook.adapters.SuggestionsAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AllData
+import com.bintyblackbook.model.AllUsersData
 import com.bintyblackbook.model.Suggested
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.UnLoopDialogFragment
@@ -133,6 +134,14 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         fragmentDialog.show(this.supportFragmentManager,"LoopDialog")
     }
 
+    override fun acceptRequest(data: AllData, status: String) {
+        accepCancelRequest(status,data)
+    }
+
+    override fun cancelRequest(data: AllData, status: String) {
+        accepCancelRequest(status,data)
+    }
+
     fun unLoopRequest(position: Int) {
         loopsViewModel.unLoop(this,getSecurityKey(context)!!, getUser(context)?.authKey!!,unloop_id)
         loopsViewModel.baseLiveData.observe(this, Observer {
@@ -143,6 +152,17 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
             else{
                 Log.i("TAG",it?.msg.toString())
             }
+        })
+    }
+    private fun accepCancelRequest(status: String, data: AllData) {
+        loopsViewModel.acceptRejectRequest(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString(),status)
+        loopsViewModel.baseLiveData.observe(this, Observer {
+
+            if(it.code==200){
+                Log.i("===request",it.msg)
+                getLoopsList()
+            }
+
         })
     }
 

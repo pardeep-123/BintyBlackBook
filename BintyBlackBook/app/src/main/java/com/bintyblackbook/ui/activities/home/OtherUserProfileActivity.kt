@@ -176,6 +176,11 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
 
+            R.id.btnChatUser ->{
+                saveMsgType(this,1)
+                val intent= Intent(this,MessagesActivity::class.java)
+                startActivity(intent)
+            }
             R.id.btnCheckAvailability ->{
                 val intent = Intent(this,CheckAvailabilityActivity::class.java)
                 intent.putExtra("user_id",userId)

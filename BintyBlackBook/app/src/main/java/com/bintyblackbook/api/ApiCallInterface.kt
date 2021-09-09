@@ -417,4 +417,15 @@ interface ApiCallInterface {
         @Header("auth_key") auth_key: String,
         @Field("comment_id") comment_id:String
     ) : Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.ADD_BOOKING)
+    fun addBooking(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("providerId") provider_id:String,
+        @Field("availabilityId") availabilityId:String,
+        @Field("slots") slots:String
+    ) : Call<JsonElement>
+
 }

@@ -5,18 +5,22 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.HorizontalCircularImageAdapter
-import com.bintyblackbook.models.EditMessageModel
+import com.bintyblackbook.model.AllData
 import com.bintyblackbook.util.ImagePickerUtility
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_new_group.*
+import kotlinx.android.synthetic.main.activity_signup.*
 import java.io.File
 
 class NewGroupActivity : ImagePickerUtility() {
 
-    lateinit var arrayList: ArrayList<EditMessageModel>
+    var selectedImagePath:File?=null
+    var arrayList= ArrayList<AllData>()
     var horizontalCircularImageAdapter: HorizontalCircularImageAdapter? = null
 
     override fun selectedImage(imagePath: File?) {
-
+        Glide.with(context).load(imagePath).into(civGroup)
+        selectedImagePath=imagePath
     }
 
     override fun selectedVideoUri(imagePath: String?) {
@@ -26,6 +30,8 @@ class NewGroupActivity : ImagePickerUtility() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_group)
+
+        tvParticipants.text= getString(R.string.participants)+" "+(arrayList.size +1).toString()
 
         rlBack.setOnClickListener {
             onBackPressed()
@@ -39,16 +45,11 @@ class NewGroupActivity : ImagePickerUtility() {
             finish()
         }
 
-        arrayList = ArrayList()
-        arrayList.add(EditMessageModel(R.drawable.bamie, "John","10 min ago", false))
-        arrayList.add(EditMessageModel(R.drawable.soph, "Jian","10 min ago", false))
-        arrayList.add(EditMessageModel(R.drawable.robert, "Malli","10 min ago", false))
 
-        rvParticipants.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        horizontalCircularImageAdapter = HorizontalCircularImageAdapter(this, arrayList)
+        rvParticipants.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        horizontalCircularImageAdapter = HorizontalCircularImageAdapter(this)
         rvParticipants.adapter = horizontalCircularImageAdapter
-
+        horizontalCircularImageAdapter?.arrayList=arrayList
 
     }
 

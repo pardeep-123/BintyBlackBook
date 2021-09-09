@@ -100,6 +100,8 @@ class ApiConstants {
         const val GET_ALL_USERS="getAllUsers"
 
         const val DELETE_COMMENT="delete_comment"
+
+        const val ADD_BOOKING="add_booking"
     }
 
 }

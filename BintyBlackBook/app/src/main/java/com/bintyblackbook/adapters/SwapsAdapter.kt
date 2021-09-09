@@ -49,7 +49,10 @@ class SwapsAdapter(val context: Context,var arrayList: ArrayList<MessageData>) :
             tv_msg.text= messageModel.lastMessage
 
             itemView.setOnClickListener {
-                context.startActivity(Intent(context,ChatActivity::class.java))
+                val intent= Intent(context,ChatActivity::class.java)
+                intent.putExtra("message_type",arrayList[pos].messageType.toString())
+                intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
+                context.startActivity(intent)
             }
         }
     }

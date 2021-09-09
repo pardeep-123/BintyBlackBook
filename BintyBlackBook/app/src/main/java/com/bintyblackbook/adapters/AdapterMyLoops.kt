@@ -40,10 +40,23 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
         val civProfile: CircleImageView = itemView.civ_profile
         val tvName: TextView = itemView.tv_name
         val btnUnLoop: Button = itemView.btnUnLoop
+        val btnAccept:Button= itemView.btnAcceptReq
+        val btnCancel:Button= itemView.btnCancelReq
+
+         // 0: Not a Loop, 1: Loop Request Sent , 2: Loop, 3: Received a loop request
 
         fun bind(pos: Int) {
+            if(list[pos].status==1){
+                itemView.ll_loops.visibility=View.GONE
+                itemView.ll_request.visibility=View.VISIBLE
+            }
+            else{
+                itemView.ll_loops.visibility=View.VISIBLE
+                itemView.ll_request.visibility=View.GONE
+            }
             tvName.text=list[pos].userName
             Glide.with(context).load(list[pos].userImage).into(civProfile)
+
             itemView.setOnClickListener {
                 loopsInterface.onItemClick(list[pos],pos)
                // context.startActivity(Intent(context, UserDetailActivity::class.java))
@@ -54,11 +67,21 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
 //                val fragmentDialog = UnLoopDialogFragment()
 //                fragmentDialog.show((context as MyLoopsActivity).supportFragmentManager,"LoopDialog")
             }
+
+            btnAccept.setOnClickListener {
+                loopsInterface.acceptRequest(list[pos],"2")
+            }
+
+            btnCancel.setOnClickListener {
+                loopsInterface.cancelRequest(list[pos],"0")
+            }
         }
     }
 
     interface LoopsInterface{
         fun onItemClick(data:AllData,position: Int)
         fun unLoop(data: AllData,position: Int)
+        fun acceptRequest(data:AllData,status:String)
+        fun cancelRequest(data:AllData,status: String)
     }
 }

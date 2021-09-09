@@ -109,7 +109,6 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/rlSend"
             android:background="@android:color/transparent"
-            android:fontFamily="@font/trajanpro_regular"
             android:hint="@string/type_comments"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"

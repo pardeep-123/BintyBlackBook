@@ -52,16 +52,16 @@ class UploadVideoAdapter(var context: Context): RecyclerView.Adapter<UploadVideo
             }
 
             img_upload.setOnClickListener {
-                uploadVideoInterface.onVideoUpload(pos)
+                uploadVideoInterface.onVideoUpload(arrayList[pos],pos)
             }
             img_delete.setOnClickListener {
-                uploadVideoInterface.deleteVideo(pos)
+                uploadVideoInterface.deleteVideo(arrayList[pos],pos)
             }
         }
     }
 
     interface UploadVideoInterface{
-        fun onVideoUpload(position: Int)
-        fun deleteVideo(position: Int)
+        fun onVideoUpload(data:UploadVideoModel,position: Int)
+        fun deleteVideo(data:UploadVideoModel,position: Int)
     }
 }

@@ -94,8 +94,18 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         }
         tvSubCategory.text = TextUtils.join("# ",subCategories)
         tvBusinessCategory.text= TextUtils.join(",", categories)
-        tvService.text= it.services
-        tvSwapInMind.text= it.swapInMind
+        if(it.services.isNullOrEmpty()){
+            tvService.visibility=View.GONE
+            tvServiceProvide.visibility=View.GONE
+        }else{
+            tvService.visibility=View.VISIBLE
+            tvServiceProvide.visibility=View.VISIBLE
+            tvService.text= it.services
+        }
+        if(it.isSwapSystem=="1"){
+            tvSwapInMind.text= it.swapInMind
+        }
+
         tvTime.text= it.operationTime
         tvWebLink.text= it.websiteLink
         txtSocialMedia.text= it.socialMediaHandles

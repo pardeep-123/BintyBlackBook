@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/email_back"
@@ -37,7 +37,7 @@
                     android:lines="1"
                     android:text="@string/john"
                     android:textColor="@color/blackColor"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -59,11 +59,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civProfile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/dp40"
+            android:layout_height="@dimen/dp40"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="30dp"
             android:src="@drawable/edit_profile" />
     </RelativeLayout>
 

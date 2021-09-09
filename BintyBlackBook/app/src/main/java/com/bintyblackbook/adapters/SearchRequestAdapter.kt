@@ -39,7 +39,7 @@ class SearchRequestAdapter(val context: Context): RecyclerView.Adapter<SearchReq
 
             // 0: Not a Loop, 1: Loop Request Sent , 2: Loop, 3: Received a loop request
 
-            if(data.isLoop==3) {
+            if(data.isLoop==1) {
                 itemView.layout_request.visibility=View.VISIBLE
                 itemView.tvName.text = data.firstName
                 Glide.with(context).load(data.image).into(itemView.ivProfile)

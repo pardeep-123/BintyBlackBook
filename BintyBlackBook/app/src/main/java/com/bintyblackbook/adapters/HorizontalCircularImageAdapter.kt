@@ -8,14 +8,18 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.AllData
 import com.bintyblackbook.models.EditMessageModel
+import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_horizontal_circular_image.view.*
 
 
-class HorizontalCircularImageAdapter(var context: Context, var arrayList: ArrayList<EditMessageModel>) :
+class HorizontalCircularImageAdapter(var context: Context) :
     RecyclerView.Adapter<HorizontalCircularImageAdapter.HorizontalImagesViewHolder>() {
+
+    var arrayList= ArrayList<AllData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalImagesViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_circular_image, parent, false)
@@ -37,8 +41,8 @@ class HorizontalCircularImageAdapter(var context: Context, var arrayList: ArrayL
 
         fun bind(pos: Int) {
             val editMessageModel = arrayList[pos]
-            civProfile.setImageResource(editMessageModel.image!!)
-            tvName.text = editMessageModel.name
+            Glide.with(context).load(editMessageModel.userImage).into(civProfile)
+            tvName.text = editMessageModel.userName
 
         }
     }

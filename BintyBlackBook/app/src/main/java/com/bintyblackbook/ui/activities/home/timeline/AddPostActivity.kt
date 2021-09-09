@@ -17,9 +17,7 @@ import java.io.File
 
 class AddPostActivity : ImagePickerUtility() {
 
-    var mProgress: CustomProgressDialog? = null
     private var mSnackBar: Snackbar? = null
-
     var imageFile:File?=null
     lateinit var postsViewModel: PostsViewModel
 
@@ -36,15 +34,7 @@ class AddPostActivity : ImagePickerUtility() {
     override fun selectedVideoUri(imagePath: String?) {
 
     }
-    fun showProgressDialog(){
-        mProgress = CustomProgressDialog(this)
-        mProgress!!.show()
-    }
 
-    fun dismissProgressDialog(){
-
-        mProgress!!.dismiss()
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
@@ -153,19 +143,5 @@ class AddPostActivity : ImagePickerUtility() {
     fun createRequestBody(param:String): RequestBody {
         val request=  RequestBody.create("text/plain".toMediaTypeOrNull(),param)
         return request
-    }
-
-    fun showSnackBarMessage(msg: String) {
-        try {
-            mSnackBar = Snackbar.make(
-                getWindow().getDecorView().getRootView(),
-                msg,
-                Snackbar.LENGTH_LONG
-            ) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT
-            mSnackBar?.show()
-        } catch (e: Exception) {
-            Log.e("TAG",e.printStackTrace().toString())
-        }
     }
 }

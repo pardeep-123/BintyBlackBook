@@ -9,14 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.AllData
 import com.bintyblackbook.models.EditMessageModel
+import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_edit_message.view.*
 
-class EditMessagesAdapter(val context: Context, var arrayList: ArrayList<EditMessageModel>) :
+class EditMessagesAdapter(val context: Context) :
     RecyclerView.Adapter<EditMessagesAdapter.EditMessagesViewHolder>() {
 
-    var onItemClick:((editMessageModel:EditMessageModel)->Unit)? = null
+     var arrayList = ArrayList<AllData>()
+    var onItemClick:((editMessageModel:AllData)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditMessagesViewHolder {
         val itemView =
@@ -39,9 +42,8 @@ class EditMessagesAdapter(val context: Context, var arrayList: ArrayList<EditMes
 
         fun bind(pos: Int) {
             val editMessageModel = arrayList[pos]
-
-            ivProfile.setImageResource(editMessageModel.image!!)
-            tvName.text = editMessageModel.name
+                Glide.with(context).load(editMessageModel.userImage).into(ivProfile)
+                tvName.text = editMessageModel.userName
 
             cb.setOnCheckedChangeListener { compoundButton, boolean ->
                 if (boolean){

@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.row_messages.view.*
 
 class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData>) : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.row_messages, parent, false)
         return MessagesViewHolder(itemView)
@@ -51,6 +50,7 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
             itemView.setOnClickListener {
 
                 val intent=Intent(context, ChatActivity::class.java)
+                intent.putExtra("message_type",arrayList[pos].messageType.toString())
                 intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
                 context.startActivity(intent)
             }

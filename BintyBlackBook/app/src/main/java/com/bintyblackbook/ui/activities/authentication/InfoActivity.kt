@@ -44,14 +44,16 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     var subCategory_id=""
     var subCategory_name=""
 
-    var videoAdapter:UploadVideoAdapter?=null
+
     var imageFile:File?=null
     var selectedVideoFile:String?=null
-    var mProgress: CustomProgressDialog? = null
     private var mSnackBar: Snackbar? = null
     var list_count=1
     var categoryList = ArrayList<CategoryData>()
+    var videoAdapter:UploadVideoAdapter?=null
     var videoList= ArrayList<UploadVideoModel>()
+    var uploadPhotoAdapter:UploadPhotoAdapter?=null
+    var photoList= ArrayList<UploadPhotoModel>()
 
     lateinit var infoViewModel:InfoViewModel
     var swap_value=""
@@ -60,8 +62,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     var profile_image=""
 
     var categoryDialogFragment:CategoryDialogFragment?=null
-    var uploadPhotoAdapter:UploadPhotoAdapter?=null
-    var photoList= ArrayList<UploadPhotoModel>()
+
     private var latitude = ""
     private var longitude = ""
     private val AUTOCOMPLETE_REQUEST_CODE = 1
@@ -99,7 +100,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         rvUploadPhoto.adapter= uploadPhotoAdapter
         uploadPhotoAdapter?.uploadPhotoInterface=this
         uploadPhotoAdapter?.arrayList=photoList
-        photoList.add(UploadPhotoModel("undefined",imageFile))
+        photoList.add(UploadPhotoModel("undefined",imageFile,"",0))
         uploadPhotoAdapter?.notifyDataSetChanged()
     }
 
@@ -109,7 +110,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         rvUploadVideo.adapter= videoAdapter
         videoAdapter?.uploadVideoInterface =this
         videoAdapter?.arrayList=videoList
-        videoList.add(UploadVideoModel("undefined",selectedVideoFile))
+        videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
         videoAdapter?.notifyDataSetChanged()
     }
 
@@ -132,15 +133,6 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         })
     }
 
-
-    fun showProgressDialog(){
-        mProgress = CustomProgressDialog(this)
-        mProgress?.show()
-    }
-
-    fun dismissProgressDialog(){
-        mProgress?.dismiss()
-    }
     private fun setData() {
         edtName.setText(getUser(this)?.businessName)
         edtEmail.setText(getUser(this)?.email)
@@ -172,12 +164,12 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
         addNewVideo.setOnClickListener {
             list_count += 1
-            videoList.add(UploadVideoModel("undefined",selectedVideoFile))
+            videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
             videoAdapter?.notifyDataSetChanged()
         }
         ivAddImage.setOnClickListener {
             list_count += 1
-            photoList.add(UploadPhotoModel("undefined",imageFile))
+            photoList.add(UploadPhotoModel("undefined",imageFile,"",0))
             uploadPhotoAdapter?.notifyDataSetChanged()
         }
 
@@ -314,23 +306,9 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         }
     }
 
-    fun showSnackBarMessage(msg: String) {
-        try {
-            mSnackBar = Snackbar.make(
-                getWindow().getDecorView().getRootView(),
-                msg,
-                Snackbar.LENGTH_LONG
-            ) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
-            mSnackBar?.show()
-        } catch (e: Exception) {
-            Log.e("TAG",e.printStackTrace().toString())
-        }
-    }
-
     override fun selectedImage(imagePath: File?) {
         refereshImageArray()
-        photoList.add(UploadPhotoModel("upload",imagePath))
+        photoList.add(UploadPhotoModel("upload",imagePath,"",0))
         uploadPhotoAdapter?.notifyDataSetChanged()
 //        Glide.with(this).load(imagePath).into(riv_Picture)
 //        ivDeletePhoto.visibility=View.VISIBLE
@@ -342,7 +320,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     override fun selectedVideoUri(imagePath: String?) {
         refereshVideoArray()
         Glide.with(this).load(imagePath).into(riv_video)
-        videoList.add(UploadVideoModel("upload",imagePath))
+        videoList.add(UploadVideoModel("upload",imagePath,0))
         selectedVideoFile=imagePath
         uploadMedia("1")
 
@@ -419,12 +397,12 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         Log.i("subactegory_ids","====ids"+ subCategory_id +"====names"+subCategory_name)
     }
 
-    override fun onVideoUpload(position: Int) {
+    override fun onVideoUpload(data:UploadVideoModel,position: Int) {
         getImage(this,0,true)
     }
 
-    override fun deleteVideo(position: Int) {
-        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,"")
+    override fun deleteVideo(data:UploadVideoModel,position: Int) {
+        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
         infoViewModel.mediaLiveData.observe(this,  {
 
             if(it.code==200){
@@ -433,11 +411,11 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         })
     }
 
-    override fun onPhotoUpload(position: Int) {
+    override fun onPhotoUpload(data:UploadPhotoModel,position: Int) {
         getImage(this,0,false)
     }
 
-    override fun onDeletePhoto(position: Int) {
+    override fun onDeletePhoto(data:UploadPhotoModel,position: Int) {
         photoList.removeAt(position)
         Log.i("list_size",photoList.toString())
         uploadPhotoAdapter?.notifyDataSetChanged()

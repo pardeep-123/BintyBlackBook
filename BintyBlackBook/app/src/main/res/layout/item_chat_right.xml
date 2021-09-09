@@ -12,19 +12,19 @@
         android:layout_alignParentEnd="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
+            android:id="@+id/profile_image_user"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:src="@drawable/user12" />
 
         <TextView
-            android:id="@+id/tvMessage"
+            android:id="@+id/tvMessageUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp10"
             android:background="@drawable/bg_chat_right"
-            android:layout_toStartOf="@id/profile_image"
+            android:layout_toStartOf="@id/profile_image_user"
             android:fontFamily="@font/trajanpro_regular"
             android:padding="@dimen/dp8"
             android:text="@string/heading"
@@ -32,12 +32,12 @@
             android:textSize="@dimen/sp13" />
 
         <TextView
-            android:id="@+id/tvTime"
+            android:id="@+id/tvTimeUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvMessage"
+            android:layout_below="@id/tvMessageUser"
             android:layout_marginEnd="@dimen/dp10"
-            android:layout_toStartOf="@id/profile_image"
+            android:layout_toStartOf="@id/profile_image_user"
             android:fontFamily="@font/trajanpro_regular"
             android:text="2:00 pm"
             android:textColor="@color/blackColor"

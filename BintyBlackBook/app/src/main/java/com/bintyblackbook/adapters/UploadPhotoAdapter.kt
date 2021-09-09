@@ -46,21 +46,26 @@ class UploadPhotoAdapter(val context: Context): RecyclerView.Adapter<UploadPhoto
             else {
                 img_upload.visibility= View.GONE
                 img_delete.visibility= View.VISIBLE
-                Glide.with(context).load(data.photo_url).into(imageView)
+                if(!data.image.isNullOrEmpty()){
+                    Glide.with(context).load(data.image).into(imageView)
+                }else{
+                    Glide.with(context).load(data.photo_url).into(imageView)
+                }
+
             }
 
             img_upload.setOnClickListener {
-                uploadPhotoInterface.onPhotoUpload(position)
+                uploadPhotoInterface.onPhotoUpload(arrayList[position],position)
             }
 
             img_delete.setOnClickListener {
-                uploadPhotoInterface.onDeletePhoto(position)
+                uploadPhotoInterface.onDeletePhoto(arrayList[position],position)
             }
         }
     }
 
     interface UploadPhotoInterface{
-        fun onPhotoUpload(position: Int)
-        fun onDeletePhoto(position: Int)
+        fun onPhotoUpload(data:UploadPhotoModel,position: Int)
+        fun onDeletePhoto(data:UploadPhotoModel,position: Int)
     }
 }

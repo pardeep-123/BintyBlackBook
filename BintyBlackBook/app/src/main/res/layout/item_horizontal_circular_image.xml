@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="@dimen/dp10">
-
-    <RelativeLayout
-        android:layout_width="60dp"
-        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/dp5"
             android:src="@drawable/alina" />
 
@@ -20,7 +20,10 @@
             android:id="@+id/rlCross"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentEnd="true">
+            android:layout_marginStart="@dimen/dp10"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/civ_profile"
+            app:layout_constraintEnd_toEndOf="@id/civ_profile">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -32,16 +35,19 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/civ_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_below="@id/civ_profile"
+            android:layout_marginTop="@dimen/dp10"
             android:fontFamily="@font/romul"
             android:lines="1"
             android:text="@string/john"
             android:textColor="@color/whiteColor"
-            android:textSize="@dimen/sp10"
+            android:textSize="@dimen/sp9"
             android:textAlignment="center"/>
 
-    </RelativeLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

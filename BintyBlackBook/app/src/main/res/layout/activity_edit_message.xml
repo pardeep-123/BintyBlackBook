@@ -56,12 +56,15 @@
         android:layout_below="@id/tbMain"
         android:layout_marginStart="@dimen/dp30"
         android:layout_marginEnd="@dimen/dp10"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEditMessages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp10"
         android:layout_below="@id/rvHorizontal"
         android:layout_above="@id/btnNext"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

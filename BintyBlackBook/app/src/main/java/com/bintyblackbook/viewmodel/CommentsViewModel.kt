@@ -21,7 +21,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
 
 
     var commentLiveData = MutableLiveData<CommentsResponse>()
-    var addCommentLiveData= MutableLiveData<BaseResponseModel>()
+    var baseResponseLiveData= MutableLiveData<BaseResponseModel>()
 
     /*
   get comments
@@ -72,7 +72,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
     add comment
      */
     fun addComment(securityKey: String,auth_key: String,post_id:String,comment:String){
-        (context as BaseActivity).showProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.addComment(securityKey,auth_key, post_id,comment).enqueue(object :
             Callback<JsonElement> {
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
@@ -94,7 +94,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addCommentLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
 
@@ -125,7 +125,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addCommentLiveData.value = jsonObj
+                            baseResponseLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
                         }

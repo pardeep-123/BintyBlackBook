@@ -38,9 +38,9 @@ import java.util.*
 
 class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
-    val context: Context =this
+
     var user_type="User"
-    var mProgress: CustomProgressDialog? = null
+
     private var mSnackBar: Snackbar? = null
 
     var selectedImagePath:File?=null
@@ -58,16 +58,6 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
     }
 
     override fun selectedVideoUri(imagePath: String?) {
-    }
-
-    fun showProgressDialog(){
-        mProgress = CustomProgressDialog(this)
-        mProgress!!.show()
-    }
-
-    fun dismissProgressDialog(){
-
-        mProgress!!.dismiss()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -294,19 +284,6 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         lin_business.visibility = View.GONE
     }
 
-    fun showSnackBarMessage(msg: String) {
-        try {
-            mSnackBar = Snackbar.make(
-                getWindow().getDecorView().getRootView(),
-                msg,
-                Snackbar.LENGTH_LONG
-            ) //Assume "rootLayout" as the root layout of every activity.
-            mSnackBar?.duration = Snackbar.LENGTH_SHORT!!
-            mSnackBar?.show()
-        } catch (e: Exception) {
-            Log.e("TAG",e.printStackTrace().toString())
-        }
-    }
     private fun businessBtnClick(){
         MySharedPreferences.storeUserType(this, "Business")
 

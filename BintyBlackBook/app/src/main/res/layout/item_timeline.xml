@@ -7,8 +7,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:src="@drawable/alina" />
 
     <RelativeLayout
@@ -50,7 +50,7 @@
                 android:lines="1"
                 android:text="2m ago"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp10" />
 
             <RelativeLayout
                 android:id="@+id/rlDots"
@@ -72,7 +72,7 @@
         android:id="@+id/ivPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginTop="4dp"
         android:layout_below="@id/rlName"
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/civ_profile"
@@ -88,7 +88,6 @@
         android:layout_marginStart="@dimen/dp10"
         android:layout_marginTop="@dimen/dp10"
         android:layout_toEndOf="@id/civ_profile"
-        android:fontFamily="@font/trajanpro_regular"
         android:text="@string/dummy_text"
         android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp11" />
@@ -108,8 +107,8 @@
 
             <ImageView
                 android:id="@+id/ivHeart"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp16"
+                android:layout_height="@dimen/dp16"
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/image"
                 android:src="@drawable/like" />
@@ -133,8 +132,8 @@
             android:layout_marginStart="@dimen/dp20">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp16"
+                android:layout_height="@dimen/dp16"
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/image"
                 android:src="@drawable/comment" />

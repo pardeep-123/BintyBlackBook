@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -38,7 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-abstract class ImagePickerUtility : AppCompatActivity() {
+abstract class ImagePickerUtility : BaseActivity() {
 
     val REQUEST_CODE = 100
     private val GALLERY_PIC_REQUEST_CODE = 101

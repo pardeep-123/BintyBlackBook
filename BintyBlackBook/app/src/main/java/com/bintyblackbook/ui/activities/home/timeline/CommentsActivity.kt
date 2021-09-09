@@ -8,12 +8,13 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CommentsAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.CommentData
+import com.bintyblackbook.ui.dialogues.DeleteCommentDialogFragment
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.CommentsViewModel
 import kotlinx.android.synthetic.main.activity_comments.*
 import java.util.*
 
-class CommentsActivity : BaseActivity() {
+class CommentsActivity : BaseActivity(),CommentsAdapter.CommentInterface {
 
     var commentsAdapter:CommentsAdapter? = null
 
@@ -42,11 +43,10 @@ class CommentsActivity : BaseActivity() {
                 && Validations.isEmpty(context,edtMsg,getString(R.string.err_comment))){
 
                 commentsViewModel.addComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,post_id,edtMsg.text.toString())
-                commentsViewModel.addCommentLiveData.observe(this, Observer {
+                commentsViewModel.baseResponseLiveData.observe(this, Observer {
 
                     if(it.code==200){
                         edtMsg.text.clear()
-                        showAlertWithOk(it.msg)
                         getCommentList(post_id)
                     }
                 })
@@ -81,18 +81,24 @@ class CommentsActivity : BaseActivity() {
         rvComments.layoutManager = LinearLayoutManager(this)
         commentsAdapter = CommentsAdapter(this)
         rvComments.adapter = commentsAdapter
+        commentsAdapter?.commentInterface=this
         commentsAdapter?.arrayList=arrayList
     }
 
-    fun deleteComment(){
+    fun deleteComment(position: Int){
         commentsViewModel.deleteComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,"")
-        commentsViewModel.addCommentLiveData.observe(this, Observer {
+        commentsViewModel.baseResponseLiveData.observe(this, Observer {
 
             if(it.code==200){
-                arrayList.removeAt(0)
+                arrayList.removeAt(position)
                 commentsAdapter?.notifyDataSetChanged()
             }
 
         })
+    }
+
+    override fun onDeleteComment(data: CommentData, position: Int) {
+        val dialog = DeleteCommentDialogFragment(this,position)
+        dialog.show(supportFragmentManager,"commentdelete")
     }
 }

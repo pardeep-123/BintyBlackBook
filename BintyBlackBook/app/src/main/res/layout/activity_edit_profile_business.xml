@@ -5,53 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themeColor"
-    tools:context=".ui.activities.home.profileBusiness.EditProfileBusinessActivity">
+    tools:context=".ui.activities.authentication.InfoActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/themeColor"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/AppTheme"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/rlBack"
-                android:layout_width="50dp"
-                android:layout_height="40dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/back"
-                    android:contentDescription="@string/image" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tvHeading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/romul"
-                android:text="@string/edit_profile"
-                android:textColor="@color/whiteColor"
-                android:textSize="13sp" />
-
-        </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tbMain"
+        android:layout_below="@id/toolbar"
         android:scrollbars="none">
 
         <LinearLayout
@@ -90,7 +53,7 @@
                 android:text="@string/name"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <EditText
@@ -108,7 +71,7 @@
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
 
@@ -120,7 +83,7 @@
                 android:text="@string/email"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <EditText
@@ -138,7 +101,7 @@
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
 
@@ -150,7 +113,7 @@
                 android:text="@string/phone_number"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -174,11 +137,11 @@
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
                     app:ccp_textSize="@dimen/sp13"
-                    app:ccp_arrowColor="@color/blackColor"/>
+                    app:ccp_arrowColor="@color/whiteColor"/>
 
 
                 <EditText
-                    android:id="@+id/edtMobileNumber"
+                    android:id="@+id/etMobileNumber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@+id/ccp"
@@ -192,7 +155,7 @@
                     android:singleLine="true"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
-                    android:textColorHint="@color/whiteColor"
+                    android:textColorHint="@color/colorLightBlack"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="@dimen/sp13"
                     tools:ignore="RtlSymmetry" />
@@ -207,7 +170,7 @@
                 android:text="@string/business_category"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -222,15 +185,39 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:background="@null"
-                    android:textSize="@dimen/sp13" />
+                    android:visibility="gone"
+                    android:textSize="@dimen/sp12" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/dp10"
+                    android:visibility="gone"
                     android:contentDescription="@string/image"
                     android:src="@drawable/dropdown" />
+
+                <EditText
+                    android:id="@+id/etSelectCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/bg_curved_edit_text_green"
+                    android:hint="@string/select_category"
+                    android:drawableEnd="@drawable/down_arrow_2"
+                    android:drawableTint="@color/whiteColor"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:singleLine="true"
+                    android:textAllCaps="false"
+                    android:focusable="false"
+                    android:textColor="@color/whiteColor"
+                    android:textColorHint="@color/colorLightBlack"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="@dimen/sp13"/>
 
             </RelativeLayout>
 
@@ -242,7 +229,7 @@
                 android:text="@string/experience"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <EditText
@@ -260,7 +247,7 @@
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
 
@@ -272,26 +259,183 @@
                 android:text="@string/location"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
                 android:hint="@string/location"
                 android:imeOptions="actionDone"
-                android:lineSpacingExtra="@dimen/dp5"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
+                android:padding="@dimen/dp10"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:focusable="false"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp13" />
+
+            <LinearLayout
+                android:id="@+id/llService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:text="Is This Service Providing Business?"
+                    android:textAllCaps="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:src="@drawable/info"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+
+            <RadioGroup
+                android:id="@+id/rgServiceEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbYesEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:button="@drawable/bg_radio_button"
+                    android:fontFamily="@font/romul"
+                    android:paddingStart="@dimen/dp5"
+                    android:text="@string/yes"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/rbNoEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp20"
+                    android:button="@drawable/bg_radio_button"
+                    android:fontFamily="@font/romul"
+                    android:paddingStart="@dimen/dp5"
+                    android:text="@string/no"
+                    android:textIsSelectable="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    tools:ignore="RtlSymmetry" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvServiceType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/service_type"
+                android:textAllCaps="true"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtServiceType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:background="@drawable/bg_curved_edit_text_green"
+                android:hint="@string/service_type"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
                 android:padding="@dimen/dp10"
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp13" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/hours_and_days_of_operation"
+                android:textAllCaps="true"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtHrsDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:background="@drawable/bg_curved_edit_text_green"
+                android:hint="@string/hours_and_days_of_operation"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
+                android:padding="@dimen/dp10"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp13" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/social_media_handle"
+                android:textAllCaps="true"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtSocialMedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:background="@drawable/bg_curved_edit_text_green"
+                android:hint="@string/social_media_handle"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
+                android:padding="@dimen/dp10"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
 
@@ -303,37 +447,190 @@
                 android:text="@string/website_link"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edtWebsiteLink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
                 android:hint="@string/website_link"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
                 android:padding="@dimen/dp10"
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/open_to_the_swap_system"
+                    android:textAllCaps="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:src="@drawable/info"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+
+            <RadioGroup
+                android:id="@+id/rgSwapEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbYesSwapEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:button="@drawable/bg_radio_button"
+                    android:fontFamily="@font/romul"
+                    android:paddingStart="@dimen/dp5"
+                    android:text="@string/yes"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/rbNoSwapEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp20"
+                    android:button="@drawable/bg_radio_button"
+                    android:fontFamily="@font/romul"
+                    android:paddingStart="@dimen/dp5"
+                    android:text="@string/no"
+
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    tools:ignore="RtlSymmetry" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvSwap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/swaps_in_mind"
+                android:textAllCaps="true"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp12"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtSwaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5"
+                android:background="@drawable/bg_curved_edit_text_green"
+                android:hint="@string/swaps_in_mind"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:minHeight="50dp"
+                android:padding="@dimen/dp10"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/sp13" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/is_your_business_black_owned"
+                    android:textAllCaps="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:src="@drawable/info"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+
+            <RadioGroup
+                android:id="@+id/rgBlackOwned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbYesOwned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:button="@drawable/bg_radio_button"
+                    android:fontFamily="@font/romul"
+                    android:paddingStart="@dimen/dp5"
+                    android:text="@string/yes"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    tools:ignore="RtlSymmetry" />
+
+                <RadioButton
+                    android:id="@+id/rbNoOwned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp20"
+                    android:button="@drawable/bg_radio_button"
+                    android:fontFamily="@font/romul"
+                    android:paddingStart="@dimen/dp5"
+                    android:text="@string/no"
+
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp12"
+                    tools:ignore="RtlSymmetry" />
+
+            </RadioGroup>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/romul"
-                android:text="@string/about_me"
+                android:text="@string/about_the_business"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp14"
+                android:textSize="@dimen/sp12"
                 android:textStyle="bold" />
 
             <EditText
@@ -343,7 +640,7 @@
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
                 android:gravity="start|top"
-                android:hint="@string/about_me"
+                android:hint="@string/about_the_business"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
@@ -352,7 +649,7 @@
                 android:scrollbars="vertical"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textColorHint="@color/whiteColor"
+                android:textColorHint="@color/colorLightBlack"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="@dimen/sp13" />
 
@@ -369,10 +666,11 @@
                     android:text="@string/upload_video"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp14"
+                    android:textSize="@dimen/sp12"
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/ivAddNewVideo"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginStart="@dimen/dp15"
@@ -380,25 +678,34 @@
                     android:src="@drawable/add_new" />
             </LinearLayout>
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvEditUploadVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:nestedScrollingEnabled="false"/>
+
             <RelativeLayout
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
+                android:visibility="gone"
                 android:background="@drawable/bg_curved_edit_text_green">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/riv_video"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:riv_corner_radius="@dimen/dp5"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    app:riv_corner_radius="@dimen/dp5" />
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/image"
-                    android:src="@drawable/upload_camera" />
+                    android:src="@drawable/upload_icon" />
 
             </RelativeLayout>
 
@@ -415,10 +722,11 @@
                     android:text="@string/upload_images"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp14"
+                    android:textSize="@dimen/sp12"
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/ivAddImageUser"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginStart="@dimen/dp15"
@@ -427,40 +735,59 @@
 
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvEditUploadPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:nestedScrollingEnabled="false"
+                />
+
             <RelativeLayout
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
                 android:layout_marginTop="@dimen/dp5"
+                android:visibility="gone"
                 android:background="@drawable/bg_curved_edit_text_green">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/riv_Picture"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:riv_corner_radius="@dimen/dp5"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    app:riv_corner_radius="@dimen/dp5" />
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/image"
-                    android:src="@drawable/upload_camera" />
+                    android:src="@drawable/upload_icon" />
+
+                <ImageView
+                    android:id="@+id/ivDeletePhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:visibility="gone"
+                    android:src="@drawable/cross"/>
 
             </RelativeLayout>
 
             <Button
-                android:id="@+id/btnSave"
+                android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp40"
                 android:layout_marginBottom="@dimen/dp20"
                 android:background="@drawable/btn1"
                 android:fontFamily="@font/romul"
-                android:text="@string/save"
+                android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp13" />
+                android:textSize="@dimen/sp12" />
 
         </LinearLayout>
 
