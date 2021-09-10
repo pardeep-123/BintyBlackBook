@@ -76,6 +76,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
     var service_business =""
 
     var profile_image=""
+
     override fun selectedImage(imagePath: File?) {
         refereshImageArray()
         photoList.add(UploadPhotoModel("upload",imagePath,"",0))
@@ -155,25 +156,44 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         edtWebsiteLink.setText(user?.websiteLink)
         edtAboutMe.setText(user?.description)
         etMobileNumber.setText(user?.phone)
+        edtHrsDays.setText(user?.operationTime)
+        edtSocialMedia.setText(user?.socialMediaHandles)
+        swap_value= user?.isSwapSystem.toString()
+        service_business= user?.isServiceProviding.toString()
 
+        if(swap_value == "1"){
+            rbYesEdit.isChecked
+        }else{
+            !rbNoEdit.isChecked
+        }
         val id_list=ArrayList<String>()
         val name_list=ArrayList<String>()
+        val sub_idList=ArrayList<String>()
+        val subCategoryList= ArrayList<String>()
         user?.category?.forEach{
             id_list.add(it.id.toString())
             name_list.add(it.name)
+
+            it.subCategories.forEach {
+                sub_idList.add(it.id.toString())
+                subCategoryList.add(it.name.toString())
+            }
         }
-        val subCategory_id= TextUtils.join(",",id_list)
-        etSelectCategory.setText(TextUtils.join(",",name_list))
+        subCategory_id=TextUtils.join(",",sub_idList)
+        subCategory_name=TextUtils.join(",",subCategoryList)
+        categoty_id= TextUtils.join(",",id_list)
+        category_name= TextUtils.join(",",name_list)
+        etSelectCategory.setText(category_name)
         riv_video.setImageResource(R.drawable.slider)
         riv_Picture.setImageResource(R.drawable.background)
         list_count= user?.userMedia?.size!!
+
         for(i in 0 until user.userMedia.size){
             if(user.userMedia[i].media.endsWith(".jpg")){
                 val file=File("")
                 photoList.add(UploadPhotoModel("upload",file,user.userMedia[i].media,user.userMedia[i].id))
                 uploadPhotoAdapter?.notifyDataSetChanged()
-            }
-            else{
+            } else{
                 videoList.add(UploadVideoModel("upload",user.userMedia[i].media,user.userMedia[i].id))
                 videoAdapter?.notifyDataSetChanged()
             }
@@ -206,13 +226,10 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         ivAddNewVideo.setOnClickListener(this)
         btnSubmit.setOnClickListener(this)
         etSelectCategory.setOnClickListener(this)
-
         civ_profile.setOnClickListener(this)
-
         riv_video.setOnClickListener(this)
-
         riv_Picture.setOnClickListener(this)
-
+        edtLocation.setOnClickListener(this)
 
         rgServiceEdit.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -250,19 +267,6 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             }
         }
 
-
-        edtLocation.setOnClickListener {
-            val fields = listOf(
-                Place.Field.ID,
-                Place.Field.NAME,
-                Place.Field.LAT_LNG,
-                Place.Field.ADDRESS_COMPONENTS,
-                Place.Field.ADDRESS
-            )
-            // Start the autocomplete intent.
-            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
-            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
-        }
     }
 
     private fun uploadMedia(type: String) {
@@ -330,16 +334,16 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             map.put("website_link",createRequestBody(edtWebsiteLink.text.toString()))
             map.put("description",createRequestBody(edtAboutMe.text.toString()))
             map.put("address",createRequestBody(edtLocation.text.toString()))
-            map.put("latitude",createRequestBody("0.0"))
-            map.put("longitude",createRequestBody("0.0"))
-            map.put("category_id",createRequestBody(etUserPhoneNumber.text.toString()))
-            map.put("sub_category_id",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
+            map.put("latitude",createRequestBody(latitude))
+            map.put("longitude",createRequestBody(longitude))
+            map.put("category_id",createRequestBody(categoty_id))
+            map.put("sub_category_id",createRequestBody(subCategory_id))
             map.put("device_type",createRequestBody("1"))
             map.put("device_token",createRequestBody("12345"))
             map.put("pushKitToken",createRequestBody("12345"))
             map.put("uuid",createRequestBody("12345"))
             map.put("availability",createRequestBody(""))
-            map.put("swapInMind",createRequestBody(edtEmail.text.toString()))
+            map.put("swapInMind",createRequestBody(edtSwaps.text.toString()))
             map.put("isSwapSystem",createRequestBody(swap_value))
             map.put("operationTime",createRequestBody(edtHrsDays.text.toString()))
             map.put("isServiceProviding",createRequestBody(service_business))
@@ -356,10 +360,12 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                 imagenPerfil = MultipartBody.Part.createFormData("image", imageFile?.name, requestFile)
             }
 
-            infoViewModel.addEditInfo(this,
-                getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            infoViewModel.addEditInfo(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             infoViewModel.infoLiveData.observe(this, androidx.lifecycle.Observer {
-
+                    saveUser(context,it.data!!)
+                showAlert(context,it?.msg!!,getString(R.string.ok)){
+                    finish()
+                }
             })
         }
     }
@@ -494,6 +500,19 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                     categoryDialogFragment = CategoryDialogFragment(categoryList, this, this)
                     categoryDialogFragment?.show(this.supportFragmentManager, "dialog")
                 }
+            }
+
+            R.id.edtLocation ->{
+                val fields = listOf(
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.LAT_LNG,
+                    Place.Field.ADDRESS_COMPONENTS,
+                    Place.Field.ADDRESS
+                )
+                // Start the autocomplete intent.
+                val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
             }
 
             R.id.btnSubmit ->{

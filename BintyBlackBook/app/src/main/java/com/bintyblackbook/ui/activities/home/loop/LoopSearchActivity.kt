@@ -65,7 +65,7 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if(!s.isNullOrEmpty()){
+        if(!s.isNullOrEmpty()) {
             getUserList(s.toString())
         }
     }

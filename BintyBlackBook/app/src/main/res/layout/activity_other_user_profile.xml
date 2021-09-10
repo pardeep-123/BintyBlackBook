@@ -58,8 +58,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:layout_marginStart="@dimen/dp8"
-                android:layout_marginTop="@dimen/dp10"
                 android:layout_marginEnd="@dimen/dp8">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -102,13 +102,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"
-                android:layout_marginTop="@dimen/dp15"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="@dimen/dp8"
                 android:fontFamily="@font/romul"
                 android:text="@string/about"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11" />
 
             <TextView
                 android:id="@+id/tvOtherUserAbout"
@@ -119,7 +118,7 @@
                 android:fontFamily="@font/trajanpro_regular"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -130,8 +129,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/business_category"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"/>
 
             <TextView
                 android:id="@+id/tvBusinessCategory"
@@ -143,7 +141,7 @@
                 android:text=""
                 android:singleLine="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -154,8 +152,8 @@
                 android:fontFamily="@font/romul"
                 android:text="Sub Category"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                />
 
             <TextView
                 android:id="@+id/tvSubCategory"
@@ -166,7 +164,7 @@
                 android:fontFamily="@font/romul"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -177,8 +175,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/years_in_business"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                />
 
             <TextView
                 android:id="@+id/tvBusinessYrs"
@@ -200,8 +198,7 @@
                 android:fontFamily="@font/romul"
                 android:text="Services Provided"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11" />
 
             <TextView
                 android:id="@+id/tvServices"
@@ -212,7 +209,7 @@
                 android:fontFamily="@font/romul"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:id="@+id/tvOpenToSwap"
@@ -224,8 +221,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/open_to_swap"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                />
 
             <TextView
                 android:id="@+id/tvSwapMind"
@@ -237,8 +234,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/swap_in_mind"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+               />
 
             <TextView
                 android:id="@+id/tvSwaps"
@@ -250,7 +247,7 @@
                 android:text=""
                 android:lineSpacingExtra="4dp"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
 
             <TextView
@@ -262,8 +259,8 @@
                 android:fontFamily="@font/romul"
                 android:text="Hours and days of operation"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                 />
 
             <TextView
                 android:id="@+id/tvOperationTime"
@@ -274,7 +271,7 @@
                 android:fontFamily="@font/romul"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -285,8 +282,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/website_link"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                 />
 
             <TextView
                 android:id="@+id/tvWebLink"
@@ -297,7 +294,7 @@
                 android:fontFamily="@font/romul"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -308,8 +305,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/social_media_handle"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+              />
 
             <TextView
                 android:id="@+id/tvSocialMedia"
@@ -320,7 +317,7 @@
                 android:fontFamily="@font/romul"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
 
             <Button
@@ -372,6 +369,20 @@
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp13" />
+
+            <Button
+                android:id="@+id/btnAcceptReq"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/dp15"
+                android:background="@drawable/btn1"
+                android:fontFamily="@font/romul"
+                android:text="@string/accept_loop_request"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/sp13" />
+
 
             <Button
                 android:id="@+id/btnUserEvent"

@@ -49,13 +49,16 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
             if(list[pos].status==1){
                 itemView.ll_loops.visibility=View.GONE
                 itemView.ll_request.visibility=View.VISIBLE
+                itemView.tv_request.text= list[pos].userName
+                Glide.with(context).load(list[pos].userImage).into(civProfile)
+
             }
             else{
                 itemView.ll_loops.visibility=View.VISIBLE
                 itemView.ll_request.visibility=View.GONE
+                tvName.text=list[pos].userName
+                Glide.with(context).load(list[pos].userImage).into(civProfile)
             }
-            tvName.text=list[pos].userName
-            Glide.with(context).load(list[pos].userImage).into(civProfile)
 
             itemView.setOnClickListener {
                 loopsInterface.onItemClick(list[pos],pos)

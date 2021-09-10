@@ -189,5 +189,6 @@
     <string name="err_event_name">Please enter event name</string>
     <string name="delete_comment">Are you sure you want to delete this comment?</string>
     <string name="view_edit_profile">VIEW/EDIT PROFILE</string>
+    <string name="accept_loop_request">Accept Loop Request</string>
 
 </resources>

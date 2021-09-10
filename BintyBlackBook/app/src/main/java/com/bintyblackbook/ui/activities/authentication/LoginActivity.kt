@@ -74,10 +74,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                    else if(response.userType==1 && response.experience.isNullOrEmpty()){
                        val intent =Intent(this,InfoActivity::class.java)
                        startActivity(intent)
-                   }
-
-                   else{
-                       val intent =Intent(this,HomeActivity::class.java)
+                   } else{
+                       val intent =Intent(this,WelcomeTutorial::class.java)
                        startActivity(intent)
                    }
                }

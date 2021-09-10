@@ -22,8 +22,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class EventAdapter(var context: Context, var list: ArrayList<EventData>) :
-    RecyclerView.Adapter<EventAdapter.EventViewHolder>(), Filterable {
+class EventAdapter(var context: Context, var list: ArrayList<EventData>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), Filterable {
     var arrayList = ArrayList<EventData>()
     var isFavourite = false
     var onItemClick: ((eventsModel: EventData) -> Unit)? = null

@@ -85,6 +85,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     private fun setData(data: Data?) {
 
+        headingText.text= data?.firstName
         if(data?.isSwapSystem=="0"){
             tvOpenToSwap.visibility=View.GONE
             tvSwapMind.visibility=View.GONE
@@ -96,14 +97,21 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             tvSwaps.text= data?.swapInMind
         }
 
-        if(data?.isLoop==0){
-            btnChatUser.visibility=View.GONE
-            btnUnLoopUser.visibility=View.GONE
-            btnLoopUser.visibility=View.VISIBLE
-        } else{
+        if(data?.isLoop==2){
             btnChatUser.visibility=View.VISIBLE
             btnUnLoopUser.visibility=View.VISIBLE
+            btnAcceptReq.visibility=View.GONE
             btnLoopUser.visibility= View.GONE
+        }else if(data?.isLoop==0){
+            btnChatUser.visibility=View.GONE
+            btnUnLoopUser.visibility=View.GONE
+            btnAcceptReq.visibility=View.VISIBLE
+            btnLoopUser.visibility= View.GONE
+        } else{
+            btnChatUser.visibility=View.GONE
+            btnUnLoopUser.visibility=View.GONE
+            btnAcceptReq.visibility=View.GONE
+            btnLoopUser.visibility=View.VISIBLE
         }
 
         tvUserName.text=data?.firstName
@@ -114,10 +122,10 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         data?.category!!.forEach {
             categories.add(it.name)
             it.subCategories.forEach {
-                subCategories.add(it.name)
+                subCategories.add("#"+it.name)
             }
         }
-        tvSubCategory.text = TextUtils.join("# ",subCategories)
+        tvSubCategory.text = TextUtils.join(" ,",subCategories)
         tvBusinessCategory.text= TextUtils.join(",", categories)
 
         //tvSubCategory.text= TextUtils.join(",")

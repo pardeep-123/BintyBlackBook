@@ -32,6 +32,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
     var message_type=""
     var listChat = ArrayList<Datum>()
     lateinit var adapter: ChatAdaptr
+    var user_id:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +72,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
 
 
     private fun setPopUpWindow() {
-        val inflater =
-            applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val  view = inflater.inflate(R.layout.popup_in_chat, null)
 
         val tvClear = view.findViewById<TextView>(R.id.tvClear)
@@ -126,6 +126,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                             val chatModel = Datum()
 
                             chatModel.id = data.getInt("id")
+                            user_id=chatModel.id.toString()
                             chatModel.readStatus = data.getInt("readStatus")
                             chatModel.groupId = data.getInt("groupId")
                             chatModel.deletedId = data.getInt("deletedId")
@@ -142,7 +143,6 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                             chatModel.messageType = data.getString("messageType")
                             listChat.add(chatModel)
                         }
-
 
                         runOnUiThread {
                             adapter = ChatAdaptr(context, listChat, getUser(this)?.id.toString())
@@ -198,7 +198,6 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
 
     override fun onResume() {
         super.onResume()
-        socketManager?.unRegister(this)
         socketManager?.onRegister(this)
 
     }
@@ -233,19 +232,18 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
 
             R.id.btnBookNow ->{
                 val intent = Intent(this,CheckAvailabilityActivity::class.java)
-                //intent.putExtra("user_id",userId)
+                intent.putExtra("user_id",user_id)
                 startActivity(intent)
             }
 
             R.id.rlBack ->{
-                this.finish()
+                finish()
             }
 
             R.id.rlSend ->{
                 if (edtMsg.text.toString().trim().isEmpty()) {
-                    Toast.makeText(context,"Please enter a message!!", Toast.LENGTH_LONG).show()
-                }
-                else {
+                    Toast.makeText(context,"Please enter a message", Toast.LENGTH_LONG).show()
+                } else {
                     val jsonObject = JSONObject()
                     jsonObject.put("senderId", getUser(this)?.id.toString())
                     jsonObject.put("receiverId",receiverId)

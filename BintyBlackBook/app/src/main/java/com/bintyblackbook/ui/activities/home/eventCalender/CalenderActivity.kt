@@ -19,18 +19,15 @@ class CalenderActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calender)
 
-
-        //calendarView.selectedDate = Calendar.getInstance().time
         setOnClicks()
 
         val calendar = Calendar.getInstance()
       //  calendar.set(2021,8,7)
 
         calendarView.setDate(calendar)
-//        val selectedDate:Calendar= calendarView.firstSelectedDate
-//        Log.i("selectedDate", selectedDate.time.toString())
 
-        calendarView.setMinimumDate(Calendar.getInstance())
+        calendarView.setMinimumDate(calendar)
+
 
         calendarView.setOnDayClickListener {
             selected_date = it.calendar.time.toString()

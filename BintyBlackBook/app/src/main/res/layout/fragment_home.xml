@@ -43,7 +43,7 @@
                 android:textAlignment="center"
                 android:text="@string/hey_cosmopolite_how_can_we_help_you"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp11" />
 
             <RelativeLayout
                 android:id="@+id/rlBell"
@@ -53,8 +53,8 @@
                 android:layout_marginEnd="@dimen/dp10">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp18"
+                    android:layout_height="@dimen/dp18"
                     android:layout_centerInParent="true"
                     android:background="@drawable/ic_bell"
                     android:contentDescription="@string/image" />
@@ -78,10 +78,11 @@
 
             <ImageView
                 android:id="@+id/ivSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/rlBell"
+                android:layout_marginEnd="@dimen/dp10"
                 android:contentDescription="@string/image"
                 android:src="@drawable/ic_search" />
 
@@ -118,17 +119,16 @@
         android:textColor="@color/whiteColor"
         android:layout_below="@+id/edtSearch"
         android:text="@string/directory"
-        android:textSize="@dimen/sp16"
+        android:textSize="@dimen/sp17"
         android:fontFamily="@font/romul"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="@dimen/dp8"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tvTitle"
-        android:layout_marginTop="@dimen/dp10"
-        android:paddingTop="@dimen/dp10" />
+        android:layout_marginTop="@dimen/dp14" />
 
     <TextView
         android:id="@+id/noHomeData"

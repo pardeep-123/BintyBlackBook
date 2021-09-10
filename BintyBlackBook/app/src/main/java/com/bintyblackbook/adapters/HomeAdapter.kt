@@ -74,11 +74,6 @@ class HomeAdapter(val context: Context, var list: ArrayList<HomeData>) :
                                     Locale.US
                                 )
                             )
-                        /* || row.userLocation.toUpperCase(Locale.US).contains(
-                             constraint.toString().toUpperCase(
-                                 Locale.US
-                             )
-                         )*/
                         ) {
                             resultList.add(row)
                         }

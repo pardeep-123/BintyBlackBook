@@ -73,11 +73,15 @@ class PhotoAdapter(var list: ArrayList<CategoryName>, var context: Context) : Re
                     val resultList=ArrayList<CategoryName>()
                     for(row in list){
                         if (row.firstName.toUpperCase(Locale.US).contains(constraint.toString().toUpperCase(Locale.US))
+
+                            || row.firstName.toLowerCase(Locale.US).contains(constraint.toString().toLowerCase(
+                                Locale.US))
                             || row.categoryName.toLowerCase(Locale.US).contains(
                                 constraint.toString().toLowerCase(
                                     Locale.US
                                 )
                             )
+                            || row.categoryName.toUpperCase(Locale.US).contains(constraint.toString().toUpperCase())
                             || row.userLocation.toLowerCase(Locale.US).contains(
                                 constraint.toString().toLowerCase(
                                     Locale.US

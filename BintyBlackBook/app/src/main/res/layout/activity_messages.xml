@@ -47,14 +47,28 @@
                 android:textSize="13sp" />
 
             <RelativeLayout
+                android:id="@+id/rlVideoCall"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_toStartOf="@+id/rlEdit">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/video"
+                    android:contentDescription="@string/image" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rlEdit"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/edit1111"
                     android:contentDescription="@string/image" />

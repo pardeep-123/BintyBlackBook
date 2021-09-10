@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_height="300dp"
     android:background="@color/themeColor"
     android:orientation="vertical">
 
@@ -25,12 +24,12 @@
             android:text="@string/heading"
             android:textAllCaps="true"
             android:textColor="@color/whiteColor"
-            android:textSize="13sp" />
+            android:textSize="@dimen/sp14" />
 
         <ImageView
             android:id="@+id/ivArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:contentDescription="@string/image"
             android:src="@drawable/arrow1" />
@@ -39,8 +38,8 @@
 
     <com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
         android:id="@+id/horizontal_cycle"
-        android:layout_width="250dp"
-        android:layout_height="320dp"
+        android:layout_width="224dp"
+        android:layout_height="290dp"
         android:layout_below="@+id/rlHome"
         android:layout_centerInParent="true"
         app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"

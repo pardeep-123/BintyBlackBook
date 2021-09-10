@@ -14,6 +14,7 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AllData
 import com.bintyblackbook.model.AllUsersData
 import com.bintyblackbook.model.Suggested
+import com.bintyblackbook.ui.activities.home.OtherUserProfileActivity
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.UnLoopDialogFragment
 import com.bintyblackbook.util.getSecurityKey
@@ -123,7 +124,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     }
 
     override fun onItemClick(data: AllData, position: Int) {
-        val intent= Intent(this,UserDetailActivity::class.java)
+        val intent= Intent(this,OtherUserProfileActivity::class.java)
         intent.putExtra("user_id",data.user2_id.toString())
         startActivity(intent)
     }

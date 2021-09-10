@@ -67,7 +67,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:vpi_item_height="@dimen/dp5"
-        app:vpi_item_type="oval"
+        app:vpi_item_type="rectangle"
         app:vpi_item_width="@dimen/dp15"
         app:vpi_items_count="5"
         app:vpi_selected_primary_color="@color/whiteColor"

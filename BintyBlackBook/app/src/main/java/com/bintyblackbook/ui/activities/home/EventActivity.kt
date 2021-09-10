@@ -41,7 +41,7 @@ class EventActivity : BaseActivity() {
 
         eventsViewModel.getOtherUserEvents(context,getSecurityKey(this)!!, getUser(this)?.authKey!!)
 
-        eventsViewModel.eventsLiveData.observe(this, Observer {
+        eventsViewModel.eventsLiveData.observe(this, {
             if(it.data.size==0){
                 tvNoEvents.visibility=View.VISIBLE
                 rvEvents.visibility=View.GONE

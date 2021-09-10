@@ -8,12 +8,12 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/roundedImageView"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="210dp"
         android:scaleType="fitXY"
-        android:layout_marginTop="@dimen/dp10"
-        android:layout_marginBottom="@dimen/dp10"
-        android:layout_marginStart="@dimen/dp14"
-        android:layout_marginEnd="@dimen/dp14"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
         android:src="@drawable/slider"
         app:riv_corner_radius="6dp" />
 
@@ -22,12 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvName"
-        android:layout_marginTop="@dimen/dp8"
+        android:layout_marginTop="6dp"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/trajan_pro"
         android:lines="1"
         android:visibility="gone"
-        android:layout_marginBottom="@dimen/dp10"
         android:text=""
         android:textColor="@color/blackColor"
         android:textSize="@dimen/sp16" />

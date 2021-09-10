@@ -16,10 +16,9 @@
         android:text="Hey Cosmopolite.How can we help you?"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18"
-        android:fontFamily="@font/romul"
         android:textAlignment="textStart"
         android:layout_marginTop="@dimen/dp10"
-        android:textSize="@dimen/sp12"
+        android:textSize="@dimen/sp13"
         />
 
     <EditText
