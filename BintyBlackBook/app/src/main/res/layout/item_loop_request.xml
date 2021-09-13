@@ -19,6 +19,7 @@
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/civ_profile"
         android:fontFamily="@font/romul"
+        android:lineSpacingExtra="4dp"
         android:text="Alisha has send loop Request"
         android:textColor="@color/blackColor"
         android:textSize="@dimen/sp13"

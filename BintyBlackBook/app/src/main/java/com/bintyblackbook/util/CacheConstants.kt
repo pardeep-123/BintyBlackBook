@@ -13,4 +13,6 @@ object CacheConstants {
     const val PASSWORD="password"
 
     const val MSG_TYPE="msg_type"
+
+    const val TOKEN="token"
 }

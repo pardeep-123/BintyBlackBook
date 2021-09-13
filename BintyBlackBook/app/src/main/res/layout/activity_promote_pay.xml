@@ -42,7 +42,8 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
                 android:textColor="@color/whiteColor"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>

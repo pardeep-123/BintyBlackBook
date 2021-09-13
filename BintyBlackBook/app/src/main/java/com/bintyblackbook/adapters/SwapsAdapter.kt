@@ -50,8 +50,10 @@ class SwapsAdapter(val context: Context,var arrayList: ArrayList<MessageData>) :
 
             itemView.setOnClickListener {
                 val intent= Intent(context,ChatActivity::class.java)
-                intent.putExtra("message_type",arrayList[pos].messageType.toString())
+                intent.putExtra("type","2")
+                intent.putExtra("sender_id",arrayList[pos].senderId.toString())
                 intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
+                intent.putExtra("name",arrayList[pos].userName)
                 context.startActivity(intent)
             }
         }

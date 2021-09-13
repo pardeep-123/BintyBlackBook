@@ -7,8 +7,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_profile"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:src="@drawable/alina" />
 
     <RelativeLayout
@@ -72,11 +72,12 @@
         android:id="@+id/ivPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_below="@id/rlName"
+        android:layout_marginBottom="4dp"
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/civ_profile"
         android:contentDescription="@string/image"
+        android:visibility="visible"
         android:scaleType="fitXY"
         android:src="@drawable/background" />
 
@@ -86,11 +87,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ivPost"
         android:layout_marginStart="@dimen/dp10"
-        android:layout_marginTop="@dimen/dp10"
         android:layout_toEndOf="@id/civ_profile"
         android:text="@string/dummy_text"
         android:textColor="@color/whiteColor"
-        android:textSize="@dimen/sp11" />
+        android:textSize="@dimen/sp10" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,8 +102,8 @@
 
         <RelativeLayout
             android:id="@+id/rlHeart"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30">
 
             <ImageView
                 android:id="@+id/ivHeart"
@@ -127,8 +127,8 @@
 
         <RelativeLayout
             android:id="@+id/rlComments"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
             android:layout_marginStart="@dimen/dp20">
 
             <ImageView

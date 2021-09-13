@@ -67,6 +67,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     private var longitude = ""
     private val AUTOCOMPLETE_REQUEST_CODE = 1
 
+    var black_owned=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MyUtils.fullscreen(this)
@@ -273,6 +274,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
             map.put("isServiceProviding",createRequestBody(service_business))
             map.put("services",createRequestBody(edtServiceType.text.toString()))
             map.put("socialMediaHandles",createRequestBody(edtSocialMedia.text.toString()))
+            map.put("black_owned",createRequestBody(black_owned))
 
             var imagenPerfil: MultipartBody.Part?=null
 

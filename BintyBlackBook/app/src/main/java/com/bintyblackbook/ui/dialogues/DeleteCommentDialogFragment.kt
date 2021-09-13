@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.timeline.CommentsActivity
-import kotlinx.android.synthetic.main.dialog_fragment_cancel.btnNo
-import kotlinx.android.synthetic.main.dialog_fragment_cancel.btnYes
-import kotlinx.android.synthetic.main.dialog_fragment_cancel.tvMessage
 import kotlinx.android.synthetic.main.dialog_fragment_delete_comment.*
 
 
-class DeleteCommentDialogFragment(var commentsActivity: CommentsActivity,var position: Int) : DialogFragment() {
+class DeleteCommentDialogFragment(
+    var commentsActivity: CommentsActivity,
+    var position: Int,
+    var comment_id: String
+) : DialogFragment() {
 
     var status=""
 
@@ -33,7 +34,7 @@ class DeleteCommentDialogFragment(var commentsActivity: CommentsActivity,var pos
         tvMsgComment.text = getString(R.string.delete_comment)
 
         btnYesComment.setOnClickListener {
-           commentsActivity.deleteComment(position)
+           commentsActivity.deleteComment(position,comment_id)
             dialog?.dismiss()
         }
 

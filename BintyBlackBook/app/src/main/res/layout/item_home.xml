@@ -41,6 +41,7 @@
         android:layout_width="224dp"
         android:layout_height="290dp"
         android:layout_below="@+id/rlHome"
+        android:layout_marginTop="-30dp"
         android:layout_centerInParent="true"
         app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"
         app:icvp_scroll_duration="250"

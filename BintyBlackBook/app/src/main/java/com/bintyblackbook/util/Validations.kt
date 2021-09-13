@@ -284,12 +284,12 @@ class Validations {
                         .toTypedArray().size > 1) {
                     setError(
                         context,
-                        et, hint.toLowerCase()
+                        et, hint
                     )
                 } else {
                     setError(
                         context,
-                        et, hint.toLowerCase()
+                        et, hint
                     )
                 }
 
@@ -312,7 +312,7 @@ class Validations {
             if (!oldPassword.matches(newPassword.toRegex())) {
                 setError(
                     context,
-                    etConfirmPass, hint.toLowerCase()
+                    etConfirmPass, hint
                 )
                // Toasty.error(context!!, context.getString(R.string.passMatch)).show()
                 return false
@@ -396,13 +396,13 @@ class Validations {
                 if (!number.matches("[0]*[1-9][0-9]*".toRegex())) {
                     setError(
                         context,
-                        et, hint.toLowerCase()
+                        et, hint
                     )
                     return false
                 } else if (number.length < 8 || number.length > 16) {
                     setError(
                         context,
-                        et, hint.toLowerCase()
+                        et, hint
                     )
                     return false
                 }
@@ -410,7 +410,7 @@ class Validations {
             } catch (ex: NumberFormatException) {
                 setError(
                     context,
-                    et, hint.toLowerCase()
+                    et, hint
                 )
                 return false
             }

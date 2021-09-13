@@ -49,7 +49,7 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
             if(list[pos].status==1){
                 itemView.ll_loops.visibility=View.GONE
                 itemView.ll_request.visibility=View.VISIBLE
-                itemView.tv_request.text= list[pos].userName
+                itemView.tv_request.text= list[pos].userName +" "+"has sent you loop request"
                 Glide.with(context).load(list[pos].userImage).into(civProfile)
 
             }

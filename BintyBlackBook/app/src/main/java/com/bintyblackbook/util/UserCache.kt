@@ -15,6 +15,16 @@ fun getUser(context: Context): Data? {
 fun saveUser(context: Context, user: Data) {
     Prefs.with(context).save(CacheConstants.USER_DATA, user)
 }
+
+fun getToken(context: Context): String {
+    return Prefs.with(context).getString(CacheConstants.TOKEN, "")
+}
+
+fun saveToken(context: Context, token:String) {
+    Prefs.with(context).save(CacheConstants.TOKEN, token)
+}
+
+
 fun getStatus(context: Context): String? {
     return Prefs.with(context).getString(CacheConstants.STATUS, "")
 }

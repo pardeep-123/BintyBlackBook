@@ -85,8 +85,8 @@ class CommentsActivity : BaseActivity(),CommentsAdapter.CommentInterface {
         commentsAdapter?.arrayList=arrayList
     }
 
-    fun deleteComment(position: Int){
-        commentsViewModel.deleteComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,"")
+    fun deleteComment(position: Int, comment_id: String?){
+        commentsViewModel.deleteComment(getSecurityKey(this)!!, getUser(this)?.authKey!!,comment_id!!)
         commentsViewModel.baseResponseLiveData.observe(this, Observer {
 
             if(it.code==200){
@@ -98,7 +98,7 @@ class CommentsActivity : BaseActivity(),CommentsAdapter.CommentInterface {
     }
 
     override fun onDeleteComment(data: CommentData, position: Int) {
-        val dialog = DeleteCommentDialogFragment(this,position)
+        val dialog = DeleteCommentDialogFragment(this,position,data.id.toString())
         dialog.show(supportFragmentManager,"commentdelete")
     }
 }

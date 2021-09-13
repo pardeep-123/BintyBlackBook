@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "302405762478",
+    "firebase_url": "https://binty-black-book.firebaseio.com",
+    "project_id": "binty-black-book",
+    "storage_bucket": "binty-black-book.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302405762478:android:d5121bff8efe22beaedc3f",
+        "android_client_info": {
+          "package_name": "com.bintyblackbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302405762478-32s4tmbndfobkh95pvqtp0abqpflth37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bintyblackbook",
+            "certificate_hash": "c07546b3433f176a1503386c4ae7807aecce3795"
+          }
+        },
+        {
+          "client_id": "302405762478-ukclr3ttf561kiaal38t0hm3rk63jq5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfAp1kibLbYsKNQ7OPbogQnGtT8rlO8Mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302405762478-ukclr3ttf561kiaal38t0hm3rk63jq5l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "302405762478-fk4ng97nftuqqke6gaeamo4qtc7202va.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.live.bintyblackbook"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

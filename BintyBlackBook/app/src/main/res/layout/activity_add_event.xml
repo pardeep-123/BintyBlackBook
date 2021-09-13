@@ -43,7 +43,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/add_event"
                 android:textColor="@color/whiteColor"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>

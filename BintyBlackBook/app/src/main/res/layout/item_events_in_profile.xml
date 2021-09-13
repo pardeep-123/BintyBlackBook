@@ -47,7 +47,7 @@
             android:lines="1"
             android:text="@string/john"
             android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp12" />
+            android:textSize="@dimen/sp11" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -68,9 +68,10 @@
                 android:layout_toStartOf="@id/ivFavourite"
                 android:fontFamily="@font/trajanpro_regular"
                 android:lines="1"
+                android:singleLine="true"
                 android:text="@string/arizona_usa"
                 android:textColor="@color/blackColor"
-                android:textSize="@dimen/sp11"
+                android:textSize="@dimen/sp10"
                 app:drawableStartCompat="@drawable/location" />
 
             <ImageView

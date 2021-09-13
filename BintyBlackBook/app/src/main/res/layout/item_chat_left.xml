@@ -19,7 +19,6 @@
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/profile_image"
         android:background="@drawable/bg_chat_left"
-        android:fontFamily="@font/trajanpro_regular"
         android:padding="@dimen/dp8"
         android:text="@string/heading"
         android:textSize="@dimen/sp13"
@@ -34,7 +33,7 @@
         android:layout_toEndOf="@id/profile_image"
         android:fontFamily="@font/trajanpro_regular"
         android:text="2:00 pm"
-        android:textColor="@color/blackColor"
+        android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp10" />
 
 </RelativeLayout>

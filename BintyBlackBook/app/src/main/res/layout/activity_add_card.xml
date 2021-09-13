@@ -42,6 +42,7 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
                 android:text="@string/add_new_card"
+                android:textStyle="bold"
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp" />
 

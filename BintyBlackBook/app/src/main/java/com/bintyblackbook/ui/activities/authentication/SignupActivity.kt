@@ -1,7 +1,6 @@
 package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -173,7 +172,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             map.put("password",createRequestBody(password_text_business.text.toString()))
             map.put("country_code",createRequestBody(ccp_business.selectedCountryCodeWithPlus.toString()))
             map.put("device_type",createRequestBody("1"))
-            map.put("device_token",createRequestBody("12345"))
+            map.put("device_token",createRequestBody(getToken(this)))
             map.put("pushKitToken",createRequestBody("1234"))
             map.put("uuid",createRequestBody("1234"))
             map.put("black_owned",createRequestBody(black_owned))
@@ -204,7 +203,6 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             &&Validations.isValidPasswordText(context,password_text,getString(R.string.err_pass_valid))
             && Validations.isEmpty(context,confpassword_text,getString(R.string.err_confirm_password))
             && Validations.confirmPassword(context,password_text,confpassword_text,getString(R.string.err_password_not_match))
-            && Validations.isEmpty(context,about_text,getString(R.string.err_about))
         ){
             if(!cbAccept.isChecked){
                 Toast.makeText(context,getString(R.string.err_terms_conditions),Toast.LENGTH_LONG).show()
@@ -223,7 +221,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             map.put("password",createRequestBody(confpassword_text.text.toString()))
             map.put("country_code",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
             map.put("device_type",createRequestBody("1"))
-            map.put("device_token",createRequestBody("12345"))
+            map.put("device_token",createRequestBody(getToken(this)))
             map.put("description",createRequestBody(about_text.text.toString()))
             map.put("pushKitToken",createRequestBody("1234"))
             map.put("uuid",createRequestBody("1234"))

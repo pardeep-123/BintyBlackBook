@@ -48,10 +48,11 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
             tv_msg.text= messageModel.lastMessage
 
             itemView.setOnClickListener {
-
                 val intent=Intent(context, ChatActivity::class.java)
-                intent.putExtra("message_type",arrayList[pos].messageType.toString())
+                intent.putExtra("type","1")
+                intent.putExtra("sender_id",arrayList[pos].senderId.toString())
                 intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
+                intent.putExtra("name",arrayList[pos].userName)
                 context.startActivity(intent)
             }
         }

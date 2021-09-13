@@ -21,5 +21,6 @@
         android:fontFamily="@font/romul"
         android:text="@string/heading"
         android:textColor="@color/whiteColor"
-        android:textSize="15sp" />
+        android:textSize="14sp"
+        android:textStyle="bold"/>
 </RelativeLayout>

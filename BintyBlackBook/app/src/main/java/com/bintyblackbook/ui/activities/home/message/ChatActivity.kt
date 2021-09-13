@@ -29,18 +29,18 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
 
     var myPopupWindow: PopupWindow? = null
     var receiverId=""
-    var message_type=""
+    var sender_id=""
+    var type=""
     var listChat = ArrayList<Datum>()
-    lateinit var adapter: ChatAdaptr
+    var adapter: ChatAdaptr?=null
     var user_id:String=""
+    var name=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
         socketManager= BintyBookApplication.getSocketManager()
-        receiverId= intent.getStringExtra("receiver_id").toString()
-        message_type= intent.getStringExtra("message_type").toString()
+        getIntentData()
 
         setPopUpWindow()
 
@@ -49,6 +49,16 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
         getFriendMessageList()
 
         setOnClicks()
+    }
+
+    private fun getIntentData() {
+
+        receiverId= intent.getStringExtra("receiver_id").toString()
+        type= intent.getStringExtra("type").toString()
+        name= intent.getStringExtra("name").toString()
+        sender_id= intent.getStringExtra("sender_id").toString()
+
+        tvHeading.text= name
     }
 
     private fun setOnClicks() {
@@ -62,8 +72,9 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
     fun getFriendMessageList() {
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("senderId", getUser(this)?.id.toString())
+            jsonObject.put("senderId", sender_id)
             jsonObject.put("receiverId", receiverId)
+            jsonObject.put("type","0")
             socketManager?.getFriendMessage(jsonObject)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -145,7 +156,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                         }
 
                         runOnUiThread {
-                            adapter = ChatAdaptr(context, listChat, getUser(this)?.id.toString())
+                            adapter = ChatAdaptr(context, listChat, sender_id,receiverId)
                             viewLastMessage()
 
                         }
@@ -186,6 +197,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                         }else{
                             tv_notfound.visibility = View.VISIBLE
                         }*/
+                        adapter = ChatAdaptr(context, listChat, getUser(this)?.id.toString(),receiverId)
                         viewLastMessage()
                     }
                 } catch (ex: Exception) {
@@ -209,7 +221,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
             li.setStackFromEnd(true);
             rvChat.layoutManager = li
             rvChat.adapter = adapter
-            adapter.notifyDataSetChanged()
+            adapter?.notifyDataSetChanged()
 
         }
     }
@@ -245,10 +257,12 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                     Toast.makeText(context,"Please enter a message", Toast.LENGTH_LONG).show()
                 } else {
                     val jsonObject = JSONObject()
-                    jsonObject.put("senderId", getUser(this)?.id.toString())
+                    jsonObject.put("senderId", sender_id)
                     jsonObject.put("receiverId",receiverId)
-                    jsonObject.put("messageType", message_type)
-                    jsonObject.put("message",edtMsg.text.toString().trim() )
+                    jsonObject.put("messageType", "0")
+                    jsonObject.put("message",edtMsg.text.toString().trim())
+                    jsonObject.put("type",type)
+
 
                     socketManager?.sendMessage(jsonObject)
                     edtMsg.setText("")

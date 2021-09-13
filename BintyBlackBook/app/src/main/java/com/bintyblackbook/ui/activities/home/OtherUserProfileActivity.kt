@@ -115,7 +115,13 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         }
 
         tvUserName.text=data?.firstName
-        tvUserLocation.text=data?.location
+        if(data?.location.isNullOrEmpty()){
+            tvUserLocation.visibility=View.GONE
+        }else{
+            tvUserLocation.visibility=View.VISIBLE
+            tvUserLocation.text=data?.location
+        }
+
         tvOtherUserAbout.text= data?.description
         val subCategories= ArrayList<String>()
         val categories= ArrayList<String>()

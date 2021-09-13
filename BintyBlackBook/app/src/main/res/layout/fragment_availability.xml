@@ -38,7 +38,8 @@
             android:fontFamily="@font/romul"
             android:text="Set Availability for Booking Requests"
             android:textColor="@color/whiteColor"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 

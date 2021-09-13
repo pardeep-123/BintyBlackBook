@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BintyBlackBook</string>
+    <string name="app_name">B3</string>
     <string name="sign_in_to_continue">SIGN IN TO CONTINUE</string>
     <string name="email">EMAIL</string>
     <string name="remember_me">REMEMBER ME</string>
@@ -149,7 +149,7 @@
     <string name="err_old_pass">Please enter your old password</string>
     <string name="err_new_pass">Please enter new password</string>
     <string name="pass_does_not_match">Password does not match</string>
-    <string name="promo_code">Referred by a Friend/Have a Promo Code? Add here</string>
+    <string name="promo_code">Referred by a Friend/ Have a Promo Code? Add here</string>
     <string name="service_type">What Service Do You Provide?</string>
     <string name="hours_and_days_of_operation">Hours And Days Of operation</string>
     <string name="social_media_handle">Social Media Handle</string>

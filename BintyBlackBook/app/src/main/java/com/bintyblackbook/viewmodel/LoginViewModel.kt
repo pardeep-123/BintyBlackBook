@@ -50,6 +50,9 @@ class LoginViewModel (val context: Context):ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginSignUpModel::class.java)
                             loginObservable.value = jsonObj
                         }
+                        else{
+                            showAlert(context,jsonDATA.getString("msg").toString(),"OK",{})
+                        }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -90,8 +93,8 @@ class LoginViewModel (val context: Context):ViewModel(){
                         if(jsonDATA.getInt("code")==200){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
                             observable.value = jsonObj
-                        }else{
-                            (context as ForgotPasswordActivity).showAlertWithOk(jsonDATA.getString("msg"))
+                        } else{
+                            showAlert(context,jsonDATA.getString("msg").toString(),"OK",{})
                         }
 
                     } catch (e: Exception) {

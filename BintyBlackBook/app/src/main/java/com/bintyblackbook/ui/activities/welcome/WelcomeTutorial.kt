@@ -53,22 +53,22 @@ class WelcomeTutorial : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_heading_txt.text = "We are *cosmopolitans. Welcome to our not so small Black book.\n\n*citizens of the world"
         } else if (position == 3) {
 
-            tvSkip.setTextColor(resources.getColor(R.color.colorPrimary))
+            tvSkip.setTextColor(resources.getColor(R.color.whiteColor))
             tvSkip.setText("Skip")
             tv_heading_txt.text = "Our “swap” system is designed especially for businesses and business owners. Maybe you can partner and swap a photograph session for a training session. Perhaps you are just open to collaborations. Let us know on your profile!"
         }else if (position == 2) {
-            tvSkip.setTextColor(resources.getColor(R.color.colorPrimary))
+            tvSkip.setTextColor(resources.getColor(R.color.whiteColor))
             tvSkip.setText("Skip")
             tv_heading_txt.text = "Don’t be shy! Use your personalized referral code to send to your friends so they too can join in on the fun."
         }
         else if (position == 1) {
 
-            tvSkip.setTextColor(resources.getColor(R.color.colorPrimary))
+            tvSkip.setTextColor(resources.getColor(R.color.whiteColor))
             tvSkip.setText("Skip")
             tv_heading_txt.text = "Use our “Loop” feature to loop and connect with friends and businesses."
         } else if (position == 0) {
 
-            tvSkip.setTextColor(resources.getColor(R.color.colorPrimary))
+            tvSkip.setTextColor(resources.getColor(R.color.whiteColor))
             tvSkip.setText("Skip")
             tv_heading_txt.text = "Welcome to B3, short for Binty’s Black Book\n\nA place where you can connect with old and new friends, book services, find businesses, promote events, post opportunities and much more!"
         }
