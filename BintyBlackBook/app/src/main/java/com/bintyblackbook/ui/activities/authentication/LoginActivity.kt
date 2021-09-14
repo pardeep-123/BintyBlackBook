@@ -1,10 +1,8 @@
-
 package com.bintyblackbook.ui.activities.authentication
 
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -14,7 +12,6 @@ import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoginSignUpModel
-import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.welcome.WelcomeTutorial
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.LoginViewModel
@@ -70,13 +67,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                    if(response.userType==0){
                        val intent=Intent(this,WelcomeTutorial::class.java)
                        startActivity(intent)
+                       finishAffinity()
                    }
                    else if(response.userType==1 && response.experience.isNullOrEmpty()){
                        val intent =Intent(this,InfoActivity::class.java)
                        startActivity(intent)
+                       finishAffinity()
                    } else{
                        val intent =Intent(this,WelcomeTutorial::class.java)
                        startActivity(intent)
+                       finishAffinity()
                    }
                }
            else{

@@ -8,11 +8,29 @@
 
     <include layout="@layout/toolbar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPromoteBusiness"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginEnd="@dimen/dp18"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/edtSearchEvent"
+        app:tabIndicatorColor="@color/fadePink"
+        app:tabSelectedTextColor="@color/fadePink"
+        app:tabTextAppearance="@style/TabFont"
+        app:tabTextColor="@color/whiteColor" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dp18"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginEnd="@dimen/dp8"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </LinearLayout>

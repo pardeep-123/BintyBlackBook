@@ -19,10 +19,11 @@ import kotlinx.android.synthetic.main.item_events.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FavouriteEventAdapter(var context: Context, var list: ArrayList<FavEventData>) :
-    RecyclerView.Adapter<FavouriteEventAdapter.EventViewHolder>(),Filterable {
+class FavouriteEventAdapter(var context: Context, var list: ArrayList<FavEventData>) : RecyclerView.Adapter<FavouriteEventAdapter.EventViewHolder>(),Filterable {
 
+    var clicked=true
     var arrayList= ArrayList<FavEventData>()
+    lateinit var favEventInterface:FavEventInteface
     var onItemClick:((eventsModel:FavEventData)->Unit)?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -49,6 +50,19 @@ class FavouriteEventAdapter(var context: Context, var list: ArrayList<FavEventDa
             Glide.with(context).load(eventsModel.image).into(roundedImageView)
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
+
+            ivHeart.setOnClickListener {
+                if (clicked) {
+                    clicked = false
+                    ivHeart.setImageResource(R.drawable.fill_heart)
+                    favEventInterface.onUnFavEvent("0",arrayList[pos])
+
+                } else {
+                    clicked = true
+                    ivHeart.setImageResource(R.drawable.unfill_heart)
+                   // eventAdapterInterface.onSelectFav(arrayList[pos],"0")
+                }
+            }
 
 
             itemView.setOnClickListener {
@@ -105,5 +119,9 @@ class FavouriteEventAdapter(var context: Context, var list: ArrayList<FavEventDa
             }
 
         }
+    }
+
+    interface FavEventInteface{
+        fun onUnFavEvent(status:String,data:FavEventData)
     }
 }

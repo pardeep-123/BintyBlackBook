@@ -6,12 +6,13 @@ class Datum {
     var receiverId: Int? = null
     var chatConstantId: Int? = null
     var groupId: Int? = null
+    var message: String? = null
     var readStatus: Int? = null
     var deletedId: Int? = null
-    var message: String? = null
+    var type:Int=0
     var messageType: String? = null
-    var created: String? = null
-    var updated: String? = null
+    var created: Long? = null
+    var updated: Long? = null
     var senderName: String? = null
     var senderImage: String? = null
     var recieverName: String? = null

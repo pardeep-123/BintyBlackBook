@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener {
 
@@ -30,6 +31,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
     var myPopupWindow: PopupWindow? = null
     var receiverId=""
     var sender_id=""
+    var user_receiverId=""
     var type=""
     var listChat = ArrayList<Datum>()
     var adapter: ChatAdaptr?=null
@@ -46,19 +48,20 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
 
         initializeSocket()
 
-        getFriendMessageList()
+
 
         setOnClicks()
     }
 
     private fun getIntentData() {
 
-        receiverId= intent.getStringExtra("receiver_id").toString()
+        receiverId= intent.getStringExtra("sender_id").toString()
         type= intent.getStringExtra("type").toString()
         name= intent.getStringExtra("name").toString()
-        sender_id= intent.getStringExtra("sender_id").toString()
 
         tvHeading.text= name
+        getFriendMessageList()
+
     }
 
     private fun setOnClicks() {
@@ -72,9 +75,9 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
     fun getFriendMessageList() {
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("senderId", sender_id)
+            jsonObject.put("senderId", getUser(context)?.id)
             jsonObject.put("receiverId", receiverId)
-            jsonObject.put("type","0")
+            jsonObject.put("type",type)
             socketManager?.getFriendMessage(jsonObject)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -141,8 +144,8 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                             chatModel.readStatus = data.getInt("readStatus")
                             chatModel.groupId = data.getInt("groupId")
                             chatModel.deletedId = data.getInt("deletedId")
-                            chatModel.created = data.getString("created")
-                            chatModel.updated = data.getString("updated")
+                            chatModel.created = data.getLong("created")
+                            chatModel.updated = data.getLong("updated")
                             chatModel.chatConstantId = data.getInt("chatConstantId")
                             chatModel.senderName = data.getString("senderName")
                             chatModel.message = data.getString("message")
@@ -150,13 +153,19 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                             chatModel.senderImage = data.getString("senderImage")
                             chatModel.recieverName = data.getString("recieverName")
                             chatModel.receiverId = data.getInt("receiverId")
+                            if(chatModel.receiverId!! == getUser(this)?.id){
+                                user_receiverId= chatModel.receiverId.toString()
+                            }else{
+                                user_receiverId= chatModel.senderId.toString()
+                            }
+
                             chatModel.recieverImage = data.getString("recieverImage")
                             chatModel.messageType = data.getString("messageType")
                             listChat.add(chatModel)
                         }
 
                         runOnUiThread {
-                            adapter = ChatAdaptr(context, listChat, sender_id,receiverId)
+                            adapter = ChatAdaptr(context, listChat,user_receiverId)
                             viewLastMessage()
 
                         }
@@ -180,8 +189,8 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                         chatModel.readStatus = data.getInt("readStatus")
                         chatModel.groupId = data.getInt("groupId")
                         chatModel.deletedId = data.getInt("deletedId")
-                        chatModel.created = data.getString("created")
-                        chatModel.updated = data.getString("updated")
+                        chatModel.created = data.getLong("created")
+                        chatModel.updated = data.getLong("updated")
                         chatModel.chatConstantId = data.getInt("chatConstantId")
                         chatModel.senderName = data.getString("senderName")
                         chatModel.message = data.getString("message")
@@ -189,6 +198,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                         chatModel.senderImage = data.getString("senderImage")
                         chatModel.recieverName = data.getString("recieverName")
                         chatModel.receiverId = data.getInt("receiverId")
+                     //   receiverId= chatModel.receiverId.toString()
                         chatModel.recieverImage = data.getString("recieverImage")
                         chatModel.messageType = data.getString("messageType")
                          listChat.add(chatModel)
@@ -197,7 +207,12 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                         }else{
                             tv_notfound.visibility = View.VISIBLE
                         }*/
-                        adapter = ChatAdaptr(context, listChat, getUser(this)?.id.toString(),receiverId)
+                        if(chatModel.receiverId!! == getUser(this)?.id){
+                            adapter = ChatAdaptr(context, listChat,chatModel.receiverId.toString())
+                        }else{
+                            adapter = ChatAdaptr(context, listChat,chatModel.senderId.toString())
+                        }
+
                         viewLastMessage()
                     }
                 } catch (ex: Exception) {
@@ -218,7 +233,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
     fun viewLastMessage(){
         runOnUiThread {
             val li = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-            li.setStackFromEnd(true);
+            li.stackFromEnd = true;
             rvChat.layoutManager = li
             rvChat.adapter = adapter
             adapter?.notifyDataSetChanged()
@@ -257,7 +272,7 @@ class ChatActivity : BaseActivity(),SocketManager.Observer, View.OnClickListener
                     Toast.makeText(context,"Please enter a message", Toast.LENGTH_LONG).show()
                 } else {
                     val jsonObject = JSONObject()
-                    jsonObject.put("senderId", sender_id)
+                    jsonObject.put("senderId", getUser(context)?.id.toString())
                     jsonObject.put("receiverId",receiverId)
                     jsonObject.put("messageType", "0")
                     jsonObject.put("message",edtMsg.text.toString().trim())

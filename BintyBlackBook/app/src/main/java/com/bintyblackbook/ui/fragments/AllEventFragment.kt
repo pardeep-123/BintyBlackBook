@@ -2,6 +2,7 @@ package com.bintyblackbook.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_all_event.*
 
 
-class AllEventFragment : Fragment() {
+class AllEventFragment : Fragment(), EventAdapter.EventAdapterInterface {
 
     lateinit var eventsViewModel: EventsViewModel
 
@@ -70,29 +71,30 @@ class AllEventFragment : Fragment() {
         rvAllEvents.layoutManager = GridLayoutManager(activity,2)
         eventAdapter = EventAdapter(requireContext(),arrayList)
         rvAllEvents.adapter = eventAdapter
+        eventAdapter?.eventAdapterInterface=this
         eventAdapter?.arrayList=arrayList
-        adapterItemClick()
+
     }
 
-    private fun adapterItemClick(){
-        eventAdapter?.onItemClick = {eventsModel: EventData ->
-            val intent = Intent(activity, EventDetailActivity::class.java)
-            intent.putExtra(AppConstant.HEADING,eventsModel.name)
-            intent.putExtra("user_id",eventsModel.userId)
-            intent.putExtra("image",eventsModel.image)
-            intent.putExtra("location",eventsModel.location)
-            intent.putExtra("date",eventsModel.date)
-            intent.putExtra("desc",eventsModel.description)
-            intent.putExtra("web_link",eventsModel.rsvpLink)
-            intent.putExtra("is_favourite",eventsModel.isFavourite.toString())
-            startActivity(intent)
-        }
+    override fun onSelectFav(data: EventData, status: String) {
+        eventsViewModel.likeEvent(requireContext(), getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!,data.id.toString(),status)
+        eventsViewModel.baseEventsLiveData.observe(this, Observer {
+
+            Log.i("TAG",it.msg)
+        })
     }
 
-    fun onSelectFavourite(){
-        eventAdapter?.onSelectFav = {eventsModel: EventData ->
-            //   eventsViewModel.likeEvent(getSecurityKey(context!!)!!, getUser(context!!)?.authKey)
-        }
+    override fun onItemClick(data: EventData) {
+        val intent = Intent(activity, EventDetailActivity::class.java)
+        intent.putExtra(AppConstant.HEADING,data.name)
+        intent.putExtra("user_id",data.userId)
+        intent.putExtra("image",data.image)
+        intent.putExtra("location",data.location)
+        intent.putExtra("date",data.date)
+        intent.putExtra("desc",data.description)
+        intent.putExtra("web_link",data.rsvpLink)
+        intent.putExtra("is_favourite",data.isFavourite.toString())
+        startActivity(intent)
     }
 
 }

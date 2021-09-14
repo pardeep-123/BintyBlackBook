@@ -314,7 +314,7 @@ class PostsViewModel :ViewModel(){
      */
 
     fun likeDislikePost(context: Context,securityKey: String,authKey: String,status:String,post_id: String){
-        (context as BaseActivity).showProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.likeDislikePost(securityKey,authKey,status, post_id).enqueue(object :Callback<JsonElement>{
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {

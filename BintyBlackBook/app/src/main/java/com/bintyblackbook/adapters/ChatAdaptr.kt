@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.Datum
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 
 import de.hdodenhof.circleimageview.CircleImageView
 
-class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<Datum>, val senderId:String, val receiverId:String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<Datum>, val receiverId:String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val TYPE_USER = 0
     val TYPE_FRIEND = 2
@@ -78,14 +79,14 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<Datum>,
         if (holder.itemViewType == TYPE_FRIEND) {
             val friendViewHolder = holder as FriendViewHolder
             friendViewHolder.txt_friendView.setText(arrayList[position].message)
-            friendViewHolder.txt_time.setText(MyUtils.getDayDate(arrayList[position].created?.toLong()!!)+" "+MyUtils.getTime(arrayList[position].created?.toLong()!!))
+            friendViewHolder.txt_time.setText(MyUtils.getDayDate(arrayList[position].created!!)+" "+MyUtils.getTime(arrayList[position].created?.toLong()!!))
            Glide.with(context).load(arrayList[position].recieverImage).into(friendViewHolder.profileimage)
 
         } else if (holder.itemViewType == TYPE_USER) {
             val userViewHolder = holder as UserViewHolder
             userViewHolder.txt_userView.setText(arrayList[position].message)
             Glide.with(context).load(arrayList[position].senderImage).into(userViewHolder.profileimage)
-            userViewHolder.txt_time.setText(MyUtils.getDayDate(arrayList[position].created?.toLong()!!)+" "+MyUtils.getTime(arrayList[position].created?.toLong()!!))
+            userViewHolder.txt_time.setText(MyUtils.getDayDate(arrayList[position].created!!)+" "+MyUtils.getTime(arrayList[position].created?.toLong()!!))
         }
 
      /*   else if (holder.itemViewType == TYPE_USER_MEDIA) {
@@ -113,7 +114,7 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<Datum>,
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (senderId.equals(arrayList[position].senderId.toString()))
+        if (receiverId.equals(arrayList[position].senderId.toString()))
         {
             return TYPE_USER
            /* if(arrayList[position].messageType.equals("0")){

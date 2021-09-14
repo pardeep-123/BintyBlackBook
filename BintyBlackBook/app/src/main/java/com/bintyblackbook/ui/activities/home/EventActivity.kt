@@ -16,7 +16,7 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.activity_event.*
 
-class EventActivity : BaseActivity() {
+class EventActivity : BaseActivity(), EventAdapter.EventAdapterInterface {
 
     var eventAdapter:EventAdapter? = null
 
@@ -60,32 +60,30 @@ class EventActivity : BaseActivity() {
         rvEvents.layoutManager = GridLayoutManager(this,2)
         eventAdapter= EventAdapter(this,arrayList)
         rvEvents.adapter = eventAdapter
+        eventAdapter?.eventAdapterInterface=this
         eventAdapter?.arrayList=arrayList
-        adapterItemClick()
+
     }
 
-    private fun adapterItemClick(){
-        eventAdapter?.onItemClick = {eventsModel: EventData ->
-            val intent = Intent(this,EventDetailActivity::class.java)
-            intent.putExtra(AppConstant.HEADING,eventsModel.name)
-            intent.putExtra("user_id",eventsModel.userId)
-            intent.putExtra("image",eventsModel.image)
-            intent.putExtra("location",eventsModel.location)
-            intent.putExtra("time",eventsModel.time.toString())
-            intent.putExtra("date",eventsModel.date.toString())
-            intent.putExtra("desc",eventsModel.description)
-            intent.putExtra("web_link",eventsModel.rsvpLink)
-            intent.putExtra("is_favourite",eventsModel.isFavourite.toString())
-            startActivity(intent)
-        }
+    override fun onSelectFav(data: EventData, status: String) {
+        eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,data.id.toString(),status)
+        eventsViewModel.baseEventsLiveData.observe(this, Observer {
 
-        // status 1 ->like  0 ->dislike
-        eventAdapter?.onSelectFav ={ eventsModel: EventData ->
-            eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,eventsModel.id.toString(),"1")
-            eventsViewModel.baseEventsLiveData.observe(this, Observer {
+            Log.i("TAG",it.msg)
+        })
+    }
 
-                Log.i("TAG",it.msg)
-            })
-        }
+    override fun onItemClick(data: EventData) {
+        val intent = Intent(this,EventDetailActivity::class.java)
+        intent.putExtra(AppConstant.HEADING,data.name)
+        intent.putExtra("user_id",data.userId)
+        intent.putExtra("image",data.image)
+        intent.putExtra("location",data.location)
+        intent.putExtra("time",data.time.toString())
+        intent.putExtra("date",data.date.toString())
+        intent.putExtra("desc",data.description)
+        intent.putExtra("web_link",data.rsvpLink)
+        intent.putExtra("is_favourite",data.isFavourite.toString())
+        startActivity(intent)
     }
 }

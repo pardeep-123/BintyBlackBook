@@ -24,11 +24,9 @@ import kotlin.collections.ArrayList
 
 class EventAdapter(var context: Context, var list: ArrayList<EventData>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), Filterable {
     var arrayList = ArrayList<EventData>()
-    var isFavourite = false
-    var onItemClick: ((eventsModel: EventData) -> Unit)? = null
+    var clicked=true
 
-    var onSelectFav: ((eventsModel: EventData) -> Unit)? = null
-
+    lateinit var eventAdapterInterface:EventAdapterInterface
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_events, parent, false)
         return EventViewHolder(view)
@@ -65,30 +63,29 @@ class EventAdapter(var context: Context, var list: ArrayList<EventData>) : Recyc
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
 
-            /*if (isFavourite){
-                ivHeart.setImageResource(R.drawable.unfill_heart)
-                isFavourite = false
-
-            }else{
-                ivHeart.setImageResource(R.drawable.fill_heart)
-                isFavourite = true
-            }*/
-
             if (eventsModel.isFavourite == 1) {
+                clicked = false
                 ivHeart.setImageResource(R.drawable.fill_heart)
             } else {
+                clicked = true
                 ivHeart.setImageResource(R.drawable.unfill_heart)
             }
             ivHeart.setOnClickListener {
-                eventsModel.isFavourite = 1
-                notifyDataSetChanged()
-                onSelectFav?.invoke(arrayList[pos])
+                if (clicked) {
+                    clicked = false
+                    ivHeart.setImageResource(R.drawable.fill_heart)
+                    eventAdapterInterface.onSelectFav(arrayList[pos],"1")
+
+                } else {
+                    clicked = true
+                    ivHeart.setImageResource(R.drawable.unfill_heart)
+                    eventAdapterInterface.onSelectFav(arrayList[pos],"0")
+                }
             }
 
             itemView.setOnClickListener {
-                onItemClick?.invoke(arrayList[pos])
+                eventAdapterInterface.onItemClick(arrayList[pos])
             }
-
         }
     }
 
@@ -141,4 +138,9 @@ class EventAdapter(var context: Context, var list: ArrayList<EventData>) : Recyc
         }
     }
 
+    interface EventAdapterInterface{
+        fun onSelectFav(data:EventData,status:String)
+        fun onItemClick(data: EventData)
     }
+
+}

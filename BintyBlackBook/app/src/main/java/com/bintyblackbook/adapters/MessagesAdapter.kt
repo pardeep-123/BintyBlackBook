@@ -12,6 +12,7 @@ import com.bintyblackbook.model.MessageData
 import com.bintyblackbook.models.EditMessageModel
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.row_messages.view.*
@@ -50,8 +51,12 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
             itemView.setOnClickListener {
                 val intent=Intent(context, ChatActivity::class.java)
                 intent.putExtra("type","1")
-                intent.putExtra("sender_id",arrayList[pos].senderId.toString())
-                intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
+                if(arrayList[pos].receiverId.toString()== getUser(context)?.id.toString()){
+                    intent.putExtra("sender_id",arrayList[pos].senderId.toString())
+                }else{
+                    intent.putExtra("sender_id",arrayList[pos].receiverId.toString())
+                }
+
                 intent.putExtra("name",arrayList[pos].userName)
                 context.startActivity(intent)
             }

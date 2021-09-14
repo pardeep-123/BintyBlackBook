@@ -1,8 +1,6 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
-import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,19 +18,15 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.item_events_in_profile.view.*
 import kotlinx.android.synthetic.main.item_timeline.view.*
-import kotlinx.android.synthetic.main.item_timeline.view.rlDots
-import kotlinx.android.synthetic.main.item_timeline.view.tvName
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder>() {
 
     var arrayList= ArrayList<PostData>()
     lateinit var timeLineInterface:TimeLineInterface
+    var clicked=true
+    var totalLikes=0
 //    var myPopupWindow: PopupWindow? = null
 //    var onItemClick: ((timelineModel: PostData, clickOn: String,position:Int) -> Unit)? = null
 //    var onCommentClick: ((timelineModel: PostData) -> Unit)? = null
@@ -77,6 +71,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             tvName.text = timelineModel.userName
             //tvTime.text = timelineModel.time
             tvLikes.text = timelineModel.totalLikes.toString()
+            totalLikes=timelineModel.totalLikes
             tvMessage.text = timelineModel.description
             tvComments.text = timelineModel.postComments.size.toString()
             tvTime.text= MyUtils.getTimeAgo(timelineModel.created.toLong())
@@ -90,9 +85,28 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
             }
 
             if (timelineModel.isLike == 1) {
+                clicked = false
                 ivHeart.setImageResource(R.drawable.heart_new)
             } else {
+                clicked = true
                 ivHeart.setImageResource(R.drawable.like)
+            }
+
+            ivHeart.setOnClickListener {
+                if (clicked) {
+                    clicked = false
+                    ivHeart.setImageResource(R.drawable.heart_new)
+                    totalLikes += 1
+                    tvLikes.text=totalLikes.toString()
+                    timeLineInterface.onLikeUnlike(arrayList[pos],pos,"1")
+
+                } else {
+                    clicked = true
+                    ivHeart.setImageResource(R.drawable.like)
+                    totalLikes -= 1
+                    tvLikes.text=totalLikes.toString()
+                    timeLineInterface.onLikeUnlike(arrayList[pos],pos,"2")
+                }
             }
 
             /*  rlHeart.setOnClickListener {
@@ -151,6 +165,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         fun onEditItem(data: PostData, position: Int)
         fun onDeleteItem(data: PostData, position: Int)
         fun onCommentSelect(data: PostData, position: Int)
+        fun onLikeUnlike(data:PostData,position: Int,status:String)
         fun onReportPost(data: PostData, position: Int)
     }
 }

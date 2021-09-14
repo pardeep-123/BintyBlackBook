@@ -29,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvMessage"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/profile_image"
         android:fontFamily="@font/trajanpro_regular"

@@ -133,8 +133,8 @@ class TimelineActivity : BaseActivity(),TimelineAdapter.TimeLineInterface {
         super.onRestart()
     }
 
-    fun likeDislikePost(){
-        postsViewModel.likeDislikePost(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,"","")
+    fun likeDislikePost(status: String, post_id: String) {
+        postsViewModel.likeDislikePost(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,status,post_id)
         postsViewModel.baseResponseLiveData.observe(this, Observer {
 
             if(it.code==200){
@@ -176,6 +176,10 @@ class TimelineActivity : BaseActivity(),TimelineAdapter.TimeLineInterface {
         val intent = Intent(context,CommentsActivity::class.java)
         intent.putExtra("post_id",data.id.toString())
         startActivity(intent)
+    }
+
+    override fun onLikeUnlike(data: PostData, position: Int, status: String) {
+        likeDislikePost(status,data.id.toString())
     }
 
     override fun onReportPost(data: PostData, position: Int) {

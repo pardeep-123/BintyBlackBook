@@ -394,6 +394,7 @@ interface ApiCallInterface {
         @Field("media_id") media_id:String
     ) : Call<JsonElement>
 
+    @FormUrlEncoded
     @POST(ApiConstants.LIKE_DISLIKE_POST)
     fun likeDislikePost(
         @Header("security_key") security_key: String,

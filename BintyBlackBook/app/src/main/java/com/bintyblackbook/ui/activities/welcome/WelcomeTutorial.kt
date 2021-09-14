@@ -34,6 +34,7 @@ class WelcomeTutorial : BaseActivity(), ViewPager.OnPageChangeListener {
           //add navigation here
             val intent= Intent(this,HomeActivity::class.java)
             startActivity(intent)
+            finishAffinity()
         }
     }
 

@@ -42,7 +42,6 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
     }
 
 
-
     private fun getChatData() {
         val userId: String = getUser(context)?.id.toString()
         val jsonObject = JSONObject()
@@ -129,45 +128,32 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
                                 for (i in 0 until chatListArray.length()) {
                                     val objects = chatListArray.getJSONObject(i)
 
+
                                     Log.i("objects", objects.toString())
                                     val getInboxMessageListResponse = MessageData()
                                     getInboxMessageListResponse.isGroup = objects.getInt("isGroup")
                                     val isGroup = getInboxMessageListResponse.isGroup
                                     if (isGroup == 0) {
                                         getInboxMessageListResponse.id = objects.getInt("id")
-                                        getInboxMessageListResponse.senderId =
-                                            objects.getInt("senderId")
-                                        getInboxMessageListResponse.receiverId =
-                                            objects.getInt("receiverId")
-                                        getInboxMessageListResponse.lastMessageId =
-                                            objects.getInt("lastMessageId")
-                                        getInboxMessageListResponse.deletedId =
-                                            objects.getInt("deletedId")
-                                        getInboxMessageListResponse.created =
-                                            objects.getInt("created")
-                                        getInboxMessageListResponse.updated =
-                                            objects.getInt("updated")
-                                        getInboxMessageListResponse.user_id =
-                                            objects.getInt("user_id")
-                                        getInboxMessageListResponse.lastMessage =
-                                            objects.getString("lastMessage")
-                                        getInboxMessageListResponse.userName =
-                                            objects.getString("userName")
-                                        getInboxMessageListResponse.userImage =
-                                            objects.getString("userImage")
-                                        getInboxMessageListResponse.created_at =
-                                            objects.getInt("created_at")
-                                        getInboxMessageListResponse.unreadcount =
-                                            objects.getInt("unreadcount")
-                                        getInboxMessageListResponse.messageType =
-                                            objects.getInt("messageType")
-                                        getInboxMessageListResponse.isOnline =
-                                            objects.getInt("isOnline")
-                                        getInboxMessageListResponse.groupId =
-                                            objects.getInt("groupId")
+                                        getInboxMessageListResponse.receiverId = objects.getInt("receiverId")
+                                        getInboxMessageListResponse.lastMessageId = objects.getInt("lastMessageId")
+                                        getInboxMessageListResponse.deletedId = objects.getInt("deletedId")
+                                        getInboxMessageListResponse.created = objects.getInt("created")
+                                        getInboxMessageListResponse.updated = objects.getInt("updated")
+                                        getInboxMessageListResponse.user_id = objects.getInt("user_id")
+                                        if(!objects.getString("lastMessage").isNullOrEmpty()){
+                                            getInboxMessageListResponse.lastMessage = objects.getString("lastMessage")
+
+                                        }
+                                        getInboxMessageListResponse.userName = objects.getString("userName")
+                                        getInboxMessageListResponse.userImage = objects.getString("userImage")
+                                        getInboxMessageListResponse.created_at = objects.optInt("created_at",0)
+                                        getInboxMessageListResponse.unreadcount = objects.getInt("unreadcount")
+                                        getInboxMessageListResponse.messageType = objects.optInt("messageType",0)
+                                        getInboxMessageListResponse.isOnline = objects.getInt("isOnline")
+                                        getInboxMessageListResponse.groupId = objects.getInt("groupId")
                                         getInboxMessageListResponse.type = objects.getInt("type")
-                                        getInboxMessageListResponse.pushKitToken =
-                                            objects.getString("pushKitToken")
+                                        getInboxMessageListResponse.pushKitToken = objects.getString("pushKitToken")
                                     } else {
                                         getInboxMessageListResponse.id = objects.getInt("id")
                                         getInboxMessageListResponse.userName =

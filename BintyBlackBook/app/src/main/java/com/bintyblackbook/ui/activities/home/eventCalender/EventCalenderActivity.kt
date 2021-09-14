@@ -23,7 +23,7 @@ import com.bintyblackbook.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.activity_event_calender.*
 
 
-class EventCalenderActivity : BaseActivity(), TextWatcher {
+class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAdapterInterface {
     var fragList: ArrayList<String> = ArrayList()
 
     var currentList="AllEvent"
@@ -86,6 +86,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher {
             rvEvents.layoutManager = GridLayoutManager(this,2)
             eventAdapter = EventAdapter(this,arrayList)
             rvEvents.adapter = eventAdapter
+            eventAdapter?.eventAdapterInterface=this
             eventAdapter?.arrayList=arrayList
           //  adapterItemClick()
 
@@ -176,5 +177,13 @@ class EventCalenderActivity : BaseActivity(), TextWatcher {
 
     override fun afterTextChanged(s: Editable?) {
 
+    }
+
+    override fun onSelectFav(data: EventData, status: String) {
+
+    }
+
+    override fun onItemClick(data: EventData) {
+        TODO("Not yet implemented")
     }
 }
