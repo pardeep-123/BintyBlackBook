@@ -34,11 +34,7 @@ class EventDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_event_detail)
 
         getIntentData()
-
-
         setOnClicks()
-
-
     }
 
     private fun getIntentData() {

@@ -12,6 +12,7 @@ import com.bintyblackbook.model.MessageData
 import com.bintyblackbook.models.EditMessageModel
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.row_messages.view.*
@@ -45,14 +46,17 @@ class SwapsAdapter(val context: Context,var arrayList: ArrayList<MessageData>) :
 
             tv_name.text = messageModel.userName
 
-            tvTime.text= MyUtils.getTimeAgo(messageModel.updated.toLong())
+            tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
             tv_msg.text= messageModel.lastMessage
 
             itemView.setOnClickListener {
                 val intent= Intent(context,ChatActivity::class.java)
-                intent.putExtra("type","2")
-                intent.putExtra("sender_id",arrayList[pos].senderId.toString())
-                intent.putExtra("receiver_id",arrayList[pos].receiverId.toString())
+                intent.putExtra("type",arrayList[pos].type)
+                if(arrayList[pos].receiverId.toString()== getUser(context)?.id.toString()){
+                    intent.putExtra("sender_id",arrayList[pos].senderId.toString())
+                }else{
+                    intent.putExtra("sender_id",arrayList[pos].receiverId.toString())
+                }
                 intent.putExtra("name",arrayList[pos].userName)
                 context.startActivity(intent)
             }

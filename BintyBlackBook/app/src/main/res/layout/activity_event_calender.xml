@@ -46,7 +46,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/event_calendar"
                 android:textColor="@color/whiteColor"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold"/>
 
             <RelativeLayout
                 android:id="@+id/rlCalender"

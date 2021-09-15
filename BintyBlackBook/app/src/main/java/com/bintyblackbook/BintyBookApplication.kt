@@ -61,8 +61,6 @@ class BintyBookApplication  : Application(), AppLifecycleHandler.AppLifecycleDel
         mSocketManager?.initializeSocket()
     }
 
-
-
     // initialize shared preferences
     private fun initializePreferences() {
         preferences = PreferenceManager.getDefaultSharedPreferences(this)

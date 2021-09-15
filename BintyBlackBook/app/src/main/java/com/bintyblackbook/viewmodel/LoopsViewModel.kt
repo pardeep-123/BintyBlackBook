@@ -191,7 +191,7 @@ class LoopsViewModel :ViewModel(){
      */
     fun acceptRejectRequest(context: Context, securityKey: String,auth_key: String,userId: String,status:String){
 
-        (context as BaseActivity).showProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.acceptRejectRequest(securityKey,auth_key,userId,status).enqueue(object : Callback<JsonElement>{
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

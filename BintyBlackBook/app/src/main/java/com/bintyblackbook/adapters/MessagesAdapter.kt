@@ -45,12 +45,13 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
 
             tv_name.text = messageModel.userName
 
-            tvTime.text= MyUtils.getTimeAgo(messageModel.updated.toLong())
+            tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
             tv_msg.text= messageModel.lastMessage
 
             itemView.setOnClickListener {
                 val intent=Intent(context, ChatActivity::class.java)
-                intent.putExtra("type","1")
+                intent.putExtra("type",arrayList[pos].type.toString())
+                intent.putExtra("isGroup",arrayList[pos].isGroup.toString())
                 if(arrayList[pos].receiverId.toString()== getUser(context)?.id.toString()){
                     intent.putExtra("sender_id",arrayList[pos].senderId.toString())
                 }else{

@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:src="@drawable/shren" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/dp10"
         android:layout_toEndOf="@id/profile_image"
         android:background="@drawable/bg_chat_left"
-        android:padding="@dimen/dp8"
+        android:padding="@dimen/dp10"
         android:text="@string/heading"
         android:textSize="@dimen/sp13"
         android:textColor="@color/blackColor"/>
@@ -28,11 +28,12 @@
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvMessage"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="@dimen/dp10"
+        android:layout_below="@id/profile_image"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_alignParentStart="true"
         android:layout_toEndOf="@id/profile_image"
-        android:fontFamily="@font/trajanpro_regular"
+        android:textStyle="bold"
         android:text="2:00 pm"
         android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp10" />

@@ -1,19 +1,20 @@
 package com.bintyblackbook.ui.activities.home.promote
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.AdapterPromoteBusiness
+import com.bintyblackbook.adapters.EventCalenderPagerAdapter
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.ui.fragments.PromoteBusinessFragment
+import com.bintyblackbook.ui.fragments.PromoteEventFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_promote_business.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class PromoteBusinessActivity : AppCompatActivity(), View.OnClickListener {
+class PromoteBusinessActivity : BaseActivity(), View.OnClickListener {
     var fragList: ArrayList<String> = ArrayList()
-    val context: Context = this
     var adapterPromoteBusiness: AdapterPromoteBusiness? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,11 +31,17 @@ class PromoteBusinessActivity : AppCompatActivity(), View.OnClickListener {
 
 //        adapterPromoteBusiness = AdapterPromoteBusiness(context)
 //        rvPromoteBusiness.adapter = adapterPromoteBusiness
-        adapterItemClick()
+        //adapterItemClick()
     }
 
     private fun setTabLayout() {
-
+        val adapter = EventCalenderPagerAdapter(supportFragmentManager, this)
+        fragList.clear()
+        fragList.add("Promote Business")
+        fragList.add("Promote Events")
+        adapter.addFragment(PromoteBusinessFragment(),"Promote Business")
+        adapter.addFragment(PromoteEventFragment(),"Promote Events")
+        viewPager.adapter = adapter
     }
 
     private fun adapterItemClick(){

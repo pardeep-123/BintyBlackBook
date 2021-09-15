@@ -43,7 +43,8 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/events"
                 android:textColor="@color/whiteColor"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold"/>
 
             <RelativeLayout
                 android:id="@+id/rlAdd"

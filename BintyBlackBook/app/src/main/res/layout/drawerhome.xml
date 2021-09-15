@@ -76,7 +76,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/home"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -106,7 +106,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/my_profile"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -136,7 +136,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/my_bookings"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -166,7 +166,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/messages"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -196,7 +196,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/my_loops"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -227,7 +227,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/promote_your_business"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -257,7 +257,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/timeline"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -287,7 +287,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/refer_a_friend"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -317,7 +317,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/event_calendar"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -347,7 +347,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/settings"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -379,7 +379,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="Add/Switch Account"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -409,7 +409,7 @@
                         android:fontFamily="@font/trajanpro_bold"
                         android:text="@string/logout"
                         android:textColor="@color/whiteColor"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 

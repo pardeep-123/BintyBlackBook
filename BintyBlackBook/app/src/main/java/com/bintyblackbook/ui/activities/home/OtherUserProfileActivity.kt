@@ -13,6 +13,7 @@ import com.bintyblackbook.adapters.HorizontalImagesAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.UserMedia
+import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.activities.home.message.MessagesActivity
 import com.bintyblackbook.ui.dialogues.FragmentDialog
 import com.bintyblackbook.util.getSecurityKey
@@ -43,7 +44,8 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     var arrayList= ArrayList<UserMedia>()
     var loopBtnClick = true
     private var exoplayer: SimpleExoPlayer? = null
-
+    var name=""
+    var otherUserId=""
     var loop_id=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +88,9 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     private fun setData(data: Data?) {
 
         headingText.text= data?.firstName
-        if(data?.isSwapSystem=="0"){
+        name= data?.firstName!!
+        otherUserId= data.id.toString()
+        if(data.isSwapSystem=="0"){
             tvOpenToSwap.visibility=View.GONE
             tvSwapMind.visibility=View.GONE
             tvSwaps.visibility=View.GONE
@@ -94,15 +98,15 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             tvOpenToSwap.visibility=View.VISIBLE
             tvSwapMind.visibility=View.VISIBLE
             tvSwaps.visibility=View.VISIBLE
-            tvSwaps.text= data?.swapInMind
+            tvSwaps.text= data.swapInMind
         }
 
-        if(data?.isLoop==2){
+        if(data.isLoop==2){
             btnChatUser.visibility=View.VISIBLE
             btnUnLoopUser.visibility=View.VISIBLE
             btnAcceptReq.visibility=View.GONE
             btnLoopUser.visibility= View.GONE
-        }else if(data?.isLoop==0){
+        }else if(data.isLoop==0){
             btnChatUser.visibility=View.GONE
             btnUnLoopUser.visibility=View.GONE
             btnAcceptReq.visibility=View.VISIBLE
@@ -115,14 +119,14 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         }
 
         tvUserName.text=data?.firstName
-        if(data?.location.isNullOrEmpty()){
+        if(data.location.isNullOrEmpty()){
             tvUserLocation.visibility=View.GONE
         }else{
             tvUserLocation.visibility=View.VISIBLE
-            tvUserLocation.text=data?.location
+            tvUserLocation.text=data.location
         }
 
-        tvOtherUserAbout.text= data?.description
+        tvOtherUserAbout.text= data.description
         val subCategories= ArrayList<String>()
         val categories= ArrayList<String>()
         data?.category!!.forEach {
@@ -191,8 +195,11 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         when(v?.id){
 
             R.id.btnChatUser ->{
-                saveMsgType(this,1)
-                val intent= Intent(this,MessagesActivity::class.java)
+                saveMsgType(this,0)
+                val intent= Intent(this,ChatActivity::class.java)
+                intent.putExtra("name",name)
+                intent.putExtra("type","1")
+                intent.putExtra("sender_id",otherUserId.toString())
                 startActivity(intent)
             }
             R.id.btnCheckAvailability ->{
@@ -250,8 +257,11 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
             R.id.btnSwap ->{
                 //navigate to chat listing
-                saveMsgType(this,2)
-                val intent= Intent(this,MessagesActivity::class.java)
+                saveMsgType(this,1)
+                val intent= Intent(this,ChatActivity::class.java)
+                intent.putExtra("name",name)
+                intent.putExtra("type","1")
+                intent.putExtra("sender_id",otherUserId.toString())
                 startActivity(intent)
             }
         }

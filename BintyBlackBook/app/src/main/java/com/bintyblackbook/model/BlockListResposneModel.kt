@@ -6,6 +6,11 @@ class BlockListResponseModel:BaseResponseModel() {
 }
 
 data class BlockedData(
-    val id:Int
+    val id:Int,
+    val userId:Int,
+    val user2Id:Int,
+    val otherUserName:String,
+    val otherUserImage:String
 
 )
+

@@ -120,7 +120,7 @@ class EventsViewModel :ViewModel(){
     like event
      */
     fun likeEvent(context: Context,securityKey: String,auth_key: String,event_id:String,status:String){
-        (context as BaseActivity).showProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
 
         ApiClient.apiService.likeEvent(securityKey,auth_key,event_id,status).enqueue(object : Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

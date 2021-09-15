@@ -2,7 +2,6 @@ package com.bintyblackbook.socket
 
 import android.util.Log
 import com.bintyblackbook.BintyBookApplication
-import com.bintyblackbook.BintyBookApplication.Companion.getInstance
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -12,6 +11,10 @@ import java.net.URISyntaxException
 import java.util.*
 
 class SocketManager {
+
+    var socket_live_url="https://bintysblackbook.com:4509/"
+    var socket_dev_url="http://192.168.1.122:4509/"
+
     private var mSocket: Socket? = null
     private var observerList: MutableList<Observer>? = null
 
@@ -33,13 +36,12 @@ class SocketManager {
         return mSocket
     }
 
-    // mSocket = IO.socket("http://192.168.1.122:3070/");
+
     val socket: Socket?
         get() {
             run {
                 mSocket = try {
-                    IO.socket("https://bintysblackbook.com:4509/")
-                    // mSocket = IO.socket("http://192.168.1.122:3070/");
+                    IO.socket(socket_live_url)
                 } catch (e: URISyntaxException) {
                     throw RuntimeException(e)
                 }
@@ -136,31 +138,6 @@ class SocketManager {
         }
     }
 
-    fun saveVendorLocation(jsonObject: JSONObject?) {
-        if (!mSocket?.connected()!!) {
-            mSocket?.connect()
-            mSocket?.emit(UPDATE_LOCATION, jsonObject)
-            mSocket?.off(UPDATE_LOCATION_LISTENER)
-            mSocket?.on(UPDATE_LOCATION_LISTENER, onSaveVendorLocListener)
-        } else {
-            mSocket?.emit(UPDATE_LOCATION, jsonObject)
-            mSocket?.off(UPDATE_LOCATION_LISTENER)
-            mSocket?.on(UPDATE_LOCATION_LISTENER, onSaveVendorLocListener)
-        }
-    }
-
-    fun getVendorLocation(jsonObject: JSONObject?) {
-        if (!mSocket?.connected()!!) {
-            mSocket?.connect()
-            mSocket?.emit(GET_LOCATION, jsonObject)
-            mSocket?.off(GET_LOCATION_LISTENER)
-            mSocket?.on(GET_LOCATION_LISTENER, onGetVendorLocListener)
-        } else {
-            mSocket?.emit(GET_LOCATION, jsonObject)
-            mSocket?.off(GET_LOCATION_LISTENER)
-            mSocket?.on(GET_LOCATION_LISTENER, onGetVendorLocListener)
-        }
-    }
 
     private val onGetChatListListener = Emitter.Listener { args ->
         Log.i("Socket", "onGetChatListener")
@@ -168,18 +145,7 @@ class SocketManager {
             observer.onResponse(GET_CHAT_LIST_LISTENER, *args)
         }
     }
-    private val onSaveVendorLocListener = Emitter.Listener { args ->
-        Log.i("Socket", "onSaveChatListener")
-        for (observer in observerList!!) {
-            observer.onResponse(UPDATE_LOCATION_LISTENER, *args)
-        }
-    }
-    private val onGetVendorLocListener = Emitter.Listener { args ->
-        Log.i("Socket", "onGetLocListener")
-        for (observer in observerList!!) {
-            observer.onResponse(GET_LOCATION_LISTENER, *args)
-        }
-    }
+
 
     fun sendMessage(jsonObject: JSONObject?) {
         if (!mSocket?.connected()!!) {
@@ -219,6 +185,61 @@ class SocketManager {
         }
     }
 
+    fun getBlockStatus(jsonObject: JSONObject?){
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(BLOCK_STATUS, jsonObject)
+            mSocket?.off(BLOCK_STATUS_LISTENER)
+            mSocket?.on(BLOCK_STATUS_LISTENER,onBlockStatusListener)
+
+        } else {
+            mSocket?.emit(BLOCK_STATUS, jsonObject)
+            mSocket?.off(BLOCK_STATUS_LISTENER)
+            mSocket?.on(BLOCK_STATUS_LISTENER,onBlockStatusListener)
+        }
+    }
+
+    fun clearChat(jsonObject: JSONObject?){
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(DELETE_CHAT, jsonObject)
+            mSocket?.off(DELETE_CHAT_LISTENER)
+            mSocket?.on(DELETE_CHAT_LISTENER,onClearChatListener)
+
+        } else {
+            mSocket?.emit(DELETE_CHAT, jsonObject)
+            mSocket?.off(DELETE_CHAT_LISTENER)
+            mSocket?.on(DELETE_CHAT_LISTENER,onClearChatListener)
+        }
+    }
+
+    fun blockUser(jsonObject: JSONObject?){
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(BLOCK_USER, jsonObject)
+            mSocket?.off(BLOCK_USER_LISTENER)
+            mSocket?.on(BLOCK_USER_LISTENER,onBlockUserListener)
+
+        } else {
+            mSocket?.emit(BLOCK_USER, jsonObject)
+            mSocket?.off(BLOCK_USER_LISTENER)
+            mSocket?.on(BLOCK_USER_LISTENER,onBlockUserListener)
+        }
+    }
+
+    fun getReadStatus(jsonObject: JSONObject?){
+        if(!mSocket?.connected()!!){
+            mSocket?.connect()
+            mSocket?.emit(READ_UNREAD,jsonObject)
+            mSocket?.off(READ_UNREAD_STATUS_LISTENER)
+            mSocket?.on(READ_UNREAD_STATUS_LISTENER,onReadStatusListener)
+        }else{
+            mSocket?.emit(READ_UNREAD, jsonObject)
+            mSocket?.off(READ_UNREAD_STATUS_LISTENER)
+            mSocket?.on(READ_UNREAD_STATUS_LISTENER,onReadStatusListener)
+        }
+    }
+
     private val onGetChatListener = Emitter.Listener { args ->
         Log.i("Socket", "onGetChatListener")
         for (observer in observerList!!) {
@@ -239,6 +260,39 @@ class SocketManager {
         }
     }
 
+    private val onBlockUserListener = Emitter.Listener { args ->
+        Log.i("Socket", "onBlockUserListener")
+        for (observer in observerList!!) {
+            observer.onResponse(BLOCK_USER_LISTENER, *args)
+            Log.i("Socket", "inside for loop")
+        }
+    }
+
+    private val onBlockStatusListener = Emitter.Listener { args ->
+        Log.i("Socket", "onBlockStatusListener")
+        for (observer in observerList!!) {
+            observer.onResponse(BLOCK_STATUS_LISTENER, *args)
+            Log.i("Socket", "block status check")
+        }
+    }
+
+    private val onClearChatListener= Emitter.Listener { args->
+        Log.i("Socket", "onClearChatListener")
+        for (observer in observerList!!) {
+            observer.onResponse(DELETE_CHAT_LISTENER, *args)
+            Log.i("Socket", "clear chat")
+        }
+    }
+
+
+    private val onReadStatusListener = Emitter.Listener { args ->
+        Log.i("Socket", "onGetReadStatusListener")
+        for (observer in observerList!!) {
+            observer.onResponse(READ_UNREAD_STATUS_LISTENER, *args)
+            Log.i("Socket", "inside for loop")
+        }
+    }
+
     interface Observer {
         fun onError(event: String?, vararg args: Any?)
         fun onResponse(event: String?, vararg args: Any?)
@@ -252,8 +306,8 @@ class SocketManager {
         const val SEND_MESSAGE = "send_message"
         const val DELETE_CHAT="delete_chat"
         const val BLOCK_USER="block_user"
-        const val UPDATE_LOCATION = "update_location_provider"
-        const val GET_LOCATION = "get_location_provider"
+        const val BLOCK_STATUS="block_status"
+        const val READ_UNREAD="read_unread"
 
         //listener
         const val CONNECT_LISTENER = "connect_listener"
@@ -262,8 +316,8 @@ class SocketManager {
         const val DELETE_CHAT_LISTENER="delete_data"
         const val BODY_LISTENER = "new_message"
         const val RECEIVER_LISTENER = "new_message"
-        const val UPDATE_LOCATION_LISTENER = "get_location"
-        const val GET_LOCATION_LISTENER = "get_provider_location_info"
         const val BLOCK_USER_LISTENER="block_data"
+        const val BLOCK_STATUS_LISTENER="block_data_status"
+        const val READ_UNREAD_STATUS_LISTENER="read_data_status"
     }
 }

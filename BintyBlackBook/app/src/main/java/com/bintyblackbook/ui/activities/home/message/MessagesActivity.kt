@@ -145,6 +145,7 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
                                             getInboxMessageListResponse.lastMessage = objects.getString("lastMessage")
 
                                         }
+                                        getInboxMessageListResponse.senderId = objects.getInt("senderId")
                                         getInboxMessageListResponse.userName = objects.getString("userName")
                                         getInboxMessageListResponse.userImage = objects.getString("userImage")
                                         getInboxMessageListResponse.created_at = objects.optInt("created_at",0)
@@ -156,34 +157,20 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
                                         getInboxMessageListResponse.pushKitToken = objects.getString("pushKitToken")
                                     } else {
                                         getInboxMessageListResponse.id = objects.getInt("id")
-                                        getInboxMessageListResponse.userName =
-                                            objects.getString("name")
-                                        getInboxMessageListResponse.userImage =
-                                            objects.getString("image")
-                                        getInboxMessageListResponse.created =
-                                            objects.getInt("createdAt")
-                                        getInboxMessageListResponse.totalUsers =
-                                            objects.getInt("totalUsers")
-                                        getInboxMessageListResponse.unreadcount =
-                                            objects.getInt("unreadcount")
-                                        getInboxMessageListResponse.lastMessage =
-                                            objects.getString("lastMessage")
-                                        getInboxMessageListResponse.lastMessageCreated =
-                                            objects.getInt("lastMessageCreated")
-                                        getInboxMessageListResponse.messageType =
-                                            objects.getInt("messageType")
-                                        getInboxMessageListResponse.adminId =
-                                            objects.getString("adminId")
-                                        getInboxMessageListResponse.groupMessagesCount =
-                                            objects.getInt("groupMessagesCount")
-                                        getInboxMessageListResponse.deleteMessagesCount =
-                                            objects.getInt("deleteMessagesCount")
-                                        getInboxMessageListResponse.userId =
-                                            objects.getString("userId")
-                                        getInboxMessageListResponse.groupId =
-                                            objects.getInt("groupId")
-                                        getInboxMessageListResponse.isGroup =
-                                            objects.getInt("isGroup")
+                                        getInboxMessageListResponse.userName = objects.getString("name")
+                                        getInboxMessageListResponse.userImage = objects.getString("image")
+                                        getInboxMessageListResponse.created = objects.getInt("createdAt")
+                                        getInboxMessageListResponse.totalUsers = objects.getInt("totalUsers")
+                                        getInboxMessageListResponse.unreadcount = objects.getInt("unreadcount")
+                                        getInboxMessageListResponse.lastMessage = objects.getString("lastMessage")
+                                        getInboxMessageListResponse.lastMessageCreated = objects.getInt("lastMessageCreated")
+                                        getInboxMessageListResponse.messageType = objects.getInt("messageType")
+                                        getInboxMessageListResponse.adminId = objects.getString("adminId")
+                                        getInboxMessageListResponse.groupMessagesCount = objects.getInt("groupMessagesCount")
+                                        getInboxMessageListResponse.deleteMessagesCount = objects.getInt("deleteMessagesCount")
+                                        getInboxMessageListResponse.userId = objects.getString("userId")
+                                        getInboxMessageListResponse.groupId = objects.getInt("groupId")
+                                        getInboxMessageListResponse.isGroup = objects.getInt("isGroup")
                                     }
 
                                     list.add(getInboxMessageListResponse)
@@ -207,10 +194,8 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
                                     val objects = swapListArray.getJSONObject(i)
                                     val getInboxMessageListResponse = MessageData()
                                     getInboxMessageListResponse.id = objects.getInt("id")
-                                    getInboxMessageListResponse.senderId =
-                                        objects.getInt("senderId")
-                                    getInboxMessageListResponse.receiverId =
-                                        objects.getInt("receiverId")
+                                    getInboxMessageListResponse.senderId = objects.getInt("senderId")
+                                    getInboxMessageListResponse.receiverId = objects.getInt("receiverId")
                                     getInboxMessageListResponse.lastMessageId =
                                         objects.getInt("lastMessageId")
                                     getInboxMessageListResponse.deletedId =
@@ -269,5 +254,10 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
         socketManager?.onRegister(this)
       //  getChatData()
 
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        getChatData()
     }
 }

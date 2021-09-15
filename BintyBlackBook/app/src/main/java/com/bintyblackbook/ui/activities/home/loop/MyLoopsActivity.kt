@@ -156,14 +156,13 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
         })
     }
     private fun accepCancelRequest(status: String, data: AllData) {
-        loopsViewModel.acceptRejectRequest(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString(),status)
+        loopsViewModel.acceptRejectRequest(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.user_id.toString(),status)
         loopsViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
                 Log.i("===request",it.msg)
                 getLoopsList()
             }
-
         })
     }
 

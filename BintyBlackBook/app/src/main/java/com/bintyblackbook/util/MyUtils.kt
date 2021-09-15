@@ -179,7 +179,16 @@ object MyUtils {
         } catch (ex: java.lang.Exception) {
             "xx"
         }
+    }
 
+    fun getDateTime(timestamp:Long):String{
+        return try {
+            val sdf = SimpleDateFormat("MMM dd,yyyy hh:mm:a")
+            val netDate = Date(timestamp * 1000L)
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
     }
 
 }

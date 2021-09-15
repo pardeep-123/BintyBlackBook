@@ -8,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.message.ChatActivity
+import com.bintyblackbook.ui.activities.home.settings.BlockedContactsActivity
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.*
 
 
-class BlockUserDialogFragment(var name: String,var chatActivity: ChatActivity) : DialogFragment() {
-
+class UnBlockUserDialogFragment(var name: String,var user2Id:String,var blockedContactsActivity: BlockedContactsActivity) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,10 +25,9 @@ class BlockUserDialogFragment(var name: String,var chatActivity: ChatActivity) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
         rlCross.visibility=View.GONE
 
-        tvMessage.text = getString(R.string.are_you_sure_want_to_block_john)+" "+name+"?"
+        tvMessage.text = getString(R.string.unblock_john)+" "+name+"?"
 
         rlCross.setOnClickListener {
             dismiss()
@@ -37,7 +35,7 @@ class BlockUserDialogFragment(var name: String,var chatActivity: ChatActivity) :
 
         btnYes.setOnClickListener {
             dismiss()
-            chatActivity.blockUser()
+            blockedContactsActivity.unBlockUser(user2Id)
         }
 
         btnNo.setOnClickListener {

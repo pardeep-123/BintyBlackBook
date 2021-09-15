@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.bintyblackbook.adapters.FavouriteEventAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.model.FavEventData
+import com.bintyblackbook.ui.activities.home.EventDetailActivity
 import com.bintyblackbook.ui.fragments.AllEventFragment
 import com.bintyblackbook.ui.fragments.FavouriteFragment
 import com.bintyblackbook.util.getSecurityKey
@@ -23,7 +25,8 @@ import com.bintyblackbook.viewmodel.EventsViewModel
 import kotlinx.android.synthetic.main.activity_event_calender.*
 
 
-class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAdapterInterface {
+class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAdapterInterface,
+    FavouriteEventAdapter.FavEventInteface {
     var fragList: ArrayList<String> = ArrayList()
 
     var currentList="AllEvent"
@@ -56,9 +59,9 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
         rvFavEvents.layoutManager = GridLayoutManager(this, 2)
         favEventAdapter = FavouriteEventAdapter(this, favEventList)
         rvFavEvents.adapter = favEventAdapter
+        favEventAdapter?.favEventInterface=this
         favEventAdapter?.arrayList=favEventList
 
-      //  adapterItemClick()
     }
 
     private fun getAllEvents() {
@@ -70,7 +73,6 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
                 if(it.data.size!=0){
                     tvNoEventData.visibility= View.GONE
                     rvEvents.visibility= View.VISIBLE
-                    rvFavEvents.visibility=View.GONE
                     arrayList.clear()
                     arrayList.addAll(it.data)
                     eventAdapter?.notifyDataSetChanged()
@@ -92,7 +94,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
 
     }
 
-    private fun setTabLayout() {
+   /* private fun setTabLayout() {
         val adapter = EventCalenderPagerAdapter(supportFragmentManager, this)
         fragList.clear()
         fragList.add("All Events")
@@ -100,7 +102,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
         adapter.addFragment(AllEventFragment(),"All Events")
         adapter.addFragment(FavouriteFragment(),"Favourite")
         viewPager.adapter = adapter
-    }
+    }*/
 
     private fun setOnClicks() {
 
@@ -143,7 +145,6 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
 
             if(it?.data?.size!=0){
                 tvNoEventData.visibility=View.GONE
-                rvEvents.visibility=View.GONE
                 rvFavEvents.visibility=View.VISIBLE
                 favEventList.clear()
                 favEventList.addAll(it.data)
@@ -180,10 +181,24 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
     }
 
     override fun onSelectFav(data: EventData, status: String) {
+        eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,data.id.toString(),status)
+        eventsViewModel.baseEventsLiveData.observe(this, Observer {
 
+            Log.i("TAG",it.msg)
+        })
     }
 
     override fun onItemClick(data: EventData) {
-        TODO("Not yet implemented")
+//        val intent= Intent(this,EventDetailActivity::class.java)
+//        startActivity(intent)
+    }
+
+    override fun onUnFavEvent(status: String, data: FavEventData,position:Int) {
+        eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,data.id.toString(),status)
+        eventsViewModel.baseEventsLiveData.observe(this, Observer {
+            favEventList.removeAt(position)
+            favEventAdapter?.notifyDataSetChanged()
+        })
+
     }
 }

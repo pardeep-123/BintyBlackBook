@@ -100,7 +100,7 @@
     <string name="clear_chat">Clear chat</string>
     <string name="block">Block</string>
     <string name="report">Report</string>
-    <string name="are_you_sure_want_to_block_john">Are you sure want to block John</string>
+    <string name="are_you_sure_want_to_block_john">Are you sure want to block</string>
     <string name="are_you_sure_want_to_cancel_loop">Are you sure want to cancel loop Request</string>
     <string name="are_you_sure_want_to_cancel_booking">Are you sure want to cancel booking Request</string>
     <string name="unblock_john">Are you sure want to unblock John</string>

@@ -160,4 +160,5 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
     override fun afterTextChanged(s: Editable?) {
 
     }
+
 }

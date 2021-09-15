@@ -65,6 +65,8 @@
                     android:layout_marginEnd="5dp"
                     android:fontFamily="@font/romul"
                     android:text="10 MINS AGO"
+                    android:lineSpacingExtra="4dp"
+                    android:textAlignment="center"
                     android:textColor="@color/colorLightBlack"
                     android:textSize="@dimen/sp9" />
             </LinearLayout>
