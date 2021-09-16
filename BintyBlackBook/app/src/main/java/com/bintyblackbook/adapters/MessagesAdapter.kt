@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.MessageData
-import com.bintyblackbook.models.EditMessageModel
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
+import com.bintyblackbook.ui.activities.home.message.GroupChatActivity
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
@@ -49,17 +49,28 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
             tv_msg.text= messageModel.lastMessage
 
             itemView.setOnClickListener {
-                val intent=Intent(context, ChatActivity::class.java)
-                intent.putExtra("type",arrayList[pos].type.toString())
-                intent.putExtra("isGroup",arrayList[pos].isGroup.toString())
-                if(arrayList[pos].receiverId.toString()== getUser(context)?.id.toString()){
-                    intent.putExtra("sender_id",arrayList[pos].senderId.toString())
+
+                if(arrayList[pos].isGroup==0){
+                    val intent=Intent(context, ChatActivity::class.java)
+                    intent.putExtra("type",arrayList[pos].type.toString())
+                    intent.putExtra("isGroup",arrayList[pos].isGroup.toString())
+                    if(arrayList[pos].receiverId.toString()== getUser(context)?.id.toString()){
+                        intent.putExtra("sender_id",arrayList[pos].senderId.toString())
+                    }else{
+                        intent.putExtra("sender_id",arrayList[pos].receiverId.toString())
+                    }
+
+                    intent.putExtra("name",arrayList[pos].userName)
+                    context.startActivity(intent)
                 }else{
-                    intent.putExtra("sender_id",arrayList[pos].receiverId.toString())
+                    val intent=Intent(context, GroupChatActivity::class.java)
+                    intent.putExtra("type",arrayList[pos].type.toString())
+                    intent.putExtra("name",arrayList[pos].userName)
+                    intent.putExtra("groupId",arrayList[pos].groupId.toString())
+                    context.startActivity(intent)
                 }
 
-                intent.putExtra("name",arrayList[pos].userName)
-                context.startActivity(intent)
+
             }
         }
     }

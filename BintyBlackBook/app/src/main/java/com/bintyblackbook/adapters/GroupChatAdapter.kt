@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.ChatData
+import com.bintyblackbook.model.GroupChatData
 import com.bintyblackbook.util.MyUtils
 import com.bumptech.glide.Glide
 
 import de.hdodenhof.circleimageview.CircleImageView
 
-class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatData>, val senderId:Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class GroupChatAdapter(val context: Context, internal val arrayList: ArrayList<GroupChatData>, val senderId:Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val TYPE_USER = 0
     val TYPE_FRIEND = 2
@@ -58,13 +59,13 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
             val friendViewHolder = holder as FriendViewHolder
             friendViewHolder.txt_friendView.setText(arrayList[position].message)
             friendViewHolder.txt_time.setText(MyUtils.getDateTime(arrayList[position].created?.toLong()!!))
-           Glide.with(context).load(arrayList[position].recieverImage).into(friendViewHolder.profileimage)
+            Glide.with(context).load(arrayList[position].recieverImage).into(friendViewHolder.profileimage)
 
         } else if (holder.itemViewType == TYPE_USER) {
             val userViewHolder = holder as UserViewHolder
             userViewHolder.txt_userView.setText(arrayList[position].message)
             Glide.with(context).load(arrayList[position].senderImage).into(userViewHolder.profileimage)
-            userViewHolder.txt_time.setText(MyUtils.getDateTime(arrayList[position].created?.toLong()!!))
+            userViewHolder.txt_time.setText(MyUtils.getDateTime(arrayList[position].created.toLong()))
         }
 
     }
@@ -75,10 +76,10 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
         if(data.senderId==senderId){
             return TYPE_USER
         }
-       /* if (senderId.equals(arrayList[position].senderId.toString()))
-        {
-            return TYPE_USER
-        }*/
+        /* if (senderId.equals(arrayList[position].senderId.toString()))
+         {
+             return TYPE_USER
+         }*/
         else
         {
             return TYPE_FRIEND

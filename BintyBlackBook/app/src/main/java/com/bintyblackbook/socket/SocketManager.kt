@@ -164,6 +164,23 @@ class SocketManager {
         }
     }
 
+    fun sendGroupMessage(jsonObject: JSONObject?) {
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(SEND_GROUP_MESSAGE, jsonObject)
+            mSocket?.off(GROUP_BODY_LISTENER)
+            mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
+            mSocket?.off(RECEIVER_LISTENER)
+            mSocket?.on(RECEIVER_LISTENER, recListener)
+        } else {
+            mSocket?.emit(SEND_GROUP_MESSAGE, jsonObject)
+            mSocket?.off(GROUP_BODY_LISTENER)
+            mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
+            mSocket?.off(RECEIVER_LISTENER)
+            mSocket?.on(RECEIVER_LISTENER, recListener)
+        }
+    }
+
     fun getFriendMessage(jsonObject: JSONObject?) {
         if (!mSocket?.connected()!!) {
             mSocket?.connect()
@@ -184,6 +201,29 @@ class SocketManager {
             mSocket?.on(RECEIVER_LISTENER, recListener)
         }
     }
+
+
+    fun getChatMessage(jsonObject: JSONObject?) {
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(GET_GROUP_MESSAGES, jsonObject)
+            mSocket?.off(GET_GROUP_CHAT_LISTENER)
+            mSocket?.on(GET_GROUP_CHAT_LISTENER, onGroupChatListener)
+            mSocket?.off(GROUP_BODY_LISTENER)
+            mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
+            mSocket?.off(RECEIVER_LISTENER)
+            mSocket?.on(RECEIVER_LISTENER, recListener)
+        } else {
+            mSocket?.emit(GET_GROUP_MESSAGES, jsonObject)
+            mSocket?.off(GET_GROUP_CHAT_LISTENER)
+            mSocket?.on(GET_GROUP_CHAT_LISTENER, onGroupChatListener)
+            mSocket?.off(GROUP_BODY_LISTENER)
+            mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
+            mSocket?.off(RECEIVER_LISTENER)
+            mSocket?.on(RECEIVER_LISTENER, recListener)
+        }
+    }
+
 
     fun getBlockStatus(jsonObject: JSONObject?){
         if (!mSocket?.connected()!!) {
@@ -213,6 +253,20 @@ class SocketManager {
         }
     }
 
+    fun clearGroupChat(jsonObject: JSONObject?){
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(DELETE_GROUP_CHAT, jsonObject)
+            mSocket?.off(DELETE_GROUP_CHAT_LISTENER)
+            mSocket?.on(DELETE_GROUP_CHAT_LISTENER,onClearGroupChatListener)
+
+        } else {
+            mSocket?.emit(DELETE_GROUP_CHAT, jsonObject)
+            mSocket?.off(DELETE_GROUP_CHAT_LISTENER)
+            mSocket?.on(DELETE_GROUP_CHAT_LISTENER,onClearGroupChatListener)
+        }
+    }
+
     fun blockUser(jsonObject: JSONObject?){
         if (!mSocket?.connected()!!) {
             mSocket?.connect()
@@ -226,17 +280,44 @@ class SocketManager {
             mSocket?.on(BLOCK_USER_LISTENER,onBlockUserListener)
         }
     }
+    fun reportUser(jsonObject: JSONObject?){
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(REPORT_USER, jsonObject)
+            mSocket?.off(REPORT_USER_LISTENER)
+            mSocket?.on(REPORT_USER_LISTENER,onReportUserListener)
 
-    fun getReadStatus(jsonObject: JSONObject?){
+        } else {
+            mSocket?.emit(REPORT_USER, jsonObject)
+            mSocket?.off(REPORT_USER_LISTENER)
+            mSocket?.on(REPORT_USER_LISTENER,onReportUserListener)
+        }
+    }
+
+    fun reportGroup(jsonObject: JSONObject?){
+        if (!mSocket?.connected()!!) {
+            mSocket?.connect()
+            mSocket?.emit(REPORT_GROUP, jsonObject)
+            mSocket?.off(REPORT_GROUP_LISTENER)
+            mSocket?.on(REPORT_GROUP_LISTENER,onReportGroupListener)
+
+        } else {
+            mSocket?.emit(REPORT_GROUP, jsonObject)
+            mSocket?.off(REPORT_GROUP_LISTENER)
+            mSocket?.on(REPORT_GROUP_LISTENER,onReportGroupListener)
+        }
+    }
+
+    fun leaveGroup(jsonObject: JSONObject?){
         if(!mSocket?.connected()!!){
             mSocket?.connect()
-            mSocket?.emit(READ_UNREAD,jsonObject)
-            mSocket?.off(READ_UNREAD_STATUS_LISTENER)
-            mSocket?.on(READ_UNREAD_STATUS_LISTENER,onReadStatusListener)
+            mSocket?.emit(LEAVE_GROUP,jsonObject)
+            mSocket?.off(LEAVE_GROUP_LISTENER)
+            mSocket?.on(LEAVE_GROUP_LISTENER,onLeaveGroupListener)
         }else{
-            mSocket?.emit(READ_UNREAD, jsonObject)
-            mSocket?.off(READ_UNREAD_STATUS_LISTENER)
-            mSocket?.on(READ_UNREAD_STATUS_LISTENER,onReadStatusListener)
+            mSocket?.emit(LEAVE_GROUP, jsonObject)
+            mSocket?.off(LEAVE_GROUP_LISTENER)
+            mSocket?.on(LEAVE_GROUP_LISTENER,onLeaveGroupListener)
         }
     }
 
@@ -253,6 +334,21 @@ class SocketManager {
             observer.onResponse(BODY_LISTENER, *args)
         }
     }
+
+
+    private val onGroupChatListener = Emitter.Listener { args ->
+        Log.i("Socket", "onGetChatListener")
+        for (observer in observerList!!) {
+            observer.onResponse(GET_GROUP_CHAT_LISTENER, *args)
+            Log.i("Socket", "inside for loop")
+        }
+    }
+    private val onBodyGroupListener = Emitter.Listener { args ->
+        Log.i("Socket", "onBodyListener")
+        for (observer in observerList!!) {
+            observer.onResponse(GROUP_BODY_LISTENER, *args)
+        }
+    }
     private val recListener = Emitter.Listener { args ->
         Log.i("Socket", "recListener")
         for (observer in observerList!!) {
@@ -267,6 +363,14 @@ class SocketManager {
             Log.i("Socket", "inside for loop")
         }
     }
+    private val onReportGroupListener = Emitter.Listener { args ->
+        Log.i("Socket", "onReportGroupListener")
+        for (observer in observerList!!) {
+            observer.onResponse(REPORT_GROUP_LISTENER, *args)
+            Log.i("Socket", "inside for loop")
+        }
+    }
+
 
     private val onBlockStatusListener = Emitter.Listener { args ->
         Log.i("Socket", "onBlockStatusListener")
@@ -284,11 +388,26 @@ class SocketManager {
         }
     }
 
-
-    private val onReadStatusListener = Emitter.Listener { args ->
-        Log.i("Socket", "onGetReadStatusListener")
+    private val onClearGroupChatListener= Emitter.Listener { args->
+        Log.i("Socket", "onClearGroupChatListener")
         for (observer in observerList!!) {
-            observer.onResponse(READ_UNREAD_STATUS_LISTENER, *args)
+            observer.onResponse(DELETE_GROUP_CHAT_LISTENER, *args)
+            Log.i("Socket", "clear chat")
+        }
+    }
+
+    private val onReportUserListener = Emitter.Listener { args ->
+        Log.i("Socket", "onBlockUserListener")
+        for (observer in observerList!!) {
+            observer.onResponse(BLOCK_USER_LISTENER, *args)
+            Log.i("Socket", "inside for loop")
+        }
+    }
+
+    private val onLeaveGroupListener = Emitter.Listener { args ->
+        Log.i("Socket", "onLeaveGroupListener")
+        for (observer in observerList!!) {
+            observer.onResponse(LEAVE_GROUP_LISTENER, *args)
             Log.i("Socket", "inside for loop")
         }
     }
@@ -302,16 +421,27 @@ class SocketManager {
         // sockets events
         const val CONNECT_USER = "connect_user"
         const val GET_CHAT_LIST = "chat_listing"
+
+        //for user
         const val GET_CHAT = "get_message"
         const val SEND_MESSAGE = "send_message"
         const val DELETE_CHAT="delete_chat"
         const val BLOCK_USER="block_user"
         const val BLOCK_STATUS="block_status"
         const val READ_UNREAD="read_unread"
+        const val REPORT_USER="report_user"
+
+        //for group
+        const val SEND_GROUP_MESSAGE="send_group_message"
+        const val GET_GROUP_MESSAGES="get_group_message"
+        const val DELETE_GROUP_CHAT="delete_group_chat"
+        const val REPORT_GROUP="report_group"
+        const val LEAVE_GROUP="leave_group"
 
         //listener
         const val CONNECT_LISTENER = "connect_listener"
         const val GET_CHAT_LIST_LISTENER = "chat_message"
+        //for user
         const val GET_CHAT_LISTENER = "get_data_message"
         const val DELETE_CHAT_LISTENER="delete_data"
         const val BODY_LISTENER = "new_message"
@@ -319,5 +449,13 @@ class SocketManager {
         const val BLOCK_USER_LISTENER="block_data"
         const val BLOCK_STATUS_LISTENER="block_data_status"
         const val READ_UNREAD_STATUS_LISTENER="read_data_status"
+        const val REPORT_USER_LISTENER="report_data"
+
+        //for group
+        const val GROUP_BODY_LISTENER="new_message"
+        const val GET_GROUP_CHAT_LISTENER="get_data_group_message"
+        const val DELETE_GROUP_CHAT_LISTENER="clear_group_chat"
+        const val REPORT_GROUP_LISTENER="report_group_data"
+        const val LEAVE_GROUP_LISTENER="leave_group_chat"
     }
 }

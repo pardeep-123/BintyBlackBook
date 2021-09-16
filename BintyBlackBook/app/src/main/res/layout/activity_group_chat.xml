@@ -24,7 +24,7 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/rlBack"
+                android:id="@+id/rl_back"
                 android:layout_width="50dp"
                 android:layout_height="40dp">
 
@@ -37,32 +37,19 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tvHeading"
+                android:id="@+id/txtHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
-                android:text="@string/john"
+                android:text=""
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp"
                 android:textStyle="bold"/>
 
-            <RelativeLayout
-                android:id="@+id/rlVideo"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_toStartOf="@id/rlInfo">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/video"
-                    android:contentDescription="@string/image" />
-            </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlInfo"
+                android:id="@+id/rlGroupInfo"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true">
@@ -88,42 +75,21 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
 
-        <Button
-            android:id="@+id/btnBookNow"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:background="@color/fadePink"
-            android:fontFamily="@font/romul"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:paddingStart="@dimen/dp10"
-            android:paddingEnd="@dimen/dp10"
-            android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="@+id/rlMsgInput"
-            app:layout_constraintBottom_toBottomOf="@id/rlMsgInput"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rlMsgInput"
-            android:lineSpacingExtra="6dp"
-            android:text="Request to Book"
-            android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp12"
-            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/rlMsgInput"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnBookNow"
             android:background="@drawable/type">
 
             <EditText
-                android:id="@+id/edtMsg"
+                android:id="@+id/edtGroupMsg"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/rlSend"
+                android:layout_toStartOf="@id/rlSendMsg"
                 android:background="@android:color/transparent"
                 android:hint="@string/type_your_message_here"
                 android:imeOptions="actionDone"
@@ -137,7 +103,7 @@
                 android:textSize="@dimen/sp13" />
 
             <RelativeLayout
-                android:id="@+id/rlSend"
+                android:id="@+id/rlSendMsg"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
@@ -158,7 +124,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChat"
+        android:id="@+id/rvGroupChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/dp10"
@@ -168,7 +134,7 @@
         app:layout_constraintTop_toBottomOf="@id/tbMain" />
 
     <TextView
-        android:id="@+id/tv_notfound"
+        android:id="@+id/tvNoChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"

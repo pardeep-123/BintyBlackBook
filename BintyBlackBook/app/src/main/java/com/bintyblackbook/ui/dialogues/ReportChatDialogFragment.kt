@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
+import com.bintyblackbook.ui.activities.home.message.GroupChatActivity
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.btnNo
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.btnYes
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.rlCross
+import kotlinx.android.synthetic.main.dialog_fragment_block_user.tvMessage
 import kotlinx.android.synthetic.main.dialog_fragment_report_user.*
 
-
-class ReportUserDialogFragment(val timelineActivity: TimelineActivity) : DialogFragment() {
-
+class ReportChatDialogFragment(var name:String,val groupChatActivity: GroupChatActivity) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,17 +30,21 @@ class ReportUserDialogFragment(val timelineActivity: TimelineActivity) : DialogF
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        rlCross.visibility= View.GONE
+
+        tvMessage.text = getString(R.string.are_you_sure_want_to_block_john)
+
         rlCross.setOnClickListener {
             dismiss()
         }
 
         btnYes.setOnClickListener {
             dismiss()
+            //add action here
             if(edtReport.text.toString().trim().isNullOrEmpty()){
                 Toast.makeText(context,"Please enter the reason",Toast.LENGTH_SHORT).show()
-                edtReport.requestFocus()
             }else{
-                timelineActivity.reportPost(edtReport.text.toString())
+                groupChatActivity.reportGroup(edtReport.text.toString())
             }
         }
 

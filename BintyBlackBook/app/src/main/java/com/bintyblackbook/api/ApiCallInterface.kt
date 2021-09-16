@@ -429,4 +429,13 @@ interface ApiCallInterface {
         @Field("slots") slots:String
     ) : Call<JsonElement>
 
+    @FormUrlEncoded
+    @POST(ApiConstants.ADD_GROUP)
+    fun addGroup(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("name") name:String,
+        @Field("group_users") group_users:String
+    ): Call<JsonElement>
+
 }

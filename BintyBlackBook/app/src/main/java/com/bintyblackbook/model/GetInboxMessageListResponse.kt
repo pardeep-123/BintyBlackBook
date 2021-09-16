@@ -17,6 +17,7 @@ class MessageData{
     var created: Int = 0
     var updated : Int = 0
     var user_id: Int = 0
+    var name:String=""
     var lastMessage: String=""
     var userName: String=""
     var userImage: String=""

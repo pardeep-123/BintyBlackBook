@@ -1,6 +1,6 @@
 package com.bintyblackbook.model
 
-class Datum {
+class ChatData {
     var id: Int? = null
     var senderId: Int? = null
     var receiverId: Int? = null

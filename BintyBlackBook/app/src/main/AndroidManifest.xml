@@ -23,10 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup" >
-
-        <activity android:name=".ui.activities.home.loop.LoopSearchActivity"/>
-        <activity android:name=".ui.activities.welcome.WelcomeTutorial"/>
+        tools:replace="android:allowBackup">
+        <activity android:name=".ui.activities.home.message.GroupChatActivity"></activity>
+        <activity android:name=".ui.activities.home.loop.LoopSearchActivity" />
+        <activity android:name=".ui.activities.welcome.WelcomeTutorial" />
         <activity android:name=".ui.activities.authentication.SetUserAvailabilityActivity" />
         <activity android:name=".ui.tutorials.GetStartedActivity" />
         <activity

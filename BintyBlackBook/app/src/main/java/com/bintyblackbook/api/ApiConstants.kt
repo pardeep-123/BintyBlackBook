@@ -104,6 +104,8 @@ class ApiConstants {
         const val DELETE_COMMENT="delete_comment"
 
         const val ADD_BOOKING="add_booking"
+
+        const val ADD_GROUP="add_group"
     }
 
 

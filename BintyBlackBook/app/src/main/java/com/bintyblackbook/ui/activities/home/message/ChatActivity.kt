@@ -1,6 +1,5 @@
 package com.bintyblackbook.ui.activities.home.message
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,15 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.ChatAdaptr
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.Datum
+import com.bintyblackbook.model.ChatData
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
 import com.bintyblackbook.ui.dialogues.BlockUserDialogFragment
 import com.bintyblackbook.util.getUser
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -33,8 +34,8 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
     var sender_id = ""
     var user_receiverId = ""
     var type = ""
-    var listChat = ArrayList<Datum>()
-    var adapter: ChatAdaptr? = null
+    var listChat = ArrayList<ChatData>()
+    var chatAdapter: ChatAdaptr? = null
     var user_id: String = ""
     var name = ""
     var block_status = 0
@@ -44,8 +45,9 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         socketManager = BintyBookApplication.getSocketManager()
-        getIntentData()
 
+        setAdapter()
+        getIntentData()
         initializeSocket()
 
         setOnClicks()
@@ -65,9 +67,17 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         }
 
         tvHeading.text = name
+
         getFriendMessageList()
         getBlockUserStatus()
 
+    }
+
+    private fun setAdapter() {
+        val layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        layoutmanager.stackFromEnd = true
+        layoutmanager.isSmoothScrollbarEnabled = true
+        rvChat.layoutManager = layoutmanager
     }
 
     private fun setOnClicks() {
@@ -171,15 +181,15 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         when (event) {
 
             SocketManager.DELETE_CHAT_LISTENER -> {
-                try{
-                    runOnUiThread {
+                try {
+
                     val data = args.get(0) as JSONObject
                     Log.i("=====", data.toString())
                     listChat.clear()
                     rvChat.visibility = View.GONE
                     tv_notfound.visibility = View.VISIBLE
-                   }
-                }catch (e:java.lang.Exception){
+
+                } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
             }
@@ -187,24 +197,24 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             SocketManager.BLOCK_STATUS_LISTENER -> {
 
                 try {
-                        val data = args.get(0) as JSONObject
-                        Log.i("Block_status_listener", data.toString())
-                        // block_data_status=1(blocked),block_data_status=0(unblocked)
-                        if (data.getInt("block_data_status") == 1) {
-                            block_status = 1
-                            llBottom.visibility = View.GONE
-                            if (isGroup == "0") {
-                                rlVideo.visibility = View.GONE
-                            }
-
-                        } else {
-                            block_status = 0
-                            if (isGroup == "0") {
-                                rlVideo.visibility = View.VISIBLE
-                            }
-                            llBottom.visibility = View.VISIBLE
+                    val data = args.get(0) as JSONObject
+                    Log.i("Block_status_listener", data.toString())
+                    // block_data_status=1(blocked),block_data_status=0(unblocked)
+                    if (data.getInt("block_data_status") == 1) {
+                        block_status = 1
+                        llBottom.visibility = View.GONE
+                        if (isGroup == "0") {
+                            rlVideo.visibility = View.GONE
                         }
-                        setPopUpWindow()
+
+                    } else {
+                        block_status = 0
+                        if (isGroup == "0") {
+                            rlVideo.visibility = View.VISIBLE
+                        }
+                        llBottom.visibility = View.VISIBLE
+                    }
+                    setPopUpWindow()
 
 
                 } catch (e: java.lang.Exception) {
@@ -216,112 +226,53 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             }
 
             SocketManager.GET_CHAT_LISTENER -> {
-                // dialogBox.dismiss()
-                try {
-                    runOnUiThread {
-                        val data = args.get(0) as JSONArray
-                        Log.e("GET_CHAT_LISTENER", data.toString())
+                runOnUiThread {
+                    Log.e("fgfdgg", "mychar")
+                    val mObject = args[0] as JSONArray
 
-                        Log.i("data_size", data.length().toString())
-                        listChat = ArrayList()
-                        if (data.length() > 0) {
-                            tv_notfound.visibility = View.GONE
-                        } else {
-                            tv_notfound.visibility = View.VISIBLE
-                        }
-                        for (i in 0 until data.length()) {
+                    listChat.clear()
 
-                            val data = data.getJSONObject(i)
-                            val chatModel = Datum()
-
-                            chatModel.id = data.getInt("id")
-                            user_id = chatModel.id.toString()
-                            chatModel.readStatus = data.getInt("readStatus")
-                            chatModel.groupId = data.getInt("groupId")
-                            chatModel.deletedId = data.getInt("deletedId")
-                            chatModel.created = data.getLong("created")
-                            chatModel.updated = data.getLong("updated")
-                            chatModel.chatConstantId = data.getInt("chatConstantId")
-                            chatModel.senderName = data.getString("senderName")
-                            chatModel.message = data.getString("message")
-                            chatModel.senderId = data.getInt("senderId")
-                            chatModel.senderImage = data.getString("senderImage")
-                            chatModel.recieverName = data.getString("recieverName")
-                            chatModel.receiverId = data.getInt("receiverId")
-                            if (chatModel.receiverId!! == getUser(this)?.id) {
-                                user_receiverId = chatModel.receiverId.toString()
-                            } else {
-                                user_receiverId = chatModel.senderId.toString()
-                            }
-
-                            chatModel.recieverImage = data.getString("recieverImage")
-                            chatModel.messageType = data.getString("messageType")
-                            listChat.add(chatModel)
-                        }
-
-                        runOnUiThread {
-                            listChat.reverse()
-                            adapter = ChatAdaptr(context, listChat, user_receiverId)
-                            viewLastMessage()
-
-                        }
+                    for (i in 0 until mObject.length()) {
+                        val jsonobj = mObject.getJSONObject(i)
+                        val gson = GsonBuilder().create()
+                        val data = gson.fromJson(jsonobj.toString(), ChatData::class.java)
+                        listChat.add(data)
                     }
-                } catch (ex: Exception) {
-                    Log.e("BODY_LISTENER", ex.toString())
-                    ex.printStackTrace()
+
+                    chatAdapter = ChatAdaptr(this, listChat, getUser(this)?.id!!)
+                    rvChat.adapter = chatAdapter
+                    if (listChat.isNullOrEmpty()) {
+                        tv_notfound.visibility = View.VISIBLE
+                    } else {
+                        tv_notfound.visibility = View.GONE
+                    }
                 }
+
             }
 
             SocketManager.BODY_LISTENER -> {
+                runOnUiThread {
+                    val mObject = args[0] as JSONObject
+                    val gson = GsonBuilder().create()
+                    val model = gson.fromJson(mObject.toString(), ChatData::class.java)
+                    listChat.add(model)
 
-                try {
-                    runOnUiThread {
-                        val data = args.get(0) as JSONObject
-                        Log.e("BODY_LISTENER", data.toString())
-                        val chatModel = Datum()
-
-                        chatModel.id = data.getInt("id")
-                        chatModel.readStatus = data.getInt("readStatus")
-                        chatModel.groupId = data.getInt("groupId")
-                        chatModel.deletedId = data.getInt("deletedId")
-                        chatModel.created = data.getLong("created")
-                        chatModel.updated = data.getLong("updated")
-                        chatModel.chatConstantId = data.getInt("chatConstantId")
-                        chatModel.senderName = data.getString("senderName")
-                        chatModel.message = data.getString("message")
-                        chatModel.senderId = data.getInt("senderId")
-                        chatModel.senderImage = data.getString("senderImage")
-                        chatModel.recieverName = data.getString("recieverName")
-                        chatModel.receiverId = data.getInt("receiverId")
-                        //   receiverId= chatModel.receiverId.toString()
-                        chatModel.recieverImage = data.getString("recieverImage")
-                        chatModel.messageType = data.getString("messageType")
-                        listChat.add(chatModel)
-                        if (listChat.size > 0) {
-                            tv_notfound.visibility = View.GONE
-                        } else {
-                            tv_notfound.visibility = View.VISIBLE
-                        }
-                        if (chatModel.receiverId!! == getUser(this)?.id) {
-                            adapter = ChatAdaptr(context, listChat, chatModel.receiverId.toString())
-                        } else {
-                            adapter = ChatAdaptr(context, listChat, chatModel.senderId.toString())
-                        }
-
-                        viewLastMessage()
+                    if (listChat.size > 0) {
+                        tv_notfound.visibility = View.GONE
+                    } else {
+                        tv_notfound.visibility = View.VISIBLE
                     }
-                } catch (ex: Exception) {
-                    Log.e("BODY_LISTENER", ex.toString())
-                    ex.printStackTrace()
+                    chatAdapter = ChatAdaptr(context, listChat, getUser(this)?.id!!)
+
+                    rvChat.adapter = chatAdapter
                 }
+
             }
 
             SocketManager.BLOCK_USER_LISTENER -> {
                 try {
-                    runOnUiThread {
-                        val data = args.get(0) as JSONObject
-                        Log.e("BLOCK_LISTENER", data.toString())
-                    }
+                    val data = args.get(0) as JSONObject
+                    Log.e("BLOCK_LISTENER", data.toString())
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
@@ -334,17 +285,17 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         socketManager?.onRegister(this)
     }
 
-    @SuppressLint("WrongConstant")
+    /*@SuppressLint("WrongConstant")
     fun viewLastMessage() {
         runOnUiThread {
             val li = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             li.stackFromEnd = true;
             rvChat.layoutManager = li
-            rvChat.adapter = adapter
-            adapter?.notifyDataSetChanged()
+            rvChat.adapter = chatAdapter
+            chatAdapter.notifyDataSetChanged()
         }
     }
-
+*/
     fun initializeSocket() {
         socketManager = BintyBookApplication.getSocketManager()
         if (socketManager == null) {
