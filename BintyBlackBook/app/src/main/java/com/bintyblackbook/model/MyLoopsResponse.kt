@@ -1,6 +1,8 @@
 package com.bintyblackbook.model
 
- class MyLoopsResponse:BaseResponseModel(){
+import java.io.Serializable
+
+class MyLoopsResponse:BaseResponseModel(){
     val `data`: LoopsData=LoopsData()
 
 }
@@ -21,16 +23,16 @@ data class Suggested(
     val user_id: Int,
     val uuid: String
 )
-data class AllData(
-    val id: Int,
-    val otherUser: Int,
-    val pushKitToken: String,
-    val status: Int,
-    val user2_id: Int,
-    val userImage: String,
-    val userName: String,
-    val userType: Int,
-    val user_id: Int,
-    val uuid: String,
-    var selected:Boolean
-)
+class AllData:Serializable {
+    val id: Int=0
+    val otherUser: Int=0
+    val pushKitToken: String=""
+    val status: Int=0
+    val user2_id: Int=0
+    val userImage: String=""
+    val userName: String=""
+    val userType: Int=0
+    val user_id: Int=0
+    val uuid: String=""
+    var selected:Boolean=false
+}

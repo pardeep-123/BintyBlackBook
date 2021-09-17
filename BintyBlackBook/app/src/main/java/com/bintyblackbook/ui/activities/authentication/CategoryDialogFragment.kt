@@ -49,10 +49,6 @@ class CategoryDialogFragment(var categoryList: ArrayList<CategoryData>, var call
             bottomSheet.layoutParams.height= ViewGroup.LayoutParams.MATCH_PARENT
 
         }
-    }
-    override fun onActivityCreated(arg0: Bundle?) {
-        super.onActivityCreated(arg0)
-
         setAdapter()
 
         btnDone.setOnClickListener {
@@ -60,8 +56,8 @@ class CategoryDialogFragment(var categoryList: ArrayList<CategoryData>, var call
             callback.callbackMethod(listOf)
             callback.callbackSubCategories(subList)
         }
-    }
 
+    }
 
     private fun setAdapter() {
 

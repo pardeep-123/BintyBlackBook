@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
@@ -30,37 +31,35 @@ class HomeItemClickActivity : BaseActivity(), TextWatcher {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_item_click)
 
-        homeViewModel = HomeViewModel(this)
+        homeViewModel = HomeViewModel()
+        setAdapter()
+        getIntentData()
 
-        val getHeading = intent.getStringExtra(AppConstant.HEADING)
-        id = intent.getIntExtra("id", 0)
+//        val getHeading = intent.getStringExtra(AppConstant.HEADING)
+//        id = intent.getIntExtra("id", 0)
 
         iv_back.setOnClickListener {
             finish()
         }
 
-        if (getHeading != null) {
-            headingText.text = getHeading
-        }
-
-        setAdapter()
-        getData()
-
         edtSearch.addTextChangedListener(this)
     }
 
-    private fun getData() {
-        homeViewModel.homeList(getSecurityKey(context)!!, getUser(context)?.authKey!!)
-        homeViewModel.homeListLiveData.observe(this, Observer {
+    private fun getIntentData() {
+        val intent = intent
+        val getHeading = intent.getStringExtra(AppConstant.HEADING)
+        val args = intent.getBundleExtra("BUNDLE")
+        if (getHeading != null) {
+            headingText.text = getHeading
+        }
+        Log.i("groupUserList",list.size.toString())
 
-            for (i in 0 until it.data.size){
-                if(it.data[i].id==id){
-                    list.addAll(it.data[i].categoryName)
-                    photoAdapter?.notifyDataSetChanged()
-                }
-            }
-        })
+        list.clear()
+
+        list.addAll(args?.getSerializable("ARRAYLIST") as ArrayList<CategoryName>)
+        photoAdapter?.notifyDataSetChanged()
     }
+
 
     private fun setAdapter(){
         rvPhotos.layoutManager = GridLayoutManager(this, 2)

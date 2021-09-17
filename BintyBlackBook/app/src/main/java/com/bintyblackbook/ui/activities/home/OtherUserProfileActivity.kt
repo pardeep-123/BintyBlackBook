@@ -46,7 +46,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     private var exoplayer: SimpleExoPlayer? = null
     var name=""
     var otherUserId=""
-    var loop_id=""
+    var web_link=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +71,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         btnUnLoopUser.setOnClickListener(this)
         btnUserEvent.setOnClickListener(this)
         btnSwap.setOnClickListener(this)
+        tvWebLink.setOnClickListener(this)
         iv_back.setOnClickListener {
             finish()
         }
@@ -88,7 +89,8 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     private fun setData(data: Data?) {
 
         headingText.text= data?.firstName
-        name= data?.firstName!!
+        web_link=data?.websiteLink!!
+        name= data.firstName
         otherUserId= data.id.toString()
         if(data.isSwapSystem=="0"){
             tvOpenToSwap.visibility=View.GONE
@@ -118,7 +120,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             btnLoopUser.visibility=View.VISIBLE
         }
 
-        tvUserName.text=data?.firstName
+        tvUserName.text=data.firstName
         if(data.location.isNullOrEmpty()){
             tvUserLocation.visibility=View.GONE
         }else{
@@ -129,7 +131,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         tvOtherUserAbout.text= data.description
         val subCategories= ArrayList<String>()
         val categories= ArrayList<String>()
-        data?.category!!.forEach {
+        data.category.forEach {
             categories.add(it.name)
             it.subCategories.forEach {
                 subCategories.add("#"+it.name)
@@ -193,6 +195,10 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id){
+
+            R.id.tvWebLink ->{
+                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(web_link)))
+            }
 
             R.id.btnChatUser ->{
                 saveMsgType(this,0)

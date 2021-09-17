@@ -8,6 +8,7 @@ import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
+import com.bintyblackbook.model.WalletListModel
 import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -17,14 +18,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class ChatViewModel:ViewModel() {
+class PaymentViewModel:ViewModel() {
 
-    val addGroupLiveData= MutableLiveData<BaseResponseModel>()
+    val walletListLiveData= MutableLiveData<WalletListModel>()
 
-    fun addGroup(context: Context,securityKey:String,auth_key:String,name:String,users:String){
+    fun getWalletList(context: Context, security_key:String, auth_key:String){
 
         (context as BaseActivity).showProgressDialog()
-        ApiClient.apiService.addGroup(securityKey,auth_key,name,users).enqueue(object : Callback<JsonElement>{
+
+        ApiClient.apiService.getWalletList(security_key, auth_key).enqueue(object : Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
                     (context as BaseActivity).dismissProgressDialog()
@@ -32,8 +34,8 @@ class ChatViewModel:ViewModel() {
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
                         if(jsonDATA.getInt("code")==200){
-                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), BaseResponseModel::class.java)
-                            addGroupLiveData.value = jsonObj
+                            val jsonObj = BintyBookApplication.gson.fromJson(response.body(), WalletListModel::class.java)
+                            walletListLiveData.value = jsonObj
                         }else{
                             showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok",{})
                         }
@@ -42,7 +44,7 @@ class ChatViewModel:ViewModel() {
                         e.printStackTrace()
                     }
                 } else {
-                    val error:JSONObject = JSONObject(response.errorBody()!!.string())
+                    val error: JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
 
                     if(error.getInt("code")==401){
@@ -58,14 +60,15 @@ class ChatViewModel:ViewModel() {
             }
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                try{
-                    (context as BaseActivity).dismissProgressDialog()
-                    (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
-                }catch (e:Exception){
-                    e.printStackTrace()
-                }
+               try{
+                   (context as BaseActivity).dismissProgressDialog()
+                   (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
+               }catch (e:Exception){
+                   e.printStackTrace()
+               }
             }
 
         })
+
     }
 }

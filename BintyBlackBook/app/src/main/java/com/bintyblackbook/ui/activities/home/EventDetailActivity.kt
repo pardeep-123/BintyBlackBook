@@ -1,5 +1,7 @@
 package com.bintyblackbook.ui.activities.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.bintyblackbook.R
@@ -72,6 +74,10 @@ class EventDetailActivity : BaseActivity() {
     private fun setOnClicks() {
         iv_back.setOnClickListener {
             finish()
+        }
+        tvWebLinks.setOnClickListener {
+         //   startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(web_link)))
+
         }
     }
 }

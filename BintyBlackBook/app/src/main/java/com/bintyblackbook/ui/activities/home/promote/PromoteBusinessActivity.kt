@@ -15,12 +15,12 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class PromoteBusinessActivity : BaseActivity(), View.OnClickListener {
     var fragList: ArrayList<String> = ArrayList()
-    var adapterPromoteBusiness: AdapterPromoteBusiness? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_promote_business)
-        headingText.text = "PROMOTE YOUR BUSINESS"
+        headingText.text = getString(R.string.promote_your_business)
         iv_back.setOnClickListener(this)
 
         setTabLayout()
@@ -28,27 +28,19 @@ class PromoteBusinessActivity : BaseActivity(), View.OnClickListener {
               TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                   tab.text = fragList[position]
               }.attach()
-
-//        adapterPromoteBusiness = AdapterPromoteBusiness(context)
-//        rvPromoteBusiness.adapter = adapterPromoteBusiness
-        //adapterItemClick()
     }
 
     private fun setTabLayout() {
         val adapter = EventCalenderPagerAdapter(supportFragmentManager, this)
         fragList.clear()
-        fragList.add("Promote Business")
-        fragList.add("Promote Events")
-        adapter.addFragment(PromoteBusinessFragment(),"Promote Business")
-        adapter.addFragment(PromoteEventFragment(),"Promote Events")
+        fragList.add(getString(R.string.promote_business))
+        fragList.add(getString(R.string.promote_events))
+        adapter.addFragment(PromoteBusinessFragment(),getString(R.string.promote_business))
+        adapter.addFragment(PromoteEventFragment(),getString(R.string.promote_events))
         viewPager.adapter = adapter
     }
 
-    private fun adapterItemClick(){
-        adapterPromoteBusiness?.onItemClick = {pos: Int ->
-            startActivity(Intent(this,PromotePayActivity::class.java))
-        }
-    }
+
 
     override fun onClick(view: View) {
         when (view.id) {

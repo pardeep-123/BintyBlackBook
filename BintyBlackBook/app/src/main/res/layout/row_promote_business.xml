@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlMessage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,30 +9,37 @@
     android:paddingTop="5dp"
     android:paddingRight="10dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
         android:background="@drawable/promote_back">
 
         <ImageView
             android:id="@+id/dummyImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/dp20"
             android:contentDescription="@string/image"
             android:src="@drawable/dollar" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/dummyImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/dummyImage"
+            app:layout_constraintBottom_toBottomOf="@id/dummyImage"
+            app:layout_constraintStart_toEndOf="@id/dummyImage"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_amount"
+                android:id="@+id/tvType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -39,7 +47,16 @@
                 android:lineSpacingExtra="3dp"
                 android:text="$5/day"
                 android:textColor="@color/blackColor"
-                android:textSize="18sp" />
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="price"
+                android:textColor="@color/blackColor"
+                android:fontFamily="@font/romul"
+                android:textSize="@dimen/sp13"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,11 +64,11 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/romul"
                 android:lineSpacingExtra="3dp"
-                android:text="to promote your service"
-                android:textColor="@color/grey1"
-                android:textSize="13sp" />
+                android:text="@string/to_promote_your_service"
+                android:textColor="@color/blackColor"
+                android:textSize="@dimen/sp9" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

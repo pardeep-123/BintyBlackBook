@@ -50,6 +50,8 @@
     <string name="messages">MESSAGES</string>
     <string name="my_loops">MY LOOPS</string>
     <string name="promote_your_business">PROMOTE YOUR BUSINESS</string>
+
+    <string name="promote_your_events">PROMOTE YOUR EVENTS</string>
     <string name="timeline">TIMELINE</string>
     <string name="refer_a_friend">REFER A FRIEND</string>
     <string name="event_calendar">EVENT CALENDAR</string>
@@ -191,5 +193,9 @@
     <string name="view_edit_profile">VIEW/EDIT PROFILE</string>
     <string name="accept_loop_request">Accept Loop Request</string>
     <string name="leave_group">Leave Group</string>
+    <string name="promote_events">Promote Events</string>
+    <string name="promote_business">Promote Business</string>
+    <string name="to_promote_your_service">To promote your service</string>
+    <string name="sign_up_popup_info">\"Black Owned Business: This is defined as 51 percent or more of the stock or equity of is owned by a person or persons of the group being measured \"</string>
 
 </resources>

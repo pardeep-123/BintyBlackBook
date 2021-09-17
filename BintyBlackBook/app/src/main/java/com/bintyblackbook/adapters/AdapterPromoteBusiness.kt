@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.PromotionData
+import kotlinx.android.synthetic.main.row_promote_business.view.*
 
-class AdapterPromoteBusiness(val context: Context) :
-    RecyclerView.Adapter<AdapterPromoteBusiness.MyViewHolder>() {
+class AdapterPromoteBusiness(val context: Context,val screen_type:String) : RecyclerView.Adapter<AdapterPromoteBusiness.MyViewHolder>() {
 
-    var onItemClick: ((pos: Int) -> Unit)? = null
+    var arrayList= ArrayList<PromotionData>()
+    lateinit var promoteAdapterInterface: PromoteAdapterInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
@@ -19,16 +21,25 @@ class AdapterPromoteBusiness(val context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return 4
+        return arrayList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(position)
+        holder.bind(position)
+    }
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(position: Int){
+            val data= arrayList[position]
+            itemView.tvType.text= data.subscription_type
+            itemView.tvPrice.text= data.price
+            itemView.setOnClickListener {
+                promoteAdapterInterface.onItemClick(data,position,screen_type)
+            }
         }
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+    interface PromoteAdapterInterface{
+        fun onItemClick(data: PromotionData, position: Int, screen_type: String)
     }
 }

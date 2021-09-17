@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.lang.Exception
 import java.util.*
 
 class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListener {
@@ -74,7 +75,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
     }
 
     private fun setAdapter() {
-        val layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL, true)
         layoutmanager.stackFromEnd = true
         layoutmanager.isSmoothScrollbarEnabled = true
         rvChat.layoutManager = layoutmanager
@@ -114,8 +115,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
 
     private fun setPopUpWindow() {
-        val inflater =
-            applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.popup_in_chat, null)
 
         val tvClear = view.findViewById<TextView>(R.id.tvClear)
@@ -127,10 +127,8 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             tvBlock.visibility = View.VISIBLE
         }
 
-
         tvClear.setOnClickListener {
             myPopupWindow?.dismiss()
-
             clearChat()
         }
 
@@ -226,6 +224,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             }
 
             SocketManager.GET_CHAT_LISTENER -> {
+                try{
                 runOnUiThread {
                     Log.e("fgfdgg", "mychar")
                     val mObject = args[0] as JSONArray
@@ -247,26 +246,31 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                         tv_notfound.visibility = View.GONE
                     }
                 }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
 
             }
 
             SocketManager.BODY_LISTENER -> {
-                runOnUiThread {
-                    val mObject = args[0] as JSONObject
-                    val gson = GsonBuilder().create()
-                    val model = gson.fromJson(mObject.toString(), ChatData::class.java)
-                    listChat.add(model)
+                try{
+                    runOnUiThread {
+                        val mObject = args[0] as JSONObject
+                        val gson = GsonBuilder().create()
+                        val model = gson.fromJson(mObject.toString(), ChatData::class.java)
+                        listChat.add(model)
 
-                    if (listChat.size > 0) {
-                        tv_notfound.visibility = View.GONE
-                    } else {
-                        tv_notfound.visibility = View.VISIBLE
+                        if (listChat.size > 0) {
+                            tv_notfound.visibility = View.GONE
+                        } else {
+                            tv_notfound.visibility = View.VISIBLE
+                        }
+                        chatAdapter = ChatAdaptr(context, listChat, getUser(this)?.id!!)
+                        rvChat.adapter = chatAdapter
                     }
-                    chatAdapter = ChatAdaptr(context, listChat, getUser(this)?.id!!)
-
-                    rvChat.adapter = chatAdapter
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
-
             }
 
             SocketManager.BLOCK_USER_LISTENER -> {

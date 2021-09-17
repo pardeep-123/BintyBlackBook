@@ -69,7 +69,7 @@
     <EditText
         android:id="@+id/edtSearchEvent"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18"
         android:background="@drawable/bg_curved_searchbar"
@@ -83,7 +83,7 @@
         android:paddingStart="@dimen/dp10"
         android:paddingEnd="@dimen/dp10"
         android:textColor="@color/blackColor"
-        android:textSize="@dimen/sp13" />
+        android:textSize="@dimen/sp12" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.activities.home.profileBusiness
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -30,6 +31,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
     var horizontalImagesAdapter: HorizontalImagesAdapter? = null
     val arrayList = ArrayList<UserMedia>()
+    var web_link=""
 
     var response:Data?=null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +61,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         btnSetAvailability.setOnClickListener(this)
         btnEditProfile.setOnClickListener(this)
         btnEvent.setOnClickListener(this)
+        tvWebLink.setOnClickListener(this)
     }
 
     private fun setObservables() {
@@ -72,13 +75,15 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setData(it: Data?) {
-        tvName.text= it?.firstName
-        tvLocation.text=it?.location
-        tvUserAbout.text=it?.description
-        tvExp.text=it?.experience
-        tvWebLink.text=it?.websiteLink
-        Glide.with(this).load(it?.image).into(civ_profile)
-        Glide.with(this).load(it?.userMedia!![0].media).into(riv1)
+
+        web_link= it?.websiteLink!!
+        tvName.text= it.firstName
+        tvLocation.text=it.location
+        tvUserAbout.text=it.description
+        tvExp.text=it.experience
+        tvWebLink.text=it.websiteLink
+        Glide.with(this).load(it.image).into(civ_profile)
+        Glide.with(this).load(it.userMedia[0].media).into(riv1)
         if(it.userMedia.size > 0){
             arrayList.addAll(it.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
@@ -147,6 +152,10 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
             R.id.btnEvent ->{
                 val intent= Intent(this,EventInProfileActivity::class.java)
                 startActivity(intent)
+            }
+
+            R.id.tvWebLink ->{
+                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(web_link)))
             }
         }
     }

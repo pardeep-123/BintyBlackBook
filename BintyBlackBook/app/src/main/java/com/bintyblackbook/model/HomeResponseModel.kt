@@ -1,6 +1,8 @@
 package com.bintyblackbook.model
 
- class HomeResponseModel:BaseResponseModel() {
+import java.io.Serializable
+
+class HomeResponseModel:BaseResponseModel() {
 
      val data: ArrayList<HomeData> = ArrayList<HomeData>()
 
@@ -13,25 +15,25 @@ data class HomeData(
     val name: String
 )
 
-data class CategoryName(
-    val categoryId: Int,
-    val categoryName: String,
-    val countryCode: String,
-    val createdTime: Int,
-    val description: String,
-    val email: String,
-    val experience: String,
-    val firstName: String,
-    val id: Int,
-    val isLoop: Int,
-    val isLoopuserid: Int,
-    val isPromoted: Int,
-    val latitude: String,
-    val longitude: String,
-    val phone: String,
-    val subCategoryId: Int,
-    val subCategoryName: String,
-    val userId: Int,
-    val userImage: String,
-    val userLocation: String
-)
+ class CategoryName:Serializable{
+    val categoryId: Int=0
+    val categoryName: String=""
+    val countryCode: String=""
+    val createdTime: Int=0
+    val description: String=""
+    val email: String=""
+    val experience: String=""
+    val firstName: String=""
+    val id: Int=0
+    val isLoop: Int=0
+    val isLoopuserid: Int=0
+    val isPromoted: Int=0
+    val latitude: String=""
+    val longitude: String=""
+    val phone: String=""
+    val subCategoryId: Int=0
+    val subCategoryName: String=""
+    val userId: Int=0
+    val userImage: String=""
+    val userLocation: String=""
+}

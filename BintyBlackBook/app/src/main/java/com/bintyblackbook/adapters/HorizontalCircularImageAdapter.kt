@@ -20,7 +20,7 @@ class HorizontalCircularImageAdapter(var context: Context) :
     RecyclerView.Adapter<HorizontalCircularImageAdapter.HorizontalImagesViewHolder>() {
 
     var arrayList= ArrayList<AllData>()
-
+    lateinit var horizontalAdapterInterface: HorizontalAdapterInterface
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalImagesViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_circular_image, parent, false)
         return HorizontalImagesViewHolder(view)
@@ -44,6 +44,13 @@ class HorizontalCircularImageAdapter(var context: Context) :
             Glide.with(context).load(editMessageModel.userImage).into(civProfile)
             tvName.text = editMessageModel.userName
 
+            rlCross.setOnClickListener {
+                horizontalAdapterInterface.onDelete(arrayList[pos],pos)
+            }
         }
+    }
+
+    interface HorizontalAdapterInterface{
+        fun onDelete(data:AllData,position: Int)
     }
 }

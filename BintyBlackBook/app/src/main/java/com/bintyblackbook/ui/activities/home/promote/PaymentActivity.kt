@@ -15,9 +15,14 @@ class PaymentActivity : AppCompatActivity() {
     var paymentAdapter:PaymentAdapter? = null
     lateinit var arrayList: ArrayList<PaymentModel>
 
+    var promote_type=""
+    var subs_name=""
+    var price=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
+
+        getIntentData()
 
         rlBack.setOnClickListener {
             finish()
@@ -32,7 +37,7 @@ class PaymentActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager,"successfulPromote")
         }
 
-        arrayList = ArrayList()
+    /*    arrayList = ArrayList()
 
         arrayList.add(PaymentModel(R.drawable.credit_card,"Credit card", "123 **** ****", true))
         arrayList.add(PaymentModel(R.drawable.paypal,"Paypal", "Please Login", false))
@@ -40,7 +45,23 @@ class PaymentActivity : AppCompatActivity() {
 
         paymentAdapter = PaymentAdapter(this,arrayList)
         rvPayment.adapter = paymentAdapter
-        rvPayment.layoutManager = LinearLayoutManager(this)
+        rvPayment.layoutManager = LinearLayoutManager(this)*/
+
+    }
+
+    private fun getIntentData() {
+        subs_name= intent.getStringExtra("subs_name").toString()
+        price= intent.getStringExtra("price").toString()
+        promote_type= intent.getStringExtra("promote_type").toString()
+
+        if(promote_type == "business"){
+            tvHeading.text= getString(R.string.promote_your_business)
+        }else{
+            tvHeading.text= getString(R.string.promote_your_events)
+        }
+
+        tvType.text= subs_name
+        tvPrice.text= price
 
     }
 }

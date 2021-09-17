@@ -23,6 +23,7 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.HomeViewModel
 import com.bintyblackbook.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.Serializable
 
 
 class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
@@ -47,7 +48,7 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel=HomeViewModel(requireContext())
+        homeViewModel=HomeViewModel()
         notificationViewModel= NotificationViewModel(requireContext())
 
         init()
@@ -56,7 +57,7 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
 
         //call api for home data
         if(!getUser(requireContext())?.authKey.isNullOrEmpty()) {
-            homeViewModel.homeList(getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
+            homeViewModel.homeList(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
             getHomeData()
         }
 
@@ -118,8 +119,12 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
     private fun adapterItemClick(){
         homeAdapter?.onItemClick = {homeModel: HomeData ->
             val intent = Intent(activity,HomeItemClickActivity::class.java)
-            intent.putExtra(AppConstant.HEADING, homeModel.name)
-            intent.putExtra("id",homeModel.id)
+            val args = Bundle()
+            args.putSerializable("ARRAYLIST", homeModel.categoryName as Serializable?)
+            args.putString(AppConstant.HEADING, homeModel.name)
+            intent.putExtra("BUNDLE", args)
+//            intent.putExtra(AppConstant.HEADING, homeModel.name)
+//            intent.putExtra("id",homeModel.id)
             startActivity(intent)
         }
     }

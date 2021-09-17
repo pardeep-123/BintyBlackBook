@@ -15,6 +15,10 @@ import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.UnLoopDialogFragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.row_myloops.view.*
 
@@ -46,18 +50,33 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
          // 0: Not a Loop, 1: Loop Request Sent , 2: Loop, 3: Received a loop request
 
         fun bind(pos: Int) {
+            val options: RequestOptions = RequestOptions()
+                .fitCenter()
+                .placeholder(R.drawable.progress_bg_image)
+                .override(30,30)
+                .priority(Priority.HIGH)
+                .dontAnimate()
+                .dontTransform()
+
             if(list[pos].status==1){
                 itemView.ll_loops.visibility=View.GONE
                 itemView.ll_request.visibility=View.VISIBLE
                 itemView.tv_request.text= list[pos].userName +" "+"has sent you loop request"
-                Glide.with(context).load(list[pos].userImage).into(civProfile)
+
+                Glide.with(context).load(list[pos].userImage)
+                    .apply(options)
+                    .into(civProfile)
 
             }
             else{
                 itemView.ll_loops.visibility=View.VISIBLE
                 itemView.ll_request.visibility=View.GONE
                 tvName.text=list[pos].userName
-                Glide.with(context).load(list[pos].userImage).into(civProfile)
+                Glide.with(context).load(list[pos].userImage)
+                    .placeholder(R.drawable.progress_bg_image)
+                    .override(30, 30)
+                    .dontAnimate()
+                    .into(civProfile)
             }
 
             itemView.setOnClickListener {

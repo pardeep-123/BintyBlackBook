@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_menu_root"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/dp40"
+    android:background="@drawable/bg_dots"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/gisha_bold"
+        android:padding="@dimen/dp10"
+        android:text="@string/clear_chat"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/sp13" />
+
+
+</LinearLayout>

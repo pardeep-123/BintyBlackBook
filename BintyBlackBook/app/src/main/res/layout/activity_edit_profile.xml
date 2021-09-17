@@ -61,8 +61,7 @@
             android:singleLine="true"
             android:textAllCaps="false"
             android:textColor="@color/blackColor"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textSize="13sp" />
 
         <RelativeLayout
             android:id="@+id/rlPhoneNo"
@@ -106,8 +105,7 @@
                 android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/blackColor"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textSize="13sp" />
 
 
         </RelativeLayout>
@@ -127,7 +125,7 @@
             android:textAllCaps="false"
             android:textColor="@color/blackColor"
             android:textSize="13sp"
-            android:textStyle="bold" />
+            />
 
         <EditText
             android:id="@+id/edtAbout"
@@ -146,8 +144,7 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:textColor="@color/blackColor"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/btnSave"

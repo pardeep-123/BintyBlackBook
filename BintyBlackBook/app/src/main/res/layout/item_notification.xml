@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@id/ivBell"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/dp40"
+        android:layout_height="@dimen/dp40"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/dp8"
         android:contentDescription="@string/image"

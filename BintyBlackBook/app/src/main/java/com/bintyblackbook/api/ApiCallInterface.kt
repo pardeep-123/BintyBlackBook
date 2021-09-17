@@ -438,4 +438,10 @@ interface ApiCallInterface {
         @Field("group_users") group_users:String
     ): Call<JsonElement>
 
+    @GET(ApiConstants.MY_WALLET)
+        fun getWalletList(
+            @Header("security_key") security_key: String,
+            @Header("auth_key") auth_key: String
+        ):Call<JsonElement>
+
 }

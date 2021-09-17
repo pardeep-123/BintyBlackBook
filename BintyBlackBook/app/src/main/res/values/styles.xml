@@ -9,8 +9,9 @@
         <item name="popupMenuStyle">@style/popupMenuStyle</item>
     </style>
 
-    <style name="TabFont" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/trajanpro_regular</item>
+    <style name="TabFont" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/sp13</item>
+        <item name="fontFamily">@font/romul</item>
     </style>
 
     <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">

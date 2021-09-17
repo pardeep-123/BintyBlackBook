@@ -18,14 +18,14 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 
-class HomeViewModel (var context: Context):ViewModel(){
+class HomeViewModel :ViewModel(){
 
     var homeLiveData=MutableLiveData<HomeResponseModel>()
     var homeListLiveData:LiveData<HomeResponseModel> = homeLiveData
 
 
     // call home list api
-    fun homeList(securityKey:String,authKey:String){
+    fun homeList( context: Context, securityKey:String,authKey:String){
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.homeList(securityKey,authKey
         ).enqueue(object : retrofit2.Callback<JsonElement> {
@@ -65,6 +65,7 @@ class HomeViewModel (var context: Context):ViewModel(){
                     if(error.getInt("code")==401){
                         showAlert(context,error.getString("msg").toString(),"OK"){
                             context.startActivity(Intent((context as BaseActivity),LoginActivity::class.java))
+                            context.finishAffinity()
                         }
                     }
                     else {

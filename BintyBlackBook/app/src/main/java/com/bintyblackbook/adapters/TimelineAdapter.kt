@@ -1,12 +1,14 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.Nullable
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
@@ -14,9 +16,9 @@ import com.bintyblackbook.model.PostData
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_timeline.view.*
 
@@ -58,15 +60,11 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         var rlDots: RelativeLayout = itemView.rlDots
 
         fun bind(timelineModel: PostData, pos: Int) {
-            val options: RequestOptions = RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.progress_animation)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .dontAnimate()
-                .dontTransform()
 
-            Glide.with(context).load(timelineModel.userImage).apply(options).into(civProfile)
+
+            Glide.with(context).load(timelineModel.userImage).placeholder(R.drawable.progress_bg_image).into(
+                civProfile
+            )
 
             tvName.text = timelineModel.userName
             //tvTime.text = timelineModel.time
@@ -78,9 +76,39 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
             if (!timelineModel.image.isNullOrEmpty()) {
 
-                Glide.with(context).load(timelineModel.image).apply(options).into(ivPost)
+                itemView.rlImage.visibility=View.VISIBLE
+
                 ivPost.visibility = View.VISIBLE
+
+                Glide.with(context).load(timelineModel.image)
+                    .listener(object :RequestListener<Drawable>{
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            itemView.progress.setVisibility(View.GONE)
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            itemView.progress.setVisibility(View.GONE)
+                            return false
+                        }
+
+                    }) .into(ivPost)
+
+
+
             } else {
+                itemView.rlImage.visibility=View.GONE
                 ivPost.visibility = View.GONE
             }
 
@@ -98,14 +126,14 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
                     ivHeart.setImageResource(R.drawable.heart_new)
                     totalLikes += 1
                     tvLikes.text=totalLikes.toString()
-                    timeLineInterface.onLikeUnlike(arrayList[pos],pos,"1")
+                    timeLineInterface.onLikeUnlike(arrayList[pos], pos, "1")
 
                 } else {
                     clicked = true
                     ivHeart.setImageResource(R.drawable.like)
                     totalLikes -= 1
                     tvLikes.text=totalLikes.toString()
-                    timeLineInterface.onLikeUnlike(arrayList[pos],pos,"2")
+                    timeLineInterface.onLikeUnlike(arrayList[pos], pos, "2")
                 }
             }
 
@@ -165,7 +193,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         fun onEditItem(data: PostData, position: Int)
         fun onDeleteItem(data: PostData, position: Int)
         fun onCommentSelect(data: PostData, position: Int)
-        fun onLikeUnlike(data:PostData,position: Int,status:String)
+        fun onLikeUnlike(data: PostData, position: Int, status: String)
         fun onReportPost(data: PostData, position: Int)
     }
 }

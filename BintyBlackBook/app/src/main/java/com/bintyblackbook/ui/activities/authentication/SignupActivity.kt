@@ -1,24 +1,24 @@
 package com.bintyblackbook.ui.activities.authentication
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.view.Window
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
+import com.bintyblackbook.ui.dialogues.BlockUserDialogFragment
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.SignUpViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.business_signup_layout.*
 import kotlinx.android.synthetic.main.user_signup_layout.*
@@ -31,12 +31,12 @@ import kotlinx.android.synthetic.main.user_signup_layout.uname_text
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.w3c.dom.Text
 import java.io.File
 import java.util.*
 
 
 class SignupActivity : ImagePickerUtility(), View.OnClickListener {
-
 
     var user_type="User"
 
@@ -44,7 +44,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
 
     var selectedImagePath:File?=null
     var selectedVideoFile:String?=null
-
+    var myPopupWindow: PopupWindow? = null
     var black_owned=""
 
     private var latitude = ""
@@ -64,6 +64,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_signup)
 
+        setPopUpWindow()
         MySharedPreferences.storeUserType(this,"User")
         mProgress = CustomProgressDialog(this)
         signUpViewModel= SignUpViewModel(this)
@@ -82,6 +83,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         tv_loginAcct.setOnClickListener(this)
         signUpBtn.setOnClickListener(this)
         ivBusinessInfo.setOnClickListener(this)
+
     }
 
     override fun onClick(view: View) {
@@ -107,6 +109,7 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             }
 
             R.id.ivBusinessInfo ->{
+                myPopupWindow?.showAsDropDown(ivBusinessInfo, -400, -15)
 
             }
             R.id.signUpBtn -> {
@@ -123,6 +126,23 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             }
         }
     }
+
+    private fun setPopUpWindow() {
+        val inflater = applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.popup_info, null)
+
+        val tvInfo:TextView= view.findViewById(R.id.tvInfo)
+        tvInfo.text=getString(R.string.sign_up_popup_info)
+
+        myPopupWindow = PopupWindow(
+            view,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            true
+        );
+    }
+
+
 
     private fun checkValidationsForBusiness() {
 
@@ -150,20 +170,16 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 map.put("promo_code",createRequestBody(edtAddPromoCode.text.toString()))
             }
 
-            rgBusiness.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener{
-                override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-                    when(checkedId){
-                        R.id.rbYesBusiness ->{
-                            black_owned="1"
-                        }
-
-                        R.id.rbNoBusiness ->{
-                            black_owned="0"
-                        }
+            rgBusiness.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.rbYesBusiness -> {
+                        black_owned = "1"
+                    }
+                    R.id.rbNoBusiness -> {
+                        black_owned = "0"
                     }
                 }
-
-            })
+            }
 
             map.put("business_name",createRequestBody(uname_text_business.text.toString()))
             map.put("userName",createRequestBody(uname_text_business.text.toString()))

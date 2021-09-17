@@ -44,7 +44,7 @@
                 android:text="@string/payment"
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -55,7 +55,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/tbMain"
         android:layout_marginStart="@dimen/dp18"
-        android:layout_marginEnd="@dimen/dp18">
+        android:layout_marginEnd="@dimen/dp18"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,7 +79,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPrice"
+                android:id="@+id/tvPricce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/romul"
@@ -99,8 +100,73 @@
         android:id="@+id/rvPayment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btnPay"
-        android:layout_below="@id/rlTop" />
+        android:layout_above="@id/rlPAy"
+        android:layout_below="@id/rlTop"
+        android:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rlPAy"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:layout_below="@id/tbMain"
+        android:background="@drawable/promote_back">
+
+        <ImageView
+            android:id="@+id/dummyImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/dp20"
+            android:contentDescription="@string/image"
+            android:src="@drawable/dollar" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/dummyImage"
+            app:layout_constraintBottom_toBottomOf="@id/dummyImage"
+            app:layout_constraintStart_toEndOf="@id/dummyImage"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/romul"
+                android:lineSpacingExtra="3dp"
+                android:text=""
+                android:textColor="@color/blackColor"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/blackColor"
+                android:fontFamily="@font/romul"
+                android:textSize="@dimen/sp13"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/romul"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/to_promote_your_service"
+                android:textColor="@color/blackColor"
+                android:textSize="@dimen/sp9" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btnPay"

@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.WalletData
 
 class ReferAdapter(var context:Context):RecyclerView.Adapter<ReferAdapter.ReferViewHolder>() {
 
-
+    var walletList= ArrayList<WalletData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReferViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_refer,parent,false)
@@ -21,7 +22,7 @@ class ReferAdapter(var context:Context):RecyclerView.Adapter<ReferAdapter.ReferV
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return walletList.size
     }
 
     inner class ReferViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){

@@ -3,7 +3,7 @@ package com.bintyblackbook.api
 class ApiConstants {
 
     companion object{
-        const val BASE_URL="https://bintysblackbook.com:4509/user_apis/"    //live url
+         const val BASE_URL="https://bintysblackbook.com:4509/user_apis/"    //live url
 
         // const val BASE_URL= "http://192.168.1.122:4509/user_apis/"          //local url
 
@@ -106,6 +106,8 @@ class ApiConstants {
         const val ADD_BOOKING="add_booking"
 
         const val ADD_GROUP="add_group"
+
+        const val MY_WALLET="get_wallet_list"
     }
 
 
