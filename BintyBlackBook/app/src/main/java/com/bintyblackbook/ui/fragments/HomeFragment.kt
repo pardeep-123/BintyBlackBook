@@ -122,7 +122,7 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
             val args = Bundle()
             args.putSerializable("ARRAYLIST", homeModel.categoryName as Serializable?)
             args.putString(AppConstant.HEADING, homeModel.name)
-            intent.putExtra("BUNDLE", args)
+            intent.putExtras(args)
 //            intent.putExtra(AppConstant.HEADING, homeModel.name)
 //            intent.putExtra("id",homeModel.id)
             startActivity(intent)

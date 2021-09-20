@@ -14,7 +14,6 @@ import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import kotlinx.android.synthetic.main.activity_edit_message.*
-import kotlinx.android.synthetic.main.activity_my_loops.*
 import java.io.Serializable
 
 class EditMessageActivity : BaseActivity(),

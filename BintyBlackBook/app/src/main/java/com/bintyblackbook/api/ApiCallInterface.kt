@@ -4,6 +4,7 @@ import com.google.gson.JsonElement
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -443,5 +444,13 @@ interface ApiCallInterface {
             @Header("security_key") security_key: String,
             @Header("auth_key") auth_key: String
         ):Call<JsonElement>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.SET_AVAILABILITY)
+    fun setAvailability(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("selectedSlots") slectedSlots: JSONArray,
+    ) : Call<JsonElement>
 
 }

@@ -11,14 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EventAdapter
-import com.bintyblackbook.adapters.EventCalenderPagerAdapter
 import com.bintyblackbook.adapters.FavouriteEventAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.model.FavEventData
-import com.bintyblackbook.ui.activities.home.EventDetailActivity
-import com.bintyblackbook.ui.fragments.AllEventFragment
-import com.bintyblackbook.ui.fragments.FavouriteFragment
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.EventsViewModel
@@ -56,6 +52,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
     }
 
     private fun initFavEventAdapter() {
+
         rvFavEvents.layoutManager = GridLayoutManager(this, 2)
         favEventAdapter = FavouriteEventAdapter(this, favEventList)
         rvFavEvents.adapter = favEventAdapter
@@ -194,7 +191,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
     }
 
     override fun onUnFavEvent(status: String, data: FavEventData,position:Int) {
-        eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,data.id.toString(),status)
+        eventsViewModel.likeEvent(this, getSecurityKey(this)!!, getUser(context)?.authKey!!,data.eventId.toString(),status)
         eventsViewModel.baseEventsLiveData.observe(this, Observer {
             favEventList.removeAt(position)
             favEventAdapter?.notifyDataSetChanged()

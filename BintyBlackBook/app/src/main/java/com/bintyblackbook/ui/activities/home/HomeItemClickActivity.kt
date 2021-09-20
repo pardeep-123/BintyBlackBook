@@ -4,22 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.PhotoAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.CategoryName
 import com.bintyblackbook.util.AppConstant
-import com.bintyblackbook.util.getSecurityKey
-import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.activity_home_item_click.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class HomeItemClickActivity : BaseActivity(), TextWatcher {
 
+    val spanCount=0
     var photoAdapter:PhotoAdapter? = null
     lateinit var homeViewModel: HomeViewModel
     var list=ArrayList<CategoryName>()
@@ -34,36 +32,44 @@ class HomeItemClickActivity : BaseActivity(), TextWatcher {
         homeViewModel = HomeViewModel()
         setAdapter()
         getIntentData()
+        setOnClicks()
 
-//        val getHeading = intent.getStringExtra(AppConstant.HEADING)
-//        id = intent.getIntExtra("id", 0)
+    }
 
+    private fun setOnClicks() {
         iv_back.setOnClickListener {
             finish()
         }
-
         edtSearch.addTextChangedListener(this)
     }
 
     private fun getIntentData() {
         val intent = intent
-        val getHeading = intent.getStringExtra(AppConstant.HEADING)
-        val args = intent.getBundleExtra("BUNDLE")
+        val extras = intent.extras
+        val getHeading = extras?.getString(AppConstant.HEADING).toString()
         if (getHeading != null) {
             headingText.text = getHeading
         }
-        Log.i("groupUserList",list.size.toString())
-
         list.clear()
-
-        list.addAll(args?.getSerializable("ARRAYLIST") as ArrayList<CategoryName>)
+        list.addAll(extras?.getSerializable("ARRAYLIST") as ArrayList<CategoryName>)
         photoAdapter?.notifyDataSetChanged()
     }
 
 
     private fun setAdapter(){
-        rvPhotos.layoutManager = GridLayoutManager(this, 2)
-        photoAdapter = PhotoAdapter(list,this)
+
+        val layoutManager = GridLayoutManager(this, 2)
+
+        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == 0)
+                    2
+                else 1
+            }
+        }
+
+        rvPhotos.layoutManager = layoutManager
+        photoAdapter = PhotoAdapter(list, this)
         rvPhotos.adapter = photoAdapter
         photoAdapter?.arrayList=list
         adapterItemClick()
@@ -71,9 +77,9 @@ class HomeItemClickActivity : BaseActivity(), TextWatcher {
 
     private fun adapterItemClick(){
         photoAdapter?.onItemClick = { photosModel ->
-                val intent = Intent(this,OtherUserProfileActivity::class.java)
-                intent.putExtra("user_id",photosModel.userId.toString())
-                startActivity(intent)
+            val intent = Intent(this, OtherUserProfileActivity::class.java)
+            intent.putExtra("user_id", photosModel.userId.toString())
+            startActivity(intent)
         }
     }
 

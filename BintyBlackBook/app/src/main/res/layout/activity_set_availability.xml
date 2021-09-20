@@ -44,8 +44,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/set_availability_for_booking_requests"
                 android:textColor="@color/whiteColor"
-                android:textSize="13sp"
-                android:textStyle="bold"/>
+                android:textSize="13sp" />
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -72,9 +71,11 @@
                 app:pagesColor="@color/themeColor"
                 app:selectionColor="@color/fadePink"
                 app:todayLabelColor="@color/fadePink"
-                app:type="many_days_picker"
+                app:eventsEnabled="true"
                 app:datePicker="true"
-                app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"/>
+                app:type="one_day_picker"
+                app:anotherMonthsDaysLabelsColor="@color/colorLightBlack"
+                />
 
             <RelativeLayout
                 android:layout_width="match_parent"

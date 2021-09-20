@@ -2,12 +2,15 @@ package com.bintyblackbook.util
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.*
 
 object MyUtils {
@@ -48,6 +51,44 @@ object MyUtils {
         }
     }
 
+    fun getDateWith(timeStamp: Long): String? {
+        return try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+
+            val netDate = Date(timeStamp)
+//            netDate.timeZone = TimeZone.getDefault()
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+    }
+
+    fun getDateWithTest(timeStamp: Long): String? {
+        return try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+
+            val netDate = Date(timeStamp)
+//            netDate.timeZone = TimeZone.getDefault()
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+    }
+
+
+    fun getDateWithTimeStamp(timeStamp: Long): Long? {
+        try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+
+            val netDate = Date(timeStamp * 1000)
+//            netDate.timeZone = TimeZone.getDefault()
+            return netDate.time
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+        return null
+    }
+
     fun getTime(timeStamp: Long): String? {
         return try {
             val sdf = SimpleDateFormat("hh:mm a")
@@ -56,6 +97,22 @@ object MyUtils {
         } catch (ex: java.lang.Exception) {
             "xx"
         }
+    }
+
+    private fun getDate(ourDate: String): String? {
+        var ourDate: String? = ourDate
+        try {
+            val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            formatter.timeZone = TimeZone.getTimeZone("UTC")
+            val value = formatter.parse(ourDate)
+            val dateFormatter = SimpleDateFormat("MM-dd-yyyy HH:mm") //this format changeable
+            dateFormatter.timeZone = TimeZone.getDefault()
+            ourDate = dateFormatter.format(value)
+            //Log.d("ourDate", ourDate);
+        } catch (e: Exception) {
+            ourDate = "00-00-0000 00:00"
+        }
+        return ourDate
     }
 
 
@@ -71,16 +128,61 @@ object MyUtils {
         return date
     }
 
-    fun convertDateToLong(date: String): String {
+    fun convertDateToLong(dateInString: String): String {
 
-        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val date = (formatter.parse(date).time / 1000).toString()
+
+        val spf = SimpleDateFormat("dd/MM/yyyy")
+        spf.timeZone = TimeZone.getTimeZone("Etc/UTC")
+        val newDate = spf.parse(dateInString)
+        Log.e("DATA", "DATe== " + newDate!!.time / 1000)
+
+        return (newDate.time / 1000).toString()
+    }
+
+    fun convertTimeToLong(time: String): String {
+
+        val formatter: DateFormat = SimpleDateFormat("hh:mm a")
+        val date = (formatter.parse(time).time / 1000).toString()
         return date
     }
 
-    fun convertDateToTimeStamp(date:String): String{
-        val formatter: DateFormat= SimpleDateFormat("EE, MMM dd yyyy")
-        val date= (formatter.parse(date).time /1000).toString()
+    fun convertTimeAndDAteToLong(time: String): String {
+
+        val formatter: DateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a")
+        formatter.timeZone= TimeZone.getTimeZone("UTC")
+        val date = formatter.parse(time) as Date
+
+        return date.time.toString()
+    }
+
+    fun getDateAndTimeInEpoch(datesToConvert: String?): Long? {
+        var date =""
+        if(datesToConvert!!.contains(".")){
+            date = datesToConvert!!.split(".").get(0)
+        }else{
+            date = datesToConvert!!
+        }
+        val spf = SimpleDateFormat("MM/dd/yyyy hh:mm a")
+        spf.timeZone=TimeZone.getTimeZone("Etc/UTC")
+        val newDate = spf.parse(date)
+        Log.e("DATA", "DATe== " + newDate!!.time / 1000)
+
+        return newDate!!.time/1000
+    }
+
+    fun getDateInEpoch(datesToConvert: String?): Long? {
+
+        val spf = SimpleDateFormat("MM/dd/yyyy")
+        spf.timeZone=TimeZone.getTimeZone("UTC")
+        val newDate = spf.parse(datesToConvert)
+        Log.e("DATA", "DATe== " + newDate!!.time / 1000)
+
+        return newDate!!.time
+    }
+
+    fun convertDateToTimeStamp(date: String): String {
+        val formatter: DateFormat = SimpleDateFormat("EE, MMM dd yyyy")
+        val date = (formatter.parse(date).time / 1000).toString()
         return date
 
     }
@@ -171,7 +273,7 @@ object MyUtils {
         }
     }
 
-    fun getDayDate(timestamp:Long):String{
+    fun getDayDate(timestamp: Long): String {
         return try {
             val sdf = SimpleDateFormat("EE,MMM dd yyyy")
             val netDate = Date(timestamp * 1000L)
@@ -181,10 +283,70 @@ object MyUtils {
         }
     }
 
+    fun getTimeStampTODate(timestamp: Long): String {
+        return try {
+            val sdf = SimpleDateFormat("EE,MMM dd yyyy")
+            val netDate = Date(timestamp)
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+    }
+
+    fun getTimeStampTOTime(timestamp: Long): String {
+        return try {
+            val sdf = SimpleDateFormat("hh:mm aa")
+            val netDate = Date(timestamp * 1000L)
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+    }
+
+
+
+    fun convertDateToTestTimeStamp(strDate: String):String {
+        val sdf = SimpleDateFormat("MM/dd/yyyy")
+        sdf.timeZone=TimeZone.getTimeZone("UTC")
+        val dateInString = strDate
+        val date = sdf.parse(dateInString)
+        System.out.println(date)
+        return (date.time/1000).toString()
+    }
+    fun convertDateTimeToTestTimeStamp(strDate: String):String {
+        val sdf = SimpleDateFormat("MM/dd/yyyy hh:mm aa")
+        sdf.timeZone=TimeZone.getTimeZone("UTC")
+        val dateInString = strDate
+        val date = sdf.parse(dateInString)
+        System.out.println(date)
+        return (date.time/1000).toString()
+    }
+
+    fun getDateTest(timeStamp: Long): String? {
+        return try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+            val netDate = Date(timeStamp * 1000L)
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+    }
     fun getDateTime(timestamp:Long):String{
         return try {
             val sdf = SimpleDateFormat("MMM dd,yyyy hh:mm:a")
             val netDate = Date(timestamp * 1000L)
+            sdf.format(netDate)
+        } catch (ex: java.lang.Exception) {
+            "xx"
+        }
+    }
+
+
+    fun getTimeTest(timeStamp: Long): String? {
+        return try {
+            val sdf = SimpleDateFormat("hh:mm a")
+            sdf.timeZone= TimeZone.getTimeZone("GMT")
+            val netDate = Date(timeStamp * 1000L)
             sdf.format(netDate)
         } catch (ex: java.lang.Exception) {
             "xx"

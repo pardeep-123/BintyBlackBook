@@ -4,11 +4,11 @@ class AvailabilityResponse : BaseResponseModel(){
     val data: ArrayList<AvailabilityData> = ArrayList<AvailabilityData>()
 
 }
- class AvailabilityData{
+class AvailabilityData{
     val date: Long?=null
     val id: Int= 0
     val providerId: Int= 0
-     var isSelected=false
+    var isSelected=false
     val slots: ArrayList<Slot> = ArrayList<Slot>()
 }
 

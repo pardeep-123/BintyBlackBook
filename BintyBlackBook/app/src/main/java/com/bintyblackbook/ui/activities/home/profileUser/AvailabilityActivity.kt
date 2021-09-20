@@ -45,14 +45,13 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
 
         getAvailabilityList()
 
-
-
     }
 
     private fun getAvailabilityList() {
         availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)!!.authKey,user_id)
 
         availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
+            arrayList.clear()
             arrayList.addAll(it.data)
             horizontalCalendarAdapter?.notifyDataSetChanged()
         })
@@ -75,6 +74,7 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
             intent.putExtra("user_id",user_id)
             intent.putExtra("type","check_slots")
             startActivity(intent)
+            finish()
         }
     }
 
@@ -109,5 +109,6 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
         timeList.addAll(data.slots)
         checkAvailabilityAdapter?.notifyDataSetChanged()
     }
+
 
 }

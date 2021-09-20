@@ -197,7 +197,9 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                 try {
                     val data = args.get(0) as JSONObject
                     Log.i("Block_status_listener", data.toString())
+
                     // block_data_status=1(blocked),block_data_status=0(unblocked)
+
                     if (data.getInt("block_data_status") == 1) {
                         block_status = 1
                         llBottom.visibility = View.GONE
@@ -219,8 +221,6 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                     e.printStackTrace()
 
                 }
-
-
             }
 
             SocketManager.GET_CHAT_LISTENER -> {

@@ -81,6 +81,7 @@ class NewGroupActivity : ImagePickerUtility() {
         arrayList.forEach {
             usersId.add(it.id.toString())
         }
+        usersId.add(getUser(this)?.id.toString())
         userIds= TextUtils.join(",",usersId)
 
     }

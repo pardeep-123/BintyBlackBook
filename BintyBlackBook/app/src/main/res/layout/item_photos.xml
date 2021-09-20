@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/whiteColor"
-        android:padding="6dp"
+        android:layout_marginBottom="6dp"
         android:layout_centerHorizontal="true">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/roundedImageView"
             android:layout_width="match_parent"
             android:layout_height="130dp"
+            android:padding="6dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             android:src="@drawable/john"
@@ -32,7 +33,6 @@
             android:fontFamily="@font/romul"
             android:lines="1"
             android:text="@string/john"
-            android:layout_marginTop="4dp"
             android:textColor="@color/blackColor"
             android:textSize="@dimen/sp12" />
 
@@ -41,12 +41,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvName"
+            android:textAlignment="center"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/romul"
             android:lines="1"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_marginTop="4dp"
-            android:text="@string/arizona_usa"
+            android:text=""
             android:textColor="@color/blackColor"
             android:textSize="@dimen/sp12" />
 

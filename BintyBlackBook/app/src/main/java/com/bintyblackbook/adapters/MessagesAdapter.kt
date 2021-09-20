@@ -41,12 +41,22 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
         fun bind(pos:Int){
             val messageModel = arrayList[pos]
 
-            Glide.with(context).load(messageModel.userImage).into(civ_profile)
+            if(arrayList[pos].isGroup==0){
+                Glide.with(context).load(messageModel.userImage).into(civ_profile)
 
-            tv_name.text = messageModel.userName
+                tv_name.text = messageModel.userName
 
-            tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
-            tv_msg.text= messageModel.lastMessage
+                tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
+                tv_msg.text= messageModel.lastMessage
+            }else{
+                Glide.with(context).load(messageModel.image).into(civ_profile)
+
+                tv_name.text = messageModel.name
+
+                tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
+                tv_msg.text= messageModel.lastMessage
+            }
+
 
             itemView.setOnClickListener {
 
@@ -65,7 +75,7 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
                 }else{
                     val intent=Intent(context, GroupChatActivity::class.java)
                     intent.putExtra("type",arrayList[pos].type.toString())
-                    intent.putExtra("name",arrayList[pos].userName)
+                    intent.putExtra("name",arrayList[pos].name)
                     intent.putExtra("groupId",arrayList[pos].groupId.toString())
                     context.startActivity(intent)
                 }

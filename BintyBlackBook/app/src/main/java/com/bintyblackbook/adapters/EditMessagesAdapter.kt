@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.AllData
-import com.bintyblackbook.models.EditMessageModel
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_edit_message.view.*
@@ -42,8 +40,10 @@ class EditMessagesAdapter(val context: Context) :
 
         fun bind(pos: Int) {
             val editMessageModel = arrayList[pos]
+            if(editMessageModel.status!=1){
                 Glide.with(context).load(editMessageModel.userImage).into(ivProfile)
                 tvName.text = editMessageModel.userName
+            }
 
             cb.setOnCheckedChangeListener { compoundButton, boolean ->
                 if (boolean){

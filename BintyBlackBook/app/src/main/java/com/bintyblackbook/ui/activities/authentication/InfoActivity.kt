@@ -15,6 +15,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.UploadPhotoAdapter
 import com.bintyblackbook.adapters.UploadVideoAdapter
 import com.bintyblackbook.model.*
+import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
@@ -155,7 +156,9 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         }
 
         edtSetAvailability.setOnClickListener {
-            val intent= Intent(this,SetUserAvailabilityActivity::class.java)
+            val intent= Intent(this,SetAvailabilityActivity::class.java)
+            intent.putExtra("user_id", getUser(this)?.id.toString())
+            intent.putExtra("type","check_slots")
             startActivity(intent)
         }
 

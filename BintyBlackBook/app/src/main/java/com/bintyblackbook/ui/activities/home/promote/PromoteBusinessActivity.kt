@@ -1,10 +1,8 @@
 package com.bintyblackbook.ui.activities.home.promote
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.bintyblackbook.R
-import com.bintyblackbook.adapters.AdapterPromoteBusiness
 import com.bintyblackbook.adapters.EventCalenderPagerAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.ui.fragments.PromoteBusinessFragment
@@ -25,9 +23,9 @@ class PromoteBusinessActivity : BaseActivity(), View.OnClickListener {
 
         setTabLayout()
 
-              TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                  tab.text = fragList[position]
-              }.attach()
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = fragList[position]
+        }.attach()
     }
 
     private fun setTabLayout() {
@@ -39,8 +37,6 @@ class PromoteBusinessActivity : BaseActivity(), View.OnClickListener {
         adapter.addFragment(PromoteEventFragment(),getString(R.string.promote_events))
         viewPager.adapter = adapter
     }
-
-
 
     override fun onClick(view: View) {
         when (view.id) {

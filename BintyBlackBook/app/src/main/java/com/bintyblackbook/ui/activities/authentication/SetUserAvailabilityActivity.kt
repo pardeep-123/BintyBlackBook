@@ -29,7 +29,7 @@ class SetUserAvailabilityActivity :BaseActivity(){
         setAdapter()
         checkbox_select.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            if(isChecked){
+           /* if(isChecked){
                 for(i in 0 until timeSlotsList.size) {
                     timeSlotsList[i].selected = true
                 }
@@ -40,7 +40,7 @@ class SetUserAvailabilityActivity :BaseActivity(){
                     timeSlotsList[i].selected=false
                 }
                 adapter?.notifyDataSetChanged()
-            }
+            }*/
         }
 
         calenderView_user.setOnDayClickListener {
@@ -61,7 +61,7 @@ class SetUserAvailabilityActivity :BaseActivity(){
     private fun setAdapter() {
 
         timeSlotsList= ArrayList()
-        timeSlotsList.add(AvailabilityModel("12:00 AM", false))
+       /* timeSlotsList.add(AvailabilityModel("12:00 AM", false))
         timeSlotsList.add(AvailabilityModel("1:00 AM", false))
         timeSlotsList.add(AvailabilityModel("2:00 AM", false))
         timeSlotsList.add(AvailabilityModel("3:00 AM", false))
@@ -86,7 +86,7 @@ class SetUserAvailabilityActivity :BaseActivity(){
         timeSlotsList.add(AvailabilityModel("10:00 PM", false))
         timeSlotsList.add(AvailabilityModel("11:00 PM", false))
 
-        adapter=SetAvailabilityAdapter(this, timeSlotsList)
+        adapter=SetAvailabilityAdapter(this, timeSlotsList)*/
         rvTime.adapter = adapter
     }
 }

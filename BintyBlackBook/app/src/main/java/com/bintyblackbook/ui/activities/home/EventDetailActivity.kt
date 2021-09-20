@@ -3,16 +3,10 @@ package com.bintyblackbook.ui.activities.home
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.Data
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.MyUtils
-import com.bintyblackbook.util.getSecurityKey
-import com.bintyblackbook.util.getUser
-import com.bintyblackbook.viewmodel.EventsViewModel
-import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -40,7 +34,7 @@ class EventDetailActivity : BaseActivity() {
     }
 
     private fun getIntentData() {
-        user_id= intent.getIntExtra("user_id",0)
+        user_id= intent.getIntExtra("user_id", 0)
         user_name = intent.getStringExtra(AppConstant.HEADING).toString()
         location=intent.getStringExtra("location").toString()
         image=intent.getStringExtra("image").toString()
@@ -76,8 +70,18 @@ class EventDetailActivity : BaseActivity() {
             finish()
         }
         tvWebLinks.setOnClickListener {
-         //   startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(web_link)))
+            openWebPage(web_link)
+        }
+    }
 
+    fun openWebPage(url: String) {
+        var webpage = Uri.parse(url)
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            webpage = Uri.parse("http://$url")
+        }
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
         }
     }
 }

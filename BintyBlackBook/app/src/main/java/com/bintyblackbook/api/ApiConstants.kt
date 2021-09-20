@@ -108,6 +108,8 @@ class ApiConstants {
         const val ADD_GROUP="add_group"
 
         const val MY_WALLET="get_wallet_list"
+
+        const val SET_AVAILABILITY="set_availability"
     }
 
 

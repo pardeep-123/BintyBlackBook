@@ -197,7 +197,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         when(v?.id){
 
             R.id.tvWebLink ->{
-                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(web_link)))
+                openWebPage(web_link)
             }
 
             R.id.btnChatUser ->{
@@ -285,6 +285,18 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         exoplayer?.playWhenReady = true
         //mediaSession?.isActive = true
 
+    }
+
+
+    fun openWebPage(url: String) {
+        var webpage = Uri.parse(url)
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            webpage = Uri.parse("http://$url")
+        }
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
 }
