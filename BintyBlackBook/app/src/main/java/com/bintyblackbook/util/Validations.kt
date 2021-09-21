@@ -1,11 +1,14 @@
 package com.bintyblackbook.util
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -69,6 +72,15 @@ class Validations {
             }
         }
 
+        fun isNetworkConnected(): Boolean {
+            val cm = BintyBookApplication.getInstance()?.getApplicationContext()
+               ?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            var activeNetwork: NetworkInfo? = null
+            if (cm != null) activeNetwork = cm.activeNetworkInfo
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting
+        }
+
+
         private fun validatePasswordContainSpecialCharacter(
             applicationContext: Context,
             mEtPassword: EditText,
@@ -106,7 +118,7 @@ class Validations {
             matcher = pattern.matcher(data)
 
             if(!matcher.matches()){
-                Toast.makeText(context, hint,Toast.LENGTH_LONG).show()
+                Toast.makeText(context, hint, Toast.LENGTH_LONG).show()
                 return false
             }
             else{
@@ -122,12 +134,20 @@ class Validations {
             val email = (view as EditText).text.toString().trim { it <= ' ' }
             if (email.isEmpty()) {
 
-                Toast.makeText(applicationContext, applicationContext.resources.getString(R.string.err_email), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    applicationContext.resources.getString(R.string.err_email),
+                    Toast.LENGTH_LONG
+                ).show()
 
                 requestFocus(applicationContext, view)
                 return false
             } else if (!isValidEmail(email)) {
-                Toast.makeText(applicationContext, applicationContext.resources.getString(R.string.err_valid_email_address), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    applicationContext.resources.getString(R.string.err_valid_email_address),
+                    Toast.LENGTH_LONG
+                ).show()
 
                 requestFocus(applicationContext, view)
                 return false

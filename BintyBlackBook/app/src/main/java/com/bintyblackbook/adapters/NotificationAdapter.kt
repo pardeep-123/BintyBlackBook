@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.NotificationListData
-import com.bintyblackbook.models.NotificationModel
 import kotlinx.android.synthetic.main.item_notification.view.*
 
 class NotificationAdapter(var context: Context): RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {

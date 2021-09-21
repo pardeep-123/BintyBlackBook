@@ -9,10 +9,10 @@ import com.applandeo.materialcalendarview.EventDay
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.AllDatesModel
 import com.bintyblackbook.timeslots.TimeSlotsInterface
 import com.bintyblackbook.model.AvailabilityData
-import com.bintyblackbook.models.AllDatesModel
-import com.bintyblackbook.models.SlotsModel
+import com.bintyblackbook.model.SlotsModel
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser

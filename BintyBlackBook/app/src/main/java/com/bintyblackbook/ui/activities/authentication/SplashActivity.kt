@@ -3,6 +3,7 @@ package com.bintyblackbook.ui.activities.authentication
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.Window
 import com.bintyblackbook.R
@@ -11,7 +12,7 @@ import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.util.saveToken
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.*
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -38,16 +39,24 @@ class SplashActivity : BaseActivity() {
 
     private fun getFirebaseToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
+            try {
+                FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String ->
+                    if (!TextUtils.isEmpty(token)) {
+                       saveToken(this,token)
+                        Log.d("AppController", "retrieve token successful : $token")
+                    } else {
+                        Log.w("AppController", "token should not be null...")
+                    }
+                }.addOnFailureListener { e: Exception? -> }.addOnCanceledListener {}
+                    .addOnCompleteListener { task: Task<String> ->
+                        Log.v(
+                            "AppController",
+                            "This is the token : " + task.result
+                        )
+                    }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
-
-            // Get new FCM registration token
-            val token = task.result
-            saveToken(this,token)
-            Log.d("TAG", token!!)
-            //   Toast.makeText(context,"TOKEN : "+token, Toast.LENGTH_LONG).show();
         })
     }
 

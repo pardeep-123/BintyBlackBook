@@ -10,8 +10,8 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.MessagesAdapter
 import com.bintyblackbook.adapters.SwapsAdapter
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.EditMessageModel
 import com.bintyblackbook.model.MessageData
-import com.bintyblackbook.models.EditMessageModel
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.util.getMsgType
 import com.bintyblackbook.util.getUser
@@ -163,45 +163,6 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
                                 }
                                 rvSwaps.adapter = SwapsAdapter(this, swapList)
 
-                              /*  for (i in 0 until swapListArray.length()) {
-                                    val objects = swapListArray.getJSONObject(i)
-                                    val getInboxMessageListResponse = MessageData()
-                                    getInboxMessageListResponse.id = objects.getInt("id")
-                                    getInboxMessageListResponse.senderId = objects.getInt("senderId")
-                                    getInboxMessageListResponse.receiverId = objects.getInt("receiverId")
-                                    getInboxMessageListResponse.lastMessageId =
-                                        objects.getInt("lastMessageId")
-                                    getInboxMessageListResponse.deletedId =
-                                        objects.getInt("deletedId")
-                                    getInboxMessageListResponse.created = objects.getInt("created")
-                                    getInboxMessageListResponse.updated = objects.getInt("updated")
-                                    getInboxMessageListResponse.user_id = objects.getInt("user_id")
-                                    getInboxMessageListResponse.lastMessage =
-                                        objects.getString("lastMessage")
-                                    getInboxMessageListResponse.userName =
-                                        objects.getString("userName")
-                                    getInboxMessageListResponse.userImage =
-                                        objects.getString("userImage")
-                                    getInboxMessageListResponse.created_at =
-                                        objects.getInt("created_at")
-                                    getInboxMessageListResponse.unreadcount =
-                                        objects.getInt("unreadcount")
-                                    getInboxMessageListResponse.messageType =
-                                        objects.getInt("messageType")
-                                    getInboxMessageListResponse.isOnline =
-                                        objects.getInt("isOnline")
-                                    getInboxMessageListResponse.groupId = objects.getInt("groupId")
-                                    getInboxMessageListResponse.type = objects.getInt("type")
-                                    getInboxMessageListResponse.isGroup = objects.getInt("isGroup")
-                                    getInboxMessageListResponse.pushKitToken =
-                                        objects.getString("pushKitToken")
-                                    swapList.add(getInboxMessageListResponse)
-                                }
-                                Log.i("sizecheck", "" + swapList.size)
-
-                                runOnUiThread {
-                                    rvSwaps.adapter = SwapsAdapter(this, swapList)
-                                }*/
                             } else {
                                 /* rvSwaps.visibility=View.GONE
                             rvAllMsg.visibility=View.GONE*/

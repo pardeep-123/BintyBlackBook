@@ -40,12 +40,21 @@ class EditMessageActivity : BaseActivity(),
         }
 
         btnNext.setOnClickListener {
-            val intent= Intent(this, NewGroupActivity::class.java)
-            val args = Bundle()
-            args.putSerializable("ARRAYLIST", selectedList as Serializable?)
-            intent.putExtra("BUNDLE", args)
-            startActivity(intent)
-            finish()
+            if(selectedList.size==1){
+                val intent=Intent(context, ChatActivity::class.java)
+                intent.putExtra("type","1")
+                intent.putExtra("isGroup","0")
+                intent.putExtra("sender_id",selectedList[0].user_id.toString())
+                intent.putExtra("name",selectedList[0].userName)
+                startActivity(intent)
+            }else {
+                val intent = Intent(this, NewGroupActivity::class.java)
+                val args = Bundle()
+                args.putSerializable("ARRAYLIST", selectedList as Serializable?)
+                intent.putExtra("BUNDLE", args)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 
@@ -70,11 +79,7 @@ class EditMessageActivity : BaseActivity(),
 
     private fun setAdapter() {
         //set horizontal adapter
-        rvHorizontal.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        rvHorizontal.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         horizontalCircularImageAdapter = HorizontalCircularImageAdapter(this)
         rvHorizontal.adapter = horizontalCircularImageAdapter
         horizontalCircularImageAdapter?.horizontalAdapterInterface=this

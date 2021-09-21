@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.UserMedia
-import com.bintyblackbook.models.PhotosModel
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_image.view.*

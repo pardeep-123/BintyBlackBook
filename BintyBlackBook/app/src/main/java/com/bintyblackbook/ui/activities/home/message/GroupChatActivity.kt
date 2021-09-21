@@ -197,7 +197,9 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
                     rvGroupChat.adapter = chatAdapter
                     if (listChat.isNullOrEmpty()) {
                         tvNoChat.visibility = View.VISIBLE
+                        rvGroupChat.visibility=View.GONE
                     } else {
+                        rvGroupChat.visibility=View.VISIBLE
                         tvNoChat.visibility = View.GONE
                     }
                 }
@@ -214,30 +216,40 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
             SocketManager.GROUP_BODY_LISTENER -> {
                 runOnUiThread {
                     val mObject = args[0] as JSONObject
-                    val gson = GsonBuilder().create()
-                    val model = gson.fromJson(mObject.toString(), GroupChatData::class.java)
-                    listChat.add(model)
-                    if (listChat.size>0) {
-                        tvNoChat.visibility = View.GONE
-                    } else {
-                        tvNoChat.visibility = View.VISIBLE
-                    }
-                    chatAdapter = GroupChatAdapter(context, listChat,getUser(this)?.id!!)
 
-                    rvGroupChat.adapter = chatAdapter
+                    if(mObject.length()>0){
+                        val gson = GsonBuilder().create()
+                        val model = gson.fromJson(mObject.toString(), GroupChatData::class.java)
+                        listChat.add(model)
+                        if (listChat.size>0) {
+                            tvNoChat.visibility = View.GONE
+                        } else {
+                            tvNoChat.visibility = View.VISIBLE
+                        }
+                        chatAdapter = GroupChatAdapter(context, listChat,getUser(this)?.id!!)
+
+                        rvGroupChat.adapter = chatAdapter
+                    }else{
+                        tvNoChat.visibility = View.VISIBLE
+                        rvGroupChat.visibility=View.GONE
+                    }
+
                 }
             }
 
             SocketManager.DELETE_GROUP_CHAT_LISTENER->{
-                try {
-                    val data = args.get(0) as JSONObject
-                    Log.i("=====", data.toString())
-                    listChat.clear()
-                    rvGroupChat.visibility = View.GONE
-                    tvNoChat.visibility = View.VISIBLE
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                runOnUiThread {
+                    try {
+                        val data = args.get(0) as JSONObject
+                        Log.i("=====", data.toString())
+                        listChat.clear()
+                        rvGroupChat.visibility = View.GONE
+                        tvNoChat.visibility = View.VISIBLE
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+
             }
         }
     }

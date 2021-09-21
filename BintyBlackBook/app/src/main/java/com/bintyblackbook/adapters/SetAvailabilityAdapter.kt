@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.SlotsModel
 import com.bintyblackbook.timeslots.TimeSlotsInterface
-import com.bintyblackbook.models.SlotsModel
 import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.item_time.view.*
 

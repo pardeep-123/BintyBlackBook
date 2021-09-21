@@ -17,4 +17,8 @@
     <color name="lightGray1">#91918D</color>
     <color name="trasnparent">#00ffffff</color>
     <color name="red_color">#FFD50000</color>
+    <color name="remoteBackground">#484258</color>
+    <color name="localBackground">#827b92</color>
+    <color name="colorSky">#EFF8FB</color>
+    <color name="colorGray">#DDDFDF</color>
 </resources>

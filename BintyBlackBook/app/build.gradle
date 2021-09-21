@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.2'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.2'
 
-    //socket
+    //For sockets
     implementation('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
@@ -133,5 +133,14 @@ dependencies {
 
     //lottie animation
     implementation 'com.airbnb.android:lottie:4.1.0'
+    //Permission Helper
+    implementation 'com.github.pankaj89:PermissionHelper:2.3'
+
+    //socket
+    implementation 'com.github.nkzawa:socket.io-client:0.3.0'
+    implementation 'io.agora.uikit:agorauikit:1.0.2'
+    implementation 'commons-codec:commons-codec:1.11'
+
+
 
 }

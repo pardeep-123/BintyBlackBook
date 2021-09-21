@@ -72,6 +72,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         btnUserEvent.setOnClickListener(this)
         btnSwap.setOnClickListener(this)
         tvWebLink.setOnClickListener(this)
+        btnAcceptReq.setOnClickListener(this)
         iv_back.setOnClickListener {
             finish()
         }

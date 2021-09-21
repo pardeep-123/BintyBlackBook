@@ -1,4 +1,4 @@
-package com.bintyblackbook.models
+package com.bintyblackbook.model
 
 class EditMessageModel {
 

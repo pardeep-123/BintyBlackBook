@@ -9,9 +9,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
-import com.bintyblackbook.model.CategoryData
 import com.bintyblackbook.model.CategoryName
-import com.bintyblackbook.models.PhotosModel
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.item_photos.view.*

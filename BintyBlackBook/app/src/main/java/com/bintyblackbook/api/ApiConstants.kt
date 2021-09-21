@@ -110,6 +110,8 @@ class ApiConstants {
         const val MY_WALLET="get_wallet_list"
 
         const val SET_AVAILABILITY="set_availability"
+
+        const val SEND_CALL_NOTIFICATION="callToUser"
     }
 
 

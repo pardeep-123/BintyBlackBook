@@ -30,9 +30,7 @@ class ReportChatDialogFragment(var name:String,val groupChatActivity: GroupChatA
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        rlCross.visibility= View.GONE
-
-        tvMessage.text = getString(R.string.are_you_sure_want_to_block_john)
+        tvMessage.text = getString(R.string.why_do_you_want_to_report_this_user)
 
         rlCross.setOnClickListener {
             dismiss()

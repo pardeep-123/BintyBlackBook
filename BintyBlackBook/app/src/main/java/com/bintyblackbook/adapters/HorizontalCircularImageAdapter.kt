@@ -9,9 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.AllData
-import com.bintyblackbook.models.EditMessageModel
 import com.bumptech.glide.Glide
-import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_horizontal_circular_image.view.*
 

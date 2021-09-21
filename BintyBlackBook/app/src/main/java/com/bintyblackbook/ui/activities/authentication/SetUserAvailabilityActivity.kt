@@ -5,7 +5,7 @@ import android.util.Log
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.models.AvailabilityModel
+import com.bintyblackbook.model.AvailabilityModel
 import kotlinx.android.synthetic.main.activity_set_availability.rvTime
 import kotlinx.android.synthetic.main.activity_set_user_availability.*
 import kotlinx.android.synthetic.main.fragment_availability.checkbox_select

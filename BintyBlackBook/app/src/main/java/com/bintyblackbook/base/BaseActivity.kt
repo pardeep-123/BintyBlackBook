@@ -33,6 +33,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 open class BaseActivity : AppCompatActivity() {
@@ -91,6 +92,42 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
+    open fun getDuration(startTime: Long?, endTime: Long?): Long? {
+        var date: Date? = null
+        var current: Date? = null
+        try {
+            date = Date(startTime!!)
+            current = Date(endTime!!)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        println("dateeee" + date.toString())
+        val string_date = ""
+        var diffInSeconds = (current!!.time - date!!.time) / 1000
+        val sec = if (diffInSeconds >= 60) diffInSeconds % 60 else diffInSeconds
+        val min = if ((diffInSeconds / 60).also { diffInSeconds = it } >= 60) diffInSeconds % 60 else diffInSeconds
+        val hrs = if ((diffInSeconds / 60).also { diffInSeconds = it } >= 24) diffInSeconds % 24 else diffInSeconds
+        val days = if ((diffInSeconds / 24).also { diffInSeconds = it } >= 30) diffInSeconds % 30 else diffInSeconds
+        val weeks = days / 7
+        val months = if ((diffInSeconds / 30).also { diffInSeconds = it } >= 12) diffInSeconds % 12 else diffInSeconds
+        val years = (diffInSeconds / 12).also { diffInSeconds = it }
+        return sec
+    }
+
+    fun getCurrentTime(): Long? {
+        val calendar = Calendar.getInstance()
+        return calendar.timeInMillis
+    }
+
+    open fun convertTimeStampDate(timestamp: Long, format: String?): String? {
+        val calendar = Calendar.getInstance()
+        val tz = TimeZone.getDefault()
+        calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.timeInMillis))
+        val sdf = SimpleDateFormat(format)
+        sdf.timeZone = tz
+        val currenTimeZone = Date(timestamp)
+        return sdf.format(currenTimeZone)
+    }
 
     //Navigate screen with finish a activity
     fun navigatewithFinish(destination: Class<*>) {

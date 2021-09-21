@@ -125,7 +125,7 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
 
     override fun onItemClick(data: AllData, position: Int) {
         val intent= Intent(this,OtherUserProfileActivity::class.java)
-        intent.putExtra("user_id",data.user2_id.toString())
+        intent.putExtra("user_id",data.user_id.toString())
         startActivity(intent)
     }
 

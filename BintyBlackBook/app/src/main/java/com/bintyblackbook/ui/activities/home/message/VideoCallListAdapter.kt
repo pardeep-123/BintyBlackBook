@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.row_messages.view.*
 class VideoCallListAdapter(val context: Context) : RecyclerView.Adapter<VideoCallListAdapter.VideoCallViewHolder>() {
 
     var arrayList = ArrayList<AllData>()
-    var onItemClick:((editMessageModel:AllData)->Unit)? = null
+    lateinit var videoCallListInterface: VideoCallListInterface
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoCallViewHolder {
         val itemView =
@@ -48,6 +49,14 @@ class VideoCallListAdapter(val context: Context) : RecyclerView.Adapter<VideoCal
                 Glide.with(context).load(editMessageModel.userImage).into(ivProfile)
                 tvName.text = editMessageModel.userName
             }
+
+            itemView.setOnClickListener {
+                videoCallListInterface.onItemClick(arrayList[pos],pos)
+            }
         }
+    }
+
+    interface VideoCallListInterface{
+        fun onItemClick(data:AllData,position: Int)
     }
 }

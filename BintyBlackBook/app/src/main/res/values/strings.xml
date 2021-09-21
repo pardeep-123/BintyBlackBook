@@ -2,6 +2,9 @@
     <string name="app_name">B3</string>
 
     <string name="agora_app_id" translatable="false">"7302962a4ae04fdebe739b889a6f5457"</string>
+    <string name="default_notification_channel_id">com.nauatili</string>
+    <string name="default_notification_channel_name">Call</string>
+
     <string name="sign_in_to_continue">SIGN IN TO CONTINUE</string>
     <string name="email">EMAIL</string>
     <string name="remember_me">REMEMBER ME</string>
@@ -17,6 +20,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dummy_text">Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="dummy_big">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="permission_rationale">Permission is needed for functionality</string>
 
     <string name="select_photo">Select Photo</string>
     <string name="open_camera">Open Camera</string>
@@ -199,5 +203,10 @@
     <string name="promote_business">Promote Business</string>
     <string name="to_promote_your_service">To promote your service</string>
     <string name="sign_up_popup_info">\"Black Owned Business: This is defined as 51 percent or more of the stock or equity of is owned by a person or persons of the group being measured \"</string>
+    <string name="users">Users</string>
+    <string name="no_answer">No answer</string>
+    <string name="callreject">Call rejected</string>
+    <string name="callended">Call ended</string>
+    <string name="calldeclined">Call declined</string>
 
 </resources>

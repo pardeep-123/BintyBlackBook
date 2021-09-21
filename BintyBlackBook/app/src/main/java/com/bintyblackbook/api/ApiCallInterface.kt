@@ -453,4 +453,13 @@ interface ApiCallInterface {
         @Field("selectedSlots") slectedSlots: JSONArray,
     ) : Call<JsonElement>
 
+
+    @FormUrlEncoded
+    @POST(ApiConstants.SEND_CALL_NOTIFICATION)
+    fun sendCallNotification(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("receiverId") receiverId: String,
+    ) : Call<JsonElement>
+
 }

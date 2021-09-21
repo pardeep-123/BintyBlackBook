@@ -25,6 +25,15 @@
 
 
     </style>
+
+    <style name="PortraitAnimView">
+        <item name="android:layout_width">128dp</item>
+        <item name="android:layout_height">128dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@drawable/anim_layer_drawable</item>
+    </style>
+
     <style name="CalendarTheme" parent="AppTheme">
         <item name="android:textColorPrimary">@color/whiteColor</item>
         <item name="colorControlActivated">@color/fadePink</item>
