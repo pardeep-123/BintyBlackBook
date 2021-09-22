@@ -12,7 +12,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaScannerConnection
-import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -25,7 +24,6 @@ import android.view.Gravity
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider

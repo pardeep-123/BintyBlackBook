@@ -44,7 +44,7 @@ class VideoChatViewActivity : BaseActivity(), SocketManager.Observer {
     private var mMuteBtn: ImageView? = null
     private var mSwitchCameraBtn: ImageView? = null
     var appCertificate = "c9b2dbcbe5bb473697aa893b10433819"
-    var mChannelName = "Nauatili"
+    var mChannelName = "Binty"
     var userAccount = "0"
     var expirationTimeInSeconds = 3600
    // var isVideoCallPicked = false

@@ -145,8 +145,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
     private fun checkSelfPermission(permission: String, requestCode: Int): Boolean {
         Log.i(LOG_TAG, "checkSelfPermission $permission $requestCode")
-        if (ContextCompat.checkSelfPermission(this,
-                permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                 arrayOf(permission),
