@@ -59,15 +59,6 @@ class HomeItemClickActivity : BaseActivity(), TextWatcher {
     private fun setAdapter(){
 
         val layoutManager = GridLayoutManager(this, 2)
-
-        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position == 0)
-                    2
-                else 1
-            }
-        }
-
         rvPhotos.layoutManager = layoutManager
         photoAdapter = PhotoAdapter(list, this)
         rvPhotos.adapter = photoAdapter

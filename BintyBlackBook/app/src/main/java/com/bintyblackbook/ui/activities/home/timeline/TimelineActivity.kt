@@ -12,6 +12,7 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.PostData
 import com.bintyblackbook.ui.activities.home.OtherUserProfileActivity
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
+import com.bintyblackbook.ui.activities.home.profileBusiness.MyProfileBusinessActivity
 import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
 import com.bintyblackbook.ui.dialogues.PostDeleteDialogFragment
 import com.bintyblackbook.ui.dialogues.ReportUserDialogFragment
@@ -109,13 +110,15 @@ class TimelineActivity : BaseActivity(),TimelineAdapter.TimeLineInterface {
 
     override fun onProfileClick(data: PostData, position: Int) {
         if(data.userId== getUser(context)?.id){
-            val intent= Intent(this, MyProfileActivity::class.java)
+            val intent= Intent(this, MyProfileBusinessActivity::class.java)
             startActivity(intent)
+            finish()
         }else{
             val intent = Intent(this,OtherUserProfileActivity::class.java)
             intent.putExtra("user_id",data.userId.toString())
             intent.putExtra(AppConstant.SHOW_CHAT_BTN,true)
             startActivity(intent)
+            finish()
         }
     }
 

@@ -48,6 +48,7 @@ class SocketManager {
             }
             return mSocket
         }
+
     private val onConnect = Emitter.Listener {
         Log.i("Socket", "CONNECTED")
         try {

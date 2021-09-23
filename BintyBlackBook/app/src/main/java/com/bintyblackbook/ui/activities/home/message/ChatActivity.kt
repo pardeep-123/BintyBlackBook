@@ -353,7 +353,8 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
             R.id.btnBookNow -> {
                 val intent = Intent(this, CheckAvailabilityActivity::class.java)
-                intent.putExtra("user_id", user_id)
+                intent.putExtra("user_id", receiverId)
+                intent.putExtra("screen_type","chat")
                 startActivity(intent)
             }
 

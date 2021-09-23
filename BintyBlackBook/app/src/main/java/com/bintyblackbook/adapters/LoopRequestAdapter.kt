@@ -1,7 +1,6 @@
 package com.bintyblackbook.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.LoopRequestData
-import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import kotlinx.android.synthetic.main.item_loop_request.view.*
 
 class LoopRequestAdapter(var context: Context) :

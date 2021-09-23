@@ -8,10 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.Slot
+import com.bintyblackbook.timeslots.TimeSlotsInterface
 import com.bintyblackbook.util.MyUtils
 import kotlinx.android.synthetic.main.item_time.view.*
 
-class CheckAvailabilityAdapter(var context: Context) : RecyclerView.Adapter<CheckAvailabilityAdapter.AvailabilityViewHolder>() {
+class CheckAvailabilityAdapter(var context: Context, var mInterface: TimeSlotsInterface) : RecyclerView.Adapter<CheckAvailabilityAdapter.AvailabilityViewHolder>() {
 
     var arrayList=  ArrayList<Slot>()
 
@@ -39,7 +40,9 @@ class CheckAvailabilityAdapter(var context: Context) : RecyclerView.Adapter<Chec
             tv_time.text= date
 
             itemView.setOnClickListener {
-
+                availabilityModel.isSelected = !availabilityModel.isSelected
+                notifyDataSetChanged()
+                mInterface.onClick()
             }
         }
     }

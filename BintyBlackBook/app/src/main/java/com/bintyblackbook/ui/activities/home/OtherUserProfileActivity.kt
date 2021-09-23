@@ -58,7 +58,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         getIntentData()
         setAdapter()
 
-        getData()
+
 
         setOnClicks()
 
@@ -175,6 +175,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     private fun getIntentData() {
         userId=intent.getStringExtra("user_id").toString()
+        getData()
     }
 
     private fun horizontalImagesAdapterClick(){
@@ -211,6 +212,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             }
             R.id.btnCheckAvailability ->{
                 val intent = Intent(this,CheckAvailabilityActivity::class.java)
+                intent.putExtra("screen_type","profile")
                 intent.putExtra("user_id",userId)
                 startActivity(intent)
             }

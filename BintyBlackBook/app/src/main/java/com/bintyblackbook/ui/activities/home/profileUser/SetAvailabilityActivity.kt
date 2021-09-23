@@ -6,14 +6,16 @@ import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.applandeo.materialcalendarview.EventDay
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AllDatesModel
-import com.bintyblackbook.timeslots.TimeSlotsInterface
 import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.SlotsModel
+import com.bintyblackbook.timeslots.TimeSlotsInterface
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.MyUtils.compareDate
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
@@ -38,12 +40,13 @@ class SetAvailabilityActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_availability)
-        availabilityViewModel = AvailabilityViewModel(this)
+        availabilityViewModel = AvailabilityViewModel()
         getIntentData()
 
         allDatesList.clear()
 
         setOnClicks()
+
 
     }
 
@@ -56,11 +59,7 @@ class SetAvailabilityActivity : BaseActivity() {
     }
 
     private fun checkAvailability() {
-        availabilityViewModel.getAvailableSlots(
-            getSecurityKey(context)!!,
-            getUser(context)?.authKey!!,
-            user_id
-        )
+        availabilityViewModel.getAvailableSlots(this, getSecurityKey(context)!!, getUser(context)?.authKey!!, user_id)
         availabilityViewModel.availableSlotsLiveData.observe(this, Observer {
             dates_list.clear()
             dates_list.addAll(it.data)
@@ -77,13 +76,13 @@ class SetAvailabilityActivity : BaseActivity() {
 
             // Array List to Show Data in Slots
             allDatesList.clear()
-            updateArrayList(selectedCurrentDate)
+            updateFirstArrayList(selectedCurrentDate)
 
             // Adding Events on Calender View
             val eventDATA: ArrayList<EventDay> = ArrayList()
-            for(m in dates_list){
+            for (m in dates_list) {
                 var calender11 = Calendar.getInstance()
-                calender11.timeInMillis=m.date!!*1000L
+                calender11.timeInMillis = m.date!! * 1000L
                 eventDATA.add(EventDay(calender11, R.drawable.dots_dark))
             }
             calenderView.setEvents(eventDATA)
@@ -100,19 +99,30 @@ class SetAvailabilityActivity : BaseActivity() {
 
         if (dates_list.size != 0) {
             for (m in dates_list) {
-                for (n in tempArray) {
+                for (n in allDatesList) {
                     // Date conversion Timestamp to String "MM/dd/yyyy"
-                    var date1:String =MyUtils.getDateTest(MyUtils.getDateInUTC(m.date!!.toString())!!.toLong())!!
-                    var date2:String =MyUtils.getDateWith((MyUtils.getDateInUTC(n.date!!.toString()))!!.toLong())!!
-                    if (date1.equals(date2)) { Log.e("DATA", "DATA Filterr=== DATE MATCHED")
+                    var date1: String =
+                        MyUtils.getDateTest(MyUtils.getDateInUTC(m.date!!.toString())!!.toLong())!!
+                    var date2: String =
+                        MyUtils.getDateWith((MyUtils.getDateInUTC(n.date!!.toString()))!!.toLong())!!
+                    if (date1.equals(date2)) {
+                        Log.e("DATA", "DATA Filterr=== DATE MATCHED")
 
                         for (j in m.slots) {
                             for (k in n.slotsArray) {
 
-                                if (j.slots.toString().equals(k.timeTamp)) {
+                                val time1 = MyUtils.getTimeTest(j.slots)
+                                val time2 = MyUtils.getTimeTest(k.timeTamp!!.toLong())
+                                Log.e(
+                                    "DATA",
+                                    "DATA Filterr TIMEEEE   === DATE MATCHED" + time1 + "Data=== " + time2
+                                )
+                                if (j.slots.toString().equals(k.timeTamp!!)) {
                                     k.selected = true
+                                    Log.e("DATA", "DATA Filterr=== Slots MATCHED")
 
                                 } else {
+//                                        Log.e("DATA", "DATA Filterr=== Slots MATCHED")
 
                                 }
                             }
@@ -122,7 +132,10 @@ class SetAvailabilityActivity : BaseActivity() {
             }
         }
 
-        return tempArray
+
+
+
+        return allDatesList
     }
 
     /**
@@ -134,23 +147,27 @@ class SetAvailabilityActivity : BaseActivity() {
             override fun onClick() {
 //                checkbox_selectAll.isChecked = checkSelectedAllDate() == false
                 // Update Array API and Default Array List when User Select or Un Select Any Slot
-                if(dates_list.size!=0){
-                    for(m in dates_list){
-                        var date1 =MyUtils.getDateTest(m.date!!)
-                        var date2 =MyUtils.getDateTest(selectedCurrentDate.toLong()/1000)
-                        if(date1.equals(date2)){
-                            for(k in m.slots){
-                                for (n in slotList){
-                                    if(n.timeTamp.equals(k.slots.toString())){
-                                        if(n.selected==false){
+                if (dates_list.size != 0) {
+                    for (m in dates_list) {
+                        var date1 = MyUtils.getDateTest(m.date!!)
+                        var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
+                        if (date1.equals(date2)) {
+                            for (k in m.slots) {
+                                for (n in slotList) {
+                                    if (n.timeTamp.equals(k.slots.toString())) {
+                                        if (n.selected == false) {
                                             m.slots.remove(k)
                                         }
                                     }
                                 }
+
                             }
+
                         }
+
                     }
                 }
+
             }
         })
         rvTime.adapter = adapter
@@ -165,7 +182,7 @@ class SetAvailabilityActivity : BaseActivity() {
 
             Log.e("DATAA", "DATA === " + convertTOJson())
 
-            availabilityViewModel.uploadSlots(
+            availabilityViewModel.uploadSlots(this,
                 getSecurityKey(context)!!,
                 getUser(context)?.authKey!!,
                 convertTOJson()
@@ -173,7 +190,7 @@ class SetAvailabilityActivity : BaseActivity() {
         }
         // Check Box Click And Upadate Slots Array list
         checkbox_selectAll.setOnClickListener {
-            Log.e("DATA","DATA == CheckBox==="+checkbox_selectAll.isChecked)
+            Log.e("DATA", "DATA == CheckBox===" + checkbox_selectAll.isChecked)
             if (checkbox_selectAll.isChecked) {
                 for (i in getSlotsArrayAccordingToDate(filterArray())) {
                     i.selected = true
@@ -188,24 +205,40 @@ class SetAvailabilityActivity : BaseActivity() {
         }
 
         // Calender Date Picker  And Upadate Slots Array and Check Box Also
-        calenderView.setOnDayClickListener { eventDay ->
-            val clickedDayCalendar = eventDay.calendar
-            val date = clickedDayCalendar.timeInMillis
+        calenderView.setOnDayClickListener(object : OnDayClickListener {
+            override fun onDayClick(eventDay: EventDay) {
+                val clickedDayCalendar = eventDay.calendar
+                val date = clickedDayCalendar.timeInMillis
 
-            selectedCurrentDate = date.toString()
+                selectedCurrentDate = date.toString()
 
+                val dateNow = Calendar.getInstance().time
+                val dateSelected: Date = clickedDayCalendar.time
+                if (!compareDate(dateSelected, dateNow).equals("before")) {
+                    Log.e("DATA", "DATA=== False")
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                /* Create an Intent that will start the Menu-Activity. */
-                if (checkDate() == false) {
-                    updateArrayList(selectedCurrentDate)
-                    checkSelectedAllDate()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        /* Create an Intent that will start the Menu-Activity. */
+                        if (checkDate() == false) {
+                            updateArrayList(selectedCurrentDate)
+                            checkSelectedAllDate()
+                        } else {
+                            setAdapter(getSlotsArrayAccordingToDate(filterArray()))
+                            checkSelectedAllDate()
+                        }
+                    }, 400)
+
                 } else {
-                    setAdapter(getSlotsArrayAccordingToDate(filterArray()))
-                    checkSelectedAllDate()
+
+
+
                 }
-            }, 1000)
-        }
+
+
+            }
+        })
+
+
     }
 
 
@@ -236,7 +269,12 @@ class SetAvailabilityActivity : BaseActivity() {
 
         for (m in getALLSelectedSlots()) {
             var mJsonObject = JSONObject()
-            mJsonObject.put("date", MyUtils.convertDateToTestTimeStamp(MyUtils.getDateWithTest(m.date!!.toLong()).toString()))
+            mJsonObject.put(
+                "date",
+                MyUtils.convertDateToTestTimeStamp(
+                    MyUtils.getDateWithTest(m.date!!.toLong()).toString()
+                )
+            )
             mArrayList.clear()
             for (n in m.slotsArray) {
                 if (n.selected) {
@@ -258,8 +296,8 @@ class SetAvailabilityActivity : BaseActivity() {
     fun getSlotsArrayAccordingToDate(filterArray: ArrayList<AllDatesModel>): ArrayList<SlotsModel> {
         var tempSlotsArray = ArrayList<SlotsModel>()
         for (m in filterArray) {
-            var date1 =MyUtils.getDateTest(m.date!!.toLong()/1000)
-            var date2 =MyUtils.getDateTest(selectedCurrentDate.toLong()/1000)
+            var date1 = MyUtils.getDateTest(m.date!!.toLong() / 1000)
+            var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
             if (date2.equals(date1)) {
                 tempSlotsArray.addAll(m.slotsArray)
                 break
@@ -281,9 +319,12 @@ class SetAvailabilityActivity : BaseActivity() {
             return false
         } else {
             for (m in allDatesList) {
-                var date1 =MyUtils.getDateTest(m.date!!.toLong()/1000)
-                var date2 =MyUtils.getDateTest(selectedCurrentDate.toLong()/1000)
-                Log.e("DATA", "DATA === Select on Calender Click Date 1 ==" + date1+"Date2 ===== "+date2)
+                var date1 = MyUtils.getDateTest(m.date!!.toLong() / 1000)
+                var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
+                Log.e(
+                    "DATA",
+                    "DATA === Select on Calender Click Date 1 ==" + date1 + "Date2 ===== " + date2
+                )
 
                 if (date1.equals(date2)) {
                     return true
@@ -304,10 +345,10 @@ class SetAvailabilityActivity : BaseActivity() {
     fun checkSelectedAllDate() {
         checkbox_selectAll.isChecked = true
         for (m in allDatesList) {
-            Log.e("DATA","DATA Time ==="+m.date+"Selcted Date === "+selectedCurrentDate)
-            var date1 = MyUtils.getDateTest(m.date!!.toLong()/1000)
-            var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong()/1000)
-            Log.e("DATA","DATA Time After ==="+date1+"Selcted Date === "+date2)
+            Log.e("DATA", "DATA Time ===" + m.date + "Selcted Date === " + selectedCurrentDate)
+            var date1 = MyUtils.getDateTest(m.date!!.toLong() / 1000)
+            var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
+            Log.e("DATA", "DATA Time After ===" + date1 + "Selcted Date === " + date2)
             if (date1.equals(date2)) {
                 for (n in m.slotsArray) {
                     if (n.selected == false) {
@@ -325,35 +366,95 @@ class SetAvailabilityActivity : BaseActivity() {
     fun updateArrayList(selectedDate: String) {
         var mAllDatesModel = AllDatesModel()
         mAllDatesModel.date = selectedDate
-        arrayList.clear()
-        arrayList.add(SlotsModel("12:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("01:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("02:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("03:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("04:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("05:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("06:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("07:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("08:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("09:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("10:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("11:00 AM", selectedDate, false))
-        arrayList.add(SlotsModel("12:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("01:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("02:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("03:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("04:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("05:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("06:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("07:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("08:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("09:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("10:00 PM", selectedDate, false))
-        arrayList.add(SlotsModel("11:00 PM", selectedDate, false))
-        mAllDatesModel.slotsArray.addAll(arrayList)
+        mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
         allDatesList.add(mAllDatesModel)
-
         setAdapter(filterArray()[0].slotsArray)
+    }
+
+    /**
+     *@Update SlotsArray When Date Change
+     */
+    fun updateFirstArrayList(selectedDate: String) {
+
+        if (dates_list.size != 0) {
+            for (m in dates_list) {
+                val date1 = MyUtils.getDateTest(m.date!!)
+                val date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
+                Log.e("DATA", "DATA Time After ===" + date1 + "Selcted Date === " + date2 + "  " + m.date)
+                if (date1.equals(date2)) {
+                    val mAllDatesModel = AllDatesModel()
+                    mAllDatesModel.date = selectedDate
+                    mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
+                    allDatesList.add(mAllDatesModel)
+                } else {
+                    val mAllDatesModel = AllDatesModel()
+                    mAllDatesModel.date = (m.date * 1000L).toString()
+                    mAllDatesModel.slotsArray.addAll(getArray(m.date * 1000L))
+                    allDatesList.add(mAllDatesModel)
+                }
+            }
+
+            if (checkDate() == false) {
+                val mAllDatesModel = AllDatesModel()
+                mAllDatesModel.date = selectedDate
+                mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
+                allDatesList.add(mAllDatesModel)
+            }
+
+            for (m in filterArray()) {
+                var date1: String =
+                    MyUtils.getDateTest(MyUtils.getDateInUTC(m.date!!.toString())!!.toLong())!!
+                var date2: String =
+                    MyUtils.getDateTest((MyUtils.getDateInUTC(selectedDate.toString()))!!.toLong())!!
+                Log.e(
+                    "DATA",
+                    "DATA Time After ===" + date1 + "Afterrr" + selectedDate + "Selcted Date === " + date2 + "  " + m.date!!
+                )
+
+                if (date1.equals(date2)) {
+                    setAdapter(m.slotsArray)
+                    break
+                }
+            }
+        } else {
+            var mAllDatesModel = AllDatesModel()
+            mAllDatesModel.date = selectedDate
+            mAllDatesModel.slotsArray.addAll(arrayList)
+            allDatesList.add(mAllDatesModel)
+            setAdapter(filterArray()[0].slotsArray)
+        }
+    }
+
+    /*
+    * @GetSlots Array According to DATE
+    * */
+    fun getArray(selectedDate: Long): ArrayList<SlotsModel> {
+        arrayList.clear()
+        arrayList.add(SlotsModel("12:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("01:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("02:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("03:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("04:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("05:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("06:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("07:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("08:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("09:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("10:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("11:00 AM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("12:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("01:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("02:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("03:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("04:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("05:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("06:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("07:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("08:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("09:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("10:00 PM", selectedDate.toString(), false))
+        arrayList.add(SlotsModel("11:00 PM", selectedDate.toString(), false))
+        return arrayList
     }
 
     override fun onBackPressed() {

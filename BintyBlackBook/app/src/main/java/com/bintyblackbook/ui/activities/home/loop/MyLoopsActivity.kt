@@ -12,10 +12,8 @@ import com.bintyblackbook.adapters.AdapterMyLoops
 import com.bintyblackbook.adapters.SuggestionsAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AllData
-import com.bintyblackbook.model.AllUsersData
 import com.bintyblackbook.model.Suggested
 import com.bintyblackbook.ui.activities.home.OtherUserProfileActivity
-import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.dialogues.UnLoopDialogFragment
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser

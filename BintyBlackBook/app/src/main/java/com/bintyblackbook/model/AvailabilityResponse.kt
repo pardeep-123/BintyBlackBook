@@ -13,6 +13,7 @@ class AvailabilityData{
 }
 
 data class Slot(
+    var isSelected:Boolean,
     val availabilityId: Int,
     val id: Int,
     val slots: Long,

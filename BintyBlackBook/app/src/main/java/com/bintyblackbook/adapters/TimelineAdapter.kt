@@ -29,9 +29,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
     lateinit var timeLineInterface:TimeLineInterface
     var clicked=true
     var totalLikes=0
-//    var myPopupWindow: PopupWindow? = null
-//    var onItemClick: ((timelineModel: PostData, clickOn: String,position:Int) -> Unit)? = null
-//    var onCommentClick: ((timelineModel: PostData) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false)
@@ -60,7 +58,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
         var rlDots: RelativeLayout = itemView.rlDots
 
         fun bind(timelineModel: PostData, pos: Int) {
-
 
             Glide.with(context).load(timelineModel.userImage).placeholder(R.drawable.progress_bg_image).into(
                 civProfile

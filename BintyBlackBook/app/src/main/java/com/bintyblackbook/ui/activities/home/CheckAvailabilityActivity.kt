@@ -1,6 +1,9 @@
 package com.bintyblackbook.ui.activities.home
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
@@ -8,39 +11,39 @@ import com.bintyblackbook.adapters.HorizontalCalendarAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
+import com.bintyblackbook.timeslots.TimeSlotsInterface
+import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
-import kotlinx.android.synthetic.main.activity_check_availability.rlBack
-import kotlinx.android.synthetic.main.activity_check_availability.rlNext
-import kotlinx.android.synthetic.main.activity_check_availability.rlPrevious
-import kotlinx.android.synthetic.main.activity_check_availability.rvDate
-import kotlinx.android.synthetic.main.activity_check_availability.rvTime
-import java.util.*
+import com.bintyblackbook.viewmodel.BookingsViewModel
+import kotlinx.android.synthetic.main.activity_check_availability.*
 import kotlin.collections.ArrayList
 
 
 class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderInterface {
 
     private var itemPos = 0
-    var checkAvailabilityAdapter:CheckAvailabilityAdapter?=null
-    var horizontalCalendarAdapter: HorizontalCalendarAdapter?=null
+    var checkAvailabilityAdapter: CheckAvailabilityAdapter? = null
+    var horizontalCalendarAdapter: HorizontalCalendarAdapter? = null
     lateinit var availabilityViewModel: AvailabilityViewModel
-    var user_id=""
+    lateinit var bookingsViewModel: BookingsViewModel
+    var user_id = ""
     var arrayList = ArrayList<AvailabilityData>()
-    var timeList= ArrayList<Slot>()
+    var timeList = ArrayList<Slot>()
+    var screen_type = ""
+    var selectedSlots=ArrayList<String>()
+    var availabilityId=""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check_availability)
+        initViewModel()
 
-        availabilityViewModel= AvailabilityViewModel(this)
+        getIntentData()
+        setOnClicks()
 
-        user_id= intent.getStringExtra("user_id").toString()
-
-        rlBack.setOnClickListener {
-            finish()
-        }
         horizontalCalendarSet()
         setAdapter()
 
@@ -48,23 +51,80 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
 
     }
 
+    private fun initViewModel() {
+        availabilityViewModel = AvailabilityViewModel()
+        bookingsViewModel = BookingsViewModel()
+    }
+
+    private fun setOnClicks() {
+
+        rlBack.setOnClickListener {
+            finish()
+        }
+
+        btnSubmitBooking.setOnClickListener {
+            val bookingSlots=TextUtils.join(",",selectedSlots)
+
+            bookingsViewModel.addBooking(this, getSecurityKey(this)!!, getUser(this)?.authKey.toString(),
+                user_id, availabilityId, bookingSlots
+            )
+        }
+    }
+
+    private fun getIntentData() {
+        user_id = intent.getStringExtra("user_id").toString()
+        screen_type = intent.getStringExtra("screen_type").toString()
+
+        if ("profile" == screen_type) {
+            btnSubmitBooking.visibility = View.GONE
+        } else {
+            btnSubmitBooking.visibility = View.VISIBLE
+        }
+    }
+
     private fun getAvailability() {
 
-        availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)?.authKey!!,user_id)
+        availabilityViewModel.getAvailableSlots(this, getSecurityKey(context)!!, getUser(context)?.authKey!!, user_id)
         availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
 
-            arrayList.clear()
-            arrayList.addAll(it?.data!!)
-            horizontalCalendarAdapter?.notifyDataSetChanged()
+            if(it.data.size==0){
+                tvNoSlots.visibility=View.VISIBLE
+                rlCalendar.visibility=View.GONE
+                rvTime.visibility=View.GONE
+                btnSubmitBooking.visibility=View.GONE
+            }else{
+                tvNoSlots.visibility=View.VISIBLE
+                rlCalendar.visibility=View.GONE
+                rvTime.visibility=View.GONE
+                if ("profile" == screen_type) {
+                    btnSubmitBooking.visibility = View.GONE
+                } else {
+                    btnSubmitBooking.visibility = View.VISIBLE
+                }
+                arrayList.clear()
+                arrayList.addAll(it?.data!!)
+                horizontalCalendarAdapter?.notifyDataSetChanged()
+            }
 
         })
     }
 
     //set adapter for time slots
     private fun setAdapter() {
-        checkAvailabilityAdapter=CheckAvailabilityAdapter(this)
-        rvTime.adapter =checkAvailabilityAdapter
-        checkAvailabilityAdapter?.arrayList=timeList
+        checkAvailabilityAdapter = CheckAvailabilityAdapter(this, object : TimeSlotsInterface {
+            override fun onClick() {
+
+                for (i in timeList){
+                    if(i.isSelected==true){
+                        selectedSlots.add(i.slots.toString())
+                    }
+                }
+                Log.i("selectedList",selectedSlots.toString())
+            }
+
+        })
+        rvTime.adapter = checkAvailabilityAdapter
+        checkAvailabilityAdapter?.arrayList = timeList
     }
 
     private fun horizontalCalendarSet() {
@@ -73,27 +133,28 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
 
         horizontalCalendarAdapter = HorizontalCalendarAdapter(this)
         rvDate.adapter = horizontalCalendarAdapter
-        horizontalCalendarAdapter?.calenderInterface=this
-        horizontalCalendarAdapter?.arrayList=arrayList
+        horizontalCalendarAdapter?.calenderInterface = this
+        horizontalCalendarAdapter?.arrayList = arrayList
 
         rvDate.setRecyclerListener {
             itemPos = it.adapterPosition
         }
 
         rlPrevious.setOnClickListener {
-            if (itemPos <= arrayList.size-1) {
+            if (itemPos <= arrayList.size - 1) {
                 rvDate.smoothScrollToPosition(0)
             }
         }
 
         rlNext.setOnClickListener {
             if (itemPos >= 0) {
-                rvDate.smoothScrollToPosition(arrayList.size-1)
+                rvDate.smoothScrollToPosition(arrayList.size - 1)
             }
         }
     }
 
     override fun onItemClick(data: AvailabilityData, position: Int) {
+        availabilityId= data.slots[0].availabilityId.toString()
         timeList.clear()
         timeList.addAll(data.slots)
         checkAvailabilityAdapter?.notifyDataSetChanged()

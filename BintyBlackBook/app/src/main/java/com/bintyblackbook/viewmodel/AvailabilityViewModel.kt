@@ -16,14 +16,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class AvailabilityViewModel (val context: Context): ViewModel(){
+class AvailabilityViewModel : ViewModel(){
 
     val availableSlotsLiveData= MutableLiveData<AvailabilityResponse>()
 
     /*
     get available slots
      */
-    fun getAvailableSlots(security_key:String, auth_key:String,user_id:String){
+    fun getAvailableSlots(context: Context,security_key:String, auth_key:String,user_id:String){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.getAvailableSlots(security_key, auth_key, user_id).enqueue(object : Callback<JsonElement>{
@@ -65,7 +65,7 @@ class AvailabilityViewModel (val context: Context): ViewModel(){
     /*
    Set slots
     */
-    fun uploadSlots(security_key:String, auth_key:String,mJsonARRAY: JSONArray){
+    fun uploadSlots(context: Context,security_key:String, auth_key:String,mJsonARRAY: JSONArray){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.setAvailability(security_key, auth_key, mJsonARRAY).enqueue(object : Callback<JsonElement>{

@@ -9,6 +9,7 @@ import com.bintyblackbook.adapters.HorizontalCalendarAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
+import com.bintyblackbook.timeslots.TimeSlotsInterface
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
@@ -36,7 +37,7 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_availability)
 
-        availabilityViewModel= AvailabilityViewModel(this)
+        availabilityViewModel= AvailabilityViewModel()
         user_id= intent?.getStringExtra("user_id").toString()
         setOnClicks()
 
@@ -48,7 +49,7 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
     }
 
     private fun getAvailabilityList() {
-        availabilityViewModel.getAvailableSlots(getSecurityKey(context)!!, getUser(context)!!.authKey,user_id)
+        availabilityViewModel.getAvailableSlots(this,getSecurityKey(context)!!, getUser(context)!!.authKey,user_id)
 
         availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
             arrayList.clear()
@@ -58,7 +59,12 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
     }
 
     private fun setAdapter() {
-        checkAvailabilityAdapter=CheckAvailabilityAdapter(this)
+        checkAvailabilityAdapter=CheckAvailabilityAdapter(this,object :TimeSlotsInterface{
+            override fun onClick() {
+
+            }
+
+        })
         rvTime.adapter =checkAvailabilityAdapter
 
         checkAvailabilityAdapter?.arrayList=timeList

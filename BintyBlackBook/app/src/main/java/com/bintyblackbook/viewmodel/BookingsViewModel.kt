@@ -8,6 +8,7 @@ import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.BookingResponse
+import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
@@ -64,7 +65,20 @@ class BookingsViewModel : ViewModel(){
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addBooking(security_key,auth_key,provider_id,availability_id,slots).enqueue(object :Callback<JsonElement>{
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful){
+                    (context as BaseActivity).dismissProgressDialog()
+                    val jsonObject= JSONObject(response.body()!!.toString())
 
+                    if(jsonObject.getInt("code")==200){
+                        val value= BintyBookApplication.gson.fromJson(response.body(),BookingResponse::class.java)
+                        bookingsLiveData.value=value
+                    }
+
+                }else{
+                    val error= JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert((context as BaseActivity),error.getString("msg"),"Ok"){}
+                }
             }
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
