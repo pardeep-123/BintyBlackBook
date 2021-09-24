@@ -47,8 +47,8 @@ class SetAvailabilityAdapter(
             val availabilityModel = arrayList[pos]
 
             tv_time.text = availabilityModel.time
-            var date1 = MyUtils.getDateTest(availabilityModel.date!!.toLong()/1000)
-            var date2 = MyUtils.getDateTest(selectedDate.toLong()/1000)
+            val date1 = MyUtils.getDateTest(availabilityModel.date!!.toLong()/1000)
+            val date2 = MyUtils.getDateTest(selectedDate.toLong()/1000)
             if (date1.equals(date2)) {
                 if (availabilityModel.selected) {
                     itemView.background =

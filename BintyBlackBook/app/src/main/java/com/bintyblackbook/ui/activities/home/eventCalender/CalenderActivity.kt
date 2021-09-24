@@ -1,7 +1,10 @@
 package com.bintyblackbook.ui.activities.home.eventCalender
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.applandeo.materialcalendarview.EventDay
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.util.MyUtils
@@ -29,14 +32,25 @@ class CalenderActivity : BaseActivity() {
         calendarView.setMinimumDate(calendar)
 
 
-        calendarView.setOnDayClickListener {
-            selected_date = it.calendar.time.toString()
+        calendarView.setOnDayClickListener(object : OnDayClickListener {
+            override fun onDayClick(eventDay: EventDay) {
+                val clickedDayCalendar = eventDay.calendar
+                val date = clickedDayCalendar.timeInMillis
 
-           // val selectedTimeStamp= MyUtils.convertDateToTimeStamp(selected_date)
+                val dateNow = Calendar.getInstance().time
+                val dateSelected: Date = clickedDayCalendar.time
+                if (!MyUtils.compareDate(dateSelected, dateNow).equals("before")) {
+                    val selectedCurrentDate = date.toString()
+                    val intent = Intent()
+                    intent.putExtra("selectedDate", selectedCurrentDate.toString())
+                    setResult(RESULT_OK, intent);
+                    finish()
 
-            //date format Fri Jan 22 00:00:00 GMT+05:30 2021
-            Log.i("selectedDate", selected_date)
-        }
+                    Log.i("===",selectedCurrentDate)
+
+                }
+            }
+        })
     }
 
     private fun setOnClicks() {

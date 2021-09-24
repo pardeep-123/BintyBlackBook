@@ -236,7 +236,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             SocketManager.GET_CHAT_LISTENER -> {
                 try{
                 runOnUiThread {
-                    Log.e("fgfdgg", "mychar")
+
                     val mObject = args[0] as JSONArray
                     if(mObject.length()>0){
                         rvChat.visibility=View.VISIBLE

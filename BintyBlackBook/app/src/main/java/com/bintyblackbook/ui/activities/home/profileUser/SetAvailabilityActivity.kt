@@ -101,9 +101,9 @@ class SetAvailabilityActivity : BaseActivity() {
             for (m in dates_list) {
                 for (n in allDatesList) {
                     // Date conversion Timestamp to String "MM/dd/yyyy"
-                    var date1: String =
+                    val date1: String =
                         MyUtils.getDateTest(MyUtils.getDateInUTC(m.date!!.toString())!!.toLong())!!
-                    var date2: String =
+                    val date2: String =
                         MyUtils.getDateWith((MyUtils.getDateInUTC(n.date!!.toString()))!!.toLong())!!
                     if (date1.equals(date2)) {
                         Log.e("DATA", "DATA Filterr=== DATE MATCHED")
@@ -122,7 +122,7 @@ class SetAvailabilityActivity : BaseActivity() {
                                     Log.e("DATA", "DATA Filterr=== Slots MATCHED")
 
                                 } else {
-//                                        Log.e("DATA", "DATA Filterr=== Slots MATCHED")
+                                        Log.e("DATA", "DATA Filterr=== Slots UNMATCHED")
 
                                 }
                             }
@@ -229,16 +229,10 @@ class SetAvailabilityActivity : BaseActivity() {
                     }, 400)
 
                 } else {
-
-
-
+                    Log.i("====click","notClicked")
                 }
-
-
             }
         })
-
-
     }
 
 
@@ -264,23 +258,17 @@ class SetAvailabilityActivity : BaseActivity() {
      *@return JSONArray
      **/
     fun convertTOJson(): JSONArray {
-        var mJsonARRAY = JSONArray()
-        var mArrayList = ArrayList<String>()
+        val mJsonARRAY = JSONArray()
+        val mArrayList = ArrayList<String>()
 
         for (m in getALLSelectedSlots()) {
-            var mJsonObject = JSONObject()
-            mJsonObject.put(
-                "date",
-                MyUtils.convertDateToTestTimeStamp(
-                    MyUtils.getDateWithTest(m.date!!.toLong()).toString()
-                )
-            )
+            val mJsonObject = JSONObject()
+            mJsonObject.put("date", MyUtils.convertDateToTestTimeStamp(MyUtils.getDateWithTest(m.date!!.toLong()).toString()))
             mArrayList.clear()
             for (n in m.slotsArray) {
                 if (n.selected) {
                     mArrayList.add(n.timeTamp!!)
                 }
-
             }
             mJsonObject.put("slots", mArrayList.joinToString(separator = ","))
             mJsonARRAY.put(mJsonObject)

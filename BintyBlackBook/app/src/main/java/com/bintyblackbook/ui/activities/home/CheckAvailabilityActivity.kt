@@ -12,7 +12,6 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
 import com.bintyblackbook.timeslots.TimeSlotsInterface
-import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
@@ -93,9 +92,9 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
                 rvTime.visibility=View.GONE
                 btnSubmitBooking.visibility=View.GONE
             }else{
-                tvNoSlots.visibility=View.VISIBLE
-                rlCalendar.visibility=View.GONE
-                rvTime.visibility=View.GONE
+                tvNoSlots.visibility=View.GONE
+                rlCalendar.visibility=View.VISIBLE
+                rvTime.visibility=View.VISIBLE
                 if ("profile" == screen_type) {
                     btnSubmitBooking.visibility = View.GONE
                 } else {
