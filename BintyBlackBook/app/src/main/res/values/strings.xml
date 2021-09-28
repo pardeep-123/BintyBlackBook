@@ -2,6 +2,7 @@
     <string name="app_name">B3</string>
 
     <string name="agora_app_id" translatable="false">"7302962a4ae04fdebe739b889a6f5457"</string>
+    <string name="places_api_key">AIzaSyAd4ZzHfi-nAp-6IAm1YF5-pVxCAlzW4EA</string>
     <string name="default_notification_channel_id">com.nauatili</string>
     <string name="default_notification_channel_name">Call</string>
 

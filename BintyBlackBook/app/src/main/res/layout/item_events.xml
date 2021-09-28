@@ -18,7 +18,7 @@
             android:layout_height="130dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            android:src="@drawable/john"
+
             app:riv_corner_radius="5dp" />
 
         <TextView
@@ -31,9 +31,9 @@
             android:layout_marginEnd="@dimen/dp5"
             android:fontFamily="@font/trajanpro_regular"
             android:lines="1"
-            android:text="@string/john"
+            android:text=""
             android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp12" />
+            android:textSize="@dimen/sp11" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,15 +55,15 @@
                 android:fontFamily="@font/trajanpro_regular"
                 android:lines="1"
                 android:singleLine="true"
-                android:text="@string/arizona_usa"
+                android:text=""
                 android:textColor="@color/blackColor"
-                android:textSize="@dimen/sp11"
+                android:textSize="@dimen/sp10"
                 app:drawableStartCompat="@drawable/location" />
 
             <ImageView
                 android:id="@+id/ivHeart"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp16"
+                android:layout_height="@dimen/dp16"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/image"
                 android:src="@drawable/fill_heart" />

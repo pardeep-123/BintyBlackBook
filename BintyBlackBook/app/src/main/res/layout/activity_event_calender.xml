@@ -124,7 +124,7 @@
         android:textSize="@dimen/sp14"
         android:padding="6dp"
         android:fontFamily="@font/trajanpro_regular"
-        android:textColor="@color/whiteColor"/>
+        android:textColor="@color/fadePink"/>
     <View
         android:id="@+id/viewAllEvent"
         android:layout_width="0dp"

@@ -40,6 +40,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawerhome)
+
         settingsViewModel= SettingsViewModel()
         notificationViewModel= NotificationViewModel(this)
         drawerLayout = findViewById(R.id.drawer_layout)

@@ -65,13 +65,13 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if(!s.isNullOrEmpty()) {
-            getUserList(s.toString())
-        }
+
     }
 
     override fun afterTextChanged(s: Editable?) {
-
+        if(!s.isNullOrEmpty()) {
+            getUserList(s.toString())
+        }
     }
 
 
@@ -83,7 +83,6 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
                 tvNoSearchList.visibility=View.VISIBLE
                 rvLoops.visibility=View.GONE
                 rvMyFriends.visibility=View.GONE
-
             }
             else {
                 tvNoSearchList.visibility=View.GONE

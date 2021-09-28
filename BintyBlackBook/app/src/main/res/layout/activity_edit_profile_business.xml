@@ -204,6 +204,7 @@
                     android:layout_alignParentStart="true"
                     android:background="@drawable/bg_curved_edit_text_green"
                     android:hint="@string/select_category"
+                    android:drawablePadding="@dimen/dp10"
                     android:drawableEnd="@drawable/dropdown"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
@@ -300,6 +301,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/ivServiceInfo"
                     android:layout_width="@dimen/dp20"
                     android:layout_height="@dimen/dp20"
                     android:src="@drawable/info"

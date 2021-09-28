@@ -65,7 +65,7 @@ class AvailabilityViewModel : ViewModel(){
     /*
    Set slots
     */
-    fun uploadSlots(context: Context,security_key:String, auth_key:String,mJsonARRAY: JSONArray){
+    fun uploadSlots(context: Context,security_key:String, auth_key:String,mJsonARRAY:JSONArray){
 
         (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.setAvailability(security_key, auth_key, mJsonARRAY).enqueue(object : Callback<JsonElement>{

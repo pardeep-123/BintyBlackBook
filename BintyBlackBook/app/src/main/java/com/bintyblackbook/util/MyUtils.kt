@@ -6,11 +6,9 @@ import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 
 object MyUtils {
@@ -156,6 +154,42 @@ object MyUtils {
         return dateToReturn
     }
 
+    fun getTimeInUTC(timeToConvert: String?): String? {
+        var dateFormat = "hh:mm a"
+        var dateToReturn = timeToConvert
+        val sdf = SimpleDateFormat(dateFormat)
+        sdf.timeZone = TimeZone.getDefault()
+        var gmt: Date? = null
+        val sdfOutPutToSend = SimpleDateFormat(dateFormat)
+        sdfOutPutToSend.timeZone = TimeZone.getTimeZone("UTC")
+        try {
+            gmt = sdf.parse(timeToConvert)
+            dateToReturn = (gmt!!.time / 1000).toString()
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return dateToReturn
+    }
+
+    fun getDateFromUTCTimestamp(mTimestamp: Long, mDateFormate: String?): String? {
+        var date: String? = null
+        try {
+            val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            cal.timeInMillis = mTimestamp * 1000L
+            date = android.text.format.DateFormat.format(mDateFormate, cal.timeInMillis).toString()
+            val formatter = SimpleDateFormat(mDateFormate)
+            formatter.timeZone = TimeZone.getTimeZone("UTC")
+            val value = formatter.parse(date)
+            val dateFormatter = SimpleDateFormat(mDateFormate)
+            dateFormatter.timeZone = TimeZone.getDefault()
+            date = dateFormatter.format(value)
+            return date
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return date
+    }
+
 
     fun getTimeAgo(time: Long): String? {
         var time = time
@@ -221,7 +255,7 @@ object MyUtils {
             "xx"
         }
     }
-    fun getDateTime(timestamp:Long):String{
+    fun getDateTime(timestamp: Long):String{
         return try {
             val sdf = SimpleDateFormat("MMM dd,yyyy hh:mm:a")
             val netDate = Date(timestamp * 1000L)

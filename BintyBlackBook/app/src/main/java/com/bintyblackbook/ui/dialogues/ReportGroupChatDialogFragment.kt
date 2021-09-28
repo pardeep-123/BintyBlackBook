@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.activities.home.message.GroupChatActivity
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.btnNo
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.btnYes
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.dialog_fragment_block_user.rlCross
 import kotlinx.android.synthetic.main.dialog_fragment_block_user.tvMessage
 import kotlinx.android.synthetic.main.dialog_fragment_report_user.*
 
-class ReportChatDialogFragment(var name:String, val chatActivity: ChatActivity) : DialogFragment() {
+class ReportGroupChatDialogFragment(var name:String, val groupChatActivity: GroupChatActivity) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +42,7 @@ class ReportChatDialogFragment(var name:String, val chatActivity: ChatActivity) 
             if(edtReport.text.toString().trim().isNullOrEmpty()){
                 Toast.makeText(context,"Please enter the reason",Toast.LENGTH_SHORT).show()
             }else{
-                chatActivity.reportUser(edtReport.text.toString())
+                groupChatActivity.reportGroup(edtReport.text.toString())
             }
         }
 

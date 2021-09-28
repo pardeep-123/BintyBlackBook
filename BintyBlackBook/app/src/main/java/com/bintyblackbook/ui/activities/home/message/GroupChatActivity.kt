@@ -18,7 +18,7 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.GroupChatData
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.ui.dialogues.LeaveGroupDialogFragment
-import com.bintyblackbook.ui.dialogues.ReportChatDialogFragment
+import com.bintyblackbook.ui.dialogues.ReportGroupChatDialogFragment
 import com.bintyblackbook.util.getUser
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_group_chat.*
@@ -120,7 +120,7 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
 
         tvReport.setOnClickListener {
             myPopupWindow?.dismiss()
-            val dialogFragment = ReportChatDialogFragment("reportUser",this)
+            val dialogFragment = ReportGroupChatDialogFragment("reportUser",this)
             dialogFragment.show(supportFragmentManager, "reportUser")
         }
 

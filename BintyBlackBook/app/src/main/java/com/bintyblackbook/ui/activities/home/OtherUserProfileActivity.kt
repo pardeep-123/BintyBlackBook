@@ -58,8 +58,6 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         getIntentData()
         setAdapter()
 
-
-
         setOnClicks()
 
     }
@@ -89,10 +87,25 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     private fun setData(data: Data?) {
 
-        headingText.text= data?.firstName
+        if(data?.isPromoted==1){
+
+        }else if(data?.businessBlackOwned==1){
+
+        }else{
+
+        }
+
+        //headingText.text= data?.firstName
         web_link=data?.websiteLink!!
         name= data.firstName
         otherUserId= data.id.toString()
+        if(data.socialMediaHandles.isNullOrEmpty()){
+            tvSocialMedia.visibility=View.GONE
+            txtMediaHandles.visibility=View.GONE
+        }else{
+            tvSocialMedia.visibility=View.VISIBLE
+            txtMediaHandles.visibility=View.VISIBLE
+        }
         if(data.isSwapSystem=="0"){
             tvOpenToSwap.visibility=View.GONE
             tvSwapMind.visibility=View.GONE
@@ -151,12 +164,13 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         Glide.with(this).load(data.image).into(civ_profile_user)
 
         if(data.userMedia[0].media.endsWith(".jpg")){
+            rivUser.visibility=View.VISIBLE
+            videoView.visibility=View.GONE
             Glide.with(this).load(data.userMedia[0].media).into(rivUser)
-        }else if(data.userMedia[0].media.endsWith(".mp4")){
-                initializePlayer(data.userMedia[0].media)
-        }
-        else{
-
+        }else{
+            rivUser.visibility=View.GONE
+            videoView.visibility=View.VISIBLE
+            initializePlayer(data.userMedia[0].media)
         }
 
         if(data.userMedia.size > 0){

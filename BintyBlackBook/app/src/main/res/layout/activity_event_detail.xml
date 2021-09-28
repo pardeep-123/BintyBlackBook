@@ -27,7 +27,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="@dimen/dp150"
                 android:layout_marginTop="@dimen/dp8">
 
                 <com.makeramen.roundedimageview.RoundedImageView
@@ -46,8 +46,8 @@
 
                     <ImageView
                         android:id="@+id/ivHeart"
-                        android:layout_width="@dimen/dp16"
-                        android:layout_height="@dimen/dp16"
+                        android:layout_width="@dimen/dp10"
+                        android:layout_height="@dimen/dp10"
                         android:layout_centerInParent="true"
                         android:contentDescription="@string/image"
                         android:src="@drawable/heart_new" />
@@ -83,8 +83,8 @@
                     android:lines="1"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
-                    app:drawableStartCompat="@drawable/loaction" />
+                    android:textSize="@dimen/sp10"
+                    android:drawableStart="@drawable/loaction" />
 
             </RelativeLayout>
 
@@ -144,7 +144,6 @@
                 android:id="@+id/tvDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/trajanpro_regular"
                 android:text=""
                 android:layout_marginTop="4dp"
                 android:textColor="@color/whiteColor"

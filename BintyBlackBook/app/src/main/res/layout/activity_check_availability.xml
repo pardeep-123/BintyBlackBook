@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
-                android:text="@string/check_availability"
+                android:text="Availability"
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp"
                 android:textStyle="bold"/>

@@ -112,6 +112,9 @@ class ApiConstants {
         const val SET_AVAILABILITY="set_availability"
 
         const val SEND_CALL_NOTIFICATION="callToUser"
+
+        const val SOCIAL_LOGIN="social_login"
+
     }
 
 

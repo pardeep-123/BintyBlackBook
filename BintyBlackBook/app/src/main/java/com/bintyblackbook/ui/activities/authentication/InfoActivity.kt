@@ -32,7 +32,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.lang.StringBuilder
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -74,7 +73,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         MyUtils.fullscreen(this)
         setContentView(R.layout.activity_info)
 
-        Places.initialize(this, "AIzaSyAd4ZzHfi-nAp-6IAm1YF5-pVxCAlzW4EA")
+        Places.initialize(this, getString(R.string.places_api_key))
         initViews()
         setVideoAdapter()
         setPhotoAdapter()
@@ -127,7 +126,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         infoViewModel.categoryLiveData.observe(this, androidx.lifecycle.Observer {
 
             if(it.code==200){
-                 categoryList.addAll(it?.data!!)
+                categoryList.addAll(it?.data!!)
             }
             else{
                 Log.i("TAG",it.msg.toString())
@@ -202,20 +201,20 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         }
 
         rgSwap.setOnCheckedChangeListener { group, checkedId ->
-           when (checkedId) {
-               R.id.rbYesSwap -> {
-                   swap_value = "1"
-                   edtSwaps.visibility = View.VISIBLE
-                   tvSwap.visibility = View.VISIBLE
-               }
+            when (checkedId) {
+                R.id.rbYesSwap -> {
+                    swap_value = "1"
+                    edtSwaps.visibility = View.VISIBLE
+                    tvSwap.visibility = View.VISIBLE
+                }
 
-               R.id.rbNoSwap -> {
-                   swap_value = "0"
-                   edtSwaps.visibility = View.GONE
-                   tvSwap.visibility = View.GONE
-               }
-           }
-       }
+                R.id.rbNoSwap -> {
+                    swap_value = "0"
+                    edtSwaps.visibility = View.GONE
+                    tvSwap.visibility = View.GONE
+                }
+            }
+        }
 
         edtLocation.setOnClickListener {
             val fields = listOf(
@@ -242,10 +241,10 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
             && Validations.isEmpty(this,edtSocialMedia,getString(R.string.err_social_media))
             && Validations.isEmpty(this,edtWebsiteLink,getString(R.string.err_website_link))){
 
-                if(service_business.isNullOrEmpty()){
-                    Toast.makeText(this,"Please choose the service",Toast.LENGTH_LONG).show()
-                    return
-                }
+            if(service_business.isNullOrEmpty()){
+                Toast.makeText(this,"Please choose the service",Toast.LENGTH_LONG).show()
+                return
+            }
 
             if(swap_value.isNullOrEmpty()){
                 Toast.makeText(this,"Please choose the swap system",Toast.LENGTH_LONG).show()
@@ -326,6 +325,7 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         refereshVideoArray()
         Glide.with(this).load(imagePath).into(riv_video)
         videoList.add(UploadVideoModel("upload",imagePath,0))
+        videoAdapter!!.notifyDataSetChanged()
         selectedVideoFile=imagePath
         uploadMedia("1")
 
@@ -355,6 +355,8 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
         infoViewModel.uploadMedia(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
             if(it.code==200){
+                selectedVideoFile=null
+                imageFile=null
                 Toast.makeText(this,"Uploaded media successfully",Toast.LENGTH_LONG).show()
                 mediaList.addAll(it.data)
             }
@@ -407,13 +409,35 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     }
 
     override fun deleteVideo(data:UploadVideoModel,position: Int) {
-        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
-        infoViewModel.mediaLiveData.observe(this,  {
 
+        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
+        infoViewModel.baseLiveData.observe(this,  {
             if(it.code==200){
+                selectedVideoFile=null
                 Log.i("====",it.msg)
+                videoList.removeAt(position)
+                Log.i("list_size",videoList.toString())
+                if(videoList.size==0){
+                    list_count += 1
+                    videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
+                }
+//                videoAdapter?.arrayList=videoList
+                videoAdapter?.notifyDataSetChanged()
             }
         })
+    }
+
+    override fun addVideo(data: UploadVideoModel, position: Int) {
+        if(data.video_url!=null ){
+//            if(data.type.equals("undefined")){
+            list_count += 1
+            videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
+            videoAdapter?.notifyDataSetChanged()
+//            }
+        }else{
+            showSnackBarMessage("Please Upload Video")
+        }
+
     }
 
     override fun onPhotoUpload(data:UploadPhotoModel,position: Int) {
@@ -421,9 +445,34 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
     }
 
     override fun onDeletePhoto(data:UploadPhotoModel,position: Int) {
-        photoList.removeAt(position)
-        Log.i("list_size",photoList.toString())
-        uploadPhotoAdapter?.notifyDataSetChanged()
+        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
+        infoViewModel.baseLiveData.observe(this,  {
+
+            if(it.code==200){
+                Log.i("====",it.msg)
+                imageFile=null
+                photoList.removeAt(position)
+                Log.i("list_size",photoList.toString())
+                if(photoList.size==0){
+                    list_count += 1
+                    photoList.add(UploadPhotoModel("undefined",imageFile,"",0))
+                }
+                uploadPhotoAdapter?.notifyDataSetChanged()
+            }
+        })
+
+    }
+
+    override fun addImage(data: UploadPhotoModel, position: Int) {
+        if(data.photo_url!=null){
+//            if(data.type.equals("undefined")){
+            list_count += 1
+            photoList.add(UploadPhotoModel("undefined",imageFile,"",0))
+            uploadPhotoAdapter?.notifyDataSetChanged()
+//            }
+        }else{
+            showSnackBarMessage("Please Upload Image")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

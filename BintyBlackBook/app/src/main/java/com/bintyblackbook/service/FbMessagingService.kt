@@ -22,10 +22,7 @@ import com.google.gson.GsonBuilder
 import org.json.JSONObject
 import java.util.*
 
-/**
- * Created by Sonal grover.
- * Contact on sonal.grover12@gmail.com
- */
+
 class FbMessagingService : FirebaseMessagingService() {
 
     private var notificationChannel: NotificationChannel? = null

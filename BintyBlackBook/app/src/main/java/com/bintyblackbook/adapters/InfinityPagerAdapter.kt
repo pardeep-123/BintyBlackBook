@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.viewpager.widget.PagerAdapter
 import com.bintyblackbook.R
 import com.bintyblackbook.model.CategoryName
@@ -32,7 +31,13 @@ class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Catego
         val roundedImageView = view.roundedImageView
         val name= view.tvName
         val location = view.tvLocation
+        val promote= view.ivPromote
 
+        if(arrayList[position].isPromoted==0){
+            promote.visibility=View.GONE
+        }else{
+            promote.visibility=View.VISIBLE
+        }
         name.text=arrayList[position].firstName
 
         if(arrayList[position].userLocation.isEmpty()){

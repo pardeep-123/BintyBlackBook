@@ -17,6 +17,7 @@ import java.util.*
 class CalenderActivity : BaseActivity() {
 
     var selected_date=""
+    var selectedCurrentDate=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +41,8 @@ class CalenderActivity : BaseActivity() {
                 val dateNow = Calendar.getInstance().time
                 val dateSelected: Date = clickedDayCalendar.time
                 if (!MyUtils.compareDate(dateSelected, dateNow).equals("before")) {
-                    val selectedCurrentDate = date.toString()
-                    val intent = Intent()
-                    intent.putExtra("selectedDate", selectedCurrentDate.toString())
-                    setResult(RESULT_OK, intent);
-                    finish()
+                    selectedCurrentDate = date.toString()
+
 
                     Log.i("===",selectedCurrentDate)
 
@@ -59,6 +57,9 @@ class CalenderActivity : BaseActivity() {
         }
 
         btnSubmit.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("selectedDate", selectedCurrentDate.toString())
+            setResult(RESULT_OK, intent);
             finish()
         }
 

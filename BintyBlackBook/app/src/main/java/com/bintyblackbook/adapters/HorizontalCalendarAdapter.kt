@@ -38,8 +38,8 @@ class HorizontalCalendarAdapter(var context: Context) : RecyclerView.Adapter<Hor
 
             val horizontalCalendarModel = arrayList[pos]
 
-            tvWeek.text = MyUtils.getCurrentDay(horizontalCalendarModel.date!!)
-            tvMonthAndDate.text = MyUtils.getCurrentDate(horizontalCalendarModel.date)
+            tvWeek.text = MyUtils.getDateFromUTCTimestamp(horizontalCalendarModel.date!!,"EE")
+            tvMonthAndDate.text = MyUtils.getDateFromUTCTimestamp(horizontalCalendarModel.date,"MMM dd")
 
             if (horizontalCalendarModel.isSelected==true) {
                 itemView.background = ContextCompat.getDrawable(context, R.drawable.bg_border_green)

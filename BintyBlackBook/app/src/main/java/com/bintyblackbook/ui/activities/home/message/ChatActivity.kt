@@ -36,6 +36,8 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
     lateinit var chatViewModel:ChatViewModel
 
+    var layoutmanager:LinearLayoutManager?=null
+
     var socketManager: SocketManager? = null
 
     var myPopupWindow: PopupWindow? = null
@@ -84,10 +86,13 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
     }
 
     private fun setAdapter() {
-        val layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL, true)
-        layoutmanager.stackFromEnd = true
-        layoutmanager.isSmoothScrollbarEnabled = true
+        layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvChat.layoutManager = layoutmanager
+
+    }
+
+    fun scrollToBottom(){
+        layoutmanager?.smoothScrollToPosition(rvChat, null, chatAdapter?.itemCount!!)
     }
 
     private fun setOnClicks() {
@@ -253,7 +258,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                         chatAdapter = ChatAdaptr(this, listChat, getUser(this)?.id!!)
                         //viewLastMessage()
                         rvChat.adapter = chatAdapter
-                        rvChat.smoothScrollToPosition(listChat.size -1)
+                        scrollToBottom()
 
                     }
                     else{
@@ -394,6 +399,18 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             jsonObject.put("status", "0")
             socketManager?.blockUser(jsonObject)
         } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun reportUser(report:String){
+        try{
+            val jsonObject= JSONObject()
+            jsonObject.put("message",report)
+            jsonObject.put("userId", getUser(this)?.id.toString())
+            jsonObject.put("user2Id", receiverId)
+            socketManager?.reportUser(jsonObject)
+        }catch (e:Exception){
             e.printStackTrace()
         }
     }

@@ -34,7 +34,7 @@
             android:lines="1"
             android:text="@string/john"
             android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp12" />
+            android:textSize="@dimen/sp11" />
 
         <TextView
             android:id="@+id/tvLocation"
@@ -49,7 +49,7 @@
             android:layout_marginTop="4dp"
             android:text=""
             android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp12" />
+            android:textSize="@dimen/sp11" />
 
     </RelativeLayout>
 

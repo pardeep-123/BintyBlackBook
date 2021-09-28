@@ -49,8 +49,9 @@
 
             <RelativeLayout
                 android:id="@+id/rlVideo"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="@dimen/dp10"
                 android:layout_toStartOf="@id/rlInfo">
 
                 <ImageView
@@ -63,8 +64,9 @@
 
             <RelativeLayout
                 android:id="@+id/rlInfo"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="@dimen/dp10"
                 android:layout_alignParentEnd="true">
 
                 <ImageView

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
@@ -63,10 +64,11 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
 
         btnSubmitBooking.setOnClickListener {
             val bookingSlots=TextUtils.join(",",selectedSlots)
-
             bookingsViewModel.addBooking(this, getSecurityKey(this)!!, getUser(this)?.authKey.toString(),
-                user_id, availabilityId, bookingSlots
-            )
+                user_id, availabilityId, bookingSlots)
+            bookingsViewModel.bookingsLiveData.observe(this, Observer {
+
+            })
         }
     }
 

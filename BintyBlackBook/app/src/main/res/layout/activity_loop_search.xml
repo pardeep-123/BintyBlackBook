@@ -20,7 +20,7 @@
         android:drawableEnd="@drawable/search"
         android:drawablePadding="@dimen/dp10"
         android:hint="@string/search"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionSearch"
         android:importantForAutofill="no"
         android:inputType="text"
         android:paddingStart="@dimen/dp10"
@@ -35,6 +35,7 @@
         android:id="@+id/rvLoops"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/search_loop"
         app:layout_constraintBottom_toTopOf="@id/rvMyFriends"
         app:layout_constraintVertical_bias="0.0"
@@ -53,15 +54,19 @@
 
     <TextView
         android:id="@+id/tvNoSearchList"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:lineSpacingExtra="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/no_data_found"
+        app:layout_constraintWidth_percent="0.8"
+        android:text="Search People or Business with their names"
         android:textColor="@color/whiteColor"
-        android:visibility="visible"
-        android:fontFamily="@font/romul"/>
+        android:visibility="gone"
+        android:fontFamily="@font/romul"
+        tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

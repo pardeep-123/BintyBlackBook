@@ -35,7 +35,7 @@ class CheckAvailabilityAdapter(var context: Context, var mInterface: TimeSlotsIn
         fun bind(pos: Int) {
             val availabilityModel = arrayList[pos]
 
-            val date= MyUtils.getTime(availabilityModel.slots)
+            val date= MyUtils.getDateFromUTCTimestamp(availabilityModel.slots,"hh:mm:a")
 
             tv_time.text= date
 

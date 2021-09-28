@@ -8,6 +8,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,8 +52,11 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
+
 class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.UploadPhotoInterface,
     UploadVideoAdapter.UploadVideoInterface, CustomInterface, View.OnClickListener {
+
+    private var popup: PopupWindow? = null
 
     var categoty_id=""
     var category_name=""
@@ -79,7 +84,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
     override fun selectedImage(imagePath: File?) {
         refereshImageArray()
-        photoList.add(UploadPhotoModel("upload",imagePath,"",0))
+        photoList.add(UploadPhotoModel("upload", imagePath, "", 0))
         uploadPhotoAdapter?.notifyDataSetChanged()
         imageFile=imagePath
         uploadMedia("0")
@@ -88,61 +93,88 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
     override fun selectedVideoUri(imagePath: String?) {
         refereshVideoArray()
         Glide.with(this).load(imagePath).into(riv_video)
-        videoList.add(UploadVideoModel("upload",imagePath,0))
+        videoList.add(UploadVideoModel("upload", imagePath, 0))
         selectedVideoFile=imagePath
         uploadMedia("1")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MyUtils.fullscreen(this)
+       // MyUtils.fullscreen(this)
+        setContentView(R.layout.activity_edit_profile_business)
         infoViewModel= InfoViewModel()
 
         getCategoryData()
-        setContentView(R.layout.activity_edit_profile_business)
+
 
         headingText.text=getString(R.string.view_edit_profile)
         setVideoAdapter()
         setPhotoAdapter()
         aboutMeTypingTimeScroll()
-
         clickHandles()
-
         setUserData(getUser(this))
+        setPopUpWindow()
 
+
+    }
+
+    private fun setPopUpWindow() {
+        val popupContent: View = layoutInflater.inflate(R.layout.popup_info, null)
+        popup = PopupWindow()
+
+        //popup should wrap content view
+
+        //popup should wrap content view
+        popup?.setWindowLayoutMode(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        popup?.setHeight(100)
+        popup?.setWidth(120)
+
+        //set content and background
+
+        //set content and background
+        popup?.setContentView(popupContent)
+      //  popup?.setBackgroundDrawable(resources.getDrawable(R.drawable.popup_background))
+
+        //popupContent.findViewById<View>(R.id.btnClose).setOnClickListener { popup.dismiss() }
+
+     //   popup?.setTouchInterceptor(this)
+        popup?.setFocusable(true)
+        popup?.setOutsideTouchable(true)
     }
 
     private fun getCategoryData() {
 
-        infoViewModel.getCategories(this,getSecurityKey(this)!!, getUser(this)?.authKey!!)
+        infoViewModel.getCategories(this, getSecurityKey(this)!!, getUser(this)?.authKey!!)
         infoViewModel.categoryLiveData.observe(this, androidx.lifecycle.Observer {
 
-            if(it.code==200){
+            if (it.code == 200) {
                 categoryList.addAll(it?.data!!)
-            }
-            else{
-                Log.i("TAG",it.msg.toString())
+            } else {
+                Log.i("TAG", it.msg.toString())
             }
         })
     }
 
     private fun setPhotoAdapter() {
-        rvEditUploadPhoto.layoutManager= LinearLayoutManager(this,RecyclerView.VERTICAL,false)
+        rvEditUploadPhoto.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         uploadPhotoAdapter= UploadPhotoAdapter(this)
         rvEditUploadPhoto.adapter= uploadPhotoAdapter
         uploadPhotoAdapter?.uploadPhotoInterface=this
         uploadPhotoAdapter?.arrayList=photoList
-       // photoList.add(UploadPhotoModel("undefined",imageFile))
+        // photoList.add(UploadPhotoModel("undefined",imageFile))
         uploadPhotoAdapter?.notifyDataSetChanged()
     }
 
     private fun setVideoAdapter() {
-        rvEditUploadVideo.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
+        rvEditUploadVideo.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         videoAdapter= UploadVideoAdapter(this)
         rvEditUploadVideo.adapter= videoAdapter
         videoAdapter?.uploadVideoInterface =this
         videoAdapter?.arrayList=videoList
-       // videoList.add(UploadVideoModel("undefined",selectedVideoFile))
+        // videoList.add(UploadVideoModel("undefined",selectedVideoFile))
         videoAdapter?.notifyDataSetChanged()
     }
 
@@ -161,10 +193,22 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         swap_value= user?.isSwapSystem.toString()
         service_business= user?.isServiceProviding.toString()
 
-        if(swap_value == "1"){
-            rbYesEdit.isChecked
+        if(user?.isServiceProviding=="1"){
+            rbYesEdit.isChecked=true
         }else{
-            !rbNoEdit.isChecked
+            rbNoEdit.isChecked=true
+        }
+
+        if(user?.isSwapSystem =="1"){
+            rbYesSwapEdit.isChecked=true
+        }else{
+            rbNoSwapEdit.isChecked=true
+        }
+
+        if(user?.businessBlackOwned==0){
+            rbNoOwned.isChecked=true
+        }else{
+            rbYesOwned.isChecked=true
         }
         val id_list=ArrayList<String>()
         val name_list=ArrayList<String>()
@@ -179,10 +223,10 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                 subCategoryList.add(it.name.toString())
             }
         }
-        subCategory_id=TextUtils.join(",",sub_idList)
-        subCategory_name=TextUtils.join(",",subCategoryList)
-        categoty_id= TextUtils.join(",",id_list)
-        category_name= TextUtils.join(",",name_list)
+        subCategory_id=TextUtils.join(",", sub_idList)
+        subCategory_name=TextUtils.join(",", subCategoryList)
+        categoty_id= TextUtils.join(",", id_list)
+        category_name= TextUtils.join(",", name_list)
         etSelectCategory.setText(category_name)
         riv_video.setImageResource(R.drawable.slider)
         riv_Picture.setImageResource(R.drawable.background)
@@ -191,10 +235,23 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         for(i in 0 until user.userMedia.size){
             if(user.userMedia[i].media.endsWith(".jpg")){
                 val file=File("")
-                photoList.add(UploadPhotoModel("upload",file,user.userMedia[i].media,user.userMedia[i].id))
+                photoList.add(
+                    UploadPhotoModel(
+                        "upload",
+                        file,
+                        user.userMedia[i].media,
+                        user.userMedia[i].id
+                    )
+                )
                 uploadPhotoAdapter?.notifyDataSetChanged()
             } else{
-                videoList.add(UploadVideoModel("upload",user.userMedia[i].media,user.userMedia[i].id))
+                videoList.add(
+                    UploadVideoModel(
+                        "upload",
+                        user.userMedia[i].media,
+                        user.userMedia[i].id
+                    )
+                )
                 videoAdapter?.notifyDataSetChanged()
             }
         }
@@ -230,6 +287,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         riv_video.setOnClickListener(this)
         riv_Picture.setOnClickListener(this)
         edtLocation.setOnClickListener(this)
+        ivServiceInfo.setOnClickListener(this)
 
         rgServiceEdit.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -237,16 +295,16 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                     service_business = "1"
                     tvServiceType.visibility = View.GONE
                     edtServiceType.visibility = View.GONE
-                    tvAvailability.visibility = View.GONE
-                    edtSetAvailability.visibility = View.GONE
+                    // tvAvailability.visibility = View.GONE
+                    // edtSetAvailability.visibility = View.GONE
                 }
 
                 R.id.rbYesEdit -> {
                     service_business = "0"
                     tvServiceType.visibility = View.VISIBLE
                     edtServiceType.visibility = View.VISIBLE
-                    tvAvailability.visibility = View.VISIBLE
-                    edtSetAvailability.visibility = View.VISIBLE
+                    //  tvAvailability.visibility = View.VISIBLE
+                    // edtSetAvailability.visibility = View.VISIBLE
                 }
             }
         }
@@ -270,100 +328,125 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
     }
 
     private fun uploadMedia(type: String) {
-        val map=HashMap<String,RequestBody>()
-        map.put("type",createRequestBody(type))
+        val map=HashMap<String, RequestBody>()
+        map.put("type", createRequestBody(type))
 
         var request: MultipartBody.Part? = null
 
         if(type == "0"){
             if (imageFile != null) {
 
-                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+                val requestFile: RequestBody = RequestBody.create(
+                    "multipart/form-data".toMediaTypeOrNull(),
+                    imageFile!!
+                )
 
                 request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
             }
         } else{
             if (selectedVideoFile != null) {
 
-                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedVideoFile!!)
+                val requestFile: RequestBody = RequestBody.create(
+                    "multipart/form-data".toMediaTypeOrNull(),
+                    selectedVideoFile!!
+                )
 
                 request = MultipartBody.Part.createFormData("media", selectedVideoFile, requestFile)
             }
         }
 
-        infoViewModel.uploadMedia(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,request!!)
+        infoViewModel.uploadMedia(
+            this,
+            getSecurityKey(this)!!,
+            getUser(this)?.authKey!!,
+            map,
+            request!!
+        )
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
-            if(it.code==200){
-                Toast.makeText(this,"Uploaded media successfully",Toast.LENGTH_LONG).show()
+            if (it.code == 200) {
+                imageFile = null
+                selectedVideoFile = null
+                Toast.makeText(this, "Uploaded media successfully", Toast.LENGTH_LONG).show()
                 mediaList.addAll(it.data)
-            }
-
-            else{
-                Toast.makeText(this,it.msg.toString(),Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, it.msg.toString(), Toast.LENGTH_LONG).show()
             }
         })
 
     }
     private fun checkValidations() {
         if(InternetCheck.isConnectedToInternet(this)
-            && Validations.isEmpty(this,edtName,getString(R.string.err_business_name))
-            && Validations.validateEmailAddress(this,edtEmail)
-            && Validations.validatePhoneNumber(this,etUserPhoneNumber)
-            && Validations.isEmpty(this,edtExperience,getString(R.string.err_experience))
-            && Validations.isEmpty(this,edtLocation,getString(R.string.err_location))
-            && Validations.isEmpty(this,edtSocialMedia,getString(R.string.err_social_media))
-            && Validations.isEmpty(this,edtWebsiteLink,getString(R.string.err_website_link))){
+            && Validations.isEmpty(this, edtName, getString(R.string.err_business_name))
+            && Validations.validateEmailAddress(this, edtEmail)
+            && Validations.validatePhoneNumber(this, etUserPhoneNumber)
+            && Validations.isEmpty(this, edtExperience, getString(R.string.err_experience))
+            && Validations.isEmpty(this, edtLocation, getString(R.string.err_location))
+            && Validations.isEmpty(this, edtSocialMedia, getString(R.string.err_social_media))
+            && Validations.isEmpty(this, edtWebsiteLink, getString(R.string.err_website_link))){
 
             if(service_business.isNullOrEmpty()){
-                Toast.makeText(this,"Please choose the service", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please choose the service", Toast.LENGTH_LONG).show()
                 return
             }
 
             if(swap_value.isNullOrEmpty()){
-                Toast.makeText(this,"Please choose the swap system", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please choose the swap system", Toast.LENGTH_LONG).show()
                 return
             }
 
             val map= HashMap<String, RequestBody>()
 
-            map.put("email",createRequestBody(edtEmail.text.toString()))
-            map.put("name",createRequestBody(edtName.text.toString()))
-            map.put("phone",createRequestBody(etUserPhoneNumber.text.toString()))
-            map.put("country_code",createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
-            map.put("experience",createRequestBody(edtExperience.text.toString()))
-            map.put("website_link",createRequestBody(edtWebsiteLink.text.toString()))
-            map.put("description",createRequestBody(edtAboutMe.text.toString()))
-            map.put("address",createRequestBody(edtLocation.text.toString()))
-            map.put("latitude",createRequestBody(latitude))
-            map.put("longitude",createRequestBody(longitude))
-            map.put("category_id",createRequestBody(categoty_id))
-            map.put("sub_category_id",createRequestBody(subCategory_id))
-            map.put("device_type",createRequestBody("1"))
-            map.put("device_token",createRequestBody("12345"))
-            map.put("pushKitToken",createRequestBody("12345"))
-            map.put("uuid",createRequestBody("12345"))
-            map.put("availability",createRequestBody(""))
-            map.put("swapInMind",createRequestBody(edtSwaps.text.toString()))
-            map.put("isSwapSystem",createRequestBody(swap_value))
-            map.put("operationTime",createRequestBody(edtHrsDays.text.toString()))
-            map.put("isServiceProviding",createRequestBody(service_business))
-            map.put("services",createRequestBody(edtServiceType.text.toString()))
-            map.put("socialMediaHandles",createRequestBody(edtSocialMedia.text.toString()))
+            map.put("email", createRequestBody(edtEmail.text.toString()))
+            map.put("name", createRequestBody(edtName.text.toString()))
+            map.put("phone", createRequestBody(etUserPhoneNumber.text.toString()))
+            map.put("country_code", createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
+            map.put("experience", createRequestBody(edtExperience.text.toString()))
+            map.put("website_link", createRequestBody(edtWebsiteLink.text.toString()))
+            map.put("description", createRequestBody(edtAboutMe.text.toString()))
+            map.put("address", createRequestBody(edtLocation.text.toString()))
+            map.put("latitude", createRequestBody(latitude))
+            map.put("longitude", createRequestBody(longitude))
+            map.put("category_id", createRequestBody(categoty_id))
+            map.put("sub_category_id", createRequestBody(subCategory_id))
+            map.put("device_type", createRequestBody("1"))
+            map.put("device_token", createRequestBody("12345"))
+            map.put("pushKitToken", createRequestBody("12345"))
+            map.put("uuid", createRequestBody("12345"))
+            map.put("availability", createRequestBody(""))
+            map.put("swapInMind", createRequestBody(edtSwaps.text.toString()))
+            map.put("isSwapSystem", createRequestBody(swap_value))
+            map.put("operationTime", createRequestBody(edtHrsDays.text.toString()))
+            map.put("isServiceProviding", createRequestBody(service_business))
+            map.put("services", createRequestBody(edtServiceType.text.toString()))
+            map.put("socialMediaHandles", createRequestBody(edtSocialMedia.text.toString()))
 
             var imagenPerfil: MultipartBody.Part?=null
 
             if (imageFile != null) {
 
                 // create RequestBody instance from file
-                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
+                val requestFile: RequestBody = RequestBody.create(
+                    "multipart/form-data".toMediaTypeOrNull(),
+                    imageFile!!
+                )
                 // MultipartBody.Part is used to send also the actual file name
-                imagenPerfil = MultipartBody.Part.createFormData("image", imageFile?.name, requestFile)
+                imagenPerfil = MultipartBody.Part.createFormData(
+                    "image",
+                    imageFile?.name,
+                    requestFile
+                )
             }
 
-            infoViewModel.addEditInfo(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
+            infoViewModel.addEditInfo(
+                this,
+                getSecurityKey(this)!!,
+                getUser(this)?.authKey!!,
+                map,
+                imagenPerfil
+            )
             infoViewModel.infoLiveData.observe(this, androidx.lifecycle.Observer {
-                    saveUser(context,it.data!!)
-                showAlert(context,it?.msg!!,getString(R.string.ok)){
+                saveUser(context, it.data!!)
+                showAlert(context, it?.msg!!, getString(R.string.ok)) {
                     finish()
                 }
             })
@@ -383,35 +466,86 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         }
     }
 
-    override fun onPhotoUpload(data:UploadPhotoModel,position: Int) {
-        getImage(this,0,false)
+    override fun onPhotoUpload(data: UploadPhotoModel, position: Int) {
+        getImage(this, 0, false)
     }
 
-    override fun onDeletePhoto(data:UploadPhotoModel,position: Int) {
-        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
-        infoViewModel.mediaLiveData.observe(this,  {
+    override fun onDeletePhoto(data: UploadPhotoModel, position: Int) {
+        infoViewModel.deleteMedia(
+            this,
+            getSecurityKey(this)!!,
+            getUser(this)?.authKey!!,
+            data.id.toString()
+        )
+        infoViewModel.baseLiveData.observe(this, {
 
-            if(it.code==200){
-                Log.i("====",it.msg)
+            if (it.code == 200) {
+                Log.i("====", it.msg)
+                imageFile = null
+                photoList.removeAt(position)
+                Log.i("list_size", photoList.toString())
+                if (photoList.size == 0) {
+                    list_count += 1
+                    photoList.add(UploadPhotoModel("undefined", imageFile, "", 0))
+                }
+                uploadPhotoAdapter?.notifyDataSetChanged()
+            }
+        })
+
+    }
+
+    override fun addImage(data: UploadPhotoModel, position: Int) {
+        if(data.image!=null ){
+//            if(data.type.equals("undefined")){
+            list_count += 1
+            photoList.add(UploadPhotoModel("undefined", imageFile, "", 0))
+            uploadPhotoAdapter?.notifyDataSetChanged()
+//            }
+        }else{
+            showSnackBarMessage("Please Upload Image")
+        }
+    }
+
+    override fun onVideoUpload(data: UploadVideoModel, position: Int) {
+        getImage(this, 0, true)
+    }
+
+    override fun deleteVideo(data: UploadVideoModel, position: Int) {
+        infoViewModel.deleteMedia(
+            this,
+            getSecurityKey(this)!!,
+            getUser(this)?.authKey!!,
+            data.id.toString()
+        )
+        infoViewModel.baseLiveData.observe(this, {
+            if (it.code == 200) {
+                selectedVideoFile = null
+                Log.i("====", it.msg)
+                videoList.removeAt(position)
+                Log.i("list_size", videoList.toString())
+                if (videoList.size == 0) {
+                    list_count += 1
+                    videoList.add(UploadVideoModel("undefined", selectedVideoFile, 0))
+                }
+//                videoAdapter?.arrayList=videoList
+                videoAdapter?.notifyDataSetChanged()
             }
         })
     }
 
-    override fun onVideoUpload(data:UploadVideoModel,position: Int) {
-        getImage(this,0,true)
-    }
-
-    override fun deleteVideo(data:UploadVideoModel,position: Int) {
-        infoViewModel.deleteMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString())
-        infoViewModel.mediaLiveData.observe(this,  {
-
-            if(it.code==200){
-                Log.i("====",it.msg)
+    override fun addVideo(data: UploadVideoModel, position: Int) {
+        if(data.video_url!=null || !data.video_url.equals("")){
+            if(data.type.equals("undefined")){
+                list_count += 1
+                videoList.add(UploadVideoModel("undefined", selectedVideoFile, 0))
+                videoAdapter?.notifyDataSetChanged()
             }
-        })
+        }else{
+            showSnackBarMessage("Please Upload Video")
+        }
     }
 
-    fun createRequestBody(param:String): RequestBody {
+    fun createRequestBody(param: String): RequestBody {
         val request= param.toRequestBody("text/plain".toMediaTypeOrNull())
         return request
     }
@@ -426,10 +560,10 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                 arrayList.add(it.id.toString())
             }
         }
-        categoty_id = TextUtils.join(",",arrayList)
-        category_name= TextUtils.join(",",categoryList)
+        categoty_id = TextUtils.join(",", arrayList)
+        category_name= TextUtils.join(",", categoryList)
         etSelectCategory.setText(category_name)
-        Log.i("TAG",arrayList.toString())
+        Log.i("TAG", arrayList.toString())
     }
 
     override fun callbackSubCategories(data: ArrayList<SubCategories>) {
@@ -442,9 +576,9 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                 name_list.add(it.name)
             }
         }
-        subCategory_id= TextUtils.join(",",id_list)
-        subCategory_name= TextUtils.join(",",name_list)
-        Log.i("subactegory_ids","====ids"+ subCategory_id +"====names"+subCategory_name)
+        subCategory_id= TextUtils.join(",", id_list)
+        subCategory_name= TextUtils.join(",", name_list)
+        Log.i("subactegory_ids", "====ids" + subCategory_id + "====names" + subCategory_name)
     }
 
     fun refereshVideoArray(){
@@ -479,30 +613,30 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.iv_back ->{
+            R.id.iv_back -> {
                 finish()
             }
 
-            R.id.ivAddImageUser ->{
+            R.id.ivAddImageUser -> {
                 list_count += 1
-                photoList.add(UploadPhotoModel("undefined",imageFile,"",0))
+                photoList.add(UploadPhotoModel("undefined", imageFile, "", 0))
                 uploadPhotoAdapter?.notifyDataSetChanged()
             }
 
-            R.id.ivAddNewVideo ->{
+            R.id.ivAddNewVideo -> {
                 list_count += 1
-                videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
+                videoList.add(UploadVideoModel("undefined", selectedVideoFile, 0))
                 videoAdapter?.notifyDataSetChanged()
             }
 
-            R.id.etSelectCategory ->{
+            R.id.etSelectCategory -> {
                 runOnUiThread {
                     categoryDialogFragment = CategoryDialogFragment(categoryList, this, this)
                     categoryDialogFragment?.show(this.supportFragmentManager, "dialog")
                 }
             }
 
-            R.id.edtLocation ->{
+            R.id.edtLocation -> {
                 val fields = listOf(
                     Place.Field.ID,
                     Place.Field.NAME,
@@ -511,25 +645,34 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                     Place.Field.ADDRESS
                 )
                 // Start the autocomplete intent.
-                val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
+                val intent =
+                    Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(
+                        this
+                    )
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
             }
 
-            R.id.btnSubmit ->{
+            R.id.btnSubmit -> {
                 checkValidations()
             }
 
-            R.id.civ_profile ->{
-                getImage(this,0,false)
+            R.id.civ_profile -> {
+                getImage(this, 0, false)
             }
 
-            R.id.riv_video ->{
+            R.id.riv_video -> {
                 getImage(this, 0, true)
             }
 
-            R.id.riv_Picture ->{
+            R.id.riv_Picture -> {
                 getImage(this, 0, false)
             }
+
+            R.id.ivServiceInfo -> {
+                popup?.showAsDropDown(ivServiceInfo)
+            }
+
+
         }
     }
 }

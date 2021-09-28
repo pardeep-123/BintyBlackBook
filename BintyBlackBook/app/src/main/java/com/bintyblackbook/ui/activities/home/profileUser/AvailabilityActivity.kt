@@ -3,6 +3,7 @@ package com.bintyblackbook.ui.activities.home.profileUser
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.applandeo.materialcalendarview.EventDay
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.CheckAvailabilityAdapter
 import com.bintyblackbook.adapters.HorizontalCalendarAdapter
@@ -10,6 +11,7 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AvailabilityData
 import com.bintyblackbook.model.Slot
 import com.bintyblackbook.timeslots.TimeSlotsInterface
+import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.AvailabilityViewModel
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_availability.rlNext
 import kotlinx.android.synthetic.main.activity_availability.rlPrevious
 import kotlinx.android.synthetic.main.activity_availability.rvDate
 import kotlinx.android.synthetic.main.activity_availability.rvTime
+import java.util.*
 import kotlin.collections.ArrayList
 
 class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderInterface {
@@ -53,7 +56,17 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
 
         availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
             arrayList.clear()
-            arrayList.addAll(it.data)
+
+            for(m in it.data){
+                var calender11 = Calendar.getInstance()
+                calender11.timeInMillis = m.date!! * 1000L
+                val dateNow = Calendar.getInstance().time
+                val dateSelected: Date = Date(calender11.timeInMillis)
+                if (!MyUtils.compareDate(dateSelected, dateNow).equals("before")) {
+                    arrayList.add(m)
+                }
+            }
+
             horizontalCalendarAdapter?.notifyDataSetChanged()
         })
     }

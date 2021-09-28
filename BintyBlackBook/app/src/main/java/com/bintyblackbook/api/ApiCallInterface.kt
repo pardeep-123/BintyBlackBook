@@ -450,7 +450,7 @@ interface ApiCallInterface {
     fun setAvailability(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String,
-        @Field("selectedSlots") slectedSlots: JSONArray,
+        @Field("selectedSlots") slectedSlots: JSONArray
     ) : Call<JsonElement>
 
 
@@ -459,7 +459,18 @@ interface ApiCallInterface {
     fun sendCallNotification(
         @Header("security_key") security_key: String,
         @Header("auth_key") auth_key: String,
-        @Field("receiverId") receiverId: String,
+        @Field("receiverId") receiverId: String
     ) : Call<JsonElement>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.SOCIAL_LOGIN)
+    fun socialLogin(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("social_id") social_id: String,
+        @Field("social_type") social_type:String
+    ) : Call<JsonElement>
+
 
 }

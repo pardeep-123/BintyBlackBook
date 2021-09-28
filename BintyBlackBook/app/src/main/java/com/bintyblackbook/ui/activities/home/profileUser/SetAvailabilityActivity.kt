@@ -12,6 +12,7 @@ import com.bintyblackbook.adapters.SetAvailabilityAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AllDatesModel
 import com.bintyblackbook.model.AvailabilityData
+import com.bintyblackbook.model.Slot
 import com.bintyblackbook.model.SlotsModel
 import com.bintyblackbook.timeslots.TimeSlotsInterface
 import com.bintyblackbook.util.MyUtils
@@ -47,8 +48,8 @@ class SetAvailabilityActivity : BaseActivity() {
 
         setOnClicks()
 
-
     }
+
 
     private fun getIntentData() {
         type = intent.getStringExtra("type").toString()
@@ -59,7 +60,11 @@ class SetAvailabilityActivity : BaseActivity() {
     }
 
     private fun checkAvailability() {
-        availabilityViewModel.getAvailableSlots(this, getSecurityKey(context)!!, getUser(context)?.authKey!!, user_id)
+        availabilityViewModel.getAvailableSlots(this,
+            getSecurityKey(context)!!,
+            getUser(context)?.authKey!!,
+            user_id
+        )
         availabilityViewModel.availableSlotsLiveData.observe(this, Observer {
             dates_list.clear()
             dates_list.addAll(it.data)
@@ -83,7 +88,12 @@ class SetAvailabilityActivity : BaseActivity() {
             for (m in dates_list) {
                 var calender11 = Calendar.getInstance()
                 calender11.timeInMillis = m.date!! * 1000L
-                eventDATA.add(EventDay(calender11, R.drawable.dots_dark))
+                val dateNow = Calendar.getInstance().time
+                val dateSelected: Date = Date(calender11.timeInMillis)
+                if (!compareDate(dateSelected, dateNow).equals("before")) {
+                    eventDATA.add(EventDay(calender11, R.drawable.dots_dark))
+                }
+
             }
             calenderView.setEvents(eventDATA)
         })
@@ -101,9 +111,9 @@ class SetAvailabilityActivity : BaseActivity() {
             for (m in dates_list) {
                 for (n in allDatesList) {
                     // Date conversion Timestamp to String "MM/dd/yyyy"
-                    val date1: String =
+                    var date1: String =
                         MyUtils.getDateTest(MyUtils.getDateInUTC(m.date!!.toString())!!.toLong())!!
-                    val date2: String =
+                    var date2: String =
                         MyUtils.getDateWith((MyUtils.getDateInUTC(n.date!!.toString()))!!.toLong())!!
                     if (date1.equals(date2)) {
                         Log.e("DATA", "DATA Filterr=== DATE MATCHED")
@@ -122,7 +132,7 @@ class SetAvailabilityActivity : BaseActivity() {
                                     Log.e("DATA", "DATA Filterr=== Slots MATCHED")
 
                                 } else {
-                                        Log.e("DATA", "DATA Filterr=== Slots UNMATCHED")
+//                                        Log.e("DATA", "DATA Filterr=== Slots MATCHED")
 
                                 }
                             }
@@ -152,17 +162,26 @@ class SetAvailabilityActivity : BaseActivity() {
                         var date1 = MyUtils.getDateTest(m.date!!)
                         var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
                         if (date1.equals(date2)) {
-                            for (k in m.slots) {
-                                for (n in slotList) {
-                                    if (n.timeTamp.equals(k.slots.toString())) {
-                                        if (n.selected == false) {
-                                            m.slots.remove(k)
+
+                            for (n in slotList.indices) {
+                                val slotsList = slotList[n]
+                                val iterator: MutableIterator<Slot> = m.slots.iterator()
+                                while (iterator.hasNext()) {
+                                    val book = iterator.next()
+                                    if (slotsList.timeTamp.equals(book.slots.toString())) {
+                                        if (slotsList.selected == false) {
+                                            m.slots.remove(book)
                                         }
                                     }
+                                    iterator.remove()
                                 }
+
 
                             }
 
+                        }else{
+                            //                checkbox_selectAll.isChecked = checkSelectedAllDate() == false
+                            adapter!!.notifyDataSetChanged()
                         }
 
                     }
@@ -182,11 +201,7 @@ class SetAvailabilityActivity : BaseActivity() {
 
             Log.e("DATAA", "DATA === " + convertTOJson())
 
-            availabilityViewModel.uploadSlots(this,
-                getSecurityKey(context)!!,
-                getUser(context)?.authKey!!,
-                convertTOJson()
-            )
+            availabilityViewModel.uploadSlots(this,getSecurityKey(context)!!, getUser(context)?.authKey!!, convertTOJson())
         }
         // Check Box Click And Upadate Slots Array list
         checkbox_selectAll.setOnClickListener {
@@ -229,10 +244,16 @@ class SetAvailabilityActivity : BaseActivity() {
                     }, 400)
 
                 } else {
-                    Log.i("====click","notClicked")
+
+
+
                 }
+
+
             }
         })
+
+
     }
 
 
@@ -258,21 +279,30 @@ class SetAvailabilityActivity : BaseActivity() {
      *@return JSONArray
      **/
     fun convertTOJson(): JSONArray {
-        val mJsonARRAY = JSONArray()
-        val mArrayList = ArrayList<String>()
+        var mJsonARRAY = JSONArray()
+        var mArrayList = ArrayList<String>()
 
         for (m in getALLSelectedSlots()) {
-            val mJsonObject = JSONObject()
-            mJsonObject.put("date", MyUtils.convertDateToTestTimeStamp(MyUtils.getDateWithTest(m.date!!.toLong()).toString()))
+
+            var mJsonObject = JSONObject()
+            mJsonObject.put(
+                "date",
+                MyUtils.convertDateToTestTimeStamp(
+                    MyUtils.getDateWithTest(m.date!!.toLong()).toString()
+                )
+            )
             mArrayList.clear()
             for (n in m.slotsArray) {
                 if (n.selected) {
                     mArrayList.add(n.timeTamp!!)
                 }
+
             }
             mJsonObject.put("slots", mArrayList.joinToString(separator = ","))
             mJsonARRAY.put(mJsonObject)
         }
+
+//        }
 
         return mJsonARRAY
     }
@@ -356,7 +386,21 @@ class SetAvailabilityActivity : BaseActivity() {
         mAllDatesModel.date = selectedDate
         mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
         allDatesList.add(mAllDatesModel)
-        setAdapter(filterArray()[0].slotsArray)
+        for (m in allDatesList) {
+            var date1: String =
+                MyUtils.getDateTest(MyUtils.getDateInUTC(m.date!!.toString())!!.toLong())!!
+            var date2: String =
+                MyUtils.getDateTest((MyUtils.getDateInUTC(selectedDate.toString()))!!.toLong())!!
+            Log.e(
+                "DATA",
+                "DATA Time After ===" + date1 + "Afterrr" + selectedDate + "Selcted Date === " + date2 + "  " + m.date!!
+            )
+
+            if (date1.equals(date2)) {
+                setAdapter(m.slotsArray)
+                break
+            }
+        }
     }
 
     /**
@@ -366,16 +410,16 @@ class SetAvailabilityActivity : BaseActivity() {
 
         if (dates_list.size != 0) {
             for (m in dates_list) {
-                val date1 = MyUtils.getDateTest(m.date!!)
-                val date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
+                var date1 = MyUtils.getDateTest(m.date!!)
+                var date2 = MyUtils.getDateTest(selectedCurrentDate.toLong() / 1000)
                 Log.e("DATA", "DATA Time After ===" + date1 + "Selcted Date === " + date2 + "  " + m.date)
                 if (date1.equals(date2)) {
-                    val mAllDatesModel = AllDatesModel()
+                    var mAllDatesModel = AllDatesModel()
                     mAllDatesModel.date = selectedDate
                     mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
                     allDatesList.add(mAllDatesModel)
                 } else {
-                    val mAllDatesModel = AllDatesModel()
+                    var mAllDatesModel = AllDatesModel()
                     mAllDatesModel.date = (m.date * 1000L).toString()
                     mAllDatesModel.slotsArray.addAll(getArray(m.date * 1000L))
                     allDatesList.add(mAllDatesModel)
@@ -383,7 +427,7 @@ class SetAvailabilityActivity : BaseActivity() {
             }
 
             if (checkDate() == false) {
-                val mAllDatesModel = AllDatesModel()
+                var mAllDatesModel = AllDatesModel()
                 mAllDatesModel.date = selectedDate
                 mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
                 allDatesList.add(mAllDatesModel)
@@ -407,9 +451,9 @@ class SetAvailabilityActivity : BaseActivity() {
         } else {
             var mAllDatesModel = AllDatesModel()
             mAllDatesModel.date = selectedDate
-            mAllDatesModel.slotsArray.addAll(arrayList)
+            mAllDatesModel.slotsArray.addAll(getArray(selectedDate.toLong()))
             allDatesList.add(mAllDatesModel)
-            setAdapter(filterArray()[0].slotsArray)
+            setAdapter(allDatesList[0].slotsArray)
         }
     }
 

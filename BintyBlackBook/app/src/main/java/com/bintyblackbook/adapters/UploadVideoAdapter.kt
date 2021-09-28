@@ -35,11 +35,19 @@ class UploadVideoAdapter(var context: Context): RecyclerView.Adapter<UploadVideo
         var imageView:RoundedImageView=itemView.findViewById(R.id.riv_video)
         var img_upload:ImageView= itemView.findViewById(R.id.ivUpload)
         var img_delete:ImageView= itemView.findViewById(R.id.ivDeleteVideo)
+        var addNewVideo:ImageView= itemView.findViewById(R.id.addNewVideo)
 
         fun bind(pos:Int){
             val data = arrayList[pos]
 
+            if(arrayList.size-1 ==pos){
+                addNewVideo.visibility=View.VISIBLE
+            }else{
+                addNewVideo.visibility=View.GONE
+            }
+
             if(data.type=="undefined"){
+                imageView.setImageBitmap(null)
                 imageView.visibility=View.VISIBLE
                 img_upload.visibility=View.VISIBLE
                 img_delete.visibility=View.GONE
@@ -57,11 +65,16 @@ class UploadVideoAdapter(var context: Context): RecyclerView.Adapter<UploadVideo
             img_delete.setOnClickListener {
                 uploadVideoInterface.deleteVideo(arrayList[pos],pos)
             }
+
+            addNewVideo.setOnClickListener {
+                uploadVideoInterface.addVideo(arrayList[pos],pos)
+            }
         }
     }
 
     interface UploadVideoInterface{
         fun onVideoUpload(data:UploadVideoModel,position: Int)
         fun deleteVideo(data:UploadVideoModel,position: Int)
+        fun addVideo(data:UploadVideoModel,position: Int)
     }
 }
