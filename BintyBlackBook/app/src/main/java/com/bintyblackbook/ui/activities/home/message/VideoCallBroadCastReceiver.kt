@@ -44,20 +44,20 @@ class VideoCallBroadCastReceiver: BroadcastReceiver() {
             intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             ContextCompat.startActivity(context, intent2, Bundle())*/
         }else
-            if (intent!!.getStringExtra("type") == "reject") {
+            if (intent.getStringExtra("type") == "reject") {
                 if (Validations.isNetworkConnected()) {
                     val jsonObject = JSONObject()
                     jsonObject.put("senderId", intent.getIntExtra("senderID", 0).toString())
                     jsonObject.put("receiverId", intent.getIntExtra("recieverID", 0).toString())
                     jsonObject.put("status", 1)
-                    BintyBookApplication?.getSocketManager()?.getVideoCallStatus(jsonObject)
+                    BintyBookApplication.getSocketManager()?.getVideoCallStatus(jsonObject)
                    // MyApplication.getSocketManager().sendDataToServer(SocketManager.CALL_STATUS, jsonObject)
                 }
                 else
                     Toast.makeText(context, context!!.resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
             }
 
-        val notificationId = intent!!.getIntExtra("notificationId", 0)
+        val notificationId = intent.getIntExtra("notificationId", 0)
 
         val manager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancel(notificationId)

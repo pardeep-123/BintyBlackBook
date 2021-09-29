@@ -57,6 +57,7 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
                 tvNoData.visibility=View.GONE
                 arrayList.clear()
                 arrayList.addAll(it?.data!!)
+                arrayList.reverse()
                 notificationAdapter?.notifyDataSetChanged()
             }
         })

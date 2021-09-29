@@ -47,6 +47,8 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
     var myPopupWindow: PopupWindow? = null
     var black_owned=""
 
+    var screen_type=""
+
     private var latitude = ""
     private var longitude = ""
     lateinit var signUpViewModel: SignUpViewModel
@@ -64,6 +66,8 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_signup)
 
+        getIntentData()
+
         setPopUpWindow()
         MySharedPreferences.storeUserType(this,"User")
         mProgress = CustomProgressDialog(this)
@@ -72,6 +76,23 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         /*aboutTypingTimeScroll()*/
         tvTermsConditions.setPaintFlags(tvTermsConditions.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         tv_loginAcct.setPaintFlags(tv_loginAcct.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+    }
+
+    private fun getIntentData() {
+        screen_type= intent?.getStringExtra("screen_type").toString()
+        val data = getUser(this)
+        if("social".equals(screen_type)){
+            if(data?.userType==0){
+                uname_text.setText(data.firstName)
+                email_text.setText(data.email)
+                about_text.setText(data.description)
+
+            }else{
+                uname_text_business.setText(data?.firstName)
+                email_text_business.setText(data?.email)
+            }
+        }
+
     }
 
     fun clickHandles(){

@@ -56,15 +56,15 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
 
         if (holder.itemViewType == TYPE_FRIEND) {
             val friendViewHolder = holder as FriendViewHolder
-            friendViewHolder.txt_friendView.setText(arrayList[position].message)
-            friendViewHolder.txt_time.setText(MyUtils.getDateTime(arrayList[position].created?.toLong()!!))
-           Glide.with(context).load(arrayList[position].recieverImage).into(friendViewHolder.profileimage)
+            friendViewHolder.txt_friendView.text = arrayList[position].message
+            friendViewHolder.txt_time.text = MyUtils.getDateTime(arrayList[position].created!!)
+            Glide.with(context).load(arrayList[position].recieverImage).into(friendViewHolder.profileimage)
 
         } else if (holder.itemViewType == TYPE_USER) {
             val userViewHolder = holder as UserViewHolder
-            userViewHolder.txt_userView.setText(arrayList[position].message)
+            userViewHolder.txt_userView.text = arrayList[position].message
             Glide.with(context).load(arrayList[position].senderImage).into(userViewHolder.profileimage)
-            userViewHolder.txt_time.setText(MyUtils.getDateTime(arrayList[position].created?.toLong()!!))
+            userViewHolder.txt_time.text = MyUtils.getDateTime(arrayList[position].created!!)
         }
 
     }
@@ -75,12 +75,7 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
         if(data.senderId==senderId){
             return TYPE_USER
         }
-       /* if (senderId.equals(arrayList[position].senderId.toString()))
-        {
-            return TYPE_USER
-        }*/
-        else
-        {
+        else {
             return TYPE_FRIEND
         }
     }

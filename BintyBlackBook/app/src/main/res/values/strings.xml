@@ -209,5 +209,8 @@
     <string name="callreject">Call rejected</string>
     <string name="callended">Call ended</string>
     <string name="calldeclined">Call declined</string>
+    <string name="facebook_app_id">893811064359253</string>
+    <string name="add_new_account">Add New Account</string>
+    <string name="add_switch_account">Add/Switch Account</string>
 
 </resources>

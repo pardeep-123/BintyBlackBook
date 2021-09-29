@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cl_calendar_item"
-    android:layout_width="80dp"
-    android:layout_height="65dp"
+    android:layout_width="70dp"
+    android:layout_height="50dp"
     android:background="@color/fadePink"
     android:gravity="center"
     android:orientation="vertical"
@@ -27,6 +27,6 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/romul"
         android:textColor="@color/blackColor"
-        android:textSize="@dimen/sp9" />
+        android:textSize="@dimen/sp10" />
 
 </LinearLayout>

@@ -116,9 +116,8 @@ class SettingsViewModel : ViewModel(){
     //logout user
     fun logout(context: Context,security_key:String,auth_key:String,userId:String){
 
-        (context as BaseActivity).dismissProgressDialog()
-        ApiClient.apiService.logout(security_key,auth_key,userId
-        ).enqueue(object : Callback<JsonElement> {
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.logout(security_key,auth_key,userId).enqueue(object : Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 try {

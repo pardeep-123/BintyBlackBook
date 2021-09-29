@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +39,16 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
 
         setFriendsAdapter()
 
-        search_loop.addTextChangedListener(this)
+        search_loop.setOnEditorActionListener(object :TextView.OnEditorActionListener{
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+
+                getUserList(search_loop.text.toString())
+                return false
+            }
+
+        })
+
+      //  search_loop.addTextChangedListener(this)
         iv_back.setOnClickListener {
             finish()
         }
@@ -73,6 +84,7 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
             getUserList(s.toString())
         }
     }
+
 
 
     private fun getUserList(s: String?) {

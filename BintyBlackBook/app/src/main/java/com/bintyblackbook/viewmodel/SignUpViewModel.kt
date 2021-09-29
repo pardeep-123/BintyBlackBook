@@ -67,8 +67,6 @@ class SignUpViewModel(val context: Context): ViewModel(){
     /*
     business signup
      */
-
-    //Call user signUp Api
     fun businessSignUp(security_key:String, request:Map<String,RequestBody>, file: MultipartBody.Part?){
         (context as SignupActivity).showProgressDialog()
         ApiClient.apiService.businessSignUp(security_key,request,file).enqueue(object : Callback<JsonElement> {

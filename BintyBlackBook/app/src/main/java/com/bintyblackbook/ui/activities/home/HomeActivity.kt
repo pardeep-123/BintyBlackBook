@@ -14,41 +14,41 @@ import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.MessagesActivity
-import com.bintyblackbook.ui.activities.home.notification.NotificationActivity
 import com.bintyblackbook.ui.activities.home.profileBusiness.MyProfileBusinessActivity
 import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
 import com.bintyblackbook.ui.activities.home.promote.PromoteBusinessActivity
 import com.bintyblackbook.ui.activities.home.settings.SettingsActivity
 import com.bintyblackbook.ui.activities.home.timeline.TimelineActivity
 import com.bintyblackbook.ui.dialogues.LogoutDialogFragment
+import com.bintyblackbook.ui.fragments.AddAccountDialogFragment
 import com.bintyblackbook.ui.fragments.HomeFragment
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.NotificationViewModel
 import com.bintyblackbook.viewmodel.SettingsViewModel
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.drawerhome.*
 
 class HomeActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var drawerLayout: DrawerLayout
     var searchClick = false
-    var userType:String? = null
+    var userType: String? = null
     lateinit var settingsViewModel: SettingsViewModel
 
     lateinit var notificationViewModel: NotificationViewModel
+    private var addAccountDialogFragment: AddAccountDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawerhome)
 
-        settingsViewModel= SettingsViewModel()
-        notificationViewModel= NotificationViewModel(this)
+        settingsViewModel = SettingsViewModel()
+        notificationViewModel = NotificationViewModel(this)
         drawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
         userType = MySharedPreferences.getUserType(this)
 
-        if(userType.equals("Business")){
+        if (userType.equals("Business")) {
             ll_promote.visibility = View.VISIBLE
             ll_add_account.visibility = View.VISIBLE
         }
@@ -58,16 +58,16 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         clickListenerHandling()
 
         switchFragment(HomeFragment())
-      /*  ivSearch.setOnClickListener {
-            if (searchClick){
-                edtSearch.visibility = View.GONE
-                searchClick = false
-                MyUtils.hideSoftKeyboard(this)
-            }else{
-                edtSearch.visibility = View.VISIBLE
-                searchClick = true
-            }
-        }*/
+        /*  ivSearch.setOnClickListener {
+              if (searchClick){
+                  edtSearch.visibility = View.GONE
+                  searchClick = false
+                  MyUtils.hideSoftKeyboard(this)
+              }else{
+                  edtSearch.visibility = View.VISIBLE
+                  searchClick = true
+              }
+          }*/
     }
     /*private fun getNotificationCount() {
         notificationViewModel.getNotificationCount(getSecurityKey(this)!!, getUser(this)?.authKey!!)
@@ -118,13 +118,13 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
 //                startActivity(intent)
 //            }
             R.id.ll_Profile -> {
-               if (userType.equals("User")){
-                   val intent = Intent(context, MyProfileActivity::class.java)
-                   startActivity(intent)
-               }else if(userType.equals("Business")){
-                   val intent = Intent(context, MyProfileBusinessActivity::class.java)
-                   startActivity(intent)
-               }
+                if (userType.equals("User")) {
+                    val intent = Intent(context, MyProfileActivity::class.java)
+                    startActivity(intent)
+                } else if (userType.equals("Business")) {
+                    val intent = Intent(context, MyProfileBusinessActivity::class.java)
+                    startActivity(intent)
+                }
 
             }
             R.id.ll_mybooking -> {
@@ -163,16 +163,19 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.ll_logout -> {
                 val logoutDialog = LogoutDialogFragment(this)
-                logoutDialog.show(supportFragmentManager,"logoutDialog")
+                logoutDialog.show(supportFragmentManager, "logoutDialog")
             }
 
-            R.id.ll_add_account ->{
-
+            R.id.ll_add_account -> {
+                runOnUiThread {
+                    addAccountDialogFragment = AddAccountDialogFragment(this)
+                    addAccountDialogFragment?.show(this.supportFragmentManager, "dialog")
+                }
             }
         }
     }
 
-     fun openDrawer() {
+    fun openDrawer() {
         drawerLayout.openDrawer(GravityCompat.START)
     }
 
@@ -188,18 +191,21 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    fun logoutUser(){
-        settingsViewModel.logout(this,getSecurityKey(this)!!, getUser(this)?.authKey!!, getUser(this)?.id.toString())
+    fun logoutUser() {
+        settingsViewModel.logout(
+            this,
+            getSecurityKey(this)!!,
+            getUser(this)?.authKey!!,
+            getUser(this)?.id.toString()
+        )
         settingsViewModel.baseLiveData.observe(this, Observer {
 
-            if(getStatus(context)?.equals("1")!!){
+            if (getStatus(context)?.equals("1")!!) {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 this.finishAffinity()
                 clearAllData(context)
-            }
-
-            else{
+            } else {
                 clearAllData(context)
                 clearEmail(context)
                 clearPassword(context)

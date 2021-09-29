@@ -106,7 +106,6 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
         getCategoryData()
 
-
         headingText.text=getString(R.string.view_edit_profile)
         setVideoAdapter()
         setPhotoAdapter()
@@ -114,7 +113,6 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         clickHandles()
         setUserData(getUser(this))
         setPopUpWindow()
-
 
     }
 

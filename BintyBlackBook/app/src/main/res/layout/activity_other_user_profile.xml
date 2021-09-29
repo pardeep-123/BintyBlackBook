@@ -71,6 +71,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:riv_corner_radius="@dimen/dp16"/>
 
+                <ImageView
+                    android:id="@+id/img_promote"
+                    android:layout_width="@dimen/dp16"
+                    android:layout_height="@dimen/dp16"
+                    app:layout_constraintEnd_toEndOf="@id/civ_profile_user"
+                    app:layout_constraintTop_toTopOf="@id/civ_profile_user"
+                    android:src="@drawable/promote_icon"/>
+
                 <TextView
                     android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
@@ -103,7 +111,7 @@
                     app:layout_constraintStart_toEndOf="@id/tvUserName"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     app:drawableStartCompat="@drawable/loaction" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

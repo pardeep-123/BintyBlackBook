@@ -140,6 +140,10 @@ dependencies {
     implementation 'com.github.nkzawa:socket.io-client:0.3.0'
     implementation 'io.agora.uikit:agorauikit:1.0.2'
     implementation 'commons-codec:commons-codec:1.11'
+    // social
+    implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+
 
 
 

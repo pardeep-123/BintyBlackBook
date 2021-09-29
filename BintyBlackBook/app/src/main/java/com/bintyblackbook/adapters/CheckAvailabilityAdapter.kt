@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.Slot
@@ -43,6 +44,18 @@ class CheckAvailabilityAdapter(var context: Context, var mInterface: TimeSlotsIn
                 availabilityModel.isSelected = !availabilityModel.isSelected
                 notifyDataSetChanged()
                 mInterface.onClick()
+            }
+
+            if (availabilityModel.isSelected) {
+                itemView.background =
+                    ContextCompat.getDrawable(context, R.drawable.bg_border_white)
+            } else {
+                itemView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.themeColor2
+                    )
+                )
             }
         }
     }

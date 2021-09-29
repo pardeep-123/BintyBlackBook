@@ -3,7 +3,6 @@ package com.bintyblackbook.api
 import com.google.gson.JsonElement
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.http.*
@@ -463,14 +462,13 @@ interface ApiCallInterface {
     ) : Call<JsonElement>
 
 
-    @FormUrlEncoded
+    @Multipart
     @POST(ApiConstants.SOCIAL_LOGIN)
     fun socialLogin(
-        @Header("security_key") security_key: String,
-        @Header("auth_key") auth_key: String,
-        @Field("social_id") social_id: String,
-        @Field("social_type") social_type:String
-    ) : Call<JsonElement>
+        @Header ("security_key") security_key:String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part?
+    ): Call<JsonElement>
 
 
 }

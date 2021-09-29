@@ -17,8 +17,7 @@ class PastBookingAdapter(var context: Context) : RecyclerView.Adapter<PastBookin
 
     var arrayList = ArrayList<PastBooking>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PastBookingViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.item_past_booking, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_past_booking, parent, false)
         return PastBookingViewHolder(view)
     }
 
@@ -42,8 +41,8 @@ class PastBookingAdapter(var context: Context) : RecyclerView.Adapter<PastBookin
 
             Glide.with(context).load(upcomingBookingModel.userImage).into(civProfile)
             tvName.text = upcomingBookingModel.userName
-            tvDate.text = MyUtils.getDate(upcomingBookingModel.availabilityDate.toLong())
-            tvTime.text = MyUtils.getTime(upcomingBookingModel.availabilityDate.toLong())
+            tvDate.text = MyUtils.getDateFromUTCTimestamp(upcomingBookingModel.availabilityDate.toLong(),"MM/dd/yyyy")
+            tvTime.text = MyUtils.getDateFromUTCTimestamp(upcomingBookingModel.availabilityDate.toLong(),"hh:mm a")
 
             //handle booking status here
             if(upcomingBookingModel.status==0){

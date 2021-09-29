@@ -41,7 +41,7 @@ class SearchLoopsAdapter(val context: Context) : RecyclerView.Adapter<SearchLoop
             }
 
             else if(data.isLoop==2){
-                itemView.tv_name.text = data.businessName
+                itemView.tv_name.text = data.firstName
                 itemView.btnUnLoop.text= "UnLoop"
                 Glide.with(context).load(data.image).into(itemView.civ_profile)
             }

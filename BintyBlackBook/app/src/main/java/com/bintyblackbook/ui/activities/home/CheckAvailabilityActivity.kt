@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
@@ -63,11 +64,13 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
         }
 
         btnSubmitBooking.setOnClickListener {
+
             val bookingSlots=TextUtils.join(",",selectedSlots)
             bookingsViewModel.addBooking(this, getSecurityKey(this)!!, getUser(this)?.authKey.toString(),
                 user_id, availabilityId, bookingSlots)
             bookingsViewModel.bookingsLiveData.observe(this, Observer {
-
+                Toast.makeText(this,it?.msg,Toast.LENGTH_SHORT).show()
+                finish()
             })
         }
     }
@@ -114,7 +117,7 @@ class CheckAvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.Cale
     private fun setAdapter() {
         checkAvailabilityAdapter = CheckAvailabilityAdapter(this, object : TimeSlotsInterface {
             override fun onClick() {
-
+                selectedSlots.clear()
                 for (i in timeList){
                     if(i.isSelected==true){
                         selectedSlots.add(i.slots.toString())

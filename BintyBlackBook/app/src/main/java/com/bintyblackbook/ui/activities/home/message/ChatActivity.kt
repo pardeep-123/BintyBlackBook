@@ -19,13 +19,13 @@ import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
 import com.bintyblackbook.ui.activities.home.videocall.accesstoken.VideoChatViewActivity
 import com.bintyblackbook.ui.dialogues.BlockUserDialogFragment
+import com.bintyblackbook.ui.dialogues.ReportChatDialogFragment
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ChatViewModel
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.llBottom
-import kotlinx.android.synthetic.main.activity_group_chat.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -153,9 +153,9 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         }
 
         tvReport.setOnClickListener {
-//            myPopupWindow?.dismiss()
-//            val dialogFragment = ReportUserDialogFragment()
-//            dialogFragment.show(supportFragmentManager, "reportUser")
+            myPopupWindow?.dismiss()
+            val dialogFragment = ReportChatDialogFragment(name,this)
+            dialogFragment.show(supportFragmentManager, "reportUser")
         }
 
         myPopupWindow = PopupWindow(
@@ -254,6 +254,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                             val data = gson.fromJson(jsonobj.toString(), ChatData::class.java)
                             listChat.add(data)
                         }
+                        listChat.reverse()
 
                         chatAdapter = ChatAdaptr(this, listChat, getUser(this)?.id!!)
                         //viewLastMessage()
@@ -279,6 +280,8 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                         val gson = GsonBuilder().create()
                         val model = gson.fromJson(mObject.toString(), ChatData::class.java)
                         listChat.add(model)
+
+                        Log.i("data_message",model.senderImage.toString())
 
                         if (listChat.size > 0) {
                             tv_notfound.visibility = View.GONE
@@ -343,6 +346,11 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         when (v?.id) {
 
             R.id.rlVideo->{
+
+                //ios channel name= $mUserId-|-remoteNumber-|-date-|-video-|-name
+
+              //  var  mChannelName = "$mUserId-|-$mBusinessId-|-${System.currentTimeMillis()/1000}-|-video-|-$mUserName"
+
                 chatViewModel.sendCallNotification(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,receiverId)
                 chatViewModel.notificationLiveData.observe(this,  {
 

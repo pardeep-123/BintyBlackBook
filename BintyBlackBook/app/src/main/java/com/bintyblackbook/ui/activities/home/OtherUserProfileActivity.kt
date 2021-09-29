@@ -117,6 +117,8 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             tvSwaps.text= data.swapInMind
         }
 
+        // 0: Not a Loop, 1: Loop Request Sent , 2: Loop, 3: Received a loop request
+
         if(data.isLoop==2){
             btnChatUser.visibility=View.VISIBLE
             btnUnLoopUser.visibility=View.VISIBLE
@@ -127,7 +129,13 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             btnUnLoopUser.visibility=View.GONE
             btnAcceptReq.visibility=View.VISIBLE
             btnLoopUser.visibility= View.GONE
-        } else{
+        }else if(data.isLoop==3){
+            btnChatUser.visibility=View.GONE
+            btnUnLoopUser.visibility=View.GONE
+            btnAcceptReq.visibility=View.VISIBLE
+            btnLoopUser.visibility= View.GONE
+        }
+        else{
             btnChatUser.visibility=View.GONE
             btnUnLoopUser.visibility=View.GONE
             btnAcceptReq.visibility=View.GONE
@@ -286,6 +294,16 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 intent.putExtra("type","1")
                 intent.putExtra("sender_id",otherUserId.toString())
                 startActivity(intent)
+            }
+
+            R.id.btnAcceptReq ->{
+                loopsViewModel.acceptRejectRequest(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,
+                otherUserId,"2")
+                loopsViewModel.baseLiveData.observe(this, Observer {
+
+                    btnAcceptReq.text=getString(R.string.cancel_loop_request)
+
+                })
             }
         }
     }
