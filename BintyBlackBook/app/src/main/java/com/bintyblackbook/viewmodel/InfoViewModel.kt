@@ -121,15 +121,15 @@ class InfoViewModel: ViewModel(){
         request:Map<String,RequestBody>, part: MultipartBody.Part?
     ){
 
-        (context as InfoActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addEditInfo(security_key,auth_key,request,part).enqueue(object :
             Callback<JsonElement> {
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
                 Log.e("TAG",t.localizedMessage)
                 try {
-                    (context as InfoActivity).dismissProgressDialog()
-                    (context as InfoActivity).showSnackBarMessage("" + t.message)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage("" + t.message)
                     Log.e("TAG", "" + t.message)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -138,7 +138,7 @@ class InfoViewModel: ViewModel(){
 
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {
-                    (context as InfoActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
 
                     try {
                         val jsonDATA : JSONObject = JSONObject(response.body().toString())
@@ -146,7 +146,7 @@ class InfoViewModel: ViewModel(){
                             val jsonObj = BintyBookApplication.gson.fromJson(response.body(), LoginSignUpModel::class.java)
                             infoLiveData.value = jsonObj
                         }else{
-                            showAlert(context as InfoActivity,jsonDATA.getString("msg"),"Ok"){}
+                            showAlert(context as BaseActivity,jsonDATA.getString("msg"),"Ok"){}
                         }
 
                     } catch (e: Exception) {

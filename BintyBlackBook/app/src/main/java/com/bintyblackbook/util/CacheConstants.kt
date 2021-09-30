@@ -15,4 +15,6 @@ object CacheConstants {
     const val MSG_TYPE="msg_type"
 
     const val TOKEN="token"
+
+    const val USER_LIST="users_list"
 }

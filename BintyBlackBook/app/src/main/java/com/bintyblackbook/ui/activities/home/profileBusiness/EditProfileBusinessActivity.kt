@@ -21,6 +21,7 @@ import com.bintyblackbook.ui.activities.authentication.CategoryDialogFragment
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -102,6 +103,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         super.onCreate(savedInstanceState)
        // MyUtils.fullscreen(this)
         setContentView(R.layout.activity_edit_profile_business)
+        Places.initialize(this, getString(R.string.places_api_key))
         infoViewModel= InfoViewModel()
 
         getCategoryData()
@@ -376,7 +378,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         if(InternetCheck.isConnectedToInternet(this)
             && Validations.isEmpty(this, edtName, getString(R.string.err_business_name))
             && Validations.validateEmailAddress(this, edtEmail)
-            && Validations.validatePhoneNumber(this, etUserPhoneNumber)
+            && Validations.validatePhoneNumber(this, etMobileNumber)
             && Validations.isEmpty(this, edtExperience, getString(R.string.err_experience))
             && Validations.isEmpty(this, edtLocation, getString(R.string.err_location))
             && Validations.isEmpty(this, edtSocialMedia, getString(R.string.err_social_media))
@@ -396,7 +398,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
             map.put("email", createRequestBody(edtEmail.text.toString()))
             map.put("name", createRequestBody(edtName.text.toString()))
-            map.put("phone", createRequestBody(etUserPhoneNumber.text.toString()))
+            map.put("phone", createRequestBody(etMobileNumber.text.toString()))
             map.put("country_code", createRequestBody(ccp.selectedCountryCodeWithPlus.toString()))
             map.put("experience", createRequestBody(edtExperience.text.toString()))
             map.put("website_link", createRequestBody(edtWebsiteLink.text.toString()))

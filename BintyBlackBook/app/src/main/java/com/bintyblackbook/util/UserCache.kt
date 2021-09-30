@@ -2,6 +2,7 @@ package com.bintyblackbook.util
 
 import android.content.Context
 import com.bintyblackbook.model.Data
+import com.google.gson.reflect.TypeToken
 
 
 fun getSecurityKey(context: Context): String? {
@@ -57,6 +58,15 @@ fun savePassword(context: Context,status:String){
     Prefs.with(context).save(CacheConstants.PASSWORD,status)
 }
 
+fun saveUsers(context: Context, user: ArrayList<Data>) {
+    Prefs.with(context).save(CacheConstants.USER_LIST, user)
+}
+
+fun getUserList(context: Context):ArrayList<Data>?{
+    return Prefs.with(context).getObjectList(CacheConstants.USER_LIST,object : TypeToken<ArrayList<Data>>(){}.type )
+
+}
+
 fun clearAllData(context: Context) {
     Prefs.with(context).remove(CacheConstants.USER_DATA)
 }
@@ -66,6 +76,10 @@ fun clearEmail(context: Context){
 fun clearPassword(context: Context){
     Prefs.with(context).remove(CacheConstants.PASSWORD)
 }
+fun clearUserList(context: Context){
+    Prefs.with(context).remove(CacheConstants.USER_LIST)
+}
+
 
 
 

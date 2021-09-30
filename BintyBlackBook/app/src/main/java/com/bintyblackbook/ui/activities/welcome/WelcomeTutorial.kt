@@ -8,7 +8,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.Data
 import com.bintyblackbook.ui.activities.home.HomeActivity
+import com.bintyblackbook.util.getUser
+import com.bintyblackbook.util.getUserList
+import com.bintyblackbook.util.saveUsers
 import info.jeovani.viewpagerindicator.ViewPagerIndicator
 import kotlinx.android.synthetic.main.fragment_welcome.*
 
@@ -31,7 +35,16 @@ class WelcomeTutorial : BaseActivity(), ViewPager.OnPageChangeListener {
 
         //ClickListener
         tvSkip.setOnClickListener {
+            val list= getUserList(this)
+            for(i in 0 until list?.size!!){
+                  if(list[i].userType==1){
+                      list.add(getUser(this)!!)
+                  }
+            }
           //add navigation here
+          //  list.add(getUser(this)!!)
+            list[0].isCurrentUser=true
+            saveUsers(this,list)
             val intent= Intent(this,HomeActivity::class.java)
             startActivity(intent)
             finishAffinity()

@@ -1,16 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/themeColor">
+
+    <TextView
+        android:id="@+id/txtAddAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp16"
+        android:text="@string/add_new_account"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp18"
+        android:fontFamily="@font/gisha"/>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtAddAcc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.85"
+        android:background="@drawable/btn_rounded_corners"
+        android:layout_marginTop="@dimen/dp35"
+        android:textColor="@color/whiteColor"
+        android:text="@string/log_into_existing_account"
+        android:textAllCaps="false"
+        android:textSize="@dimen/sp16"
+        />
+
+    <TextView
+        android:id="@+id/tvNewAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp35"
+        android:layout_marginTop="@dimen/dp35"
+        android:text="@string/create_new_account"
+        android:textColor="@color/whiteColor"
+        android:textSize="@dimen/sp17"
+        android:fontFamily="@font/gisha"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAccounts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginTop="@dimen/dp16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,19 +62,30 @@
 
     <TextView
         android:id="@+id/tvAddAcc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_new_account"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginEnd="@dimen/dp16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rvAccounts"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@color/fadePink"
+        android:textColor="@color/whiteColor"
+        android:gravity="center_vertical"
         android:fontFamily="@font/romul"
         android:textStyle="bold"
-        android:textSize="@dimen/sp12"
-        android:drawablePadding="4dp"
+        android:textSize="@dimen/sp13"
+        android:drawablePadding="8dp"
         android:layout_marginTop="@dimen/dp20"
         android:layout_marginBottom="@dimen/dp20"
-        app:drawableStartCompat="@drawable/add" />
+        app:drawableStartCompat="@drawable/add_new" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:constraint_referenced_ids="txtAddAcc,tvNewAcc,btnLogin"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

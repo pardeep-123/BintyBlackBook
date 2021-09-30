@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.ChatData
 import com.bintyblackbook.util.MyUtils
+import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 
 import de.hdodenhof.circleimageview.CircleImageView
@@ -17,7 +18,7 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
 
     val TYPE_USER = 0
     val TYPE_FRIEND = 2
-    var pos:Int=0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         if (viewType == TYPE_USER) {
@@ -55,6 +56,7 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder.itemViewType == TYPE_FRIEND) {
+
             val friendViewHolder = holder as FriendViewHolder
             friendViewHolder.txt_friendView.text = arrayList[position].message
             friendViewHolder.txt_time.text = MyUtils.getDateTime(arrayList[position].created!!)
@@ -72,10 +74,9 @@ class ChatAdaptr(val context: Context, internal val arrayList: ArrayList<ChatDat
     override fun getItemViewType(position: Int): Int {
         val data= arrayList[position]
 
-        if(data.senderId==senderId){
+        if(data.senderId== getUser(context)?.id){
             return TYPE_USER
-        }
-        else {
+        } else {
             return TYPE_FRIEND
         }
     }

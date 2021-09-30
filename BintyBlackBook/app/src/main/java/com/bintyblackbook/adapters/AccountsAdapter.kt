@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.LoopRequestData
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_view_accounts.view.*
 
 class AccountsAdapter(var context: Context) : RecyclerView.Adapter<AccountsAdapter.AccountsViewHolder>() {
 
-    var loopList= ArrayList<LoopRequestData>()
-    lateinit var loopRequestInterface:LoopRequestInterface
+    var list= ArrayList<Data>()
+    lateinit var accountInterface: AccountInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountsViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_view_accounts, parent, false)
@@ -25,19 +26,23 @@ class AccountsAdapter(var context: Context) : RecyclerView.Adapter<AccountsAdapt
     }
 
     override fun getItemCount(): Int {
-        return loopList.size
+        return list.size
     }
 
     inner class AccountsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(pos: Int) {
-            val data= loopList[pos]
-            Glide.with(context).load(data.userImage).into(itemView.imgUser)
-            itemView.tvUserName.text=""
+            val data= list[pos]
+            Glide.with(context).load(data.image).into(itemView.imgUser)
+            itemView.tvUserName.text=data.firstName
+
+            itemView.setOnClickListener {
+                accountInterface.onItemClick(list[pos])
+            }
         }
     }
 
-    interface LoopRequestInterface{
-        fun onItemClick(status: String, data: LoopRequestData)
+    interface AccountInterface{
+        fun onItemClick(data:Data)
     }
 }

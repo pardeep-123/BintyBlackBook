@@ -36,7 +36,8 @@ data class Data(
     val swapInMind: String,
     val userMedia: ArrayList<UserMedia> = ArrayList<UserMedia>(),
     val userType: Int,
-    val websiteLink: String
+    val websiteLink: String,
+    var isCurrentUser:Boolean
 )
 
 class UserMedia {

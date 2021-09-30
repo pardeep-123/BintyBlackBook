@@ -2,6 +2,7 @@ package com.bintyblackbook.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.bintyblackbook.model.Data
 
 class MySharedPreferences {
 

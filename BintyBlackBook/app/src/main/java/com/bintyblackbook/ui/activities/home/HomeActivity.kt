@@ -201,14 +201,17 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         settingsViewModel.baseLiveData.observe(this, Observer {
 
             if (getStatus(context)?.equals("1")!!) {
+                clearAllData(context)
+                clearUserList(context)
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 this.finishAffinity()
-                clearAllData(context)
+
             } else {
                 clearAllData(context)
                 clearEmail(context)
                 clearPassword(context)
+                clearUserList(context)
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 this.finishAffinity()

@@ -243,6 +243,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                 runOnUiThread {
 
                     val mObject = args[0] as JSONArray
+                    Log.i("msgList",mObject.toString())
                     if(mObject.length()>0){
                         rvChat.visibility=View.VISIBLE
                         tv_notfound.visibility = View.GONE
@@ -277,8 +278,31 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                 try{
                     runOnUiThread {
                         val mObject = args[0] as JSONObject
+
+                        Log.i("msg",mObject.toString())
                         val gson = GsonBuilder().create()
                         val model = gson.fromJson(mObject.toString(), ChatData::class.java)
+
+                        val senderId= model.senderId
+                        val user2Id= model.receiverId
+                        if (model.senderId!=getUser(context)?.id){
+                            model.recieverImage=mObject.getString("senderImage")
+                        }
+
+                        if (user2Id == receiverId.toInt() || senderId == receiverId.toInt()) {
+                            listChat.add(model)
+                            chatAdapter?.notifyDataSetChanged()
+                            if (listChat.size > 0) {
+                                tv_notfound.visibility = View.GONE
+                                rvChat.visibility=View.VISIBLE
+                                rvChat.scrollToPosition(listChat.size - 1)
+                            }else {
+                                rvChat.visibility=View.GONE
+                                tv_notfound.visibility = View.VISIBLE
+                            }
+                        }
+
+                   /*
                         listChat.add(model)
 
                         Log.i("data_message",model.senderImage.toString())
@@ -294,7 +318,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                         chatAdapter = ChatAdaptr(context, listChat, getUser(this)?.id!!)
                         viewLastMessage()
 //                        rvChat.adapter = chatAdapter
-//                        rvChat.scrollToPosition(listChat.size -1)
+//                        rvChat.scrollToPosition(listChat.size -1)*/
                     }
                 }catch (e:Exception){
                     e.printStackTrace()

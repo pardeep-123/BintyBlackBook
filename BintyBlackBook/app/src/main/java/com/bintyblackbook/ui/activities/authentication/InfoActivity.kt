@@ -16,6 +16,7 @@ import com.bintyblackbook.adapters.UploadPhotoAdapter
 import com.bintyblackbook.adapters.UploadVideoAdapter
 import com.bintyblackbook.model.*
 import com.bintyblackbook.ui.activities.home.profileUser.SetAvailabilityActivity
+import com.bintyblackbook.ui.activities.welcome.WelcomeTutorial
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
@@ -290,9 +291,10 @@ class InfoActivity : ImagePickerUtility(), CustomInterface,
 
             infoViewModel.addEditInfo(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,map,imagenPerfil)
             infoViewModel.infoLiveData.observe(this, androidx.lifecycle.Observer {
-
+                saveUser(this,it.data!!)
+                startActivity(Intent(this,WelcomeTutorial::class.java))
+                finish()
             })
-
         }
     }
 

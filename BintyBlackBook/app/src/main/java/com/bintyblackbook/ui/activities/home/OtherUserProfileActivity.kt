@@ -14,7 +14,6 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.UserMedia
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
-import com.bintyblackbook.ui.activities.home.message.MessagesActivity
 import com.bintyblackbook.ui.dialogues.FragmentDialog
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
@@ -88,11 +87,13 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     private fun setData(data: Data?) {
 
         if(data?.isPromoted==1){
-
+            img_promote.visibility=View.VISIBLE
+            img_promote.setImageResource(R.drawable.promote_icon)
         }else if(data?.businessBlackOwned==1){
-
+            img_promote.visibility=View.VISIBLE
+            img_promote.setImageResource(R.drawable.dot_black_owned)
         }else{
-
+            img_promote.visibility=View.GONE
         }
 
         //headingText.text= data?.firstName

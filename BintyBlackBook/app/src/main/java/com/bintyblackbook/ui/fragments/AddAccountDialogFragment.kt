@@ -8,16 +8,28 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bintyblackbook.R
+import com.bintyblackbook.adapters.AccountsAdapter
+import com.bintyblackbook.model.Data
 import com.bintyblackbook.ui.activities.authentication.LoginActivity
+import com.bintyblackbook.ui.activities.authentication.SignupActivity
 import com.bintyblackbook.ui.activities.home.HomeActivity
+import com.bintyblackbook.util.getUserList
+import com.bintyblackbook.util.saveUser
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.layout_add_account.*
+import java.lang.Exception
 
-class AddAccountDialogFragment(var homeActivity: HomeActivity) : BottomSheetDialogFragment() {
+class AddAccountDialogFragment(var homeActivity: HomeActivity) : BottomSheetDialogFragment(), View.OnClickListener,AccountsAdapter.AccountInterface {
     private lateinit var behavior: BottomSheetBehavior<View>
+
+    val accountsAdapter:AccountsAdapter by lazy {
+        AccountsAdapter(requireContext())
+    }
+    var userList= ArrayList<Data>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,26 +53,62 @@ class AddAccountDialogFragment(var homeActivity: HomeActivity) : BottomSheetDial
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             bottomSheet.layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT
 //            bottomSheet.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
-
         }
-    }
+        try{
+            userList= getUserList(requireContext())!!
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
 
-    override fun onActivityCreated(arg0: Bundle?) {
-        super.onActivityCreated(arg0)
 
         setAdapter()
-        tvAddAcc.setOnClickListener {
+        setOnClicks()
+       //callback.callbackInterest(listOf)
+
+    }
+
+    private fun setOnClicks() {
+        btnLogin.setOnClickListener(this)
+        tvNewAcc.setOnClickListener(this)
+        tvAddAcc.setOnClickListener(this)
+    }
+
+
+    private fun setAdapter() {
+        rvAccounts.layoutManager = LinearLayoutManager(requireContext())
+        rvAccounts.adapter = accountsAdapter
+        accountsAdapter.accountInterface=this
+        accountsAdapter.list=userList
+        accountsAdapter.notifyDataSetChanged()
+       // sortAdapter.recyclerItemClick=this
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.btnLogin ->{
             dialog?.dismiss()
             startActivity(Intent(requireActivity(),LoginActivity::class.java))
-            requireActivity()?.finishAffinity()
-            //callback.callbackInterest(listOf)
+            requireActivity().finishAffinity()
+            }
+
+            R.id.tvNewAcc ->{
+                dialog?.dismiss()
+                startActivity(Intent(requireActivity(),SignupActivity::class.java))
+                requireActivity().finishAffinity()
+            }
+
+            R.id.tvAddAcc ->{
+                group.visibility=View.VISIBLE
+                rvAccounts.visibility=View.GONE
+                tvAddAcc.visibility=View.GONE
+            }
         }
     }
 
-    private fun setAdapter() {
-//        rvInterests.layoutManager = LinearLayoutManager(requireContext())
-//        rvInterests.adapter = sortAdapter
-        //sortAdapter.recyclerItemClick=this
+    override fun onItemClick(data: Data) {
+        saveUser(requireContext(),data)
+        startActivity(Intent(requireContext(),HomeActivity::class.java))
+        dialog?.dismiss()
     }
 
 

@@ -171,4 +171,9 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
             startActivity(intent)
         }
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        getData()
+    }
 }

@@ -99,6 +99,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
        loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
                if(t?.code==200){
                    val response=t.data
+
                    saveUser(this,response!!)
                    BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, response.id.toString())
 

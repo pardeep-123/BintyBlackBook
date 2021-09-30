@@ -102,12 +102,12 @@ public class Prefs {
         if (gson == null) {
             return null;
         } else {
-            try {
+           // try {
                 return GSON.fromJson(gson,type);
-            } catch (Exception e) {
+           /* } catch (Exception e) {
                 throw new IllegalArgumentException("Object storaged with key "
                         + key + " is instanceof other class");
-            }
+            }*/
         }
     }
 

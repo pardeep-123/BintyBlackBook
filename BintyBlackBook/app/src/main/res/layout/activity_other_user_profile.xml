@@ -75,9 +75,12 @@
                     android:id="@+id/img_promote"
                     android:layout_width="@dimen/dp16"
                     android:layout_height="@dimen/dp16"
+                    android:visibility="gone"
+                    android:padding="@dimen/dp2"
                     app:layout_constraintEnd_toEndOf="@id/civ_profile_user"
                     app:layout_constraintTop_toTopOf="@id/civ_profile_user"
-                    android:src="@drawable/promote_icon"/>
+                    android:src="@drawable/promote_icon"
+                    tools:visibility="visible"/>
 
                 <TextView
                     android:id="@+id/tvUserName"
