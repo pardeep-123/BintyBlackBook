@@ -4,15 +4,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.PagerAdapter
+import com.bintyblackbook.GlideApp
 import com.bintyblackbook.R
 import com.bintyblackbook.model.CategoryName
+import com.bintyblackbook.util.MyUtils
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_infinity_pager.view.*
 
+
 class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<CategoryName>) : PagerAdapter() {
 
-    var onInfinityPagerItemClick:((infinityPagerItemPosition:Int)->Unit)? = null
+    var onInfinityPagerItemClick:((infinityPagerItemPosition: Int)->Unit)? = null
 
     override fun getCount(): Int {
         return arrayList.size
@@ -27,7 +31,11 @@ class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Catego
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_infinity_pager, container, false)
+        val view = LayoutInflater.from(context).inflate(
+            R.layout.item_infinity_pager,
+            container,
+            false
+        )
         val roundedImageView = view.roundedImageView
         val name= view.tvName
         val location = view.tvLocation
@@ -47,6 +55,8 @@ class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Catego
             location.visibility=View.VISIBLE
             location.text=arrayList[position].userLocation
         }
+
+       // MyUtils.loadImageWithCrcleProgress
 
         Glide.with(context).load(arrayList[position].userImage).into(roundedImageView)
       //  roundedImageView.setImageResource(arrayList[position].userImage)

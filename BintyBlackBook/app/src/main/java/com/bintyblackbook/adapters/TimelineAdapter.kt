@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.annotation.Nullable
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.PostData
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
+import com.bintyblackbook.util.loadImage
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -59,7 +59,9 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
         fun bind(timelineModel: PostData, pos: Int) {
 
-            Glide.with(context).load(timelineModel.userImage).placeholder(R.drawable.progress_bg_image).into(
+          //  civProfile.loadImage(timelineModel.userImage)
+
+            Glide.with(context).load(timelineModel.userImage).into(
                 civProfile
             )
 
@@ -77,7 +79,9 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
                 ivPost.visibility = View.VISIBLE
 
-                Glide.with(context).load(timelineModel.image)
+                ivPost.loadImage(timelineModel.image)
+
+              /*  Glide.with(context).load(timelineModel.image)
                     .listener(object :RequestListener<Drawable>{
                         override fun onLoadFailed(
                             e: GlideException?,
@@ -101,7 +105,7 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
                         }
 
                     }) .into(ivPost)
-
+*/
 
 
             } else {

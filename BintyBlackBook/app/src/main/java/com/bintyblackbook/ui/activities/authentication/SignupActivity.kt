@@ -13,12 +13,10 @@ import androidx.lifecycle.Observer
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.settings.PrivacyPolicyActivity
-import com.bintyblackbook.ui.dialogues.BlockUserDialogFragment
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.SignUpViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.business_signup_layout.*
 import kotlinx.android.synthetic.main.user_signup_layout.*
@@ -31,7 +29,6 @@ import kotlinx.android.synthetic.main.user_signup_layout.uname_text
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.w3c.dom.Text
 import java.io.File
 import java.util.*
 

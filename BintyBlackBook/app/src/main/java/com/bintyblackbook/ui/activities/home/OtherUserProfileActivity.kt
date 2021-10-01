@@ -46,6 +46,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
     var name=""
     var otherUserId=""
     var web_link=""
+    var userType=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +80,11 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         profileViewModel.businessUserProfile(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
         profileViewModel.profileObservable.observe(this, Observer {
 
+            if(userType=="0"){
+                ll_detail.visibility=View.GONE
+            }else{
+                ll_detail.visibility=View.VISIBLE
+            }
             setData(it.data)
 
         })
@@ -198,7 +204,10 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
     private fun getIntentData() {
         userId=intent.getStringExtra("user_id").toString()
+        userType= intent.getStringExtra("user_type").toString()
         getData()
+
+
     }
 
     private fun horizontalImagesAdapterClick(){

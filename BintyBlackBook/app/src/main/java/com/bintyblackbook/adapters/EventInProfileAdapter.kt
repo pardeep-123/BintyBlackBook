@@ -80,16 +80,8 @@ class EventInProfileAdapter(var context: Context) : RecyclerView.Adapter<EventIn
         fun bind(pos: Int) {
             val eventsModel = arrayList[pos]
 
-            val options: RequestOptions = RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.progress_animation)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
 
-
-            Glide.with(context).load(eventsModel.image)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .apply(options).into(roundedImageView)
+            Glide.with(context).load(eventsModel.image).into(roundedImageView)
             tvName.text = eventsModel.name
             tvLocation.text = eventsModel.location
 

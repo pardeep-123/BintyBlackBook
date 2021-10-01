@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/layout"
     android:padding="@dimen/dp10"
-    android:background="@color/fadePink"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp10"
-        android:textSize="@dimen/sp14"
+        android:textSize="@dimen/sp15"
         android:textColor="@color/whiteColor"
         app:layout_constraintTop_toTopOf="@id/imgUser"
         app:layout_constraintBottom_toBottomOf="@id/imgUser"

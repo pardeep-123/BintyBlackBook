@@ -4,12 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.LoopRequestData
+import com.bintyblackbook.util.getUser
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_view_accounts.view.*
+import org.jetbrains.anko.backgroundColor
 
 class AccountsAdapter(var context: Context) : RecyclerView.Adapter<AccountsAdapter.AccountsViewHolder>() {
 
@@ -33,6 +36,10 @@ class AccountsAdapter(var context: Context) : RecyclerView.Adapter<AccountsAdapt
 
         fun bind(pos: Int) {
             val data= list[pos]
+            if(list[pos].id== getUser(context)?.id){
+                itemView.backgroundColor=ContextCompat.getColor(context,R.color.fadePink)
+            }
+
             Glide.with(context).load(data.image).into(itemView.imgUser)
             itemView.tvUserName.text=data.firstName
 

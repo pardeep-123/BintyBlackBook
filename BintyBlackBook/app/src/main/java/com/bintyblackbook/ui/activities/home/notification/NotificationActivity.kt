@@ -8,6 +8,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.NotificationAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.NotificationListData
+import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.NotificationViewModel
@@ -48,6 +49,7 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
         notificationViewModel.getNotificationList(getSecurityKey(this)!!, getUser(this)?.authKey!!)
         notificationViewModel.notificationLiveData.observe(this, Observer {
 
+            arrayList.clear()
             if(it.data.size==0){
                 rvNotification.visibility=View.GONE
                 tvNoData.visibility=View.VISIBLE
@@ -55,7 +57,6 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
             else {
                 rvNotification.visibility=View.VISIBLE
                 tvNoData.visibility=View.GONE
-                arrayList.clear()
                 arrayList.addAll(it?.data!!)
                 arrayList.reverse()
                 notificationAdapter?.notifyDataSetChanged()
@@ -87,12 +88,20 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
                 intent.putExtra("message",data.message)
                 intent.putExtra("user_id",data.user2Id.toString())
                 startActivity(intent)
-            }else if (data.type == 1){
+            }else if (data.type == 1 || data.type==4){
                 val intent= Intent(this,BookingRequestActivity::class.java)
                 intent.putExtra("message",data.message)
                 intent.putExtra("user_id",data.user2Id.toString())
 
                 startActivity(intent)
+            }
+            else if(data.type==3){
+                val intent=Intent(context, ChatActivity::class.java)
+                intent.putExtra("type",data.type.toString())
+               // intent.putExtra("isGroup",arrayList[pos].isGroup.toString())
+                intent.putExtra("sender_id",data.userId.toString())
+                intent.putExtra("name",data.userName)
+                context.startActivity(intent)
             }
         }
 

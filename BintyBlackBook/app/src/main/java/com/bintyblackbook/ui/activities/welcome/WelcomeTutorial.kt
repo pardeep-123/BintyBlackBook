@@ -35,16 +35,16 @@ class WelcomeTutorial : BaseActivity(), ViewPager.OnPageChangeListener {
 
         //ClickListener
         tvSkip.setOnClickListener {
-            val list= getUserList(this)
-            for(i in 0 until list?.size!!){
-                  if(list[i].userType==1){
-                      list.add(getUser(this)!!)
-                  }
-            }
-          //add navigation here
-          //  list.add(getUser(this)!!)
-            list[0].isCurrentUser=true
-            saveUsers(this,list)
+//            val list= getUserList(this)
+//            for(i in 0 until list?.size!!){
+//                  if(list[i].userType==1){
+//                      list.add(getUser(this)!!)
+//                  }
+//            }
+//          //add navigation here
+//          //  list.add(getUser(this)!!)
+//            list[0].isCurrentUser=true
+//            saveUsers(this,list)
             val intent= Intent(this,HomeActivity::class.java)
             startActivity(intent)
             finishAffinity()
@@ -63,7 +63,8 @@ class WelcomeTutorial : BaseActivity(), ViewPager.OnPageChangeListener {
 
         if (position == 4) {
             tvSkip.setText("Get Started")
-            tvSkip.setTextColor(resources.getColor(R.color.whiteColor))
+            tvSkip.setTextColor(resources.getColor(R.color.grey))
+            tvSkip.background= resources.getDrawable(R.drawable.background_rounded_corners)
             tv_heading_txt.text = "We are *cosmopolitans. Welcome to our not so small Black book.\n\n*citizens of the world"
         } else if (position == 3) {
 

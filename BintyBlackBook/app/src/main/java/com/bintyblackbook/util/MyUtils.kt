@@ -1,11 +1,21 @@
 package com.bintyblackbook.util
 
 import android.app.Activity
+import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bintyblackbook.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -299,4 +309,5 @@ object MyUtils {
         }
         return ""
     }
+
 }

@@ -11,6 +11,7 @@
         android:layout_height="210dp"
         android:scaleType="fitXY"
         android:layout_marginTop="6dp"
+        android:adjustViewBounds="true"
         android:layout_marginBottom="6dp"
         android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp10"

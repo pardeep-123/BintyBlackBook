@@ -49,17 +49,9 @@ class EventAdapter(var context: Context, var list: ArrayList<EventData>) : Recyc
 
         fun bind(pos: Int) {
             val eventsModel = arrayList[pos]
-            val options: RequestOptions = RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.progress_animation)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-
 
             if(!eventsModel.image.isNullOrEmpty()){
-                Glide.with(context).load(eventsModel.image)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .apply(options).into(roundedImageView)
+                Glide.with(context).load(eventsModel.image).into(roundedImageView)
             }
 
             tvName.text = eventsModel.name

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.model.Data
 import com.bintyblackbook.model.LoginSignUpModel
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.welcome.WelcomeTutorial
@@ -101,6 +102,29 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
                    val response=t.data
 
                    saveUser(this,response!!)
+
+                   if (!getUserList(this).isNullOrEmpty()){
+                       val aa = getUserList(this)
+
+                       aa?.filter {
+                          it.id==response.id
+                       }
+
+                       if(response.userType==1) {
+                           aa!!.add(response)
+                       }
+                       saveUsers(this,aa!!)
+
+                   }else{
+                       val list = ArrayList<Data>()
+                       if(response.userType==1){
+                           list.add(response)
+                       }
+
+                       saveUsers(this,list)
+                   }
+
+
                    BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, response.id.toString())
 
                    if(response.userType==0){
@@ -109,7 +133,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
                    else{
                        MySharedPreferences.storeUserType(this,"Business")
                    }
-
 
                    if(response.userType==0){
                        val intent=Intent(this,WelcomeTutorial::class.java)

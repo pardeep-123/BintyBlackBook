@@ -89,6 +89,7 @@
         android:paddingRight="@dimen/dp12"
         android:paddingBottom="4dp"
         android:text="Skip"
+        android:padding="8dp"
         android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp14"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -85,6 +85,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         Glide.with(this).load(it.image).into(civ_profile)
         Glide.with(this).load(it.userMedia[0].media).into(riv1)
         if(it.userMedia.size > 0){
+            arrayList.clear()
             arrayList.addAll(it.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
         }

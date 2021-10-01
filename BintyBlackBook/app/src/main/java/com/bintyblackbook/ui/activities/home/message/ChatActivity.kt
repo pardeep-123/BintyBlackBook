@@ -291,10 +291,11 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
                         if (user2Id == receiverId.toInt() || senderId == receiverId.toInt()) {
                             listChat.add(model)
-                            chatAdapter?.notifyDataSetChanged()
+
                             if (listChat.size > 0) {
                                 tv_notfound.visibility = View.GONE
                                 rvChat.visibility=View.VISIBLE
+                                chatAdapter?.notifyDataSetChanged()
                                 rvChat.scrollToPosition(listChat.size - 1)
                             }else {
                                 rvChat.visibility=View.GONE
@@ -339,17 +340,6 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
     override fun onResume() {
         super.onResume()
         socketManager?.onRegister(this)
-    }
-
-    @SuppressLint("WrongConstant")
-    fun viewLastMessage() {
-        runOnUiThread {
-            val li = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-            li.stackFromEnd = true
-            rvChat.layoutManager = li
-            rvChat.adapter = chatAdapter
-            chatAdapter?.notifyDataSetChanged()
-        }
     }
 
     fun initializeSocket() {

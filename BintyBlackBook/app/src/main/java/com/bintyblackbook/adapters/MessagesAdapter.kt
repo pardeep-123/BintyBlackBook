@@ -13,6 +13,7 @@ import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.activities.home.message.GroupChatActivity
 import com.bintyblackbook.util.MyUtils
 import com.bintyblackbook.util.getUser
+import com.bintyblackbook.util.loadImg
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.row_messages.view.*
@@ -42,13 +43,16 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
             val messageModel = arrayList[pos]
 
             if(arrayList[pos].isGroup==0){
-                Glide.with(context).load(messageModel.userImage).into(civ_profile)
+                civ_profile.loadImg(messageModel.userImage)
+               // Glide.with(context).load(messageModel.userImage).into(civ_profile)
 
                 tv_name.text = messageModel.userName
 
                 tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
                 tv_msg.text= messageModel.lastMessage
             }else{
+
+             //   MyUtils.loadImageWithCrcleProgress(context as Activity,messageModel.image,civ_profile)
                 Glide.with(context).load(messageModel.image).into(civ_profile)
 
                 tv_name.text = messageModel.name

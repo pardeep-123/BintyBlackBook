@@ -124,11 +124,12 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
     override fun onItemClick(data: AllData, position: Int) {
         val intent= Intent(this,OtherUserProfileActivity::class.java)
         intent.putExtra("user_id",data.user_id.toString())
+        intent.putExtra("user_type",data.userType.toString())
         startActivity(intent)
     }
 
     override fun unLoop(data: AllData, position: Int) {
-        unloop_id=data.user2_id.toString()
+        unloop_id=data.otherUser.toString()
         val fragmentDialog = UnLoopDialogFragment(this,data.userName,position)
         fragmentDialog.show(this.supportFragmentManager,"LoopDialog")
     }

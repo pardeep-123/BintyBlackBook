@@ -129,13 +129,13 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
-        popup?.setHeight(100)
-        popup?.setWidth(120)
+        popup?.height = 100
+        popup?.width = 120
 
         //set content and background
 
         //set content and background
-        popup?.setContentView(popupContent)
+        popup?.contentView = popupContent
       //  popup?.setBackgroundDrawable(resources.getDrawable(R.drawable.popup_background))
 
         //popupContent.findViewById<View>(R.id.btnClose).setOnClickListener { popup.dismiss() }
@@ -236,9 +236,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             if(user.userMedia[i].media.endsWith(".jpg")){
                 val file=File("")
                 photoList.add(
-                    UploadPhotoModel(
-                        "upload",
-                        file,
+                    UploadPhotoModel("upload", file,
                         user.userMedia[i].media,
                         user.userMedia[i].id
                     )
@@ -246,14 +244,18 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                 uploadPhotoAdapter?.notifyDataSetChanged()
             } else{
                 videoList.add(
-                    UploadVideoModel(
-                        "upload",
+                    UploadVideoModel("upload",
                         user.userMedia[i].media,
                         user.userMedia[i].id
                     )
                 )
                 videoAdapter?.notifyDataSetChanged()
             }
+        }
+
+        if(videoList.size==0){
+            videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
+            videoAdapter?.notifyDataSetChanged()
         }
 
         if(user.isServiceProviding=="1"){
@@ -273,7 +275,6 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             tvSwap.visibility=View.GONE
             edtSwaps.visibility=View.GONE
         }
-
     }
 
     private fun clickHandles() {
@@ -336,32 +337,20 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         if(type == "0"){
             if (imageFile != null) {
 
-                val requestFile: RequestBody = RequestBody.create(
-                    "multipart/form-data".toMediaTypeOrNull(),
-                    imageFile!!
-                )
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
 
                 request = MultipartBody.Part.createFormData("media", imageFile?.name, requestFile)
             }
         } else{
             if (selectedVideoFile != null) {
 
-                val requestFile: RequestBody = RequestBody.create(
-                    "multipart/form-data".toMediaTypeOrNull(),
-                    selectedVideoFile!!
-                )
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedVideoFile!!)
 
                 request = MultipartBody.Part.createFormData("media", selectedVideoFile, requestFile)
             }
         }
 
-        infoViewModel.uploadMedia(
-            this,
-            getSecurityKey(this)!!,
-            getUser(this)?.authKey!!,
-            map,
-            request!!
-        )
+        infoViewModel.uploadMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!, map, request!!)
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
             if (it.code == 200) {
                 imageFile = null
@@ -425,16 +414,9 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             if (imageFile != null) {
 
                 // create RequestBody instance from file
-                val requestFile: RequestBody = RequestBody.create(
-                    "multipart/form-data".toMediaTypeOrNull(),
-                    imageFile!!
-                )
+                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile!!)
                 // MultipartBody.Part is used to send also the actual file name
-                imagenPerfil = MultipartBody.Part.createFormData(
-                    "image",
-                    imageFile?.name,
-                    requestFile
-                )
+                imagenPerfil = MultipartBody.Part.createFormData("image", imageFile?.name, requestFile)
             }
 
             infoViewModel.addEditInfo(
