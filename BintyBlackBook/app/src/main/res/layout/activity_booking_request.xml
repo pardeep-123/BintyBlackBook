@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/romul"
-                android:text="@string/booking_request"
+                android:text=""
                 android:textColor="@color/whiteColor"
                 android:textSize="13sp"
                 android:textStyle="bold"/>

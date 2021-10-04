@@ -13,8 +13,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class EventDetailActivity : BaseActivity() {
 
-    var heartSelected = true
-
     var user_id:Int=0
     var user_name=""
     var location=""

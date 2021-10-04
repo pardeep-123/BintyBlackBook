@@ -31,6 +31,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import kotlinx.android.synthetic.main.activity_other_user_profile.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.tvWebLink
+import kotlinx.android.synthetic.main.activity_splash.view.*
 import kotlinx.android.synthetic.main.activity_user_detail.rvImages
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -80,17 +81,23 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         profileViewModel.businessUserProfile(getSecurityKey(context)!!, getUser(context)?.authKey!!,userId)
         profileViewModel.profileObservable.observe(this, Observer {
 
-            if(userType=="0"){
-                ll_detail.visibility=View.GONE
-            }else{
-                ll_detail.visibility=View.VISIBLE
-            }
+
             setData(it.data)
 
         })
     }
 
     private fun setData(data: Data?) {
+
+        if(userType=="0"){
+            ll_detail.visibility=View.GONE
+            btnSwap.visibility=View.GONE
+            btnAcceptReq.visibility=View.GONE
+            btnLoopUser.visibility= View.VISIBLE
+        }else{
+            ll_detail.visibility=View.VISIBLE
+
+        }
 
         if(data?.isPromoted==1){
             img_promote.visibility=View.VISIBLE
@@ -126,20 +133,26 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
         // 0: Not a Loop, 1: Loop Request Sent , 2: Loop, 3: Received a loop request
 
-        if(data.isLoop==2){
+        if(data.isLoop==2 && userType=="1"){
             btnChatUser.visibility=View.VISIBLE
             btnUnLoopUser.visibility=View.VISIBLE
             btnAcceptReq.visibility=View.GONE
             btnLoopUser.visibility= View.GONE
-        }else if(data.isLoop==0){
+        }else if(data.isLoop==0 && userType=="1"){
             btnChatUser.visibility=View.GONE
             btnUnLoopUser.visibility=View.GONE
             btnAcceptReq.visibility=View.VISIBLE
             btnLoopUser.visibility= View.GONE
-        }else if(data.isLoop==3){
+        }else if(data.isLoop==3 && userType=="1"){
             btnChatUser.visibility=View.GONE
             btnUnLoopUser.visibility=View.GONE
             btnAcceptReq.visibility=View.VISIBLE
+            btnLoopUser.visibility= View.GONE
+        }else if(data.isLoop==1 && userType=="1"){
+            btnChatUser.visibility=View.GONE
+            btnUnLoopUser.visibility=View.GONE
+            btnAcceptReq.visibility=View.VISIBLE
+            btnAcceptReq.text=getString(R.string.cancel_loop_request)
             btnLoopUser.visibility= View.GONE
         }
         else{
@@ -178,20 +191,27 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         tvSocialMedia.text= data.socialMediaHandles
         Glide.with(this).load(data.image).into(civ_profile_user)
 
-        if(data.userMedia[0].media.endsWith(".jpg")){
-            rivUser.visibility=View.VISIBLE
-            videoView.visibility=View.GONE
-            Glide.with(this).load(data.userMedia[0].media).into(rivUser)
-        }else{
-            rivUser.visibility=View.GONE
-            videoView.visibility=View.VISIBLE
-            initializePlayer(data.userMedia[0].media)
-        }
-
         if(data.userMedia.size > 0){
             arrayList.addAll(data.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
         }
+        if(data.userMedia.size!=0){
+            if(data.userMedia[0].media.endsWith(".jpg")){
+                rivUser.visibility=View.VISIBLE
+                videoView.visibility=View.GONE
+                Glide.with(this).load(data.userMedia[0].media).into(rivUser)
+            }else{
+                rivUser.visibility=View.GONE
+                videoView.visibility=View.VISIBLE
+                initializePlayer(data.userMedia[0].media)
+            }
+        }else{
+            rivUser.visibility=View.GONE
+            videoView.visibility=View.GONE
+            rvImages.visibility=View.GONE
+        }
+
+
     }
 
     private fun setAdapter() {
@@ -307,12 +327,22 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnAcceptReq ->{
+                var status="0"
+                if(getString(R.string.cancel_loop_request).equals(btnAcceptReq.text)){
+                    status="0"
+                }else{
+                    status="2"
+                }
                 loopsViewModel.acceptRejectRequest(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,
-                otherUserId,"2")
+                otherUserId,status)
                 loopsViewModel.baseLiveData.observe(this, Observer {
-
-                    btnAcceptReq.text=getString(R.string.cancel_loop_request)
-
+                    if(it.code==400){
+                        btnAcceptReq.text=getString(R.string.accept_loop_request)
+                    }else if(status=="0"){
+                        btnAcceptReq.text=getString(R.string.accept_loop_request)
+                    }else{
+                        btnAcceptReq.text=getString(R.string.cancel_loop_request)
+                    }
                 })
             }
         }
@@ -325,7 +355,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         val dataSourceFactory = DefaultHttpDataSourceFactory("exoplayer_video")
         val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
         val mediaSource: MediaSource = ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null)
-        videoView.setPlayer(exoplayer)
+        videoView.player = exoplayer
         exoplayer?.prepare(mediaSource)
         exoplayer?.playWhenReady = true
         //mediaSession?.isActive = true

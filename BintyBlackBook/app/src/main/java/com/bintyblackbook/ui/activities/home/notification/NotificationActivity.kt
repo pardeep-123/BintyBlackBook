@@ -8,6 +8,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.NotificationAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.NotificationListData
+import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
@@ -69,14 +70,18 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
         notificationViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
-                if (notificationData?.type == 2){
-                    val intent= Intent(this, LoopRequestActivity::class.java)
-                    intent.putExtra("message",data.message)
-                    intent.putExtra("user_id",data.user2Id.toString())
+              /*  if (notificationData?.type == 2){
+                    val intent= Intent(this,MyLoopsActivity::class.java)
                     startActivity(intent)
-                }else if (notificationData?.type == 1){
+
+                }else if (notificationData?.type == 4){
                     startActivity(Intent(this,BookingRequestActivity::class.java))
-                }
+                }else if(data.type==1){
+                    val intent= Intent(this, LoopRequestActivity::class.java)
+                   intent.putExtra("message",data.message)
+                   intent.putExtra("user_id",data.user2Id.toString())
+                   startActivity(intent)
+                }*/
             }
         })
     }
@@ -84,11 +89,15 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
     override fun onItemClick(data: NotificationListData, position: Int) {
         if(data.isSeen==1){
             if (data.type == 2){
+                    val intent= Intent(this,MyLoopsActivity::class.java)
+                    startActivity(intent)
+
+            }else if (data.type == 1){
                 val intent= Intent(this, LoopRequestActivity::class.java)
                 intent.putExtra("message",data.message)
                 intent.putExtra("user_id",data.user2Id.toString())
                 startActivity(intent)
-            }else if (data.type == 1 || data.type==4){
+            } else if (data.type==4){
                 val intent= Intent(this,BookingRequestActivity::class.java)
                 intent.putExtra("message",data.message)
                 intent.putExtra("user_id",data.user2Id.toString())
@@ -101,7 +110,7 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
                // intent.putExtra("isGroup",arrayList[pos].isGroup.toString())
                 intent.putExtra("sender_id",data.userId.toString())
                 intent.putExtra("name",data.userName)
-                context.startActivity(intent)
+              startActivity(intent)
             }
         }
 

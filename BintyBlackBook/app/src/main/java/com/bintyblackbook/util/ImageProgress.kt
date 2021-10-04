@@ -21,6 +21,7 @@ fun ImageView.loadImage(path: Any) {
     Glide.with(this)
         .load(path)
         .placeholder(circularProgressDrawable)
+
        // .error(R.drawable.placeholder)
         .into(this)
 

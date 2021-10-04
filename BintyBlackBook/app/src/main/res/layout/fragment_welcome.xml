@@ -20,7 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="180dp"
         android:background="@drawable/bg"
         android:paddingTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent">

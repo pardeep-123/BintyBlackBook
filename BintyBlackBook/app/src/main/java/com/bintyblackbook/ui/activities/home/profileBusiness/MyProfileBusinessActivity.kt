@@ -18,11 +18,27 @@ import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.extractor.ExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import kotlinx.android.synthetic.main.activity_my_profile_business.*
+import kotlinx.android.synthetic.main.activity_my_profile_business.btnEvent
+import kotlinx.android.synthetic.main.activity_my_profile_business.civ_profile
+import kotlinx.android.synthetic.main.activity_my_profile_business.riv1
 import kotlinx.android.synthetic.main.activity_my_profile_business.rvImages
 import kotlinx.android.synthetic.main.activity_my_profile_business.tvBusinessCategory
+import kotlinx.android.synthetic.main.activity_my_profile_business.tvLocation
+import kotlinx.android.synthetic.main.activity_my_profile_business.tvName
 import kotlinx.android.synthetic.main.activity_my_profile_business.tvSubCategory
+import kotlinx.android.synthetic.main.activity_my_profile_business.tvUserAbout
 import kotlinx.android.synthetic.main.activity_my_profile_business.tvWebLink
+import kotlinx.android.synthetic.main.activity_other_user_profile.*
+import kotlinx.android.synthetic.main.activity_user_detail.*
 
 
 class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
@@ -32,7 +48,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
     var horizontalImagesAdapter: HorizontalImagesAdapter? = null
     val arrayList = ArrayList<UserMedia>()
     var web_link=""
-
+    private var exoplayer: SimpleExoPlayer? = null
     var response:Data?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,14 +94,36 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
         web_link= it?.websiteLink!!
         tvName.text= it.firstName
-        tvLocation.text=it.location
+        if(it.location.isNullOrEmpty()){
+            tvLocation.visibility=View.GONE
+        }else{
+            tvLocation.visibility=View.VISIBLE
+            tvLocation.text=it.location
+        }
+
         tvUserAbout.text=it.description
         tvExp.text=it.experience
         tvWebLink.text=it.websiteLink
         Glide.with(this).load(it.image).into(civ_profile)
-        Glide.with(this).load(it.userMedia[0].media).into(riv1)
+
+        if(it.userMedia.size!=0){
+            if(it.userMedia[0].media.endsWith(".jpg")){
+                riv1.visibility=View.VISIBLE
+                videoViewProfile.visibility=View.GONE
+                Glide.with(this).load(it.userMedia[0].media).into(riv1)
+            }else{
+                riv1.visibility=View.GONE
+                videoViewProfile.visibility=View.VISIBLE
+                initializePlayer(it.userMedia[0].media)
+            }
+        }else{
+            riv1.visibility=View.GONE
+            videoViewProfile.visibility=View.GONE
+            rvImages.visibility=View.GONE
+        }
+
+
         if(it.userMedia.size > 0){
-            arrayList.clear()
             arrayList.addAll(it.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
         }
@@ -134,6 +172,20 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
             Glide.with(context).load(media.media).into(riv1)
 
         }
+    }
+
+    private fun initializePlayer(media: String) {
+        val trackSelector = DefaultTrackSelector()
+        exoplayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
+        val mediaUri = Uri.parse(media)
+        val dataSourceFactory = DefaultHttpDataSourceFactory("exoplayer_video")
+        val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
+        val mediaSource: MediaSource = ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null)
+        videoViewProfile.setPlayer(exoplayer)
+        exoplayer?.prepare(mediaSource)
+        exoplayer?.playWhenReady = true
+        //mediaSession?.isActive = true
+
     }
 
     override fun onClick(v: View?) {

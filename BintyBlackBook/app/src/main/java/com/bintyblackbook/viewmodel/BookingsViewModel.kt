@@ -27,21 +27,21 @@ class BookingsViewModel : ViewModel(){
     get all bookings
      */
     fun getAllBookings(context: Context, security_key:String, auth_key:String){
-        (context as MyBookingsActivity).showProgressDialog()
+        (context as BaseActivity).showProgressDialog()
 
         ApiClient.apiService.getAllBookings(security_key, auth_key).enqueue(object : Callback<JsonElement>{
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
 
                 try{
-                    (context as MyBookingsActivity).dismissProgressDialog()
-                    (context as MyBookingsActivity).showSnackBarMessage(t.message!!)
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage(t.message!!)
                 }catch (e:Exception){
                     e.printStackTrace()
                 }
             }
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful){
-                    (context as MyBookingsActivity).dismissProgressDialog()
+                    (context as BaseActivity).dismissProgressDialog()
                     val jsonObject= JSONObject(response.body()!!.toString())
 
                     if(jsonObject.getInt("code")==200){
@@ -51,8 +51,8 @@ class BookingsViewModel : ViewModel(){
 
                 }else{
                     val error= JSONObject(response.errorBody()!!.string())
-                    (context as MyBookingsActivity).dismissProgressDialog()
-                    showAlert((context as MyBookingsActivity),error.getString("msg"),"Ok"){}
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert((context as BaseActivity),error.getString("msg"),"Ok"){}
                 }
             }
         })

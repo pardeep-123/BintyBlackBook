@@ -79,9 +79,11 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
 
                 ivPost.visibility = View.VISIBLE
 
-                ivPost.loadImage(timelineModel.image)
+             //   Glide.with(context).load(timelineModel.image).into(ivPost)
 
-              /*  Glide.with(context).load(timelineModel.image)
+                //ivPost.loadImage(timelineModel.image)
+
+                Glide.with(context).load(timelineModel.image)
                     .listener(object :RequestListener<Drawable>{
                         override fun onLoadFailed(
                             e: GlideException?,
@@ -105,7 +107,6 @@ class TimelineAdapter(var context: Context) : RecyclerView.Adapter<TimelineAdapt
                         }
 
                     }) .into(ivPost)
-*/
 
 
             } else {

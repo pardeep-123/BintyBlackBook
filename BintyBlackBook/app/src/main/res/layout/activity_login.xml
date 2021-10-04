@@ -89,7 +89,7 @@
                         android:button="@drawable/bg_checkbox"
                         android:text="@string/remember_me"
                         android:textColor="@color/whiteColor"
-                        android:textSize="@dimen/sp11"
+                        android:textSize="@dimen/sp10"
                         android:paddingStart="5dp"
                         android:fontFamily="@font/romul"
                         tools:ignore="RtlSymmetry" />
@@ -106,7 +106,7 @@
                     android:text="@string/forgot_password_question_mark"
                     android:fontFamily="@font/romul"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp10" />
             </LinearLayout>
 
             <Button
@@ -125,9 +125,9 @@
                 android:id="@+id/orText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/or"
-                android:fontFamily="@font/romul"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/romul"
+                android:text="@string/or"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp11" />
 
@@ -191,7 +191,7 @@
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/whiteColor"
                     android:fontFamily="@font/romul"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

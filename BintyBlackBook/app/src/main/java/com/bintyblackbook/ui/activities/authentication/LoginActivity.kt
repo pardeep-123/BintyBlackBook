@@ -105,15 +105,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
 
                    if (!getUserList(this).isNullOrEmpty()){
                        val aa = getUserList(this)
-
-                       aa?.filter {
-                          it.id==response.id
+                       for(i in 0 until aa?.size!!){
+                           if(response.userType==1 && aa[i].id !=response.id) {
+                               aa.add(response)
+                           }
                        }
 
-                       if(response.userType==1) {
-                           aa!!.add(response)
-                       }
-                       saveUsers(this,aa!!)
+                       saveUsers(this,aa)
 
                    }else{
                        val list = ArrayList<Data>()
@@ -123,7 +121,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
 
                        saveUsers(this,list)
                    }
-
 
                    BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, response.id.toString())
 

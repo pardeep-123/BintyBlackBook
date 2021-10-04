@@ -80,13 +80,13 @@
 
                 <ImageView
                     android:id="@+id/img_promote"
-                    android:layout_width="@dimen/dp16"
-                    android:layout_height="@dimen/dp16"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:visibility="gone"
                     android:padding="@dimen/dp2"
                     app:layout_constraintEnd_toEndOf="@id/civ_profile_user"
                     app:layout_constraintTop_toTopOf="@id/civ_profile_user"
-                    android:src="@drawable/promote_icon"
+                    android:src="@drawable/dot_black_owned"
                     tools:visibility="visible"/>
 
                 <TextView
@@ -102,8 +102,8 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp13"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/sp12"
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/tvUserLocation"
@@ -135,7 +135,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/about"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:id="@+id/tvOtherUserAbout"
@@ -145,8 +145,9 @@
                 android:layout_marginEnd="@dimen/dp8"
                 android:fontFamily="@font/trajanpro_regular"
                 android:text=""
+                android:textStyle="bold"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp8" />
+                android:textSize="9sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -157,7 +158,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/business_category"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"/>
+                android:textSize="@dimen/sp9"/>
 
             <TextView
                 android:id="@+id/tvBusinessCategory"
@@ -180,7 +181,7 @@
                 android:fontFamily="@font/romul"
                 android:text="Sub Category"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
                 />
 
             <TextView
@@ -203,7 +204,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/years_in_business"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
                 />
 
             <TextView
@@ -215,7 +216,7 @@
                 android:fontFamily="@font/romul"
                 android:text=""
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -226,7 +227,7 @@
                 android:fontFamily="@font/romul"
                 android:text="Services Provided"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10" />
+                android:textSize="@dimen/sp9" />
 
             <TextView
                 android:id="@+id/tvServices"
@@ -249,7 +250,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/open_to_swap"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
                 />
 
             <TextView
@@ -262,7 +263,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/swap_in_mind"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
                />
 
             <TextView
@@ -284,10 +285,10 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="@dimen/dp8"
-                android:fontFamily="@font/romul"
+                android:fontFamily="@font/trajanpro_regular"
                 android:text="Hours and days of operation"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
                  />
 
             <TextView
@@ -310,7 +311,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/website_link"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
                  />
 
             <TextView
@@ -331,10 +332,10 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginTop="@dimen/dp15"
                 android:layout_marginEnd="@dimen/dp8"
-                android:fontFamily="@font/romul"
+                android:fontFamily="@font/trajanpro_regular"
                 android:text="@string/social_media_handle"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp9"
               />
 
             <TextView

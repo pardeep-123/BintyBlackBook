@@ -59,6 +59,7 @@
             app:ccpDialog_keyboardAutoPopup="false"
             app:ccp_arrowColor="@color/blackColor"
             app:ccp_arrowSize="@dimen/dp20"
+            app:ccp_showArrow="false"
             app:ccp_autoDetectCountry="true"
             app:ccp_autoDetectLanguage="true"
             app:ccp_contentColor="@color/blackColor"
@@ -204,7 +205,7 @@
         android:text="@string/promo_code"
         android:textColor="@color/whiteColor"
         android:textSize="10.5dp"
-        android:textStyle="bold"/>
+        android:textStyle="normal"/>
 
     <EditText
         android:id="@+id/edtAddPromoCode"

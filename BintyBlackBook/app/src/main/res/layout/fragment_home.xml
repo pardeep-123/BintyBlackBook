@@ -44,7 +44,7 @@
                 android:textAlignment="center"
                 android:text="@string/hey_cosmopolite_how_can_we_help_you"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp11" />
+                android:textSize="9sp" />
 
             <RelativeLayout
                 android:id="@+id/rlBell"
@@ -99,8 +99,8 @@
         android:layout_below="@+id/tbMain"
         android:text="@string/directory"
         android:textSize="@dimen/sp17"
-        android:fontFamily="@font/romul"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="-10dp"
+        android:fontFamily="@font/romul" />
 
     <EditText
         android:id="@+id/edtSearch"

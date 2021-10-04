@@ -46,8 +46,7 @@
                 android:fontFamily="@font/romul"
                 android:text="@string/event_calendar"
                 android:textColor="@color/whiteColor"
-                android:textSize="13sp"
-                android:textStyle="bold"/>
+                android:textSize="13sp" />
 
             <RelativeLayout
                 android:id="@+id/rlCalender"
@@ -56,8 +55,8 @@
                 android:layout_alignParentEnd="true">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/calendar"
                     android:contentDescription="@string/image" />

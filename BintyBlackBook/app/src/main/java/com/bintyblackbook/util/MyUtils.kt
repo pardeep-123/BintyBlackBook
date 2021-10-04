@@ -2,20 +2,20 @@ package com.bintyblackbook.util
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bintyblackbook.R
+import android.widget.ProgressBar
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.makeramen.roundedimageview.RoundedImageView
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -27,6 +27,9 @@ object MyUtils {
     private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
     private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
     private const val DAY_MILLIS = 24 * HOUR_MILLIS
+    private const val WEEK_MILLIS = 7 * DAY_MILLIS
+    private const val MONTH_MILLIS = 4 * WEEK_MILLIS.toLong()
+    private const val YEAR_MILLIS = 12 * MONTH_MILLIS
 
     fun fullscreen(context: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -200,31 +203,58 @@ object MyUtils {
         return date
     }
 
-
-    fun getTimeAgo(time: Long): String? {
-        var time = time
+    fun getTimeAgo(timeMillis: Long): String? {
+        var time = timeMillis
         if (time < 1000000000000L) {
             time *= 1000
         }
+
         val now = System.currentTimeMillis()
-        if (time > now || time <= 0) {
-            return null
-        }
+
         val diff = now - time
-        return if (diff < MINUTE_MILLIS) {
-            "just now"
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            "a minute ago"
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            (diff / MINUTE_MILLIS).toString() + " minutes ago"
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            "an hour ago"
-        } else if (diff < 24 * HOUR_MILLIS) {
-            (diff / HOUR_MILLIS).toString() + " hours ago"
-        } else if (diff < 48 * HOUR_MILLIS) {
-            "yesterday"
-        } else {
-            (diff / DAY_MILLIS).toString() + " days ago"
+        when {
+            diff < 2 * SECOND_MILLIS -> {
+                return "Just now"
+            }
+            diff < 60 * SECOND_MILLIS -> {
+                return (diff / SECOND_MILLIS).toString() + " sec ago"
+            }
+            diff < 2 * MINUTE_MILLIS -> {
+                return "1 min ago"
+            }
+            diff < 50 * MINUTE_MILLIS -> {
+                return (diff / MINUTE_MILLIS).toString() + " min ago"
+            }
+            diff < 90 * MINUTE_MILLIS -> {
+                return "an hour ago"
+            }
+            diff < 24 * HOUR_MILLIS -> {
+                return (diff / HOUR_MILLIS).toString() + " hours ago"
+            }
+            diff < 48 * HOUR_MILLIS -> {
+                return "1 day ago"
+            }
+            diff < 7 * DAY_MILLIS -> {
+                return (diff / DAY_MILLIS).toString() + " days ago";
+            }
+            diff < 2 * WEEK_MILLIS.toLong() -> {
+                return "1 wk ago"
+            }
+            diff < 4 * WEEK_MILLIS.toLong() -> {
+                return (diff / WEEK_MILLIS.toLong()).toString() + " week ago"
+            }
+            diff < 2 * MONTH_MILLIS -> {
+                return "1 mo ago"
+            }
+            diff < 12 * MONTH_MILLIS -> {
+                return (diff / MONTH_MILLIS).toString() + " month ago"
+            }
+            diff < 2 * YEAR_MILLIS -> {
+                return "a year ago"
+            }
+            else -> {
+                return (diff / YEAR_MILLIS).toString() + " years ago"
+            }
         }
     }
 
@@ -309,5 +339,39 @@ object MyUtils {
         }
         return ""
     }
+
+    fun loadImageWithProgress(
+        context: Context,
+        url: String,
+        imageView: RoundedImageView,
+        progressBar: ProgressBar
+    ) {
+        Glide.with(context)
+            .load(url)
+            .listener(object : RequestListener<Drawable>{
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar.visibility = View.GONE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar.visibility = View.GONE
+                    return false
+                }
+
+            }).into(imageView)
+    }
+
 
 }

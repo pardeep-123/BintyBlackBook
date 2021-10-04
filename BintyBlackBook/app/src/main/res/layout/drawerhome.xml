@@ -43,8 +43,8 @@
 
                     <ImageView
                         android:id="@+id/profileImg"
-                        android:layout_width="124dp"
-                        android:layout_height="124dp"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
                         android:layout_gravity="center"
                         android:contentDescription="@null"
                         android:src="@drawable/logo" />
@@ -62,8 +62,8 @@
                     android:padding="15dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@null"
                         android:padding="3dp"
                         android:src="@drawable/home" />
@@ -74,10 +74,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/home"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -93,8 +93,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/my_profile" />
@@ -104,10 +104,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/my_profile"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -123,8 +123,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/ic_mybooking" />
@@ -134,10 +134,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/my_bookings"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -153,8 +153,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/messages" />
@@ -164,10 +164,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/messages"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -183,8 +183,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/my_loops" />
@@ -194,10 +194,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/my_loops"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -214,8 +214,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/promote" />
@@ -225,10 +225,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/promote_your_business"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -244,8 +244,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/timeline" />
@@ -255,10 +255,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/timeline"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -274,8 +274,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/refer" />
@@ -285,10 +285,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/refer_a_friend"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -304,8 +304,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/calendar" />
@@ -315,10 +315,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/event_calendar"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -334,8 +334,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/settings" />
@@ -345,10 +345,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/settings"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -366,8 +366,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/transfer"
@@ -378,10 +378,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/add_switch_account"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -397,8 +397,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/image"
                         android:padding="3dp"
                         android:src="@drawable/logout" />
@@ -408,10 +408,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/trajanpro_bold"
+                        android:fontFamily="@font/trajanpro_regular"
                         android:text="@string/logout"
                         android:textColor="@color/whiteColor"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

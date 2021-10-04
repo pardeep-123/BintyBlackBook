@@ -10,8 +10,10 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.BookingRequestAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoopRequestData
+import com.bintyblackbook.model.UpcomingBookings
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
+import com.bintyblackbook.viewmodel.BookingsViewModel
 import com.bintyblackbook.viewmodel.LoopRequestViewModel
 import com.bintyblackbook.viewmodel.LoopsViewModel
 import kotlinx.android.synthetic.main.activity_booking_request.*
@@ -20,17 +22,16 @@ import kotlinx.android.synthetic.main.activity_booking_request.rlBack
 class BookingRequestActivity : BaseActivity(), BookingRequestAdapter.LoopRequestInterface {
 
     var bookingRequestAdapter:BookingRequestAdapter? = null
-    var loopList= ArrayList<LoopRequestData>()
+    var loopList= ArrayList<UpcomingBookings>()
     var userId=""
-    lateinit var loopsViewModel: LoopsViewModel
-    lateinit var loopRequestViewModel: LoopRequestViewModel
+
+    lateinit var bookingsViewModel: BookingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking_request)
 
-        loopsViewModel= LoopsViewModel()
-        loopRequestViewModel= LoopRequestViewModel()
+        bookingsViewModel= BookingsViewModel()
         rlBack.setOnClickListener {
            finish()
         }
@@ -40,16 +41,16 @@ class BookingRequestActivity : BaseActivity(), BookingRequestAdapter.LoopRequest
     }
 
     private fun getLoopRequest() {
-        loopRequestViewModel.getLoopRequest(this, getSecurityKey(context)!!, getUser(context)?.authKey!!)
-        loopRequestViewModel.loopReqLiveData.observe(this, Observer {
-            if(it.data.size==0){
+        bookingsViewModel.getAllBookings(this, getSecurityKey(context)!!, getUser(context)?.authKey!!)
+        bookingsViewModel.bookingsLiveData.observe(this, Observer {
+            if(it.data?.upcomingBookings?.size==0){
                 rvBookingRequest.visibility= View.GONE
                 tvNoRequest.visibility= View.VISIBLE
             }else {
                 rvBookingRequest.visibility= View.VISIBLE
                 tvNoRequest.visibility= View.GONE
                 loopList.clear()
-                loopList.addAll(it?.data!!)
+                loopList.addAll(it?.data?.upcomingBookings!!)
                 bookingRequestAdapter?.notifyDataSetChanged()
             }
         })
@@ -64,8 +65,8 @@ class BookingRequestActivity : BaseActivity(), BookingRequestAdapter.LoopRequest
 
     }
 
-    override fun onItemClick(status: String, data: LoopRequestData,position: Int) {
-        userId= data.user2Id.toString()
+    override fun onItemClick(status: String, data: UpcomingBookings,position: Int) {
+      //  userId= data.user2Id.toString()
 
         acceptRejectRequest(status,position,)
         /*if (status == "2"){
@@ -78,14 +79,14 @@ class BookingRequestActivity : BaseActivity(), BookingRequestAdapter.LoopRequest
     }
 
     fun acceptRejectRequest(status: String,position: Int) {
-        loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
-        loopsViewModel.baseLiveData.observe(this, Observer {
+       /* bookingsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
+        bookingsViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
                loopList.removeAt(position)
                 bookingRequestAdapter?.notifyDataSetChanged()
             }
-        })
+        })*/
     }
 
 }

@@ -55,20 +55,21 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp10">
 
                 <TextView
                     android:id="@+id/tvName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="@dimen/dp5"
-                    android:layout_toStartOf="@id/tvLocation"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="@dimen/dp16"
                     android:fontFamily="@font/trajanpro_regular"
                     android:lines="1"
+                    app:layout_constraintEnd_toStartOf="@id/tvLocation"
                     android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13" />
@@ -77,16 +78,20 @@
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:drawablePadding="@dimen/dp5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvName"
+                    android:layout_marginStart="@dimen/dp16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:drawablePadding="@dimen/dp2"
                     android:fontFamily="@font/trajanpro_regular"
                     android:lines="1"
+                    android:forceHasOverlappingRendering="false"
                     android:text=""
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp10"
-                    android:drawableStart="@drawable/loaction" />
+                    app:drawableStartCompat="@drawable/loaction" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tvTIme"
@@ -126,7 +131,8 @@
                     android:lines="1"
                     android:text="@string/https_www_google_com"
                     android:textColor="#04789F"
-                    android:textSize="@dimen/sp12" />
+                    android:padding="4dp"
+                    android:textSize="@dimen/sp10" />
             </LinearLayout>
 
             <TextView
@@ -138,7 +144,7 @@
                 android:text="@string/description"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp13"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/tvDesc"

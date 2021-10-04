@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.PagerAdapter
-import com.bintyblackbook.GlideApp
 import com.bintyblackbook.R
 import com.bintyblackbook.model.CategoryName
 import com.bintyblackbook.util.MyUtils
@@ -57,7 +55,7 @@ class InfinityPagerAdapter(var context: Context, var arrayList: ArrayList<Catego
         }
 
        // MyUtils.loadImageWithCrcleProgress
-
+        MyUtils.loadImageWithProgress(context,arrayList[position].userImage,roundedImageView,view.progress)
         Glide.with(context).load(arrayList[position].userImage).into(roundedImageView)
       //  roundedImageView.setImageResource(arrayList[position].userImage)
         container.addView(view)

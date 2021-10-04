@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.LoopRequestData
+import com.bintyblackbook.model.UpcomingBookings
 import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.util.MyUtils
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.item_booking_request.view.*
 
 class BookingRequestAdapter(var context: Context): RecyclerView.Adapter<BookingRequestAdapter.BookingRequestViewHolder>() {
 
-    var loopList= ArrayList<LoopRequestData>()
+    var loopList= ArrayList<UpcomingBookings>()
     lateinit var loopRequestInterface: LoopRequestInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingRequestViewHolder {
@@ -41,7 +42,7 @@ class BookingRequestAdapter(var context: Context): RecyclerView.Adapter<BookingR
 
         fun bind(pos: Int) {
             val data= loopList[pos]
-            tvMessage.text= data.userName+" "+"has send you loop request"
+            tvMessage.text= data.userName+" "+"has send you booking request"
             Glide.with(context).load(data.userImage).into(itemView.civ_profile)
             itemView.tvTime.text= MyUtils.getTimeAgo(data.created.toLong())
             btnAccept.setOnClickListener {
@@ -56,6 +57,6 @@ class BookingRequestAdapter(var context: Context): RecyclerView.Adapter<BookingR
         }
     }
     interface LoopRequestInterface{
-        fun onItemClick(status: String, data: LoopRequestData,position: Int)
+        fun onItemClick(status: String, data: UpcomingBookings,position: Int)
     }
 }

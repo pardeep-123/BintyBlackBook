@@ -69,11 +69,22 @@
                     android:layout_height="300dp"
                     android:layout_marginTop="@dimen/dp10"
                     android:scaleType="fitXY"
+                    android:visibility="gone"
                     android:src="@drawable/slider"
                     app:riv_corner_radius="5dp" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/videoViewProfile"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:use_controller="false"
+                app:show_timeout="10000"
+                app:repeat_toggle_modes="one"
+                app:fastforward_increment="30000"
+                app:rewind_increment="30000"
+                android:visibility="visible"
+                />
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvImages"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -124,7 +135,7 @@
                         app:layout_constraintStart_toEndOf="@id/tvName"
                         android:text=""
                         android:textColor="@color/whiteColor"
-                        android:textSize="@dimen/sp11"
+                        android:textSize="@dimen/sp9"
                         app:drawableStartCompat="@drawable/loaction" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -138,7 +149,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/about"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp9" />
 
                 <TextView
                     android:id="@+id/tvUserAbout"
@@ -148,6 +159,7 @@
                     android:layout_marginEnd="@dimen/dp8"
                     android:fontFamily="@font/trajanpro_regular"
                     android:text=""
+                    android:textStyle="bold"
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp9" />
 
@@ -160,7 +172,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/business_category"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11"
+                    android:textSize="@dimen/sp9"
                      />
 
                 <TextView
@@ -173,7 +185,7 @@
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -184,7 +196,7 @@
                     android:fontFamily="@font/romul"
                     android:text="Sub Category"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp9" />
 
                 <TextView
                     android:id="@+id/tvSubCategory"
@@ -195,7 +207,7 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -206,7 +218,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/years_in_business"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp9" />
 
                 <TextView
                     android:id="@+id/tvExp"
@@ -217,7 +229,7 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <TextView
                     android:id="@+id/tvServiceProvide"
@@ -229,7 +241,7 @@
                     android:fontFamily="@font/romul"
                     android:text="Services Provided"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp9" />
 
                 <TextView
                     android:id="@+id/tvService"
@@ -240,7 +252,7 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -251,7 +263,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/open_to_swap"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp9" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -262,7 +274,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/swap_in_mind"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11" />
+                    android:textSize="@dimen/sp9" />
 
                 <TextView
                     android:id="@+id/tvSwapInMind"
@@ -274,7 +286,7 @@
                     android:text=""
                     android:lineSpacingExtra="4dp"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
 
                 <TextView
@@ -286,7 +298,7 @@
                     android:fontFamily="@font/romul"
                     android:text="Hours and days of operation"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11"
+                    android:textSize="@dimen/sp9"
                    />
 
                 <TextView
@@ -298,7 +310,7 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -309,7 +321,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/website_link"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11"
+                    android:textSize="@dimen/sp9"
                     />
 
                 <TextView
@@ -321,7 +333,7 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -332,7 +344,7 @@
                     android:fontFamily="@font/romul"
                     android:text="@string/social_media_handle"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp11"
+                    android:textSize="@dimen/sp9"
                    />
 
                 <TextView
@@ -344,7 +356,7 @@
                     android:fontFamily="@font/romul"
                     android:text=""
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp9" />
+                    android:textSize="@dimen/sp8" />
 
                 <Button
                     android:id="@+id/btnSetAvailability"

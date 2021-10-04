@@ -21,6 +21,5 @@
         android:fontFamily="@font/romul"
         android:text=""
         android:textColor="@color/whiteColor"
-        android:textSize="14sp"
-        android:textStyle="bold"/>
+        android:textSize="14sp" />
 </RelativeLayout>

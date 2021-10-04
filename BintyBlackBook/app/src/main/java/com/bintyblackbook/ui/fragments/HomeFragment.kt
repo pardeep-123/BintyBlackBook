@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.fragments
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -100,8 +101,14 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
 
             if(it.code==200){
                 if(it.data?.count!=0){
-                    tvCount.visibility=View.VISIBLE
-                    tvCount.text =it.data?.count.toString()
+                    val mp = MediaPlayer.create(requireContext(), R.raw.noti)
+                    mp.start()
+                    mp?.setOnCompletionListener { media->
+                        tvCount.visibility=View.VISIBLE
+                        tvCount.text =it.data?.count.toString()
+                        media.release()
+                    }
+
                 }else{
                     tvCount.visibility= View.GONE
                 }
