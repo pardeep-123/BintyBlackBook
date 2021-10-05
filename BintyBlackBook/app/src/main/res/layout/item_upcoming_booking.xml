@@ -8,15 +8,15 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_profile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/girl" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp5"
+        android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp5"
         android:layout_toStartOf="@id/llEnd"
         android:layout_toEndOf="@id/civ_profile"
@@ -24,15 +24,14 @@
         android:lines="1"
         android:text="@string/arizona_usa"
         android:textColor="@color/blackColor"
-        android:textSize="@dimen/sp13"
-        android:textStyle="bold"/>
+        android:textSize="@dimen/sp12" />
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvName"
-        android:layout_marginStart="@dimen/dp5"
+        android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp5"
         android:layout_toStartOf="@id/llEnd"
         android:layout_toEndOf="@id/civ_profile"
@@ -40,14 +39,14 @@
         android:lines="1"
         android:text="@string/date"
         android:textColor="@color/blackColor"
-        android:textSize="@dimen/sp11" />
+        android:textSize="@dimen/sp10" />
 
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvDate"
-        android:layout_marginStart="@dimen/dp5"
+        android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp5"
         android:layout_toStartOf="@id/llEnd"
         android:layout_toEndOf="@id/civ_profile"
@@ -55,7 +54,7 @@
         android:lines="1"
         android:text="@string/time"
         android:textColor="@color/blackColor"
-        android:textSize="@dimen/sp11" />
+        android:textSize="@dimen/sp10" />
 
     <LinearLayout
         android:id="@+id/llEnd"
@@ -73,20 +72,20 @@
             android:lines="1"
             android:text="@string/status"
             android:textColor="@color/blackColor"
-            android:textSize="@dimen/sp11" />
+            android:textSize="@dimen/sp9" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_height="26dp"
             android:layout_marginTop="@dimen/dp5"
             android:layout_marginEnd="@dimen/dp5"
-            android:background="@drawable/btn1"
+            android:background="@drawable/button_rounded_corners"
             android:fontFamily="@font/romul"
             android:text="@string/cancel"
             style="?android:attr/buttonBarButtonStyle"
             android:textColor="@color/whiteColor"
-            android:textSize="@dimen/sp10"
+            android:textSize="@dimen/sp9"
             android:layout_gravity="end"/>
 
     </LinearLayout>

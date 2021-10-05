@@ -59,7 +59,7 @@ class GroupChatAdapter(val context: Context, internal val arrayList: ArrayList<G
             val friendViewHolder = holder as FriendViewHolder
             friendViewHolder.txt_friendView.setText(arrayList[position].message)
             friendViewHolder.txt_time.setText(MyUtils.getDateTime(arrayList[position].created?.toLong()!!))
-            Glide.with(context).load(arrayList[position].recieverImage).into(friendViewHolder.profileimage)
+            Glide.with(context).load(arrayList[position].senderImage).into(friendViewHolder.profileimage)
 
         } else if (holder.itemViewType == TYPE_USER) {
             val userViewHolder = holder as UserViewHolder

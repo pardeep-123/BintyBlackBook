@@ -31,12 +31,12 @@ import java.util.*
 
 class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Observer {
 
-    var type=""
-    var name=""
-    var groupId=""
+    var type = ""
+    var name = ""
+    var groupId = ""
     var socketManager: SocketManager? = null
     var listChat = ArrayList<GroupChatData>()
-    var chatAdapter: GroupChatAdapter?=null
+    var chatAdapter: GroupChatAdapter? = null
     var myPopupWindow: PopupWindow? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +65,7 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
     }
 
     private fun setAdapter() {
-        val layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL,false)
+        val layoutmanager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         layoutmanager.stackFromEnd = true
         layoutmanager.isSmoothScrollbarEnabled = true
         rvGroupChat.layoutManager = layoutmanager
@@ -78,10 +78,10 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
     }
 
     private fun getIntentData() {
-        type= intent?.getStringExtra("type").toString()
-        name= intent?.getStringExtra("name").toString()
-        groupId= intent?.getStringExtra("groupId").toString()
-        txtHeading.text= name
+        type = intent?.getStringExtra("type").toString()
+        name = intent?.getStringExtra("name").toString()
+        groupId = intent?.getStringExtra("groupId").toString()
+        txtHeading.text = name
 
         getGroupChatList()
     }
@@ -99,7 +99,8 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
     }
 
     private fun setPopUpWindow() {
-        val inflater = applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater =
+            applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.popup_group_chat, null)
 
         val tvClear = view.findViewById<TextView>(R.id.tvClearChat)
@@ -120,11 +121,12 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
 
         tvReport.setOnClickListener {
             myPopupWindow?.dismiss()
-            val dialogFragment = ReportGroupChatDialogFragment("reportUser",this)
+            val dialogFragment = ReportGroupChatDialogFragment("reportUser", this)
             dialogFragment.show(supportFragmentManager, "reportUser")
         }
 
-        myPopupWindow = PopupWindow(view,
+        myPopupWindow = PopupWindow(
+            view,
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             true
@@ -143,16 +145,16 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.rlGroupInfo ->{
+        when (v?.id) {
+            R.id.rlGroupInfo -> {
                 myPopupWindow?.showAsDropDown(rlGroupInfo, -430, -15)
             }
 
-            R.id.rl_back->{
+            R.id.rl_back -> {
                 finish()
             }
 
-            R.id.rlSendMsg ->{
+            R.id.rlSendMsg -> {
                 if (edtGroupMsg.text.toString().trim().isEmpty()) {
                     Toast.makeText(context, "Please enter a message", Toast.LENGTH_LONG).show()
                 } else {
@@ -180,36 +182,38 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
     }
 
     override fun onResponse(event: String?, vararg args: Any?) {
-        when(event){
+        when (event) {
             SocketManager.GET_GROUP_CHAT_LISTENER -> {
                 runOnUiThread {
                     Log.e("fgfdgg", "mychar")
                     val mObject = args[0] as JSONArray
-                    listChat.clear()
-                    for (i in 0 until mObject.length()) {
-                        val jsonobj = mObject.getJSONObject(i)
-                        val gson = GsonBuilder().create()
-                        val data = gson.fromJson(jsonobj.toString(), GroupChatData::class.java)
-                        listChat.add(data)
+                    if (mObject.length() > 0) {
+                        rvGroupChat.visibility = View.VISIBLE
+                        tvNoChat.visibility = View.GONE
+
+                        listChat.clear()
+                        for (i in 0 until mObject.length()) {
+                            val jsonobj = mObject.getJSONObject(i)
+                            val gson = GsonBuilder().create()
+                            val data = gson.fromJson(jsonobj.toString(), GroupChatData::class.java)
+                            listChat.add(data)
+                        }
+
+                        chatAdapter = GroupChatAdapter(this, listChat, getUser(this)?.id!!)
+                        rvGroupChat.adapter = chatAdapter
+                    } else {
+                        tvNoChat.visibility = View.VISIBLE
+                        rvGroupChat.visibility = View.GONE
                     }
 
-                    chatAdapter = GroupChatAdapter(this, listChat, getUser(this)?.id!!)
-                    rvGroupChat.adapter = chatAdapter
-                    if (listChat.isNullOrEmpty()) {
-                        tvNoChat.visibility = View.VISIBLE
-                        rvGroupChat.visibility=View.GONE
-                    } else {
-                        rvGroupChat.visibility=View.VISIBLE
-                        tvNoChat.visibility = View.GONE
-                    }
                 }
             }
 
-            SocketManager.LEAVE_GROUP_LISTENER ->{
+            SocketManager.LEAVE_GROUP_LISTENER -> {
                 runOnUiThread {
                     val mObject = args[0] as JSONObject
                     mObject.getString("success_message")
-                    rlMsgInput.visibility=View.GONE
+                    rlMsgInput.visibility = View.GONE
                 }
             }
 
@@ -217,27 +221,27 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
                 runOnUiThread {
                     val mObject = args[0] as JSONObject
 
-                    if(mObject.length()>0){
+                    if (mObject.length() > 0) {
                         val gson = GsonBuilder().create()
                         val model = gson.fromJson(mObject.toString(), GroupChatData::class.java)
                         listChat.add(model)
-                        if (listChat.size>0) {
+                        if (listChat.size > 0) {
                             tvNoChat.visibility = View.GONE
                         } else {
                             tvNoChat.visibility = View.VISIBLE
                         }
-                        chatAdapter = GroupChatAdapter(context, listChat,getUser(this)?.id!!)
+                        chatAdapter = GroupChatAdapter(context, listChat, getUser(this)?.id!!)
 
                         rvGroupChat.adapter = chatAdapter
-                    }else{
+                    } else {
                         tvNoChat.visibility = View.VISIBLE
-                        rvGroupChat.visibility=View.GONE
+                        rvGroupChat.visibility = View.GONE
                     }
 
                 }
             }
 
-            SocketManager.DELETE_GROUP_CHAT_LISTENER->{
+            SocketManager.DELETE_GROUP_CHAT_LISTENER -> {
                 runOnUiThread {
                     try {
                         val data = args.get(0) as JSONObject
@@ -254,25 +258,25 @@ class GroupChatActivity : BaseActivity(), View.OnClickListener, SocketManager.Ob
         }
     }
 
-    fun leaveGroup(){
+    fun leaveGroup() {
         try {
             val jsonObject = JSONObject()
             jsonObject.put("userId", getUser(this)?.id.toString())
             jsonObject.put("groupId", groupId)
             socketManager?.leaveGroup(jsonObject)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     fun reportGroup(report_text: String) {
-        try{
-            val jsonObject= JSONObject()
-            jsonObject.put("message",report_text)
+        try {
+            val jsonObject = JSONObject()
+            jsonObject.put("message", report_text)
             jsonObject.put("userId", getUser(this)?.id.toString())
             jsonObject.put("groupId", groupId)
             socketManager?.reportGroup(jsonObject)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

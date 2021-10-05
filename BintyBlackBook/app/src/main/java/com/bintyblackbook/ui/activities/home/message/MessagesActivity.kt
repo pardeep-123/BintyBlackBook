@@ -58,8 +58,8 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
 
     private fun setOnClicks() {
         rlBack.setOnClickListener(this)
-        rlEdit.setOnClickListener(this)
-        rlVideoCall.setOnClickListener(this)
+        ivEdit.setOnClickListener(this)
+        ivVideo.setOnClickListener(this)
         tvMsgs.setOnClickListener(this)
         tvSwaps.setOnClickListener(this)
     }
@@ -69,11 +69,11 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
             R.id.rlBack -> {
                 finish()
             }
-            R.id.rlEdit -> {
+            R.id.ivEdit -> {
                 startActivity(Intent(this,EditMessageActivity::class.java))
             }
 
-            R.id.rlVideoCall ->{
+            R.id.ivVideo ->{
                 startActivity(Intent(this,VideoCallListActivity::class.java))
             }
 

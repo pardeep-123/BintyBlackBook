@@ -51,14 +51,14 @@
             android:id="@+id/btnAccept"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="@dimen/dp80"
-            android:layout_height="24dp"
+            android:layout_height="26dp"
             android:background="@drawable/accept" />
 
         <Button
             android:id="@+id/btnCancel"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="80dp"
-            android:layout_height="24dp"
+            android:layout_height="26dp"
             android:layout_marginStart="@dimen/dp10"
             android:background="@drawable/cancel" />
 

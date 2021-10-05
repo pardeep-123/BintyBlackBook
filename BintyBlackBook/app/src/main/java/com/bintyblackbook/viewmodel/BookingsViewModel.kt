@@ -92,4 +92,38 @@ class BookingsViewModel : ViewModel(){
 
         })
     }
+
+    fun acceptRejectBooking(context: Context,security_key: String,auth_key: String,bookingId:String, status:String){
+        (context as BaseActivity).showProgressDialog()
+        ApiClient.apiService.acceptRejectBooking(security_key,auth_key,bookingId, status).enqueue(object :Callback<JsonElement>{
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                if (response.isSuccessful){
+                    (context as BaseActivity).dismissProgressDialog()
+                    val jsonObject= JSONObject(response.body()!!.toString())
+
+                    if(jsonObject.getInt("code")==200){
+                        val value= BintyBookApplication.gson.fromJson(response.body(),BaseResponseModel::class.java)
+                        baseLiveData.value=value
+                    }
+
+                }else{
+                    val error= JSONObject(response.errorBody()!!.string())
+                    (context as BaseActivity).dismissProgressDialog()
+                    showAlert((context as BaseActivity),error.getString("msg"),"Ok"){}
+                }
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                try{
+                    (context as BaseActivity).dismissProgressDialog()
+                    (context as BaseActivity).showSnackBarMessage(t.localizedMessage)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }
+
+        })
+    }
+
+
 }

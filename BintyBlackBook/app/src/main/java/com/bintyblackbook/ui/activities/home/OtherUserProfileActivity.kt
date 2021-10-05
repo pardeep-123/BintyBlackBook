@@ -258,7 +258,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
                 saveMsgType(this,0)
                 val intent= Intent(this,ChatActivity::class.java)
                 intent.putExtra("name",name)
-                intent.putExtra("type","1")
+                intent.putExtra("type","0")
                 intent.putExtra("sender_id",otherUserId.toString())
                 startActivity(intent)
             }

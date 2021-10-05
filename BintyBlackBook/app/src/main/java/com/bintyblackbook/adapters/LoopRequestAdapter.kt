@@ -38,7 +38,7 @@ class LoopRequestAdapter(var context: Context) :
 
         fun bind(pos: Int) {
             val data= loopList[pos]
-            tvMessage.text= data.userName+"has send you loop request"
+            tvMessage.text= data.userName+" has send you loop request"
             itemView.tvTime.text=MyUtils.getTimeAgo(data.created.toLong())
             btnAccept.setOnClickListener {
                 loopRequestInterface.onItemClick("2",data)

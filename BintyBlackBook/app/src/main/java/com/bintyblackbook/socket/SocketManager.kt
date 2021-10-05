@@ -154,14 +154,12 @@ class SocketManager {
             mSocket?.emit(SEND_MESSAGE, jsonObject)
             mSocket?.off(BODY_LISTENER)
             mSocket?.on(BODY_LISTENER, onBodyListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         } else {
             mSocket?.emit(SEND_MESSAGE, jsonObject)
             mSocket?.off(BODY_LISTENER)
             mSocket?.on(BODY_LISTENER, onBodyListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         }
     }
 
@@ -171,14 +169,12 @@ class SocketManager {
             mSocket?.emit(SEND_GROUP_MESSAGE, jsonObject)
             mSocket?.off(GROUP_BODY_LISTENER)
             mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         } else {
             mSocket?.emit(SEND_GROUP_MESSAGE, jsonObject)
             mSocket?.off(GROUP_BODY_LISTENER)
             mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         }
     }
 
@@ -190,16 +186,14 @@ class SocketManager {
             mSocket?.on(GET_CHAT_LISTENER, onGetChatListener)
             mSocket?.off(BODY_LISTENER)
             mSocket?.on(BODY_LISTENER, onBodyListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         } else {
             mSocket?.emit(GET_CHAT, jsonObject)
             mSocket?.off(GET_CHAT_LISTENER)
             mSocket?.on(GET_CHAT_LISTENER, onGetChatListener)
             mSocket?.off(BODY_LISTENER)
             mSocket?.on(BODY_LISTENER, onBodyListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         }
     }
 
@@ -212,16 +206,14 @@ class SocketManager {
             mSocket?.on(GET_GROUP_CHAT_LISTENER, onGroupChatListener)
             mSocket?.off(GROUP_BODY_LISTENER)
             mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         } else {
             mSocket?.emit(GET_GROUP_MESSAGES, jsonObject)
             mSocket?.off(GET_GROUP_CHAT_LISTENER)
             mSocket?.on(GET_GROUP_CHAT_LISTENER, onGroupChatListener)
             mSocket?.off(GROUP_BODY_LISTENER)
             mSocket?.on(GROUP_BODY_LISTENER, onBodyGroupListener)
-            mSocket?.off(RECEIVER_LISTENER)
-            mSocket?.on(RECEIVER_LISTENER, recListener)
+
         }
     }
 

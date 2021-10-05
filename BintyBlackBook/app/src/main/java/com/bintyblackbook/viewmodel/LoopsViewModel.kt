@@ -1,14 +1,17 @@
 package com.bintyblackbook.viewmodel
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
+import com.bintyblackbook.R
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.AllUsersResponseModel
 import com.bintyblackbook.model.BaseResponseModel
 import com.bintyblackbook.model.MyLoopsResponse
+import com.bintyblackbook.ui.activities.authentication.LoginActivity
 import com.bintyblackbook.util.showAlert
 import com.google.gson.JsonElement
 import org.json.JSONObject
@@ -58,7 +61,19 @@ class LoopsViewModel :ViewModel(){
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK",{})
+
+                    if(error.getInt("code")==401){
+                        showAlert(context,context.getString(R.string.session_expired),"OK"){
+                            context.startActivity(
+                                Intent((context as BaseActivity),
+                                    LoginActivity::class.java)
+                            )
+                            context.finishAffinity()
+                        }
+                    }
+                    else {
+                        showAlert(context, error.getString("msg").toString(), "OK") {}
+                    }
                 }
             }
         })
@@ -250,7 +265,19 @@ class LoopsViewModel :ViewModel(){
                 } else {
                     val error:JSONObject = JSONObject(response.errorBody()!!.string())
                     (context as BaseActivity).dismissProgressDialog()
-                    showAlert(context,error.getString("msg").toString(),"OK"){}
+
+                    if(error.getInt("code")==401){
+                        showAlert(context,context.getString(R.string.session_expired),"OK"){
+                            context.startActivity(
+                                Intent((context as BaseActivity),
+                                    LoginActivity::class.java)
+                            )
+                            context.finishAffinity()
+                        }
+                    }
+                    else {
+                        showAlert(context, error.getString("msg").toString(), "OK") {}
+                    }
                 }
             }
 

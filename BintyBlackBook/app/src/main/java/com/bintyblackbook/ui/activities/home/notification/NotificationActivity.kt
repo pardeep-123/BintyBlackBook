@@ -70,6 +70,32 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
         notificationViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
+
+                if (data.type == 2){
+                    val intent= Intent(this,MyLoopsActivity::class.java)
+                    startActivity(intent)
+
+                }else if (data.type == 1){
+                    val intent= Intent(this, LoopRequestActivity::class.java)
+                    intent.putExtra("message",data.message)
+                    intent.putExtra("user_id",data.user2Id.toString())
+                    startActivity(intent)
+                } else if (data.type==4){
+                    val intent= Intent(this,BookingRequestActivity::class.java)
+                    intent.putExtra("message",data.message)
+                    intent.putExtra("user_id",data.user2Id.toString())
+
+                    startActivity(intent)
+                }
+                else if(data.type==3){
+                    val intent=Intent(context, ChatActivity::class.java)
+                    intent.putExtra("type",data.type.toString())
+                    // intent.putExtra("isGroup",arrayList[pos].isGroup.toString())
+                    intent.putExtra("sender_id",data.userId.toString())
+                    intent.putExtra("name",data.userName)
+                    startActivity(intent)
+                }
+
               /*  if (notificationData?.type == 2){
                     val intent= Intent(this,MyLoopsActivity::class.java)
                     startActivity(intent)
@@ -87,6 +113,7 @@ class NotificationActivity : BaseActivity(),NotificationAdapter.NotificationAdap
     }
 
     override fun onItemClick(data: NotificationListData, position: Int) {
+        notificationData=data
         if(data.isSeen==1){
             if (data.type == 2){
                     val intent= Intent(this,MyLoopsActivity::class.java)

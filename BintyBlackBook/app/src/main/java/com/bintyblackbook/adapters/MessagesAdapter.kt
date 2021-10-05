@@ -48,7 +48,7 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
 
                 tv_name.text = messageModel.userName
 
-                tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
+                tvTime.text= MyUtils.getTimeAgo(messageModel.created_at.toLong())
                 tv_msg.text= messageModel.lastMessage
             }else{
 
@@ -57,7 +57,7 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
 
                 tv_name.text = messageModel.name
 
-                tvTime.text= MyUtils.getTimeAgo(messageModel.created.toLong())
+                tvTime.text= MyUtils.getTimeAgo(messageModel.lastMessageCreated.toLong())
                 tv_msg.text= messageModel.lastMessage
             }
 

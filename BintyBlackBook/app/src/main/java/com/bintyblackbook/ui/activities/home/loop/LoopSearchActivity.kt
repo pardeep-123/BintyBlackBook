@@ -112,13 +112,13 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
         })
     }
 
-    override fun sendLoopRequest(data: AllUsersData) {
-        loopRequest(data.id.toString())
+    override fun sendLoopRequest(data: AllUsersData,position: Int) {
+        loopRequest(data.id.toString(),position)
     }
 
 
-    override fun onUnLoopRequest(data: AllUsersData) {
-        unLoopRequest(data.id.toString())
+    override fun onUnLoopRequest(data: AllUsersData,position: Int) {
+        unLoopRequest(data.id.toString(),position)
     }
 
     override fun acceptRequest(status: String, data: AllUsersData) {
@@ -142,11 +142,12 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
         })
     }
 
-    fun loopRequest(user_id:String){
+    fun loopRequest(user_id: String, position: Int){
         loopsViewModel.sendLoopReq(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,user_id)
         loopsViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
+
                 searchLoopsAdapter?.notifyDataSetChanged()
                 searchRequestAdapter?.notifyDataSetChanged()
                 Log.i("===loop",it.msg)
@@ -155,7 +156,7 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
         })
     }
 
-    fun unLoopRequest(user_id:String){
+    fun unLoopRequest(user_id: String, position: Int){
         loopsViewModel.unLoop(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,user_id)
         loopsViewModel.baseLiveData.observe(this, Observer {
             if(it.code==200){

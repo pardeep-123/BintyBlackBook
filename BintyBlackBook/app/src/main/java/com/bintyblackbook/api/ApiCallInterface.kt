@@ -470,5 +470,13 @@ interface ApiCallInterface {
         @Part file: MultipartBody.Part?
     ): Call<JsonElement>
 
+    @FormUrlEncoded
+    @POST(ApiConstants.BOOKING_ACCEPT_REJECT)
+    fun acceptRejectBooking(
+        @Header("security_key") security_key: String,
+        @Header("auth_key") auth_key: String,
+        @Field("bookingId") bookingId: String,
+        @Field("status") status: String
+    ) : Call<JsonElement>
 
 }

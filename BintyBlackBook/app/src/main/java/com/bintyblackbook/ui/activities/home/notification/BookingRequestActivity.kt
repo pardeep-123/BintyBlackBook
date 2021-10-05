@@ -1,6 +1,7 @@
 
 package com.bintyblackbook.ui.activities.home.notification
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -9,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.BookingRequestAdapter
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.LoopRequestData
 import com.bintyblackbook.model.UpcomingBookings
+import com.bintyblackbook.ui.activities.home.bookings.MyBookingsActivity
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.BookingsViewModel
-import com.bintyblackbook.viewmodel.LoopRequestViewModel
-import com.bintyblackbook.viewmodel.LoopsViewModel
 import kotlinx.android.synthetic.main.activity_booking_request.*
 import kotlinx.android.synthetic.main.activity_booking_request.rlBack
 
@@ -68,7 +67,7 @@ class BookingRequestActivity : BaseActivity(), BookingRequestAdapter.LoopRequest
     override fun onItemClick(status: String, data: UpcomingBookings,position: Int) {
       //  userId= data.user2Id.toString()
 
-        acceptRejectRequest(status,position,)
+        acceptRejectRequest(status,position,data.bookingId)
         /*if (status == "2"){
             val dialog  = AcceptRejectDialogFragment(this,"acceptLoopRequest")
             dialog.show(supportFragmentManager,"acceptLoopRequest")
@@ -78,15 +77,17 @@ class BookingRequestActivity : BaseActivity(), BookingRequestAdapter.LoopRequest
         }*/
     }
 
-    fun acceptRejectRequest(status: String,position: Int) {
-       /* bookingsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
+    fun acceptRejectRequest(status: String, position: Int, bookingId: String) {
+        bookingsViewModel.acceptRejectBooking(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,bookingId,status)
         bookingsViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
-               loopList.removeAt(position)
+                loopList.removeAt(position)
                 bookingRequestAdapter?.notifyDataSetChanged()
+                startActivity(Intent(this,MyBookingsActivity::class.java))
+                finish()
             }
-        })*/
+        })
     }
 
 }

@@ -187,7 +187,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
                     && Validations.isEmpty(this,password_text,getString(R.string.err_password))
                 ) {
                     //call api or pass any intent here
-                    loginViewModel.loginUser(getSecurityKey(this)!!,email_text.text.toString(),password_text.text.toString(),"","","","1","12345")
+                    loginViewModel.loginUser(getSecurityKey(this)!!,email_text.text.toString(),password_text.text.toString(),"","","","1",
+                        getToken(context))
 
                     setObservables()
                 }

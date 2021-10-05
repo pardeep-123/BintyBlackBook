@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bintyblackbook.BintyBookApplication
+import com.bintyblackbook.R
 import com.bintyblackbook.api.ApiClient
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.HomeResponseModel
@@ -63,7 +64,7 @@ class HomeViewModel :ViewModel(){
                     (context as BaseActivity).dismissProgressDialog()
 
                     if(error.getInt("code")==401){
-                        showAlert(context,error.getString("msg").toString(),"OK"){
+                        showAlert(context,context.getString(R.string.session_expired),"OK"){
                             context.startActivity(Intent((context as BaseActivity),LoginActivity::class.java))
                             context.finishAffinity()
                         }

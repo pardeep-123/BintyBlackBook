@@ -49,16 +49,18 @@ class SearchLoopsAdapter(val context: Context) : RecyclerView.Adapter<SearchLoop
 
             itemView.btnUnLoop.setOnClickListener {
                 if (itemView.btnUnLoop.text == "Loop") {
-                    searchLoopInterface.sendLoopRequest(data)
+                   // itemView.btnUnLoop.text="Un loop"
+                    searchLoopInterface.sendLoopRequest(data,pos)
                 } else {
-                    searchLoopInterface.onUnLoopRequest(data)
+                   // itemView.btnUnLoop.text="Loop"
+                    searchLoopInterface.onUnLoopRequest(data,pos)
                 }
             }
         }
     }
 
     interface SearchLoopInterface{
-        fun sendLoopRequest(data: AllUsersData)
-        fun onUnLoopRequest(data: AllUsersData)
+        fun sendLoopRequest(data: AllUsersData,position: Int)
+        fun onUnLoopRequest(data: AllUsersData,position: Int)
     }
 }

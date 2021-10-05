@@ -214,5 +214,7 @@
     <string name="add_switch_account">Add/Switch Account</string>
     <string name="log_into_existing_account">Log Into Existing Account</string>
     <string name="create_new_account">Create New Account</string>
+    <string name="session_expired">Session Expired. Please try again later.</string>
+    <string name="refer_friends">Refer Friends</string>
 
 </resources>

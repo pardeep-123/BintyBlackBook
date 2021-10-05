@@ -398,7 +398,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             map.put("category_id", createRequestBody(categoty_id))
             map.put("sub_category_id", createRequestBody(subCategory_id))
             map.put("device_type", createRequestBody("1"))
-            map.put("device_token", createRequestBody("12345"))
+            map.put("device_token", createRequestBody(getToken(context)))
             map.put("pushKitToken", createRequestBody("12345"))
             map.put("uuid", createRequestBody("12345"))
             map.put("availability", createRequestBody(""))

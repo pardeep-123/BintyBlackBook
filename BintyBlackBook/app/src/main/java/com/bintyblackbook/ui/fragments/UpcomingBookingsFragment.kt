@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_upcoming_bookings.*
 import java.util.*
 
 
-class UpcomingBookingsFragment : Fragment() {
+class UpcomingBookingsFragment : Fragment(), UpcomingBookingAdapter.BookingInterface {
 
     private var mSnackBar: Snackbar? = null
     var mProgress: CustomProgressDialog? = null
@@ -68,6 +68,7 @@ class UpcomingBookingsFragment : Fragment() {
         rvUpcomingBookings.layoutManager = LinearLayoutManager(activity)
         upcomingBookingAdapter = UpcomingBookingAdapter(requireActivity())
         rvUpcomingBookings.adapter = upcomingBookingAdapter
+        upcomingBookingAdapter?.bookingInterface=this
         upcomingBookingAdapter?.arrayList=upcomingArrayList
     }
 
@@ -78,5 +79,13 @@ class UpcomingBookingsFragment : Fragment() {
 
     fun dismissProgressDialog() {
         mProgress?.dismiss()
+    }
+
+    override fun onCancelBooking(position: Int, data: UpcomingBookings) {
+        bookingsViewModel.acceptRejectBooking(requireActivity(), getSecurityKey(requireActivity())!!, getUser(requireActivity())?.authKey!!,data.bookingId,"2")
+
+        bookingsViewModel.baseLiveData.observe(requireActivity(), androidx.lifecycle.Observer {
+            upcomingArrayList.removeAt(position)
+        })
     }
 }

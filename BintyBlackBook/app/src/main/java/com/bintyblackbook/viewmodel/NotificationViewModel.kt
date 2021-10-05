@@ -112,7 +112,7 @@ class NotificationViewModel (val context: Context): ViewModel(){
     notification read
      */
     fun updateNotiSeen(security_key: String,auth_key: String,notification_id:String){
-        (context as BaseActivity).dismissProgressDialog()
+        (context as BaseActivity).showProgressDialog()
 
         ApiClient.apiService.getNotificationSeen(security_key, auth_key, notification_id).enqueue(object : Callback<JsonElement>{
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {

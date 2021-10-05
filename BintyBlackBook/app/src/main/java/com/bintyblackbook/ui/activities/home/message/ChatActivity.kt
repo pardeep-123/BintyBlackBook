@@ -14,6 +14,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.ChatAdaptr
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.ChatData
+import com.bintyblackbook.service.MyFirebaseMessagingService
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
 import com.bintyblackbook.ui.activities.home.videocall.accesstoken.VideoChatViewActivity
@@ -339,6 +340,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
     override fun onResume() {
         super.onResume()
         socketManager?.onRegister(this)
+        MyFirebaseMessagingService.isChatNotOpened = false
     }
 
     fun initializeSocket() {
@@ -349,6 +351,10 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        MyFirebaseMessagingService.isChatNotOpened = true
+    }
     override fun onStop() {
         super.onStop()
         socketManager?.unRegister(this)

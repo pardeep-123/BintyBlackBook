@@ -42,16 +42,16 @@ class BookingRequestAdapter(var context: Context): RecyclerView.Adapter<BookingR
 
         fun bind(pos: Int) {
             val data= loopList[pos]
-            tvMessage.text= data.userName+" "+"has send you booking request"
+            tvMessage.text= data.userName+" has sent you booking request"
             Glide.with(context).load(data.userImage).into(itemView.civ_profile)
             itemView.tvTime.text= MyUtils.getTimeAgo(data.created.toLong())
             btnAccept.setOnClickListener {
-                loopRequestInterface.onItemClick("2",data,pos)
+                loopRequestInterface.onItemClick("1",data,pos)
 
             }
 
             btnCancel.setOnClickListener {
-                loopRequestInterface.onItemClick("0",data,pos)
+                loopRequestInterface.onItemClick("2",data,pos)
 
             }
         }
