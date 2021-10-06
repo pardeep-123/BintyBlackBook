@@ -3,9 +3,9 @@ package com.bintyblackbook.api
 class ApiConstants {
 
     companion object{
-         const val BASE_URL="https://bintysblackbook.com:4509/user_apis/"    //live url
+        // const val BASE_URL="https://bintysblackbook.com:4509/user_apis/"    //live url
 
-       //  const val BASE_URL= "http://192.168.1.122:4509/user_apis/"          //local url
+         const val BASE_URL= "http://192.168.1.122:4509/user_apis/"          //local url
 
         const val USER_SIGNUP="user_signup"
 

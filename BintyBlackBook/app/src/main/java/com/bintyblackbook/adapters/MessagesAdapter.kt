@@ -44,8 +44,6 @@ class MessagesAdapter(val context: Context, var arrayList: ArrayList<MessageData
 
             if(arrayList[pos].isGroup==0){
                 civ_profile.loadImg(messageModel.userImage)
-               // Glide.with(context).load(messageModel.userImage).into(civ_profile)
-
                 tv_name.text = messageModel.userName
 
                 tvTime.text= MyUtils.getTimeAgo(messageModel.created_at.toLong())

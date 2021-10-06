@@ -77,23 +77,30 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
     }
 
      fun acceptRejectRequest(status: String) {
-        loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
-        loopsViewModel.baseLiveData.observe(this, Observer {
 
-            if(it.code==200){
-                showToast(it.msg)
-            }
-        })
     }
 
-    override fun onItemClick(status: String, data: LoopRequestData) {
+    override fun onItemClick(status: String, data: LoopRequestData,position:Int) {
         userId= data.otherUserId.toString()
-        if (status == "2"){
+        loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
+        loopsViewModel.baseLiveData.observe(this, Observer {
+            loopList.removeAt(position)
+            loopRequestAdapter?.notifyDataSetChanged()
+            if(loopList.size==0){
+                rvLoopRequest.visibility=View.GONE
+                noReqFound.visibility=View.VISIBLE
+            }
+
+        })
+
+
+
+       /* if (status == "2"){
             val dialog  = CancelDialogFragment(this,"acceptLoopRequest")
             dialog.show(supportFragmentManager,"acceptLoopRequest")
         }else if (status == "0"){
             val dialog= CancelDialogFragment(this,"cancelLoopRequest")
             dialog.show(supportFragmentManager,"cancelLoopRequest")
-        }
+        }*/
     }
 }

@@ -13,12 +13,15 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.EditMessageModel
 import com.bintyblackbook.model.MessageData
 import com.bintyblackbook.socket.SocketManager
+import com.bintyblackbook.ui.activities.home.HomeItemClickActivity
+import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getMsgType
 import com.bintyblackbook.util.getUser
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_messages.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.Serializable
 
 class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Observer {
 
@@ -74,7 +77,13 @@ class MessagesActivity : BaseActivity(), View.OnClickListener,SocketManager.Obse
             }
 
             R.id.ivVideo ->{
-                startActivity(Intent(this,VideoCallListActivity::class.java))
+
+                val intent = Intent(this, VideoCallListActivity::class.java)
+                val args = Bundle()
+                args.putSerializable("videoCallList", list as Serializable?)
+                intent.putExtras(args)
+                startActivity(intent)
+
             }
 
             R.id.tvMsgs ->{

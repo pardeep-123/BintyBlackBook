@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.model.AllData
+import com.bintyblackbook.model.MessageData
 import com.bintyblackbook.ui.activities.home.videocall.accesstoken.VideoChatViewActivity
+import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ChatViewModel
@@ -17,12 +17,13 @@ import com.bintyblackbook.viewmodel.LoopsViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.master.permissionhelper.PermissionHelper
 import kotlinx.android.synthetic.main.activity_video_call_list.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallListInterface {
 
     lateinit var loopsViewModel: LoopsViewModel
     var videoCallListAdapter:VideoCallListAdapter?=null
-    val videoList= ArrayList<AllData>()
+    val videoList= ArrayList<MessageData>()
     var permissionHelper: PermissionHelper? = null
     lateinit var chatViewModel: ChatViewModel
     var receiverId=""
@@ -33,10 +34,27 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
 
         loopsViewModel= LoopsViewModel()
         chatViewModel= ChatViewModel()
+        getIntentData()
 
         setAdapter()
-        getLoopList()
+       // getLoopList()
         setOnClicks()
+    }
+
+    private fun getIntentData() {
+        val intent = intent
+        val extras = intent.extras
+        videoList.clear()
+        var list= extras?.getSerializable("videoCallList") as ArrayList<MessageData>
+        if(list.size!=0){
+            for(i in 0 until list.size){
+                if(list[i].isGroup==0){
+                    videoList.add(list[i])
+                }
+            }
+        }
+      //  videoList.addAll()
+        videoCallListAdapter?.notifyDataSetChanged()
     }
 
     private fun setOnClicks() {
@@ -45,7 +63,7 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
         }
     }
 
-    private fun getLoopList() {
+  /*  private fun getLoopList() {
         loopsViewModel.loopsList(this, getSecurityKey(this)!!, getUser(this)?.authKey!!)
         loopsViewModel.loopsLiveData.observe(this, Observer {
 
@@ -63,7 +81,7 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
             }
         })
     }
-
+*/
     private fun setAdapter() {
         videoCallListAdapter = VideoCallListAdapter(this)
         rvVideoCall.adapter = videoCallListAdapter
@@ -72,7 +90,7 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
 
     }
 
-    override fun onItemClick(data: AllData, position: Int) {
+    override fun onItemClick(data: MessageData, position: Int) {
         receiverId= data.user_id.toString()
         checkVideoPermission()
     }

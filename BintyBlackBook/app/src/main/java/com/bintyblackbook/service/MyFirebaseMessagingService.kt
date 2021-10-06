@@ -11,7 +11,6 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.activities.home.notification.BookingRequestActivity
@@ -55,7 +54,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         message = ""
-        Log.d(TAG, "MyTestingLog: ${remoteMessage.data}")
+        Log.e(TAG, "MyTestingLog: ${remoteMessage.data}")
         if (remoteMessage.data != null && remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
             try {
@@ -129,6 +128,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
              intent = Intent(this, BookingRequestActivity::class.java)
              intent.putExtra("message", message)
              intent.putExtra("user_id", receiverId.toString())
+         }else if (type == 5) {
+             intent = Intent(this, ChatActivity::class.java)
+             intent.putExtra("type", type.toString())
+             intent.putExtra("sender_id", receiverId.toString())
+             intent.putExtra("name", recieverName)
          }
 
 

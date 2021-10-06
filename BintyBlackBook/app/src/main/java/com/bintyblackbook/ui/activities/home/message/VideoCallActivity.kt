@@ -4,71 +4,39 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
-import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
-import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.socket.SocketManager
-import com.bintyblackbook.util.Validations
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
-import org.json.JSONObject
 
-
-class VideoCallActivity : BaseActivity(), SocketManager.Observer {
-
-    var socketManager:SocketManager?=null
-
-    companion object {
-
-        private val LOG_TAG = VideoCallActivity::class.java.simpleName
-
-        private const val PERMISSION_REQ_ID_RECORD_AUDIO = 22
-        private const val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
-    }
-
-    var isVideoCallReceived = false
-    var startTime = ""
-    var endTime = ""
-    var duration = "0"
-    var startTimeStamps: Long = 0
-    var endTimeStamps: Long = 0
+class VideoCallActivity : AppCompatActivity() {
+    var channelName=""
 
     private var mRtcEngine: RtcEngine? = null
-    //    var userSession: UserSession? = null
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         /**
-         * Occurs when the first remote video frame is received and decoded.
+         * Occurs when a remote user (Communication)/ host (Live Broadcast) joins the channel.
          * This callback is triggered in either of the following scenarios:
          *
-         *     The remote user joins the channel and sends the video stream.
-         *     The remote user stops sending the video stream and re-sends it after 15 seconds. Possible reasons include:
-         *         The remote user leaves channel.
-         *         The remote user drops offline.
-         *         The remote user calls the muteLocalVideoStream method.
-         *         The remote user calls the disableVideo method.
+         * A remote user/host joins the channel by calling the joinChannel method.
+         * A remote user switches the user role to the host by calling the setClientRole method after joining the channel.
+         * A remote user/host rejoins the channel after a network interruption.
+         * The host injects an online media stream into the channel by calling the addInjectStreamUrl method.
          *
          * @param uid User ID of the remote user sending the video streams.
-         * @param width Width (pixels) of the video stream.
-         * @param height Height (pixels) of the video stream.
          * @param elapsed Time elapsed (ms) from the local user calling the joinChannel method until this callback is triggered.
          */
-        override fun onFirstRemoteVideoDecoded(uid: Int, width: Int, height: Int, elapsed: Int) {
-            Log.e("id", "//"+uid)
-            isVideoCallReceived = true
-            startTimeStamps = getCurrentTime()!!
-            startTime = convertTimeStampDate(startTimeStamps, "hh:mm")!!
-//            updateCallStatus(callStatusList!![5].id!!)
+        override fun onUserJoined(uid: Int, elapsed: Int) {
             runOnUiThread { setupRemoteVideo(uid) }
         }
 
@@ -95,23 +63,12 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
          *     USER_OFFLINE_BECOME_AUDIENCE(2): (Live broadcast only.) The client role switched from the host to the audience.
          */
         override fun onUserOffline(uid: Int, reason: Int) {
-            Log.e("reason","//"+reason)
-            if (isVideoCallReceived) {
-                endTimeStamps = getCurrentTime()!!
-                endTime = convertTimeStampDate(endTimeStamps, "hh:mm")!!
-                duration = ""+getDuration(startTimeStamps, endTimeStamps)
-//                updateCallStatus(callStatusList!![6].id!!)
-                isVideoCallReceived = false
-            }
-
-            runOnUiThread { /*finish()*/
-                onRemoteUserLeft()
-            }
+            runOnUiThread { onRemoteUserLeft() }
         }
 
         /**
          * Occurs when a remote user stops/resumes sending the video stream.
-         *a
+         *
          * @param uid ID of the remote user.
          * @param muted Whether the remote user's video stream playback pauses/resumes:
          * true: Pause.
@@ -125,27 +82,26 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_chat_view)
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        socketManager= BintyBookApplication.getSocketManager()
 
-        socketManager?.onRegister(this)
+        channelName= intent?.getStringExtra("channelName").toString()
+
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO) && checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)) {
             initAgoraEngineAndJoinChannel()
         }
     }
 
     private fun initAgoraEngineAndJoinChannel() {
-
         initializeAgoraEngine()
-        setupVideoProfile()
         setupLocalVideo()
-        joinChannel()
+        setupVideoProfile()
 
+        joinChannel()
     }
 
     private fun checkSelfPermission(permission: String, requestCode: Int): Boolean {
         Log.i(LOG_TAG, "checkSelfPermission $permission $requestCode")
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this,
+                permission) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                 arrayOf(permission),
@@ -179,16 +135,18 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
             }
         }
     }
+
     private fun showLongToast(msg: String) {
         this.runOnUiThread { Toast.makeText(applicationContext, msg, Toast.LENGTH_LONG).show() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        socketManager?.unRegister(this)
+
         leaveChannel()
         /*
           Destroys the RtcEngine instance and releases all resources used by the Agora SDK.
+
           This method is useful for apps that occasionally make voice or video calls,
           to free up resources for other operations when not making calls.
          */
@@ -209,7 +167,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         // Stops/Resumes sending the local video stream.
         mRtcEngine!!.muteLocalVideoStream(iv.isSelected)
 
-        val container = findViewById<FrameLayout>(R.id.local_video_view_container)
+        val container = findViewById(R.id.local_video_view_container) as FrameLayout
         val surfaceView = container.getChildAt(0) as SurfaceView
         surfaceView.setZOrderMediaOverlay(!iv.isSelected)
         surfaceView.visibility = if (iv.isSelected) View.GONE else View.VISIBLE
@@ -235,29 +193,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
     }
 
     fun onEncCallClicked(view: View) {
-        if (!isVideoCallReceived) {
-            startTimeStamps = getCurrentTime()!!
-            startTime = convertTimeStampDate(startTimeStamps, "hh:mm")!!
-            endTime = startTime
-            endTimeStamps = startTimeStamps
-            duration = "0"
-//            updateCallStatus(callStatusList!![2].id!!)
-        } else {
-            endTimeStamps = getCurrentTime()!!
-            endTime = convertTimeStampDate(endTimeStamps, "hh:mm")!!
-            duration = ""+getDuration(startTimeStamps, endTimeStamps)
-//            updateCallStatus(callStatusList!![6].id!!)
-        }
-        if (Validations.isNetworkConnected()) {
-            val jsonObject = JSONObject()
-            jsonObject.put("senderId", intent.getStringExtra("userId"))
-            jsonObject.put("receiverId", intent.getStringExtra("otheruserId"))
-            jsonObject.put("status", 1)
-            socketManager?.getVideoCallStatus(jsonObject)
-            finish()
-        }
-        else
-            showAlertWithOk(resources.getString(R.string.internet_connection))
+        finish()
     }
 
     private fun initializeAgoraEngine() {
@@ -293,51 +229,32 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         // Our server will assign one and return the uid via the event
         // handler callback function (onJoinChannelSuccess) after
         // joining the channel successfully.
-        val container = findViewById<FrameLayout>(R.id.local_video_view_container)
+        val container = findViewById(R.id.local_video_view_container) as FrameLayout
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
         surfaceView.setZOrderMediaOverlay(true)
         container.addView(surfaceView)
         // Initializes the local video view.
         // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black.
-      /*  val userData = MyApplication.instance!!.getString(UserData)
-        if(!mValidationClass.checkStringNull(userData))
-        {
-            val mModel = stringToModel(userData, AuthenticationResponse.Body::class.java) as AuthenticationResponse.Body*/
-            mRtcEngine!!.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, intent.getStringExtra("id")!!.toInt()))
-     //   }
-
+        mRtcEngine!!.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0))
     }
-    var appCertificate = "c9b2dbcbe5bb473697aa893b10433819"
-    var channelName = "demo"
-    var userAccount = "0"
-    var expirationTimeInSeconds = 3600
 
     private fun joinChannel() {
         // 1. Users can only see each other after they join the
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
-//        channelName = "Nauatili"+intent.getStringExtra("id")!!
-        /*val timestamp = (System.currentTimeMillis() / 1000 + expirationTimeInSeconds).toInt()
-        var token: String? = RtcTokenBuilder().buildTokenWithUid(resources.getString(R.string.agora_app_id), appCertificate,
-                channelName,userAccount.toInt(), RtcTokenBuilder.Role.Role_Publisher, timestamp)
-          println(token)
-
-//        var token: String? = getString(R.string.agora_access_token)
+        var token: String? = getString(R.string.agora_access_token)
         if (token!!.isEmpty()) {
             token = null
-        }*/
-        Log.e("channelName",channelName)
-        val token = "0060de73433fd6d4c3cab6b53b863c5630cIAD5lpb8T6kBCpag8QXuAhiL7WfJ7bkOdvJzB32y6w2ThluwNNUAAAAAEABVr+wwOBG9XwEAAQA3Eb1f"
-        mRtcEngine!!.joinChannel(token, "demoChannel1", "Extra Optional Data", intent.getStringExtra("id")!!.toInt()) // if you do not specify the uid, we will generate the uid for you
-//        mRtcEngine!!.joinChannel(token, "demo", "Extra Optional Data", 228228) // if you do not specify the uid, we will generate the uid for you
+        }
+        mRtcEngine!!.joinChannel(token, channelName, "", 0) // if you do not specify the uid, we will generate the uid for you
     }
 
     private fun setupRemoteVideo(uid: Int) {
         // Only one remote video view is available for this
         // tutorial. Here we check if there exists a surface
         // view tagged as this uid.
-        val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
+        val container = findViewById(R.id.remote_video_view_container) as FrameLayout
 
         if (container.childCount >= 1) {
             return
@@ -353,11 +270,9 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
         container.addView(surfaceView)
         // Initializes the video view of a remote user.
-        mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, uid))
+        mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid))
 
         surfaceView.tag = uid // for mark purpose
-        /*val tipMsg = findViewById<TextView>(R.id.quick_tips_when_use_agora_sdk) // optional UI
-        tipMsg.visibility = View.GONE*/
     }
 
     private fun leaveChannel() {
@@ -365,15 +280,14 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
     }
 
     private fun onRemoteUserLeft() {
-        val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
+        val container = findViewById(R.id.remote_video_view_container) as FrameLayout
         container.removeAllViews()
-        finish()
-        /*val tipMsg = findViewById<TextView>(R.id.quick_tips_when_use_agora_sdk) // optional UI
-        tipMsg.visibility = View.VISIBLE*/
+        this.finish()
+
     }
 
     private fun onRemoteUserVideoMuted(uid: Int, muted: Boolean) {
-        val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
+        val container = findViewById(R.id.remote_video_view_container) as FrameLayout
 
         val surfaceView = container.getChildAt(0) as SurfaceView
 
@@ -383,54 +297,11 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        RtcEngine.CreateRendererView(baseContext).invalidate()
+    companion object {
+
+        private val LOG_TAG = VideoCallActivity::class.java.simpleName
+
+        private const val PERMISSION_REQ_ID_RECORD_AUDIO = 22
+        private const val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
     }
-
-    override fun onError(event: String?, vararg args: Any?) {
-    }
-
-    override fun onResponse(event: String?, vararg args: Any?) {
-        when (event) {
-            SocketManager.CALL_TO_USER -> {
-                Log.e("fgfdgg", "mychar")
-                val mObject = args[0] as JSONObject
-                if (mObject != null) {
-                    val status = mObject.getInt("call_connect_status")
-                    if (status == 2) {
-                        showToast(resources.getString(R.string.calldeclined))
-                        finish()
-                    }
-                }
-            }
-        }
-    }
-
-
-    /* var callStatusList: List<CallStatusModel>? = null
-
-     fun getCallStatus() {
-         homeApiInterface!!.getCallStatus({
-             if (it.isExecuted) {
-                 val response: CallStatusResponse = it.value as CallStatusResponse
-                 callStatusList = response.data
-                 startTimeStamps = Utility.getCurrentTime()
-                 startTime = Utility.convertTimeStampDate(startTimeStamps, "hh:mm")
-                 updateCallStatus(callStatusList!![7].id!!)
-             }
-         }, headerMap)
-     }
-
-     fun updateCallStatus(statusId: Int) {
-         val param: java.util.HashMap<String, Any> = HashMap()
-         param["log_id"] = ""
-         param["start_time"] = startTime
-         param["end_time"] = endTime
-         param["status_id"] = statusId
-         param["duration"] = duration
-         param["user_id"] = intent.getIntExtra("id", 0)
-         param["booking_id"] = intent.getIntExtra("bookingId", 0)
-         homeApiInterface!!.updateCallStatus({}, headerMap, param)
-     }*/
 }

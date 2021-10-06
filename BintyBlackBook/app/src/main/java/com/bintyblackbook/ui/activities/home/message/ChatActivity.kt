@@ -365,17 +365,21 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         when (v?.id) {
 
             R.id.rlVideo->{
+               // startActivity(Intent(this,VideoCallActivity::class.java))
 
                 //ios channel name= $mUserId-|-remoteNumber-|-date-|-video-|-name
+                var mUserId= getUser(this)?.id.toString()
+                var mUserName= getUser(this)?.firstName
 
-              //  var  mChannelName = "$mUserId-|-$mBusinessId-|-${System.currentTimeMillis()/1000}-|-video-|-$mUserName"
+                var  mChannelName = "$mUserId-|-$receiverId-|-${System.currentTimeMillis()/1000}-|-video-|-$mUserName"
+
 
                 chatViewModel.sendCallNotification(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,receiverId)
                 chatViewModel.notificationLiveData.observe(this,  {
 
-                    val intent= Intent(this,VideoChatViewActivity::class.java)
+                    val intent= Intent(this,VideoCallActivity::class.java)
                     intent.putExtra("videoToken",it.data?.token)
-                    intent.putExtra("channelName",it.data?.channelName)
+                    intent.putExtra("channelName",mChannelName)
                     intent.putExtra("userId", getUser(this)?.id.toString())
                     intent.putExtra("otheruserId",receiverId)
                     startActivity(intent)

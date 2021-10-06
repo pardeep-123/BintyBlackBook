@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_join"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <FrameLayout
         android:id="@+id/remote_video_view_container"
         android:layout_width="match_parent"
@@ -83,4 +96,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>

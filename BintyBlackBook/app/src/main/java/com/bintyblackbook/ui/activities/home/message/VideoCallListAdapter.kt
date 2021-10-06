@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.adapters.EditMessagesAdapter
 import com.bintyblackbook.model.AllData
+import com.bintyblackbook.model.MessageData
+import com.bintyblackbook.util.MyUtils
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_edit_message.view.*
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.row_messages.view.*
 
 class VideoCallListAdapter(val context: Context) : RecyclerView.Adapter<VideoCallListAdapter.VideoCallViewHolder>() {
 
-    var arrayList = ArrayList<AllData>()
+    var arrayList = ArrayList<MessageData>()
     lateinit var videoCallListInterface: VideoCallListInterface
 
 
@@ -37,17 +39,15 @@ class VideoCallListAdapter(val context: Context) : RecyclerView.Adapter<VideoCal
     }
 
     inner class VideoCallViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ivProfile: CircleImageView = itemView.civ_profile
-        val tvName: TextView = itemView.tv_name
 
         fun bind(pos: Int) {
-            itemView.tv_msg.visibility=View.GONE
-            itemView.llTime.visibility=View.GONE
-            val editMessageModel = arrayList[pos]
+            val data = arrayList[pos]
 
-            if(editMessageModel.status!=1){
-                Glide.with(context).load(editMessageModel.userImage).into(ivProfile)
-                tvName.text = editMessageModel.userName
+            if(data.isGroup==0){
+                Glide.with(context).load(data.userImage).into(itemView.civ_profile)
+                itemView.tv_name.text = data.userName
+                itemView.tv_msg.text= data.lastMessage
+                itemView.tvTime.text= MyUtils.getTimeAgo(data.created_at.toLong())
             }
 
             itemView.setOnClickListener {
@@ -57,6 +57,6 @@ class VideoCallListAdapter(val context: Context) : RecyclerView.Adapter<VideoCal
     }
 
     interface VideoCallListInterface{
-        fun onItemClick(data:AllData,position: Int)
+        fun onItemClick(data:MessageData,position: Int)
     }
 }

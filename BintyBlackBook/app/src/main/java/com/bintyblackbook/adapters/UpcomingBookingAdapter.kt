@@ -67,7 +67,6 @@ class UpcomingBookingAdapter(var context: Context) :
                 tvStatus.text="Status: COMPLETED"
             }
 
-
             btnCancel.setOnClickListener {
                 bookingInterface.onCancelBooking(pos,arrayList[pos])
             }

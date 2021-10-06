@@ -41,7 +41,7 @@ class SocketManager {
         get() {
             run {
                 mSocket = try {
-                    IO.socket(socket_live_url)
+                    IO.socket(socket_dev_url)
                 } catch (e: URISyntaxException) {
                     throw RuntimeException(e)
                 }
@@ -469,7 +469,7 @@ class SocketManager {
         const val READ_UNREAD_STATUS_LISTENER="read_data_status"
         const val REPORT_USER_LISTENER="report_data"
         //for group
-        const val GROUP_BODY_LISTENER="new_message"
+        const val GROUP_BODY_LISTENER="new_group_message"
         const val GET_GROUP_CHAT_LISTENER="get_data_group_message"
         const val DELETE_GROUP_CHAT_LISTENER="clear_group_chat"
         const val REPORT_GROUP_LISTENER="report_group_data"

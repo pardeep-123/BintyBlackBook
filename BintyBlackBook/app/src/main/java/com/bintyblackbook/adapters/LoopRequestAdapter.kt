@@ -41,18 +41,18 @@ class LoopRequestAdapter(var context: Context) :
             tvMessage.text= data.userName+" has send you loop request"
             itemView.tvTime.text=MyUtils.getTimeAgo(data.created.toLong())
             btnAccept.setOnClickListener {
-                loopRequestInterface.onItemClick("2",data)
+                loopRequestInterface.onItemClick("2",data,pos)
               //  onItemBtnClick?.invoke("2",data)
             }
 
             btnCancel.setOnClickListener {
-                loopRequestInterface.onItemClick("0",data)
+                loopRequestInterface.onItemClick("0",data,pos)
                // onItemBtnClick?.invoke("0",data)
             }
         }
     }
 
     interface LoopRequestInterface{
-        fun onItemClick(status: String, data: LoopRequestData)
+        fun onItemClick(status: String, data: LoopRequestData,position: Int)
     }
 }

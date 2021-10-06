@@ -1,12 +1,14 @@
 package com.bintyblackbook.model
 
+import java.io.Serializable
+
 class GetInboxMessageListResponse {
 
     var chatListing:ArrayList<MessageData> = ArrayList<MessageData>()
     var swapListing:ArrayList<MessageData> = ArrayList<MessageData>()
 }
 
-class MessageData{
+class MessageData:Serializable {
     var id: Int = 0
     var senderId: Int = 0
     var receiverId: Int = 0
