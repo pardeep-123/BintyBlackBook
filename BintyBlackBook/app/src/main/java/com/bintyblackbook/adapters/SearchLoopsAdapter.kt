@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.AllUsersData
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.item_view_loop_requets.view.*
 import kotlinx.android.synthetic.main.row_myloops.view.*
 
 class SearchLoopsAdapter(val context: Context) : RecyclerView.Adapter<SearchLoopsAdapter.LoopRequestViewHolder>() {
@@ -34,27 +33,57 @@ class SearchLoopsAdapter(val context: Context) : RecyclerView.Adapter<SearchLoop
         fun bind(data: AllUsersData, pos: Int) {
            // 0: Not a Loop, 1: Loop Request Sent , 2: Loop, 3: Received a loop request
 
-            if(data.isLoop==0) {
+            if (data.isLoop == 0) {
+                itemView.ll_loops.visibility = View.VISIBLE
+                itemView.ll_request.visibility = View.GONE
                 itemView.tv_name.text = data.firstName
-                itemView.btnUnLoop.text= "Loop"
+                Glide.with(context).load(data.image).into(itemView.civ_profile)
+                itemView.btnUnLoop.text="Loop"
+
+            }else if (data.isLoop == 1) {
+                itemView.ll_loops.visibility = View.VISIBLE
+                itemView.ll_request.visibility = View.GONE
+                itemView.tv_name.text = data.firstName
+                Glide.with(context).load(data.image).into(itemView.civ_profile)
+                itemView.btnUnLoop.text="Cancel Loop Request"
+
+            }
+            else if (data.isLoop == 2) {
+                itemView.ll_loops.visibility = View.VISIBLE
+                itemView.ll_request.visibility = View.GONE
+                itemView.tv_name.text = data.firstName
+                Glide.with(context).load(data.image).into(itemView.civ_profile)
+                itemView.btnUnLoop.text="UnLoop"
+
+            } else if(data.isLoop==3) {
+
+                itemView.ll_loops.visibility = View.GONE
+                itemView.ll_request.visibility = View.VISIBLE
+                itemView.tv_request.text = data.firstName + " " + "has sent you loop request"
                 Glide.with(context).load(data.image).into(itemView.civ_profile)
             }
 
-            else if(data.isLoop==2){
-                itemView.tv_name.text = data.firstName
-                itemView.btnUnLoop.text= "UnLoop"
-                Glide.with(context).load(data.image).into(itemView.civ_profile)
+            itemView.btnAcceptReq.setOnClickListener {
+                searchLoopInterface.acceptRejectRequest(data,pos,"2")
             }
-            else{ }
+            itemView.btnCancelReq.setOnClickListener {
+                searchLoopInterface.acceptRejectRequest(data,pos,"0")
+            }
 
             itemView.btnUnLoop.setOnClickListener {
-                if (itemView.btnUnLoop.text == "Loop") {
+                if (data.isLoop==0) {
                    // itemView.btnUnLoop.text="Un loop"
                     searchLoopInterface.sendLoopRequest(data,pos)
-                } else {
+                }
+                else if(data.isLoop==1){
+                    searchLoopInterface.acceptRejectRequest(data,pos,"0")
+                }
+                else {
                    // itemView.btnUnLoop.text="Loop"
                     searchLoopInterface.onUnLoopRequest(data,pos)
                 }
+
+                notifyItemChanged(pos)
             }
         }
     }
@@ -62,5 +91,6 @@ class SearchLoopsAdapter(val context: Context) : RecyclerView.Adapter<SearchLoop
     interface SearchLoopInterface{
         fun sendLoopRequest(data: AllUsersData,position: Int)
         fun onUnLoopRequest(data: AllUsersData,position: Int)
+        fun acceptRejectRequest(data:AllUsersData,position: Int,status:String)
     }
 }

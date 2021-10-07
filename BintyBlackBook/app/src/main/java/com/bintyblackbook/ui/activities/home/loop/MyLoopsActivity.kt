@@ -148,6 +148,10 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
             if(it.code==200){
                 loopList.removeAt(position)
                 myLoopsAdapter?.notifyDataSetChanged()
+                if(loopList.size==0){
+                    rvMyLoops.visibility=View.GONE
+                    tvNoLoops.visibility=View.VISIBLE
+                }
             }
             else{
                 Log.i("TAG",it?.msg.toString())
@@ -163,6 +167,11 @@ class MyLoopsActivity : BaseActivity(), View.OnClickListener, AdapterMyLoops.Loo
                 getLoopsList()
             }
         })
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        getLoopsList()
     }
 
 }

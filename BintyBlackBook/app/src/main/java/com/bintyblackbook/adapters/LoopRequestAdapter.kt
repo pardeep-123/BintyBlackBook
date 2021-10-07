@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.LoopRequestData
 import com.bintyblackbook.util.MyUtils
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_loop_request.view.*
 
 class LoopRequestAdapter(var context: Context) :
@@ -38,6 +39,7 @@ class LoopRequestAdapter(var context: Context) :
 
         fun bind(pos: Int) {
             val data= loopList[pos]
+            Glide.with(context).load(data.userImage).into(itemView.civ_profile)
             tvMessage.text= data.userName+" has send you loop request"
             itemView.tvTime.text=MyUtils.getTimeAgo(data.created.toLong())
             btnAccept.setOnClickListener {

@@ -17,7 +17,6 @@ import com.bintyblackbook.model.ChatData
 import com.bintyblackbook.service.MyFirebaseMessagingService
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.ui.activities.home.CheckAvailabilityActivity
-import com.bintyblackbook.ui.activities.home.videocall.accesstoken.VideoChatViewActivity
 import com.bintyblackbook.ui.dialogues.BlockUserDialogFragment
 import com.bintyblackbook.ui.dialogues.ReportChatDialogFragment
 import com.bintyblackbook.util.getSecurityKey
@@ -25,11 +24,11 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ChatViewModel
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.activity_chat.llBottom
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.lang.Exception
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListener {
@@ -154,7 +153,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
         tvReport.setOnClickListener {
             myPopupWindow?.dismiss()
-            val dialogFragment = ReportChatDialogFragment(name,this)
+            val dialogFragment = ReportChatDialogFragment(name, this)
             dialogFragment.show(supportFragmentManager, "reportUser")
         }
 
@@ -239,54 +238,53 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             }
 
             SocketManager.GET_CHAT_LISTENER -> {
-                try{
-                runOnUiThread {
+                try {
+                    runOnUiThread {
 
-                    val mObject = args[0] as JSONArray
-                    Log.i("msgList",mObject.toString())
-                    if(mObject.length()>0){
-                        rvChat.visibility=View.VISIBLE
-                        tv_notfound.visibility = View.GONE
-                        listChat.clear()
+                        val mObject = args[0] as JSONArray
+                        Log.i("msgList", mObject.toString())
+                        if (mObject.length() > 0) {
+                            rvChat.visibility = View.VISIBLE
+                            tv_notfound.visibility = View.GONE
+                            listChat.clear()
 
-                        for (i in 0 until mObject.length()) {
-                            val jsonobj = mObject.getJSONObject(i)
-                            val gson = GsonBuilder().create()
-                            val data = gson.fromJson(jsonobj.toString(), ChatData::class.java)
-                            listChat.add(data)
+                            for (i in 0 until mObject.length()) {
+                                val jsonobj = mObject.getJSONObject(i)
+                                val gson = GsonBuilder().create()
+                                val data = gson.fromJson(jsonobj.toString(), ChatData::class.java)
+                                listChat.add(data)
+                            }
+                            listChat.reverse()
+
+                            chatAdapter = ChatAdaptr(this, listChat, getUser(this)?.id!!)
+                            //viewLastMessage()
+                            rvChat.adapter = chatAdapter
+                            scrollToBottom()
+
+                        } else {
+                            rvChat.visibility = View.GONE
+                            tv_notfound.visibility = View.VISIBLE
                         }
-                        listChat.reverse()
-
-                        chatAdapter = ChatAdaptr(this, listChat, getUser(this)?.id!!)
-                        //viewLastMessage()
-                        rvChat.adapter = chatAdapter
-                        scrollToBottom()
-
                     }
-                    else{
-                        rvChat.visibility=View.GONE
-                        tv_notfound.visibility = View.VISIBLE
-                    }
-                }
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
             }
 
             SocketManager.BODY_LISTENER -> {
-                try{
+                try {
                     runOnUiThread {
                         val mObject = args[0] as JSONObject
 
-                        Log.i("msg",mObject.toString())
+                        Log.i("msg", mObject.toString())
                         val gson = GsonBuilder().create()
                         val model = gson.fromJson(mObject.toString(), ChatData::class.java)
 
-                        val senderId= model.senderId
-                        val user2Id= model.receiverId
-                        if (model.senderId!=getUser(context)?.id){
-                            model.recieverImage=mObject.getString("senderImage")
+                        val senderId = model.senderId
+                        val user2Id = model.receiverId
+                        if (model.senderId != getUser(context)?.id) {
+                            model.recieverImage = mObject.getString("senderImage")
                         }
 
                         if (user2Id == receiverId.toInt() || senderId == receiverId.toInt()) {
@@ -294,34 +292,17 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
                             if (listChat.size > 0) {
                                 tv_notfound.visibility = View.GONE
-                                rvChat.visibility=View.VISIBLE
+                                rvChat.visibility = View.VISIBLE
                                 chatAdapter?.notifyDataSetChanged()
                                 rvChat.scrollToPosition(listChat.size - 1)
-                            }else {
-                                rvChat.visibility=View.GONE
+                            } else {
+                                rvChat.visibility = View.GONE
                                 tv_notfound.visibility = View.VISIBLE
                             }
                         }
 
-                   /*
-                        listChat.add(model)
-
-                        Log.i("data_message",model.senderImage.toString())
-
-                        if (listChat.size > 0) {
-                            tv_notfound.visibility = View.GONE
-                            rvChat.visibility=View.VISIBLE
-                        } else {
-                            rvChat.visibility=View.GONE
-                            tv_notfound.visibility = View.VISIBLE
-                        }
-
-                        chatAdapter = ChatAdaptr(context, listChat, getUser(this)?.id!!)
-                        viewLastMessage()
-//                        rvChat.adapter = chatAdapter
-//                        rvChat.scrollToPosition(listChat.size -1)*/
                     }
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
@@ -364,24 +345,62 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
         when (v?.id) {
 
-            R.id.rlVideo->{
-               // startActivity(Intent(this,VideoCallActivity::class.java))
+            R.id.rlVideo -> {
+                // startActivity(Intent(this,VideoCallActivity::class.java))
 
                 //ios channel name= $mUserId-|-remoteNumber-|-date-|-video-|-name
-                var mUserId= getUser(this)?.id.toString()
-                var mUserName= getUser(this)?.firstName
+                var mUserId = getUser(this)?.id.toString()
+                var mUserName = getUser(this)?.firstName
 
-                var  mChannelName = "$mUserId-|-$receiverId-|-${System.currentTimeMillis()/1000}-|-video-|-$mUserName"
+                var timeInterval=0L
+                val toyBornTime = "2001-01-01"
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+                try {
+                    val oldDate: Date = dateFormat.parse(toyBornTime)
+                    System.out.println(oldDate)
+                    val currentDate = Date()
+                    val diff = currentDate.time - oldDate.time
+                    val seconds = diff / 1000
+                    val milli= seconds/1000
+                    val minutes = seconds / 60
+                    val hours = minutes / 60
+                    val days = hours / 24
+                    if (oldDate.before(currentDate)) {
+                        timeInterval=seconds
+                        Log.e("oldDate", "is previous date")
+                        Log.e("Difference: ", " seconds: " + milli + " minutes: " + minutes
+                                    + " hours: " + hours + " days: " + days
+                        )
+                    }
+
+                    // Log.e("toyBornTime", "" + toyBornTime);
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
 
 
-                chatViewModel.sendCallNotification(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,receiverId)
-                chatViewModel.notificationLiveData.observe(this,  {
+                var mChannelName = "$mUserId-|-$receiverId-|-$timeInterval-|-video-|-$mUserName"
+                //"$mUserId-|-$receiverId-|-${System.currentTimeMillis()/1000}-|-video-|-$mUserName"
 
-                    val intent= Intent(this,VideoCallActivity::class.java)
-                    intent.putExtra("videoToken",it.data?.token)
-                    intent.putExtra("channelName",mChannelName)
+                Log.d("=====", mChannelName + "====date" + timeInterval)
+
+
+                chatViewModel.sendCallNotification(
+                    this,
+                    getSecurityKey(this)!!,
+                    getUser(this)?.authKey!!,
+                    receiverId
+                )
+                chatViewModel.notificationLiveData.observe(this, {
+
+                    val intent = Intent(this, VideoCallActivity::class.java)
+                    intent.putExtra("videoToken", it.data?.token)
+                    intent.putExtra("channelName", mChannelName)
                     intent.putExtra("userId", getUser(this)?.id.toString())
-                    intent.putExtra("otheruserId",receiverId)
+                    intent.putExtra("otheruserId", receiverId)
+                    intent.putExtra("otherUserName", name)
                     startActivity(intent)
 
                 })
@@ -390,7 +409,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             R.id.btnBookNow -> {
                 val intent = Intent(this, CheckAvailabilityActivity::class.java)
                 intent.putExtra("user_id", receiverId)
-                intent.putExtra("screen_type","chat")
+                intent.putExtra("screen_type", "chat")
                 startActivity(intent)
             }
 
@@ -434,15 +453,17 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         }
     }
 
-    fun reportUser(report:String){
+    fun reportUser(report: String){
         try{
             val jsonObject= JSONObject()
-            jsonObject.put("message",report)
+            jsonObject.put("message", report)
             jsonObject.put("userId", getUser(this)?.id.toString())
             jsonObject.put("user2Id", receiverId)
             socketManager?.reportUser(jsonObject)
-        }catch (e:Exception){
+        }catch (e: Exception){
             e.printStackTrace()
         }
     }
+
+
 }

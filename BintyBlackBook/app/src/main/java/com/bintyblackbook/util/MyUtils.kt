@@ -19,6 +19,8 @@ import com.makeramen.roundedimageview.RoundedImageView
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 object MyUtils {
@@ -62,6 +64,11 @@ object MyUtils {
         }
     }
 
+    fun getTimeInterval(oldDate:Date, newDate:Date):Long{
+        val dateIntevalInMilis  = newDate.time - oldDate.time
+        return dateIntevalInMilis/1000
+    }
+
     fun getDateWith(timeStamp: Long): String? {
         return try {
             val sdf = SimpleDateFormat("MM/dd/yyyy")
@@ -87,6 +94,14 @@ object MyUtils {
     }
 
 
+
+    fun getCustomdate():Date{
+        val string = "May 31, 2020"
+        val formatter =SimpleDateFormat("MMM dd, yyyy")
+
+        val date = formatter.parse(string)
+        return date
+    }
     fun getTime(timeStamp: Long): String? {
         return try {
             val sdf = SimpleDateFormat("hh:mm a")
@@ -143,7 +158,7 @@ object MyUtils {
     fun getCurrentDate(timeStamp: Long): String? {
         return try {
             val sdf = SimpleDateFormat("MMM dd")
-            val netDate = Date(timeStamp * 1000L)
+            val netDate = Date(timeStamp/1000)
             sdf.format(netDate)
         } catch (ex: java.lang.Exception) {
             "xx"

@@ -41,7 +41,7 @@ class SocketManager {
         get() {
             run {
                 mSocket = try {
-                    IO.socket(socket_dev_url)
+                    IO.socket(socket_live_url)
                 } catch (e: URISyntaxException) {
                     throw RuntimeException(e)
                 }
@@ -193,7 +193,6 @@ class SocketManager {
             mSocket?.on(GET_CHAT_LISTENER, onGetChatListener)
             mSocket?.off(BODY_LISTENER)
             mSocket?.on(BODY_LISTENER, onBodyListener)
-
         }
     }
 

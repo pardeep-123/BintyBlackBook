@@ -58,31 +58,9 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         clickListenerHandling()
 
         switchFragment(HomeFragment())
-        /*  ivSearch.setOnClickListener {
-              if (searchClick){
-                  edtSearch.visibility = View.GONE
-                  searchClick = false
-                  MyUtils.hideSoftKeyboard(this)
-              }else{
-                  edtSearch.visibility = View.VISIBLE
-                  searchClick = true
-              }
-          }*/
+
     }
-    /*private fun getNotificationCount() {
-        notificationViewModel.getNotificationCount(getSecurityKey(this)!!, getUser(this)?.authKey!!)
-        notificationViewModel.notiCountLiveData.observe(this, Observer {
-            switchFragment(HomeFragment())
-            if(it.code==200){
-                if(it.data?.count!=0){
-                    tvCount.visibility=View.VISIBLE
-                    tvCount.text =it.data?.count.toString()
-                }else{
-                    tvCount.visibility= View.GONE
-                }
-            }
-        })
-    }*/
+
 
     private fun clickListenerHandling() {
         ll_Home.setOnClickListener(this)
@@ -109,14 +87,11 @@ class HomeActivity : BaseActivity(), View.OnClickListener {
         when (view.id) {
             R.id.ll_Home -> {
                 drawerClose()
+                switchFragment(HomeFragment())
             }
             R.id.rlMenu -> {
                 openDrawer()
             }
-//            R.id.rlBell -> {
-//                val intent= Intent(context,NotificationActivity::class.java)
-//                startActivity(intent)
-//            }
             R.id.ll_Profile -> {
                 if (userType.equals("User")) {
                     val intent = Intent(context, MyProfileActivity::class.java)

@@ -18,9 +18,11 @@ import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
+import kotlinx.android.synthetic.main.activity_video_chat_view.*
 
 class VideoCallActivity : AppCompatActivity() {
     var channelName=""
+    var name=""
 
     private var mRtcEngine: RtcEngine? = null
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
@@ -84,6 +86,8 @@ class VideoCallActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video_chat_view)
 
         channelName= intent?.getStringExtra("channelName").toString()
+        name= intent?.getStringExtra("otherUserName").toString()
+        tvUserName.text=name
 
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO) && checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)) {
             initAgoraEngineAndJoinChannel()
@@ -236,6 +240,7 @@ class VideoCallActivity : AppCompatActivity() {
         // Initializes the local video view.
         // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black.
         mRtcEngine!!.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0))
+
     }
 
     private fun joinChannel() {
@@ -243,14 +248,23 @@ class VideoCallActivity : AppCompatActivity() {
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
+
+        ll_join.visibility=View.VISIBLE
+        rl_calling.visibility=View.GONE
         var token: String? = getString(R.string.agora_access_token)
         if (token!!.isEmpty()) {
             token = null
         }
         mRtcEngine!!.joinChannel(token, channelName, "", 0) // if you do not specify the uid, we will generate the uid for you
+        ll_join.visibility=View.GONE
+        rl_calling.visibility=View.VISIBLE
+
     }
 
     private fun setupRemoteVideo(uid: Int) {
+
+        ll_join.visibility=View.VISIBLE
+        rl_calling.visibility=View.GONE
         // Only one remote video view is available for this
         // tutorial. Here we check if there exists a surface
         // view tagged as this uid.
@@ -303,5 +317,9 @@ class VideoCallActivity : AppCompatActivity() {
 
         private const val PERMISSION_REQ_ID_RECORD_AUDIO = 22
         private const val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

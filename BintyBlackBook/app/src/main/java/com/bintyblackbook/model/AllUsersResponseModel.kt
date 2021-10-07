@@ -13,7 +13,7 @@ data class AllUsersData(
     val firstName: String,
     val id: Int,
     val image: String,
-    val isLoop: Int,
+    var isLoop: Int,
     val phone: String,
     val userType: Int
 )

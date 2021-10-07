@@ -11,9 +11,7 @@ import com.bintyblackbook.adapters.TimelineAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.PostData
 import com.bintyblackbook.ui.activities.home.OtherUserProfileActivity
-import com.bintyblackbook.ui.activities.home.UserDetailActivity
 import com.bintyblackbook.ui.activities.home.profileBusiness.MyProfileBusinessActivity
-import com.bintyblackbook.ui.activities.home.profileUser.MyProfileActivity
 import com.bintyblackbook.ui.dialogues.PostDeleteDialogFragment
 import com.bintyblackbook.ui.dialogues.ReportUserDialogFragment
 import com.bintyblackbook.util.AppConstant

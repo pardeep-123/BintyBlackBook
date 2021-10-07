@@ -34,7 +34,7 @@ class AdapterMyLoops(val context: Context) : RecyclerView.Adapter<AdapterMyLoops
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val civProfile: CircleImageView = itemView.civ_profile
         val tvName: TextView = itemView.tv_name
-        val btnUnLoop: Button = itemView.btnUnLoop
+        val btnUnLoop: TextView = itemView.btnUnLoop
         val btnAccept: Button = itemView.btnAcceptReq
         val btnCancel: Button = itemView.btnCancelReq
 

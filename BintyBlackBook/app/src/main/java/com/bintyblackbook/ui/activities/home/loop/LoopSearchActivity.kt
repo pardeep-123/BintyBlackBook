@@ -21,45 +21,27 @@ import com.bintyblackbook.viewmodel.LoopsViewModel
 import kotlinx.android.synthetic.main.activity_loop_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.LoopRequestInterface,
-    SearchLoopsAdapter.SearchLoopInterface {
+class LoopSearchActivity : BaseActivity(), SearchLoopsAdapter.SearchLoopInterface {
 
     lateinit var loopsViewModel: LoopsViewModel
     var arrayList= ArrayList<AllUsersData>()
-    var loopList= ArrayList<AllUsersData>()
-    var searchRequestAdapter:SearchRequestAdapter?=null
     var searchLoopsAdapter: SearchLoopsAdapter?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loop_search)
         loopsViewModel= LoopsViewModel()
-        headingText.text = "LOOP SEARCH"
+        headingText.text = "SEARCH"
         setLoopsAdapter()
 
-        setFriendsAdapter()
+        search_loop.setOnEditorActionListener { v, actionId, event ->
+            getUserList(search_loop.text.toString())
+            false
+        }
 
-        search_loop.setOnEditorActionListener(object :TextView.OnEditorActionListener{
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-
-                getUserList(search_loop.text.toString())
-                return false
-            }
-
-        })
-
-      //  search_loop.addTextChangedListener(this)
         iv_back.setOnClickListener {
             finish()
         }
-    }
-
-    private fun setFriendsAdapter() {
-        rvMyFriends.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
-        searchRequestAdapter= SearchRequestAdapter(this)
-        rvMyFriends.adapter= searchRequestAdapter
-        searchRequestAdapter?.loopRequestInterface=this
-        searchRequestAdapter?.loopList= arrayList
     }
 
     private fun setLoopsAdapter() {
@@ -71,21 +53,6 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
 
     }
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-    }
-
-    override fun afterTextChanged(s: Editable?) {
-        if(!s.isNullOrEmpty()) {
-            getUserList(s.toString())
-        }
-    }
-
-
 
     private fun getUserList(s: String?) {
         loopsViewModel.getAllUsers(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,s)
@@ -94,20 +61,14 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
             if(it.data.size==0){
                 tvNoSearchList.visibility=View.VISIBLE
                 rvLoops.visibility=View.GONE
-                rvMyFriends.visibility=View.GONE
             }
             else {
                 tvNoSearchList.visibility=View.GONE
                 rvLoops.visibility=View.VISIBLE
-                rvMyFriends.visibility=View.VISIBLE
-
-                loopList.clear()
-                loopList.addAll(it.data)
-                searchLoopsAdapter?.notifyDataSetChanged()
 
                 arrayList.clear()
                 arrayList.addAll(it.data)
-                searchRequestAdapter?.notifyDataSetChanged()
+                searchLoopsAdapter?.notifyDataSetChanged()
             }
         })
     }
@@ -121,22 +82,19 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
         unLoopRequest(data.id.toString(),position)
     }
 
-    override fun acceptRequest(status: String, data: AllUsersData) {
-        accepCancelRequest(status,data)
-    }
-
-    override fun cancelRequest(status: String, data: AllUsersData) {
-        accepCancelRequest(status, data)
-
-    }
-    private fun accepCancelRequest(status: String, data: AllUsersData) {
+    override fun acceptRejectRequest(data: AllUsersData, position: Int, status: String) {
         loopsViewModel.acceptRejectRequest(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,data.id.toString(),status)
         loopsViewModel.baseLiveData.observe(this, Observer {
 
-            if(it.code==200){
-                Log.i("===request",it.msg)
+            if(status=="2"){
+                arrayList[position].isLoop=2
                 searchLoopsAdapter?.notifyDataSetChanged()
-                searchRequestAdapter?.notifyDataSetChanged()
+            }else if(status=="0"){
+                arrayList[position].isLoop=0
+                searchLoopsAdapter?.notifyDataSetChanged()
+            }else{
+                arrayList[position].isLoop=0
+                searchLoopsAdapter?.notifyDataSetChanged()
             }
 
         })
@@ -147,10 +105,8 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
         loopsViewModel.baseLiveData.observe(this, Observer {
 
             if(it.code==200){
-
+                arrayList[position].isLoop=1
                 searchLoopsAdapter?.notifyDataSetChanged()
-                searchRequestAdapter?.notifyDataSetChanged()
-                Log.i("===loop",it.msg)
             }
 
         })
@@ -159,11 +115,10 @@ class LoopSearchActivity : BaseActivity(), TextWatcher, SearchRequestAdapter.Loo
     fun unLoopRequest(user_id: String, position: Int){
         loopsViewModel.unLoop(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,user_id)
         loopsViewModel.baseLiveData.observe(this, Observer {
-            if(it.code==200){
-                searchRequestAdapter?.notifyDataSetChanged()
-                searchLoopsAdapter?.notifyDataSetChanged()
-                Log.i("===loop",it.msg)
-            }
+
+            arrayList[position].isLoop=0
+            searchLoopsAdapter?.notifyDataSetChanged()
+
         })
     }
 

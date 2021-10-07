@@ -45,20 +45,13 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setObservables() {
-            profileViewModel.profileObservable.observe(this, Observer {
-                if (it.code == 200) {
+        profileViewModel.profileObservable.observe(this, Observer {
+            if (it.code == 200) {
                     setData(it.data)
-                }
-            })
+            }
+        })
     }
 
-    var options: RequestOptions = RequestOptions()
-        .centerCrop()
-        .placeholder(R.drawable.progress_animation)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .priority(Priority.HIGH)
-        .dontAnimate()
-        .dontTransform()
 
     private fun setData(it: Data?) {
         tvUserName.text=it?.firstName
@@ -66,11 +59,9 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         tvPhoneNumber.text= it?.countryCode +" " +it?.phone
         tvAbout.text =it?.description
         runOnUiThread {
-            Glide.with(this).load(it?.image).apply(options).into(ivUserProfile)
+            Glide.with(this).load(it?.image).into(ivUserProfile)
         }
-
     }
-
 
 
     private fun setOnClicks() {

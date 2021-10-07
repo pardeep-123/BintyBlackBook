@@ -1,7 +1,6 @@
 package com.bintyblackbook.ui.activities.home.notification
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +9,6 @@ import com.bintyblackbook.R
 import com.bintyblackbook.adapters.LoopRequestAdapter
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.model.LoopRequestData
-import com.bintyblackbook.ui.dialogues.CancelDialogFragment
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.LoopRequestViewModel
@@ -81,8 +79,7 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
     }
 
     override fun onItemClick(status: String, data: LoopRequestData,position:Int) {
-        userId= data.otherUserId.toString()
-        loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,userId,status)
+        loopsViewModel.acceptRejectRequest(this,getSecurityKey(this)!!, getUser(this)?.authKey!!,data.userId.toString(),status)
         loopsViewModel.baseLiveData.observe(this, Observer {
             loopList.removeAt(position)
             loopRequestAdapter?.notifyDataSetChanged()
@@ -92,15 +89,5 @@ class LoopRequestActivity : BaseActivity(), LoopRequestAdapter.LoopRequestInterf
             }
 
         })
-
-
-
-       /* if (status == "2"){
-            val dialog  = CancelDialogFragment(this,"acceptLoopRequest")
-            dialog.show(supportFragmentManager,"acceptLoopRequest")
-        }else if (status == "0"){
-            val dialog= CancelDialogFragment(this,"cancelLoopRequest")
-            dialog.show(supportFragmentManager,"cancelLoopRequest")
-        }*/
     }
 }
