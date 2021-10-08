@@ -79,6 +79,10 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
         screen_type= intent?.getStringExtra("screen_type").toString()
         val data = getUser(this)
         if("social".equals(screen_type)){
+            password_text.visibility=View.GONE
+            confpassword_text.visibility=View.GONE
+            password_text_business.visibility=View.GONE
+            confpassword_text_business.visibility=View.GONE
             if(data?.userType==0){
                 uname_text.setText(data.firstName)
                 email_text.setText(data.email)
@@ -88,6 +92,11 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
                 uname_text_business.setText(data?.firstName)
                 email_text_business.setText(data?.email)
             }
+        }else{
+            password_text.visibility=View.VISIBLE
+            confpassword_text.visibility=View.VISIBLE
+            password_text_business.visibility=View.VISIBLE
+            confpassword_text_business.visibility=View.VISIBLE
         }
 
     }
@@ -234,10 +243,18 @@ class SignupActivity : ImagePickerUtility(), View.OnClickListener {
             && Validations.isValidPhoneNumber(context,phone_text,getString(R.string.err_valid_phone))
             && Validations.validateEmailAddress(context,email_text)
             && Validations.isValidPassword(context,password_text)
-            &&Validations.isValidPasswordText(context,password_text,getString(R.string.err_pass_valid))
+            && Validations.isValidPasswordText(context,password_text,getString(R.string.err_pass_valid))
             && Validations.isEmpty(context,confpassword_text,getString(R.string.err_confirm_password))
             && Validations.confirmPassword(context,password_text,confpassword_text,getString(R.string.err_password_not_match))
         ){
+
+            if("normal".equals(screen_type)){
+                Validations.isValidPassword(context,password_text)
+                        && Validations.isValidPasswordText(context,password_text,getString(R.string.err_pass_valid))
+                return
+            }
+
+
             if(!cbAccept.isChecked){
                 Toast.makeText(context,getString(R.string.err_terms_conditions),Toast.LENGTH_LONG).show()
                 return

@@ -1,5 +1,6 @@
 package com.bintyblackbook.ui.activities.home.message
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -22,13 +23,14 @@ import com.bintyblackbook.ui.dialogues.ReportChatDialogFragment
 import com.bintyblackbook.util.getSecurityKey
 import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.ChatViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
+import com.master.permissionhelper.PermissionHelper
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.text.ParseException
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.*
 
 class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListener {
@@ -38,7 +40,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
     var layoutmanager:LinearLayoutManager?=null
 
     var socketManager: SocketManager? = null
-
+    var permissionHelper: PermissionHelper? = null
     var myPopupWindow: PopupWindow? = null
     var receiverId = ""
     var type = ""
@@ -56,7 +58,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         setContentView(R.layout.activity_chat)
         socketManager = BintyBookApplication.getSocketManager()
         chatViewModel= ChatViewModel()
-
+        getTimeOffeset()
         setAdapter()
         getIntentData()
         initializeSocket()
@@ -346,13 +348,47 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         when (v?.id) {
 
             R.id.rlVideo -> {
-                // startActivity(Intent(this,VideoCallActivity::class.java))
 
-                //ios channel name= $mUserId-|-remoteNumber-|-date-|-video-|-name
+                val df: DateFormat = DateFormat.getTimeInstance()
+                df.setTimeZone(TimeZone.getTimeZone("gmt"))
+                val gmtTime: String = df.format(Date())
+
+                Log.e("=====gmtTime",gmtTime)
+
+
+                chatViewModel.sendCallNotification(
+                    this,
+                    getSecurityKey(this)!!,
+                    getUser(this)?.authKey!!,
+                    receiverId
+                )
+                chatViewModel.notificationLiveData.observe(this, {
+                    checkVideoPermission()
+
+                })
+
+
+                /* //ios channel name= $mUserId-|-remoteNumber-|-date-|-video-|-name
                 var mUserId = getUser(this)?.id.toString()
                 var mUserName = getUser(this)?.firstName
 
-                var timeInterval=0L
+
+                val startTime = System.currentTimeMillis() //Get the current time
+
+                */
+                /**codes you want to test***//*
+
+                val endTime = 978307200000
+
+                val timeInMiils= startTime-endTime
+
+
+                //   val timeInterval= (endTime - startTime)
+                println("Time Cost:" + (startTime-978307200000) + "ms")
+
+                Log.d("=====","StartTime" + startTime + "Time Coset:" +(startTime-978307200000)+ "seconds"+timeInMiils)
+
+                 var timeInterval=0L
                 val toyBornTime = "2001-01-01"
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd")
                 dateFormat.timeZone = TimeZone.getTimeZone("UTC")
@@ -370,7 +406,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                     if (oldDate.before(currentDate)) {
                         timeInterval=seconds
                         Log.e("oldDate", "is previous date")
-                        Log.e("Difference: ", " seconds: " + milli + " minutes: " + minutes
+                        Log.e("Difference: ", " seconds: " + milli *1000.0 + " minutes: " + minutes
                                     + " hours: " + hours + " days: " + days
                         )
                     }
@@ -403,7 +439,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                     intent.putExtra("otherUserName", name)
                     startActivity(intent)
 
-                })
+                })*/
             }
 
             R.id.btnBookNow -> {
@@ -464,6 +500,61 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
             e.printStackTrace()
         }
     }
+    fun checkVideoPermission() {
+        permissionHelper = PermissionHelper(
+            this,
+            arrayOf(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA
+            ),
+            100
+        )
+        permissionHelper!!.denied {
+            if (it) {
+                Log.d("PermissionHelper", "Denied by system")
+                permissionHelper!!.openAppDetailsActivity()
+            } else {
+                Log.d("PermissionHelper", "Denied by user")
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    getString(R.string.permission_rationale),
+                    Snackbar.LENGTH_INDEFINITE
+                ).setAction(
+                    getString(R.string.ok)
+                ) { v: View? ->
+                    checkVideoPermission()
+                }.show()
+            }
+        }
 
+//Request all permission
+        permissionHelper!!.requestAll {
+            Log.d("PermissionHelper", "All granted")
+            var intent = Intent(this, VideoCallActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+            intent.putExtra("userId", getUser(this)?.id.toString())
+            intent.putExtra("otheruserId", receiverId)
+            intent.putExtra("otherUserName", name)
+            startActivity(intent)
+        }
+    }
+
+    fun  getTimeOffeset():String {
+        val tz = TimeZone.getDefault()
+        val now = Date()
+        val offsetFromUtc = tz.getOffset(now.time) / 1000
+        Log.e("utc",
+            offsetFromUtc.toString() + ">>>>>>>>"
+        )
+        return offsetFromUtc.toString()
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
 }

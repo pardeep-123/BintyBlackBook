@@ -6,24 +6,29 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
+import com.bintyblackbook.base.BaseActivity
+import com.bintyblackbook.service.MyFirebaseMessagingService
+import com.bintyblackbook.socket.SocketManager
+import com.bintyblackbook.util.Validations
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.android.synthetic.main.activity_video_chat_view.*
+import org.json.JSONObject
 
-class VideoCallActivity : AppCompatActivity() {
-    var channelName=""
+class VideoCallActivity : BaseActivity(), SocketManager.Observer {
+    var channelName="BintyBlackBook"
     var name=""
-
+    var socketManager: SocketManager? = null
     private var mRtcEngine: RtcEngine? = null
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         /**
@@ -85,7 +90,7 @@ class VideoCallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_chat_view)
 
-        channelName= intent?.getStringExtra("channelName").toString()
+      //  channelName= intent?.getStringExtra("channelName").toString()
         name= intent?.getStringExtra("otherUserName").toString()
         tvUserName.text=name
 
@@ -197,6 +202,16 @@ class VideoCallActivity : AppCompatActivity() {
     }
 
     fun onEncCallClicked(view: View) {
+
+        if (Validations.isNetworkConnected()) {
+            val jsonObject = JSONObject()
+            jsonObject.put("senderId", intent.getStringExtra("userId"))
+            jsonObject.put("receiverId", intent.getStringExtra("otheruserId"))
+            jsonObject.put("status", 2)
+            socketManager?.getVideoCallStatus(jsonObject)
+            finish()
+        } else
+            showAlertWithOk(resources.getString(R.string.internet_connection))
         finish()
     }
 
@@ -319,7 +334,29 @@ class VideoCallActivity : AppCompatActivity() {
         private const val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
     }
 
+    override fun onResume() {
+        super.onResume()
+        socketManager?.onRegister(this)
+        MyFirebaseMessagingService.isChatNotOpened = false
+    }
+
+    fun initializeSocket() {
+        socketManager = BintyBookApplication.getSocketManager()
+        if (socketManager == null) {
+            socketManager?.initializeSocket()
+        }
+
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
+    }
+
+    override fun onError(event: String?, vararg args: Any?) {
+
+    }
+
+    override fun onResponse(event: String?, vararg args: Any?) {
+
     }
 }

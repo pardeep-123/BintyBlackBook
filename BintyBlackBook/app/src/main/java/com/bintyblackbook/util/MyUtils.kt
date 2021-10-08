@@ -96,8 +96,8 @@ object MyUtils {
 
 
     fun getCustomdate():Date{
-        val string = "May 31, 2020"
-        val formatter =SimpleDateFormat("MMM dd, yyyy")
+        val string = "Jan 01,2021"
+        val formatter =SimpleDateFormat("MMM dd,yyyy")
 
         val date = formatter.parse(string)
         return date
