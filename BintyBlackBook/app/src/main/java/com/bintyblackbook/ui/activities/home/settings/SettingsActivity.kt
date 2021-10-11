@@ -18,6 +18,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var settingsViewModel: SettingsViewModel
     var clicked:Boolean = false
+    var notiStatus=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +44,12 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         settingsViewModel.notificationLiveData.observe(this, Observer {
 
             if(it.data?.notificationStatus==1){
-                ivNotificationToggle.setImageResource(R.drawable.off)
-                clicked=false
+                notiStatus=1
+                ivNotificationToggle.setImageResource(R.drawable.on)
             }
             else{
-                ivNotificationToggle.setImageResource(R.drawable.on)
-                clicked=true
+                notiStatus=0
+                ivNotificationToggle.setImageResource(R.drawable.off)
             }
         })
     }
@@ -91,12 +92,10 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.ivNotificationToggle -> {
-                if (clicked==false) {
-                    updateNotificationStatus("0")
-                    clicked=true
+                if (notiStatus==1) {
+                    updateNotificationStatus("1")
                 } else {
-                   updateNotificationStatus("1")
-                    clicked=false
+                   updateNotificationStatus("0")
                 }
             }
         }
@@ -111,10 +110,11 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 showAlertWithOk("Notification updated successfully")
             }
             if(it?.data?.notificationStatus==1){
+                notiStatus=1
                 ivNotificationToggle.setImageResource(R.drawable.off)
             }
-
             else{
+                notiStatus=0
                 ivNotificationToggle.setImageResource(R.drawable.on)
             }
         })

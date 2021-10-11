@@ -60,11 +60,11 @@ class EventDetailActivity : BaseActivity() {
             ivHeart.setImageResource(R.drawable.heart_new)
         }
 
-        headingText.text = user_name
+        tvHeading.text = user_name
     }
 
     private fun setOnClicks() {
-        iv_back.setOnClickListener {
+        rlBack.setOnClickListener {
             finish()
         }
         tvWebLinks.setOnClickListener {

@@ -18,6 +18,7 @@ class CategoriesResponseModel:BaseResponseModel() {
      val categoryId: Int=0
      val description: String=""
      val id: Int=0
+     val isSelected: Int=0
      val image: String=""
       val name: String=""
      var isSelect=false

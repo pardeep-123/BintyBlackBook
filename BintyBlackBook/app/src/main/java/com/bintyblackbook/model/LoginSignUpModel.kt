@@ -11,7 +11,7 @@ data class Data(
     val availability: Int,
     val businessBlackOwned: Int,
     val businessName: String,
-    val category: List<Category>,
+    val category: ArrayList<CategoryData>,
     val countryCode: String,
     val description: String,
     val email: String,

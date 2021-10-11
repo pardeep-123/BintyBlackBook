@@ -50,13 +50,13 @@
 
             <RelativeLayout
                 android:id="@+id/rlCalender"
-                android:layout_width="50dp"
+                android:layout_width="@dimen/dp40"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@drawable/calendar"
                     android:contentDescription="@string/image" />

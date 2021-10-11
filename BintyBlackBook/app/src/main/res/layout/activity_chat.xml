@@ -86,6 +86,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp10"
+        android:visibility="visible"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 

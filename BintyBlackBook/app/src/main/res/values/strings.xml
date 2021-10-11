@@ -215,7 +215,7 @@
     <string name="log_into_existing_account">Log Into Existing Account</string>
     <string name="create_new_account">Create New Account</string>
     <string name="session_expired">Session Expired. Please try again later.</string>
-    <string name="refer_friends">Refer Friends</string>
+    <string name="refer_friends">Refer A Friend</string>
     <string name="agora_access_token" />
 
 </resources>

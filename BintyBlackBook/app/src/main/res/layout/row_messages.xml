@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="6dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,9 +34,10 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/romul"
+                    android:lineSpacingExtra="4dp"
                     android:text="RAHUL"
                     android:textColor="@color/blackColor"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_msg"
@@ -46,6 +47,7 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="5dp"
                     android:lineSpacingExtra="3dp"
+                    android:singleLine="true"
                     android:text="HI WHAT ARE YOU DOING?"
                     android:textColor="@color/blackColor"
                     android:textSize="@dimen/sp11" />

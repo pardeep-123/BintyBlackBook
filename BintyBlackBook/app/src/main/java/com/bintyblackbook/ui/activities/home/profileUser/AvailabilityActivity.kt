@@ -56,16 +56,20 @@ class AvailabilityActivity : BaseActivity(), HorizontalCalendarAdapter.CalenderI
 
         availabilityViewModel.availableSlotsLiveData.observe(this, androidx.lifecycle.Observer {
             arrayList.clear()
+            arrayList.addAll(it.data)
+            /**
+             * add current date and future date
+             */
 
-            for(m in it.data){
-                var calender11 = Calendar.getInstance()
+           /* for(m in it.data){
+                val calender11 = Calendar.getInstance()
                 calender11.timeInMillis = m.date!! * 1000L
                 val dateNow = Calendar.getInstance().time
                 val dateSelected: Date = Date(calender11.timeInMillis)
                 if (!MyUtils.compareDate(dateSelected, dateNow).equals("before")) {
                     arrayList.add(m)
                 }
-            }
+            }*/
 
             horizontalCalendarAdapter?.notifyDataSetChanged()
         })

@@ -14,6 +14,7 @@ import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
+import com.bintyblackbook.ui.activities.home.message.VideoCallActivity
 import com.bintyblackbook.ui.activities.home.notification.BookingRequestActivity
 import com.bintyblackbook.ui.activities.home.notification.LoopRequestActivity
 import com.bintyblackbook.util.saveToken
@@ -40,6 +41,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     var status: Int? = null
     var receiverId: Int? = null
     var objectBody: JSONObject? = null
+    var channel_name=""
 
     companion object {
         var isChatNotOpened = true
@@ -101,6 +103,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             recieverImage = objectBody!!.getString("senderImage")
             bookId = objectBody!!.getString("bookingId")
             receiverId = objectBody!!.getInt("userId")
+            channel_name=objectBody!!.getString("channel_name")
 
             message = objectBody?.getString("message")!!
             bookingId = objectBody?.getString("bookingId")
@@ -136,6 +139,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
              intent.putExtra("sender_id", receiverId.toString())
              intent.putExtra("name", recieverName)
              intent.putExtra("isGroup","0")
+         }else if(type==7){
+             intent = Intent(this, VideoCallActivity::class.java)
+             intent.putExtra("channel_name",channel_name)
          }
 
 

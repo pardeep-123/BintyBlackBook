@@ -13,7 +13,7 @@
         android:id="@+id/rlNoti"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/email_back"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -36,6 +36,7 @@
             android:layout_centerVertical="true"
             android:text="Notifications"
             android:fontFamily="@font/romul"
+            android:textSize="@dimen/sp11"
             android:textColor="@color/blackColor" />
 
         <ImageView
@@ -75,6 +76,7 @@
             android:layout_centerVertical="true"
             android:text="CHANGE PASSWORD"
             android:fontFamily="@font/romul"
+            android:textSize="@dimen/sp11"
             android:textColor="@color/blackColor" />
 
     </RelativeLayout>
@@ -105,6 +107,7 @@
             android:layout_centerVertical="true"
             android:text="PRIVACY POLICY"
             android:fontFamily="@font/romul"
+            android:textSize="@dimen/sp11"
             android:textColor="@color/blackColor" />
 
     </RelativeLayout>
@@ -132,6 +135,7 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/ivBell4"
             android:padding="8dp"
+            android:textSize="@dimen/sp11"
             android:layout_centerVertical="true"
             android:text="TERMS &amp; CONDITIONS"
             android:fontFamily="@font/romul"
@@ -164,6 +168,7 @@
             android:padding="8dp"
             android:layout_centerVertical="true"
             android:text="BLOCKED CONTACTS"
+            android:textSize="@dimen/sp11"
             android:fontFamily="@font/romul"
             android:textColor="@color/blackColor" />
 
@@ -196,6 +201,7 @@
             android:layout_centerVertical="true"
             android:text="MY WALLET"
             android:fontFamily="@font/romul"
+            android:textSize="@dimen/sp11"
             android:textColor="@color/blackColor" />
 
     </RelativeLayout>

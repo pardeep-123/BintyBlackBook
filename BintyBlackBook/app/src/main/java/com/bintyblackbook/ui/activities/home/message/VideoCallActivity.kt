@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
@@ -26,10 +27,12 @@ import kotlinx.android.synthetic.main.activity_video_chat_view.*
 import org.json.JSONObject
 
 class VideoCallActivity : BaseActivity(), SocketManager.Observer {
-    var channelName="BintyBlackBook"
-    var name=""
+    var channelName = "BintyBlackBook"
+    var name = ""
     var socketManager: SocketManager? = null
     private var mRtcEngine: RtcEngine? = null
+    var builder: AlertDialog.Builder? = null
+
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         /**
          * Occurs when a remote user (Communication)/ host (Live Broadcast) joins the channel.
@@ -89,12 +92,17 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_chat_view)
+        initializeSocket()
 
-      //  channelName= intent?.getStringExtra("channelName").toString()
-        name= intent?.getStringExtra("otherUserName").toString()
-        tvUserName.text=name
+        name = intent?.getStringExtra("otherUserName").toString()
+        channelName = intent?.getStringExtra("channelName").toString()
+        tvUserName.text = name
 
-        if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO) && checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)) {
+        if (checkSelfPermission(
+                Manifest.permission.RECORD_AUDIO,
+                PERMISSION_REQ_ID_RECORD_AUDIO
+            ) && checkSelfPermission(Manifest.permission.CAMERA, PERMISSION_REQ_ID_CAMERA)
+        ) {
             initAgoraEngineAndJoinChannel()
         }
     }
@@ -109,19 +117,26 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
     private fun checkSelfPermission(permission: String, requestCode: Int): Boolean {
         Log.i(LOG_TAG, "checkSelfPermission $permission $requestCode")
-        if (ContextCompat.checkSelfPermission(this,
-                permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(permission),
-                requestCode)
+                requestCode
+            )
             return false
         }
         return true
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         Log.i(LOG_TAG, "onRequestPermissionsResult " + grantResults[0] + " " + requestCode)
 
@@ -201,6 +216,8 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         mRtcEngine!!.switchCamera()
     }
 
+
+    //    callStatus:0 for ringing, 1 for answered, 2 for cancelled
     fun onEncCallClicked(view: View) {
 
         if (Validations.isNetworkConnected()) {
@@ -217,11 +234,16 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
     private fun initializeAgoraEngine() {
         try {
-            mRtcEngine = RtcEngine.create(baseContext, getString(R.string.agora_app_id), mRtcEventHandler)
+            mRtcEngine =
+                RtcEngine.create(baseContext, getString(R.string.agora_app_id), mRtcEventHandler)
         } catch (e: Exception) {
             Log.e(LOG_TAG, Log.getStackTraceString(e))
 
-            throw RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e))
+            throw RuntimeException(
+                "NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(
+                    e
+                )
+            )
         }
     }
 
@@ -234,10 +256,14 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
         // Please go to this page for detailed explanation
         // https://docs.agora.io/en/Video/API%20Reference/java/classio_1_1agora_1_1rtc_1_1_rtc_engine.html#af5f4de754e2c1f493096641c5c5c1d8f
-        mRtcEngine!!.setVideoEncoderConfiguration(VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360,
-            VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
-            VideoEncoderConfiguration.STANDARD_BITRATE,
-            VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT))
+        mRtcEngine!!.setVideoEncoderConfiguration(
+            VideoEncoderConfiguration(
+                VideoEncoderConfiguration.VD_640x360,
+                VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
+                VideoEncoderConfiguration.STANDARD_BITRATE,
+                VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT
+            )
+        )
     }
 
     private fun setupLocalVideo() {
@@ -264,22 +290,27 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
 
-        ll_join.visibility=View.VISIBLE
-        rl_calling.visibility=View.GONE
+        ll_join.visibility = View.VISIBLE
+        rl_calling.visibility = View.GONE
         var token: String? = getString(R.string.agora_access_token)
         if (token!!.isEmpty()) {
             token = null
         }
-        mRtcEngine!!.joinChannel(token, channelName, "", 0) // if you do not specify the uid, we will generate the uid for you
-        ll_join.visibility=View.GONE
-        rl_calling.visibility=View.VISIBLE
+        mRtcEngine!!.joinChannel(
+            token,
+            channelName,
+            "",
+            0
+        ) // if you do not specify the uid, we will generate the uid for you
+        ll_join.visibility = View.GONE
+        rl_calling.visibility = View.VISIBLE
 
     }
 
     private fun setupRemoteVideo(uid: Int) {
 
-        ll_join.visibility=View.VISIBLE
-        rl_calling.visibility=View.GONE
+        ll_join.visibility = View.VISIBLE
+        rl_calling.visibility = View.GONE
         // Only one remote video view is available for this
         // tutorial. Here we check if there exists a surface
         // view tagged as this uid.
@@ -349,7 +380,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        callDialog()
     }
 
     override fun onError(event: String?, vararg args: Any?) {
@@ -358,5 +389,46 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
     override fun onResponse(event: String?, vararg args: Any?) {
 
+        when (event) {
+
+            SocketManager.CALL_STATUS_LISTENER -> {
+                runOnUiThread {
+                    try {
+                        val data = args.get(0) as JSONObject
+                        Log.i("=====", data.toString())
+
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        }
     }
-}
+
+        private fun callDialog() {
+            builder!!.setMessage("Are you sure you want to end call?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    //if (!isVideoCallPicked) {
+                    if (Validations.isNetworkConnected()) {
+                        val jsonObject = JSONObject()
+                        jsonObject.put("senderId", intent.getStringExtra("userId"))
+                        jsonObject.put("receiverId", intent.getStringExtra("otheruserId"))
+                        jsonObject.put("status", 2)
+                        socketManager?.getVideoCallStatus(jsonObject)
+                        finish()
+                    } else
+                        showAlertWithOk(resources.getString(R.string.internet_connection))
+                    // }else
+                    //     finish()
+                }
+                .setNegativeButton("No") { dialog, id -> //  Action for 'NO' Button
+                    dialog.cancel()
+                }
+            //Creating dialog box
+            val alert = builder!!.create()
+            alert.show()
+        }
+    }

@@ -180,6 +180,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
     private fun setUserData(user: Data?) {
 
+        Glide.with(this).load(user?.image).into(civ_profile)
         edtName.setText(user?.businessName)
         edtEmail.setText(user?.email)
         edtExperience.setText(user?.experience)
@@ -613,7 +614,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
             R.id.etSelectCategory -> {
                 runOnUiThread {
-                    categoryDialogFragment = CategoryDialogFragment(categoryList, this, this)
+                    categoryDialogFragment = CategoryDialogFragment(categoryList, this,this)
                     categoryDialogFragment?.show(this.supportFragmentManager, "dialog")
                 }
             }

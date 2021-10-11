@@ -53,7 +53,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/rivCamera"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         android:layout_marginStart="@dimen/dp18"
         android:layout_marginEnd="@dimen/dp18"
         android:scaleType="fitXY"
@@ -70,7 +70,7 @@
         android:text="@string/description"
         android:textColor="@color/whiteColor"
         android:textSize="@dimen/sp13"
-        android:textStyle="bold" />
+        android:textStyle="normal" />
 
     <EditText
         android:id="@+id/edtDesc"
@@ -92,7 +92,8 @@
         android:textColor="@color/whiteColor"
         android:textColorHint="@color/whiteColor"
         android:textCursorDrawable="@drawable/cursor_color"
-        android:textSize="@dimen/sp13" />
+        android:textSize="@dimen/sp12"
+        android:imeOptions="actionDone"/>
 
     <Button
         android:id="@+id/btnPost"

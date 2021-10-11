@@ -133,10 +133,10 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         it.category.forEach {
             categories.add(it.name)
             it.subCategories.forEach {
-                subCategories.add(it.name)
+                subCategories.add("#"+it.name)
             }
         }
-        tvSubCategory.text = TextUtils.join("# ",subCategories)
+        tvSubCategory.text = TextUtils.join(" ,",subCategories)
         tvBusinessCategory.text= TextUtils.join(",", categories)
         if(it.services.isNullOrEmpty()){
             tvService.visibility=View.GONE

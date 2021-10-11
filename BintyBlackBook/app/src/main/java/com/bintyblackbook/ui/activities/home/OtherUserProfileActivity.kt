@@ -256,7 +256,9 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
 
             R.id.btnChatUser ->{
                 saveMsgType(this,0)
-                val intent= Intent(this,ChatActivity::class.java)
+
+                val intent=Intent(context, ChatActivity::class.java)
+                intent.putExtra("isGroup","0")
                 intent.putExtra("name",name)
                 intent.putExtra("type","0")
                 intent.putExtra("sender_id",otherUserId.toString())

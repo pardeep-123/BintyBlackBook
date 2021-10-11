@@ -275,7 +275,7 @@ object MyUtils {
 
     fun getDayDate(timestamp: Long): String {
         return try {
-            val sdf = SimpleDateFormat("EE,MMM dd yyyy")
+            val sdf = SimpleDateFormat("EEE,MMM dd yyyy")
             val netDate = Date(timestamp * 1000L)
             sdf.format(netDate)
         } catch (ex: java.lang.Exception) {

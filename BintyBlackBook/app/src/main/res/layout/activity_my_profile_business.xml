@@ -98,8 +98,8 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/civ_profile"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
                         android:src="@drawable/john1"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -159,7 +159,6 @@
                     android:layout_marginEnd="@dimen/dp8"
                     android:fontFamily="@font/trajanpro_regular"
                     android:text=""
-                    android:textStyle="bold"
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp9" />
 
@@ -332,6 +331,7 @@
                     android:layout_marginEnd="@dimen/dp8"
                     android:fontFamily="@font/romul"
                     android:text=""
+                    android:autoLink="all"
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp8" />
 
@@ -365,10 +365,10 @@
                     android:layout_marginTop="@dimen/dp40"
                     android:background="@drawable/btn1"
                     android:fontFamily="@font/romul"
-                    android:text="@string/set_availability"
+                    android:text="Set Availability for booking requests"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp13" />
+                    android:textSize="@dimen/sp11" />
 
                 <Button
                     android:id="@+id/btnEditProfile"
@@ -377,7 +377,7 @@
                     android:layout_marginTop="@dimen/dp15"
                     android:background="@drawable/btn1"
                     android:fontFamily="@font/romul"
-                    android:text="@string/edit_profile"
+                    android:text="View/Edit Profile"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13" />

@@ -46,7 +46,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
     private lateinit var loginButton: LoginButton
     private lateinit var facebookAuth: FacebookAuth
     private val rcSignIn: Int = 231
-    
+    var isSave = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,8 +88,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
             email_text.setText(getEmail(context))
             password_text.setText(getPassword(context))
             cbRemember.isChecked=true
+            isSave=true
         }
         else{
+            isSave=false
             email_text.setText("")
             password_text.setText("")
             !cbRemember.isChecked
@@ -99,6 +101,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
     private fun setObservables() {
        loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
                if(t?.code==200){
+                   checkStatus()
                    val response=t.data
 
                    saveUser(this,response!!)

@@ -70,8 +70,8 @@
 
     <ImageView
         android:id="@+id/ivAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/dp30"

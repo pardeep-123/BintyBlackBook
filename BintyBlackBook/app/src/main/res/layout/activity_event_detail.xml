@@ -7,14 +7,51 @@
     android:background="@color/themeColor"
     tools:context=".ui.activities.home.EventDetailActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbEventDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rlBack"
+                android:layout_width="50dp"
+                android:layout_height="40dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/back"
+                    android:contentDescription="@string/image" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/heading"
+                android:textColor="@color/whiteColor"
+                android:textSize="13sp"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/tbEventDetail"
         android:fillViewport="true"
         android:scrollbars="none">
 
@@ -34,7 +71,7 @@
                     android:id="@+id/img_user"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/background"
                     app:riv_corner_radius="@dimen/dp5" />
 
@@ -104,7 +141,7 @@
                 android:lines="1"
                 android:text="@string/sat_5_jan_may_8_00_am"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp11" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,6 +166,7 @@
                     android:layout_marginStart="@dimen/dp2"
                     android:layout_marginEnd="@dimen/dp5"
                     android:lines="1"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:text="@string/https_www_google_com"
                     android:textColor="#04789F"
                     android:padding="4dp"

@@ -58,6 +58,7 @@ class BlockedContactsActivity : BaseActivity(), View.OnClickListener, AdapterBlo
                 tvNoBlockUser.visibility=View.VISIBLE
                 rvBlockedContacts.visibility=View.GONE
             } else{
+                arrayList.clear()
                 tvNoBlockUser.visibility=View.GONE
                 rvBlockedContacts.visibility=View.VISIBLE
                 arrayList.addAll(it.data)

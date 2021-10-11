@@ -27,9 +27,9 @@
             android:contentDescription="@string/image"
             android:src="@drawable/add_new" />
     </LinearLayout>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_marginTop="@dimen/dp5"
         android:layout_marginBottom="@dimen/dp10"
         xmlns:app="http://schemas.android.com/apk/res-auto"

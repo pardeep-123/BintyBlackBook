@@ -69,18 +69,9 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
                      it.date.toString() == selectedDate
                  } as ArrayList<EventData>
 
-
                 Log.i("selected_date",filteredList.toString())
-
-                // your operation...
             }
         }
-
-        /*setTabLayout()
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = fragList[position]
-        }.attach()*/
     }
 
     private fun initFavEventAdapter() {
@@ -137,6 +128,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
 
         edtSearchEvent.addTextChangedListener(this)
         tvAllEvent.setOnClickListener {
+            selectedDate=""
             currentList="AllEvent"
             tvFavEvents.setTextColor(ContextCompat.getColor(context, R.color.whiteColor))
             viewFavEvent.setBackgroundColor(ContextCompat.getColor(context, R.color.themeColor))
@@ -153,6 +145,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
         }
 
         tvFavEvents.setOnClickListener {
+            selectedDate=""
             currentList="FavEvent"
             tvFavEvents.setTextColor(ContextCompat.getColor(context, R.color.fadePink))
             viewFavEvent.setBackgroundColor(ContextCompat.getColor(context, R.color.fadePink))

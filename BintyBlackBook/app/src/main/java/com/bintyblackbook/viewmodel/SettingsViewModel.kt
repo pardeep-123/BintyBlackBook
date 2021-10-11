@@ -72,7 +72,7 @@ class SettingsViewModel : ViewModel(){
     //get notification status
     fun getNotificationStatus(context: Context,security_key:String,auth_key:String){
 
-        (context as BaseActivity).dismissProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.getNotificationStatus(security_key,auth_key
         ).enqueue(object : Callback<JsonElement> {
 

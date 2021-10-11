@@ -211,27 +211,28 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
             SocketManager.BLOCK_STATUS_LISTENER -> {
                 try {
-                    val data = args.get(0) as JSONObject
-                    Log.i("Block_status_listener", data.toString())
+                    runOnUiThread {
+                        val data = args.get(0) as JSONObject
+                        Log.i("Block_status_listener", data.toString())
 
-                    // block_data_status=1(blocked),block_data_status=0(unblocked)
+                        // block_data_status=1(blocked),block_data_status=0(unblocked)
 
-                    if (data.getInt("block_data_status") == 1) {
-                        block_status = 1
-                        llBottom.visibility = View.GONE
-                        if (isGroup == "0") {
-                            rlVideo.visibility = View.GONE
+                        if (data.getInt("block_data_status") == 1) {
+                            block_status = 1
+                            llBottom.visibility = View.GONE
+                            if (isGroup == "0") {
+                                rlVideo.visibility = View.GONE
+                            }
+
+                        } else {
+                            block_status = 0
+                            if (isGroup == "0") {
+                                rlVideo.visibility = View.VISIBLE
+                            }
+                            llBottom.visibility = View.VISIBLE
                         }
-
-                    } else {
-                        block_status = 0
-                        if (isGroup == "0") {
-                            rlVideo.visibility = View.VISIBLE
-                        }
-                        llBottom.visibility = View.VISIBLE
                     }
                     setPopUpWindow()
-
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
@@ -311,8 +312,28 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 
             SocketManager.BLOCK_USER_LISTENER -> {
                 try {
-                    val data = args.get(0) as JSONObject
-                    Log.e("BLOCK_LISTENER", data.toString())
+                    runOnUiThread {
+                        val data = args.get(0) as JSONObject
+                        Log.e("BLOCK_LISTENER", data.toString())
+                        if (data.getString("block_data") =="1") {
+                            block_status = 1
+                            llBottom.visibility = View.GONE
+                            if (isGroup == "0") {
+                                rlVideo.visibility = View.GONE
+                            }
+
+                        } else {
+                            block_status = 0
+                            if (isGroup == "0") {
+                                rlVideo.visibility = View.VISIBLE
+                            }
+                            llBottom.visibility = View.VISIBLE
+                        }
+
+
+                    }
+                    setPopUpWindow()
+
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
@@ -356,13 +377,10 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
                 Log.e("=====gmtTime",gmtTime)
 
 
-                chatViewModel.sendCallNotification(
-                    this,
-                    getSecurityKey(this)!!,
-                    getUser(this)?.authKey!!,
-                    receiverId
-                )
+                chatViewModel.sendCallNotification(this, getSecurityKey(this)!!, getUser(this)?.authKey!!, receiverId)
                 chatViewModel.notificationLiveData.observe(this, {
+
+                    channelName= it.data?.channelName!!
                     checkVideoPermission()
 
                 })
@@ -482,7 +500,7 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
         try {
             jsonObject.put("userId", getUser(context)?.id)
             jsonObject.put("user2Id", receiverId)
-            jsonObject.put("status", "0")
+            jsonObject.put("status", "1")
             socketManager?.blockUser(jsonObject)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -530,11 +548,12 @@ class ChatActivity : BaseActivity(), SocketManager.Observer, View.OnClickListene
 //Request all permission
         permissionHelper!!.requestAll {
             Log.d("PermissionHelper", "All granted")
-            var intent = Intent(this, VideoCallActivity::class.java)
+            val intent = Intent(this, VideoCallActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
             intent.putExtra("userId", getUser(this)?.id.toString())
             intent.putExtra("otheruserId", receiverId)
             intent.putExtra("otherUserName", name)
+            intent.putExtra("channelName",channelName)
             startActivity(intent)
         }
     }

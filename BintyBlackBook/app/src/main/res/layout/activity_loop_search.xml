@@ -65,7 +65,7 @@
         app:layout_constraintWidth_percent="0.8"
         android:text="Search People or Business with their names"
         android:textColor="@color/whiteColor"
-        android:visibility="gone"
+        android:visibility="visible"
         android:fontFamily="@font/romul"
         tools:visibility="visible"/>
 

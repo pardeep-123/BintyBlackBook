@@ -53,8 +53,8 @@
                 android:text="@string/name"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtName"
@@ -83,8 +83,8 @@
                 android:text="@string/email"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtEmail"
@@ -113,8 +113,8 @@
                 android:text="@string/phone_number"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -162,16 +162,30 @@
 
             </RelativeLayout>
 
-            <TextView
+        <LinearLayout
+            android:id="@+id/llCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:fontFamily="@font/romul"
                 android:text="@string/business_category"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
+            <ImageView
+                android:id="@+id/ivBusinessCategory"
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
+                android:src="@drawable/info"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -186,7 +200,7 @@
                     android:layout_alignParentStart="true"
                     android:background="@null"
                     android:visibility="gone"
-                    android:textSize="@dimen/sp12" />
+                    android:textSize="@dimen/sp11" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -229,8 +243,8 @@
                 android:text="@string/experience"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtExperience"
@@ -259,8 +273,8 @@
                 android:text="@string/location"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtLocation"
@@ -297,8 +311,8 @@
                     android:text="Is This Service Providing Business?"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/sp11"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:id="@+id/ivServiceInfo"
@@ -326,7 +340,7 @@
                     android:paddingStart="@dimen/dp5"
                     android:text="@string/yes"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     tools:ignore="RtlSymmetry" />
 
                 <RadioButton
@@ -340,7 +354,7 @@
                     android:text="@string/no"
                     android:textIsSelectable="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     tools:ignore="RtlSymmetry" />
 
             </RadioGroup>
@@ -354,8 +368,8 @@
                 android:text="@string/service_type"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtServiceType"
@@ -386,8 +400,8 @@
                 android:text="@string/hours_and_days_of_operation"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtHrsDays"
@@ -417,8 +431,8 @@
                 android:text="@string/social_media_handle"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtSocialMedia"
@@ -448,8 +462,8 @@
                 android:text="@string/website_link"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtWebsiteLink"
@@ -483,8 +497,8 @@
                     android:text="@string/open_to_the_swap_system"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/sp11"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -511,7 +525,7 @@
                     android:paddingStart="@dimen/dp5"
                     android:text="@string/yes"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     tools:ignore="RtlSymmetry" />
 
                 <RadioButton
@@ -525,7 +539,7 @@
                     android:text="@string/no"
 
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     tools:ignore="RtlSymmetry" />
 
             </RadioGroup>
@@ -539,8 +553,8 @@
                 android:text="@string/swaps_in_mind"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtSwaps"
@@ -575,8 +589,8 @@
                     android:text="@string/is_your_business_black_owned"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/sp11"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -603,7 +617,7 @@
                     android:paddingStart="@dimen/dp5"
                     android:text="@string/yes"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     tools:ignore="RtlSymmetry" />
 
                 <RadioButton
@@ -617,7 +631,7 @@
                     android:text="@string/no"
 
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp11"
                     tools:ignore="RtlSymmetry" />
 
             </RadioGroup>
@@ -631,18 +645,19 @@
                 android:text="@string/about_the_business"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12"
-                android:textStyle="bold" />
+                android:textSize="@dimen/sp11"
+                android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/edtAboutMe"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
                 android:gravity="start|top"
                 android:hint="@string/about_the_business"
                 android:importantForAutofill="no"
+                android:minHeight="@dimen/dp80"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
                 android:padding="@dimen/dp10"
@@ -668,8 +683,8 @@
                     android:text="@string/upload_video"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/sp11"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:id="@+id/ivAddNewVideo"
@@ -725,8 +740,8 @@
                     android:text="@string/upload_images"
                     android:textAllCaps="true"
                     android:textColor="@color/whiteColor"
-                    android:textSize="@dimen/sp12"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/sp11"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:id="@+id/ivAddImageUser"
@@ -790,7 +805,7 @@
                 android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp12" />
+                android:textSize="@dimen/sp11" />
 
         </LinearLayout>
 
