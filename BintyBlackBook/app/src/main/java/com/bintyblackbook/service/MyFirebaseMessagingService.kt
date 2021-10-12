@@ -6,12 +6,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
+import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import com.bintyblackbook.R
-import com.bintyblackbook.ui.activities.home.HomeActivity
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
 import com.bintyblackbook.ui.activities.home.message.VideoCallActivity
@@ -147,7 +146,31 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(
+        val notificationsound =
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        var notification: Notification? = null
+        notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.mipmap.app_icon)
+                .setChannelId(CHANNEL_ID)
+                .setContentIntent(pendingIntent) //.setSound(notificationsound)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .build()
+        } else {
+            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.mipmap.app_icon)
+                .setContentIntent(pendingIntent)
+                .setSound(notificationsound)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .build()
+        }
+
+
+       /* val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(
             applicationContext, CHANNEL_ID
         )
             .setSmallIcon(R.mipmap.app_icon)
@@ -157,16 +180,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(message)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-
+*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            notificationBuilder.setChannelId(CHANNEL_ID)
             notificationManager!!.createNotificationChannel(notificationChannel)
         }
 
         if (message.isNotBlank() && isChatNotOpened) {
-            notificationBuilder.build().flags =
-                notificationBuilder.build().flags or Notification.FLAG_AUTO_CANCEL
-            notification = notificationBuilder.build()
+//            notification.build().flags =
+//                notificationBuilder.build().flags or Notification.FLAG_AUTO_CANCEL
+//            notification = notificationBuilder.build()
             notificationManager!!.notify(
                 ((Date().getTime() / 1000L % Int.MAX_VALUE).toInt()),
                 notification

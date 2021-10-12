@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -21,16 +22,17 @@
         android:allowBackup="false"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
+        android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.activities.home.message.VideoCallListActivity"></activity>
+        <activity android:name=".ui.activities.home.message.VideoCallListActivity" />
         <activity
             android:name=".ui.activities.home.videocall.accesstoken.VideoChatViewActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait" />
 
         <activity android:name=".ui.activities.home.message.VideoCallActivity" />
         <activity android:name=".ui.activities.home.message.GroupChatActivity" />
@@ -200,13 +202,26 @@
         <receiver
             android:name=".ui.activities.home.message.VideoCallBroadCastReceiver"
             android:exported="false" />
-        <service
-            android:name=".service.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
+        <service android:name=".service.MyFirebaseMessagingService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter> <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" /> </intent-filter>
         </service>
+
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/app_icon" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/themeColor" />
+        <!-- [END fcm_default_icon] -->
+        <!-- [START fcm_default_channel] -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
 
     </application>
 
