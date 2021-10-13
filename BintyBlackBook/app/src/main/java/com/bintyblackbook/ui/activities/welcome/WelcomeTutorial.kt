@@ -63,7 +63,7 @@ class WelcomeTutorial : BaseActivity(), ViewPager.OnPageChangeListener {
 
         if (position == 4) {
             tvSkip.setText("Get Started")
-            tvSkip.setTextColor(resources.getColor(R.color.grey))
+            tvSkip.setTextColor(resources.getColor(R.color.fadePink))
             tvSkip.background= resources.getDrawable(R.drawable.background_rounded_corners)
             tv_heading_txt.text = "We are *cosmopolitans. Welcome to our not so small Black book.\n\n*citizens of the world"
         } else if (position == 3) {

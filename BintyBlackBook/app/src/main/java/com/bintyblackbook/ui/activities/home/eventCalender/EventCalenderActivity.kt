@@ -256,6 +256,20 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
 
     }
 
+    override fun onFavItemClick(data: FavEventData) {
+        val intent = Intent(this, EventDetailActivity::class.java)
+        intent.putExtra(AppConstant.HEADING,data.name)
+        intent.putExtra("user_id",data.userId)
+        intent.putExtra("image",data.image)
+        intent.putExtra("location",data.location)
+        intent.putExtra("time",data.time.toString())
+        intent.putExtra("date",data.date.toString())
+        intent.putExtra("desc",data.description)
+        intent.putExtra("web_link",data.rsvpLink)
+        intent.putExtra("is_favourite","1")
+        startActivity(intent)
+    }
+
     override fun onResume() {
         super.onResume()
         if(!selectedDate.equals("")){

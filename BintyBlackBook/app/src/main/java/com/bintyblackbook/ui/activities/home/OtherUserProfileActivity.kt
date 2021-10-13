@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.activities.home
 
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -29,7 +30,10 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import kotlinx.android.synthetic.main.activity_my_profile_business.*
 import kotlinx.android.synthetic.main.activity_other_user_profile.*
+import kotlinx.android.synthetic.main.activity_other_user_profile.tvBusinessCategory
+import kotlinx.android.synthetic.main.activity_other_user_profile.tvSubCategory
 import kotlinx.android.synthetic.main.activity_other_user_profile.tvWebLink
 import kotlinx.android.synthetic.main.activity_splash.view.*
 import kotlinx.android.synthetic.main.activity_user_detail.rvImages
@@ -110,6 +114,7 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         }
 
         //headingText.text= data?.firstName
+        tvWebLink.setPaintFlags(tvWebLink.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         web_link=data?.websiteLink!!
         name= data.firstName
         otherUserId= data.id.toString()

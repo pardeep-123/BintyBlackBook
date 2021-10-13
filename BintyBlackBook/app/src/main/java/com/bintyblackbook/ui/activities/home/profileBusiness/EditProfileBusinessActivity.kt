@@ -101,19 +101,21 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // MyUtils.fullscreen(this)
+        // MyUtils.fullscreen(this)
         setContentView(R.layout.activity_edit_profile_business)
         Places.initialize(this, getString(R.string.places_api_key))
         infoViewModel= InfoViewModel()
 
-        getCategoryData()
 
+        getCategoryData()
         headingText.text=getString(R.string.view_edit_profile)
         setVideoAdapter()
         setPhotoAdapter()
         aboutMeTypingTimeScroll()
         clickHandles()
-        setUserData(getUser(this))
+
+
+
         setPopUpWindow()
 
     }
@@ -136,11 +138,11 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
         //set content and background
         popup?.contentView = popupContent
-      //  popup?.setBackgroundDrawable(resources.getDrawable(R.drawable.popup_background))
+        //  popup?.setBackgroundDrawable(resources.getDrawable(R.drawable.popup_background))
 
         //popupContent.findViewById<View>(R.id.btnClose).setOnClickListener { popup.dismiss() }
 
-     //   popup?.setTouchInterceptor(this)
+        //   popup?.setTouchInterceptor(this)
         popup?.setFocusable(true)
         popup?.setOutsideTouchable(true)
     }
@@ -155,6 +157,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             } else {
                 Log.i("TAG", it.msg.toString())
             }
+            setUserData(getUser(this))
         })
     }
 
@@ -215,9 +218,31 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         val name_list=ArrayList<String>()
         val sub_idList=ArrayList<String>()
         val subCategoryList= ArrayList<String>()
+
+        for(m in categoryList){
+            for(n in user?.category!!){
+                if(m.id==n.id){
+                    m.isSelect=true
+                    for(k in m.subCategories){
+                        for(j in n.subCategories){
+                            if(k.id==j.id){
+                                k.isSelect=true
+                            }
+                        }
+                    }
+                }
+            }
+        }
         user?.category?.forEach{
+            var data1 = it
             id_list.add(it.id.toString())
             name_list.add(it.name)
+            categoryList.forEach {
+                var data2 =it
+                if(data1.name.equals(data2.name)){
+
+                }
+            }
 
             it.subCategories.forEach {
                 sub_idList.add(it.id.toString())
@@ -252,6 +277,11 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
                 )
                 videoAdapter?.notifyDataSetChanged()
             }
+        }
+
+        if(photoList.size==0){
+            photoList.add(UploadPhotoModel("undefined", imageFile, "", 0))
+            uploadPhotoAdapter?.notifyDataSetChanged()
         }
 
         if(videoList.size==0){
@@ -517,15 +547,24 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
     }
 
     override fun addVideo(data: UploadVideoModel, position: Int) {
-        if(data.video_url!=null || !data.video_url.equals("")){
-            if(data.type.equals("undefined")){
-                list_count += 1
-                videoList.add(UploadVideoModel("undefined", selectedVideoFile, 0))
-                videoAdapter?.notifyDataSetChanged()
-            }
+        if(data.video_url!=null ){
+//            if(data.type.equals("undefined")){
+            list_count += 1
+            videoList.add(UploadVideoModel("undefined",selectedVideoFile,0))
+            videoAdapter?.notifyDataSetChanged()
+//            }
         }else{
             showSnackBarMessage("Please Upload Video")
         }
+//        if(data.video_url!=null || !data.video_url.equals("")){
+//            if(data.type.equals("undefined")){
+//                list_count += 1
+//                videoList.add(UploadVideoModel("undefined", selectedVideoFile, 0))
+//                videoAdapter?.notifyDataSetChanged()
+//            }
+//        }else{
+//            showSnackBarMessage("Please Upload Video")
+//        }
     }
 
     fun createRequestBody(param: String): RequestBody {
@@ -652,10 +691,8 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             }
 
             R.id.ivServiceInfo -> {
-                popup?.showAsDropDown(ivServiceInfo)
+              //  popup?.showAsDropDown(ivServiceInfo)
             }
-
-
         }
     }
 }

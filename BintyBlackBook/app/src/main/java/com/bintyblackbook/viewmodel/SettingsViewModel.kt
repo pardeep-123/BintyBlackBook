@@ -28,7 +28,7 @@ class SettingsViewModel : ViewModel(){
     // add/update notification status
     fun updateNotificationStatus(context: Context,security_key:String,auth_key:String,status:String){
 
-        (context as BaseActivity).showProgressDialog()
+        (context as BaseActivity).dismissProgressDialog()
         ApiClient.apiService.addNotificationStatus(security_key,auth_key,status
         ).enqueue(object : Callback<JsonElement> {
 

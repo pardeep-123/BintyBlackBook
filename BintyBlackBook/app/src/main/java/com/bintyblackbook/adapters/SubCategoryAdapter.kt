@@ -35,8 +35,8 @@ class SubCategoryAdapter(var context: Context, val categoryDialogFragment: Categ
 
                 itemView.cbSubCategory.setOnCheckedChangeListener { p0, isChecked -> categoryDialogFragment.subCategoryList(list)
                     if (isChecked){
-                          list[position].isSelect = true
-                         categoryDialogFragment.subCategoryList(list)
+                        list[position].isSelect = true
+                        categoryDialogFragment.subCategoryList(list)
                         cbSubCategory.isChecked=true
                     }else{
                         cbSubCategory.isChecked=false

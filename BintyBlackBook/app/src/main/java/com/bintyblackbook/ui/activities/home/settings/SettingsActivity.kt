@@ -93,9 +93,9 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.ivNotificationToggle -> {
                 if (notiStatus==1) {
-                    updateNotificationStatus("1")
+                    updateNotificationStatus("0")
                 } else {
-                   updateNotificationStatus("0")
+                   updateNotificationStatus("1")
                 }
             }
         }
@@ -106,9 +106,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
         settingsViewModel.notificationLiveData.observe(this, Observer {
 
-            if(it.code==200){
-                showAlertWithOk("Notification updated successfully")
-            }
+
             if(it?.data?.notificationStatus==1){
                 notiStatus=1
                 ivNotificationToggle.setImageResource(R.drawable.off)

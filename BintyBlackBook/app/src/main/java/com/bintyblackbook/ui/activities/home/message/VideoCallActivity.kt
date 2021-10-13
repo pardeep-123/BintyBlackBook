@@ -3,7 +3,9 @@ package com.bintyblackbook.ui.activities.home.message
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.util.Log
@@ -19,6 +21,7 @@ import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.service.MyFirebaseMessagingService
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.util.Validations
+import com.bintyblackbook.util.getUser
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.VideoCanvas
@@ -32,7 +35,12 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
     var socketManager: SocketManager? = null
     private var mRtcEngine: RtcEngine? = null
     var builder: AlertDialog.Builder? = null
+    var sender_id=""
+    private var isReciever = false
+    var rec_id=""
+    private var mPlayer: MediaPlayer? = null
 
+    private var mCounter : CountDownTimer? = null
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         /**
          * Occurs when a remote user (Communication)/ host (Live Broadcast) joins the channel.
@@ -76,6 +84,17 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
             runOnUiThread { onRemoteUserLeft() }
         }
 
+        override fun onFirstRemoteVideoDecoded(uid: Int, width: Int, height: Int, elapsed: Int) {
+            runOnUiThread { //                    mLogView.logI("First remote video decoded, uid: " + (uid & 0xFFFFFFFFL));
+                Log.e("callAcceted",uid.toString())
+                //  isVideoCallPicked = true
+                if (mCounter != null)
+                    mCounter!!.cancel()
+                stopRinging()
+                setupRemoteVideo(uid)
+            }
+        }
+
         /**
          * Occurs when a remote user stops/resumes sending the video stream.
          *
@@ -89,13 +108,37 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         }
     }
 
+    private fun timeCounter()
+    {
+        mCounter = object : CountDownTimer(45000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+                Log.e("Tag","seconds remaining: " + millisUntilFinished / 1000)
+
+            }
+            override fun onFinish() {
+                stopRinging()
+                finish()
+                showToast(resources.getString(R.string.no_answer))
+            }
+        }.start()
+    }
+
+    private fun stopRinging() {
+        if (mPlayer != null && mPlayer!!.isPlaying()) {
+            mPlayer!!.stop()
+            mPlayer!!.release()
+            mPlayer = null
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_chat_view)
         initializeSocket()
-
+        isReciever = intent.getBooleanExtra("isReciever",false)
         name = intent?.getStringExtra("otherUserName").toString()
         channelName = intent?.getStringExtra("channelName").toString()
+        Log.i("=====",channelName)
         tvUserName.text = name
 
         if (checkSelfPermission(
@@ -109,9 +152,9 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
     private fun initAgoraEngineAndJoinChannel() {
         initializeAgoraEngine()
-        setupLocalVideo()
-        setupVideoProfile()
 
+        setupVideoProfile()
+        setupLocalVideo()
         joinChannel()
     }
 
@@ -222,7 +265,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
         if (Validations.isNetworkConnected()) {
             val jsonObject = JSONObject()
-            jsonObject.put("senderId", intent.getStringExtra("userId"))
+            jsonObject.put("senderId", getUser(context)?.id.toString())
             jsonObject.put("receiverId", intent.getStringExtra("otheruserId"))
             jsonObject.put("status", 2)
             socketManager?.getVideoCallStatus(jsonObject)
@@ -290,22 +333,38 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
 
-        ll_join.visibility = View.VISIBLE
-        rl_calling.visibility = View.GONE
         var token: String? = getString(R.string.agora_access_token)
         if (token!!.isEmpty()) {
             token = null
         }
-        mRtcEngine!!.joinChannel(
+        if (!isReciever) {
+            startRinging()
+            timeCounter()
+        }
+        mRtcEngine?.joinChannel(
             token,
             channelName,
-            "",
+            "Extra Optional Data",
             0
-        ) // if you do not specify the uid, we will generate the uid for you
-        ll_join.visibility = View.GONE
-        rl_calling.visibility = View.VISIBLE
+        )
 
     }
+    private fun startRinging() {
+
+        mPlayer = playCalleeRing()
+
+    }
+    private fun playCalleeRing(): MediaPlayer {
+        return startRinging(R.raw.basic_tones)
+    }
+
+    private fun startRinging(resource: Int): MediaPlayer {
+        val player = MediaPlayer.create(this, resource)
+        player.isLooping = true
+        player.start()
+        return player
+    }
+
 
     private fun setupRemoteVideo(uid: Int) {
 
@@ -396,6 +455,12 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
                     try {
                         val data = args.get(0) as JSONObject
                         Log.i("=====", data.toString())
+                        joinChannel()
+                        if(data.getString("status").equals("2")){
+                            finish()
+                        }else if(data.getString("status").equals("1")){
+                            joinChannel()
+                        }
 
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()

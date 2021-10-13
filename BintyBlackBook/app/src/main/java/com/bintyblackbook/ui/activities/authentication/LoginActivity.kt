@@ -35,7 +35,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.isNullOrEmpty
+import kotlin.collections.listOf
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResult {
@@ -47,6 +50,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
     private lateinit var facebookAuth: FacebookAuth
     private val rcSignIn: Int = 231
     var isSave = false
+    var userList= ArrayList<Data>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -81,8 +86,38 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
             facebookAuth.allowUserToFacebookLogin()
         }
 
+
+        try{
+            if(getUserList(this)!!.size!=0){
+                userList= removeDuplicates(getUserList(this)!!)!!
+
+            }
+//            userList= getUserList(this)!!
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
+
+    // Function to remove duplicates from an ArrayList
+    fun removeDuplicates(list: ArrayList<com.bintyblackbook.model.Data>): ArrayList<com.bintyblackbook.model.Data>? {
+
+        // Create a new ArrayList
+        val newList = ArrayList<com.bintyblackbook.model.Data>()
+
+        // Traverse through the first list
+        for (element in list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+                newList.add(element)
+            }
+        }
+
+        // return the new list
+        return newList
+    }
     private fun checkStatus() {
         if(getStatus(context)=="1"){
             email_text.setText(getEmail(context))
@@ -99,60 +134,68 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
     }
 
     private fun setObservables() {
-       loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
-               if(t?.code==200){
-                   checkStatus()
-                   val response=t.data
+        loginViewModel.loginObservable.observe(this, Observer<LoginSignUpModel> { t ->
+            if (t?.code == 200) {
+//               checkStatus()
+                val response = t.data
 
-                   saveUser(this,response!!)
+                saveUser(this, response!!)
 
-                   if (!getUserList(this).isNullOrEmpty()){
-                       val aa = getUserList(this)
-                       for(i in 0 until aa?.size!!){
-                           if(response.userType==1 && aa[i].id !=response.id) {
-                               aa.add(response)
-                           }
-                       }
+                if(cbRemember.isChecked){
+                    saveStatus(this, "1")
+                    saveEmail(this, email_text.text.toString())
+                    savePassword(this, password_text.text.toString())
+                }else{
+                    saveStatus(this, "0")
+                }
 
-                       saveUsers(this,aa)
+                saveUsers(this,response)
+                /*if (!getUserList(this).isNullOrEmpty()) {
+                    val aa = getUserList(this)
+                    for (i in 0 until aa?.size!!) {
+                        if (response.userType == 1 ) {
+                            if (aa[i].id != response.id) {
+                                aa.add(response)
+                            }
+                        }
+                    }
 
-                   }else{
-                       val list = ArrayList<Data>()
-                       if(response.userType==1){
-                           list.add(response)
-                       }
+                    saveUsers(this, aa)
 
-                       saveUsers(this,list)
-                   }
+                } else {
+                    val list = ArrayList<Data>()
+                    if (response.userType == 1) {
+                        list.add(response)
+                    }
 
-                   BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, response.id.toString())
+                    saveUsers(this, list)
+                }*/
 
-                   if(response.userType==0){
-                       MySharedPreferences.storeUserType(this,"User")
-                   }
-                   else{
-                       MySharedPreferences.storeUserType(this,"Business")
-                   }
+                BintyBookApplication.getInstance()?.setString(BintyBookApplication.USER_ID, response.id.toString())
 
-                   if(response.userType==0){
-                       val intent=Intent(this,WelcomeTutorial::class.java)
-                       startActivity(intent)
-                       finishAffinity()
-                   }
-                   else if(response.userType==1 && response.experience.isNullOrEmpty()){
-                       val intent =Intent(this,InfoActivity::class.java)
-                       startActivity(intent)
-                       finishAffinity()
-                   } else{
-                       val intent =Intent(this,WelcomeTutorial::class.java)
-                       startActivity(intent)
-                       finishAffinity()
-                   }
-               }
-           else{
-                   Toast.makeText(this,t.msg.toString(),Toast.LENGTH_LONG).show()
-               }
-           })
+                if (response.userType == 0) {
+                    MySharedPreferences.storeUserType(this, "User")
+                } else {
+                    MySharedPreferences.storeUserType(this, "Business")
+                }
+
+                if (response.userType == 0) {
+                    val intent = Intent(this, WelcomeTutorial::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                } else if (response.userType == 1 && response.experience.isNullOrEmpty()) {
+                    val intent = Intent(this, InfoActivity::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                } else {
+                    val intent = Intent(this, WelcomeTutorial::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                }
+            } else {
+                Toast.makeText(this, t.msg.toString(), Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun clickHandles() {
@@ -161,19 +204,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
         signInBtn.setOnClickListener(this)
         fbLogin.setOnClickListener(this)
         googleLogin.setOnClickListener(this)
-        cbRemember.setOnCheckedChangeListener { p0, isChecked ->
-            if(isChecked){
-                saveStatus(this,"1")
-                saveEmail(this,email_text.text.toString())
-                savePassword(this,password_text.text.toString())
-            }
-            else{
-                saveStatus(this,"0")
-//                saveEmail(this,email_text.text.toString())
-//                savePassword(this,password_text.text.toString())
-            }
-
-        }
+//        cbRemember.setOnCheckedChangeListener { p0, isChecked ->
+//            if(isChecked){
+//                saveStatus(this, "1")
+//                saveEmail(this, email_text.text.toString())
+//                savePassword(this, password_text.text.toString())
+//            }
+//            else{
+//                saveStatus(this, "0")
+////                saveEmail(this,email_text.text.toString())
+////                savePassword(this,password_text.text.toString())
+//            }
+//
+//        }
 
     }
 
@@ -187,10 +230,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
 
                 if (InternetCheck.isConnectedToInternet(this)
                     && Validations.validateEmailAddress(this, email_text)
-                    && Validations.isEmpty(this,password_text,getString(R.string.err_password))
+                    && Validations.isEmpty(this, password_text, getString(R.string.err_password))
                 ) {
                     //call api or pass any intent here
-                    loginViewModel.loginUser(getSecurityKey(this)!!,email_text.text.toString(),password_text.text.toString(),"","","","1",
+                    loginViewModel.loginUser(getSecurityKey(this)!!, email_text.text.toString(), password_text.text.toString(), "", "", "", "1",
                         getToken(context))
 
                     setObservables()
@@ -198,15 +241,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
             }
             R.id.ll_signup -> {
                 val intent = Intent(context, SignupActivity::class.java)
-                intent.putExtra("screen_type","normal")
+                intent.putExtra("screen_type", "normal")
                 startActivity(intent)
                 finish()
             }
-            R.id.googleLogin ->{
+            R.id.googleLogin -> {
                 signIn()
             }
 
-            R.id.fbLogin ->{
+            R.id.fbLogin -> {
                 loginButton.performClick()
             }
 
@@ -251,14 +294,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
                 //perform task here
 
                 val map: HashMap<String, RequestBody> = HashMap()
-                map.put("social_id",createRequestBody(account?.id.toString()))
-                map.put("social_type",createRequestBody("2"))
-                map.put("userName",createRequestBody(account?.displayName.toString()))
-                map.put("email",createRequestBody(account?.email.toString()))
-                map.put("device_type",createRequestBody("1"))
-                map.put("device_token",createRequestBody(getToken(this)))
-                map.put("pushKitToken",createRequestBody("1234"))
-                map.put("uuid",createRequestBody("1234"))
+                map.put("social_id", createRequestBody(account?.id.toString()))
+                map.put("social_type", createRequestBody("2"))
+                map.put("userName", createRequestBody(account?.displayName.toString()))
+                map.put("email", createRequestBody(account?.email.toString()))
+                map.put("device_type", createRequestBody("1"))
+                map.put("device_token", createRequestBody(getToken(this)))
+                map.put("pushKitToken", createRequestBody("1234"))
+                map.put("uuid", createRequestBody("1234"))
 
                 var imagenPerfil: MultipartBody.Part? = null
 
@@ -267,14 +310,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
                 // MultipartBody.Part is used to send also the actual file name
                 imagenPerfil = MultipartBody.Part.createFormData("image", account.photoUrl.toString(), requestFile)
 
-                loginFnGoogle(map,imagenPerfil)
+                loginFnGoogle(map, imagenPerfil)
 
             } catch (e: ApiException) {
                 Log.e("JSON", e.toString())
             }
         } else {
             Log.e("UserLoginActivity", "Google Cancel")
-            showToast( "Google Cancel")
+            showToast("Google Cancel")
         }
     }
 
@@ -288,55 +331,55 @@ class LoginActivity : BaseActivity(), View.OnClickListener, FacebookAuth.FbResul
 
         //perform task here
         val map: HashMap<String, RequestBody> = HashMap()
-        map.put("social_id",createRequestBody(facebookId))
-        map.put("social_type",createRequestBody("1"))
-        map.put("userName",createRequestBody(fbName))
-        map.put("email",createRequestBody(fbEmail))
-        map.put("device_type",createRequestBody("1"))
-        map.put("device_token",createRequestBody(getToken(this)))
-        map.put("pushKitToken",createRequestBody("1234"))
-        map.put("uuid",createRequestBody("1234"))
+        map.put("social_id", createRequestBody(facebookId))
+        map.put("social_type", createRequestBody("1"))
+        map.put("userName", createRequestBody(fbName))
+        map.put("email", createRequestBody(fbEmail))
+        map.put("device_type", createRequestBody("1"))
+        map.put("device_token", createRequestBody(getToken(this)))
+        map.put("pushKitToken", createRequestBody("1234"))
+        map.put("uuid", createRequestBody("1234"))
 
         var imagenPerfil: MultipartBody.Part? = null
 
-            // create RequestBody instance from file
-            val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imgUrl)
-            // MultipartBody.Part is used to send also the actual file name
-            imagenPerfil = MultipartBody.Part.createFormData("image", imgUrl, requestFile)
+        // create RequestBody instance from file
+        val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imgUrl)
+        // MultipartBody.Part is used to send also the actual file name
+        imagenPerfil = MultipartBody.Part.createFormData("image", imgUrl, requestFile)
 
-            loginFnGoogle(map,imagenPerfil)
+        loginFnGoogle(map, imagenPerfil)
 
     }
 
     private fun loginFnGoogle(map: HashMap<String, RequestBody>, imagenPerfil: MultipartBody.Part) {
-        loginViewModel.socialLogin(getSecurityKey(context)!!,map,imagenPerfil)
+        loginViewModel.socialLogin(getSecurityKey(context)!!, map, imagenPerfil)
         setSocialLoginObservables()
     }
 
     private fun setSocialLoginObservables() {
         loginViewModel.loginObservable.observe(this, Observer {
-            saveUser(this,it.data!!)
+            saveUser(this, it.data!!)
 
-            if(it?.data.phone.isNullOrEmpty()){
-                val intent= Intent(this,SignupActivity::class.java)
-                intent.putExtra("screen_type","social")
+            if (it?.data.phone.isNullOrEmpty()) {
+                val intent = Intent(this, SignupActivity::class.java)
+                intent.putExtra("screen_type", "social")
                 startActivity(intent)
                 finish()
-            }else{
-                val intent= Intent(this,HomeActivity::class.java)
+            } else {
+                val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
                 finishAffinity()
             }
         })
     }
 
-    fun createRequestBody(param:String):RequestBody{
-        val request=  RequestBody.create("text/plain".toMediaTypeOrNull(),param)
+    fun createRequestBody(param: String):RequestBody{
+        val request=  RequestBody.create("text/plain".toMediaTypeOrNull(), param)
         return request
     }
 
     override fun onFbCancel() {
-       showToast("cancel")
+        showToast("cancel")
     }
 
 }

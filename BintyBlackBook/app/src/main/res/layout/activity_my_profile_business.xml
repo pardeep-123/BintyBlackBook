@@ -104,6 +104,16 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
 
+                <ImageView
+                    android:id="@+id/imgPromote"
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/civ_profile"
+                    app:layout_constraintTop_toTopOf="@id/civ_profile"
+                    android:src="@drawable/dot_black_owned"
+                    tools:visibility="visible"/>
+
                     <TextView
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
@@ -390,7 +400,7 @@
                     android:layout_marginBottom="@dimen/dp20"
                     android:background="@drawable/btn1"
                     android:fontFamily="@font/romul"
-                    android:text="@string/event"
+                    android:text="@string/add_event"
                     android:textAllCaps="false"
                     android:textColor="@color/whiteColor"
                     android:textSize="@dimen/sp13" />

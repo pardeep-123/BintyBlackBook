@@ -6,14 +6,16 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
-import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.bintyblackbook.R
 import com.bintyblackbook.ui.activities.home.loop.MyLoopsActivity
 import com.bintyblackbook.ui.activities.home.message.ChatActivity
+import com.bintyblackbook.ui.activities.home.message.IncomingCallActivity
 import com.bintyblackbook.ui.activities.home.message.VideoCallActivity
+import com.bintyblackbook.ui.activities.home.message.VideoCallBroadCastReceiver
 import com.bintyblackbook.ui.activities.home.notification.BookingRequestActivity
 import com.bintyblackbook.ui.activities.home.notification.LoopRequestActivity
 import com.bintyblackbook.util.saveToken
@@ -74,7 +76,36 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
-         saveToken(this,p0)  //save firebase token
+        saveToken(this,p0)  //save firebase token
+    }
+
+    fun createVideoNotification(map: JSONObject) {
+        /*if (map["Msg"] == "Incoming") {*/
+        val intentAction = Intent(this, IncomingCallActivity::class.java)
+        //This is optional if you have more than one buttons and want to differentiate between two
+        intentAction.putExtra("data", map.toString())
+        intentAction.putExtra("SenderName",map.optString("senderName"));
+        intentAction.putExtra("recieverID", map.optString("receiverId")!!.toInt());
+        intentAction.putExtra("senderID", map.optString("senderId")!!.toInt());
+        intentAction.putExtra("senderImage", map.optString("senderImage"))
+        intentAction.putExtra("channelName", map.optString("channelName"))
+        intentAction.putExtra("videoToken", map.optString("videoToken"))
+        intentAction.putExtra("id", map.optString("useruuid")!!)
+
+        val acceptCallIntent = Intent(this, VideoCallBroadCastReceiver::class.java)
+        acceptCallIntent.putExtra("type", "call")
+        acceptCallIntent.putExtra("id", map.optString("useruuid")!!)
+//                acceptCallIntent.putExtra("notificationId", map.optString("useruuid")!!.toString())
+        acceptCallIntent.putExtra("notificationId", map.optString("senderId")!!.toInt())
+        acceptCallIntent.putExtra("recieverID", map.optString("receiverId")!!.toInt());
+        acceptCallIntent.putExtra("senderID", map.optString("senderId")!!.toInt());
+        acceptCallIntent.putExtra("channelName", map.optString("channelName"))
+        acceptCallIntent.putExtra("videoToken", map.optString("videoToken"))
+        acceptCallIntent.putExtra("senderImage", map.optString("senderImage"))
+        acceptCallIntent.putExtra("SenderName",map.optString("senderName"));
+       val acceptCall = PendingIntent.getBroadcast(this, 1, acceptCallIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        acceptCall.send()
+
     }
 
     private fun createNotification(remoteMessage: RemoteMessage) {
@@ -116,7 +147,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
         var intent = Intent()
 
-         if (type == 1) {
+        if (type == 1) {
             intent = Intent(this, LoopRequestActivity::class.java)
             intent.putExtra("message", message)
             intent.putExtra("user_id", receiverId.toString())
@@ -127,50 +158,26 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent.putExtra("type", "0")
             intent.putExtra("sender_id", receiverId.toString())
             intent.putExtra("name", recieverName)
-             intent.putExtra("isGroup","0")
+            intent.putExtra("isGroup","0")
         } else if (type == 4) {
-             intent = Intent(this, BookingRequestActivity::class.java)
-             intent.putExtra("message", message)
-             intent.putExtra("user_id", receiverId.toString())
-         }else if (type == 5) {
-             intent = Intent(this, ChatActivity::class.java)
-             intent.putExtra("type","1")
-             intent.putExtra("sender_id", receiverId.toString())
-             intent.putExtra("name", recieverName)
-             intent.putExtra("isGroup","0")
-         }else if(type==7){
-             intent = Intent(this, VideoCallActivity::class.java)
-             intent.putExtra("channel_name",channel_name)
-         }
+            intent = Intent(this, BookingRequestActivity::class.java)
+            intent.putExtra("message", message)
+            intent.putExtra("user_id", receiverId.toString())
+        }else if (type == 5) {
+            intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("type","1")
+            intent.putExtra("sender_id", receiverId.toString())
+            intent.putExtra("name", recieverName)
+            intent.putExtra("isGroup","0")
+        }else if(type==7){
+            intent = Intent(this, VideoCallActivity::class.java)
+            intent.putExtra("channel_name",channel_name)
+        }
 
 
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val notificationsound =
-            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        var notification: Notification? = null
-        notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.mipmap.app_icon)
-                .setChannelId(CHANNEL_ID)
-                .setContentIntent(pendingIntent) //.setSound(notificationsound)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .build()
-        } else {
-            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.mipmap.app_icon)
-                .setContentIntent(pendingIntent)
-                .setSound(notificationsound)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .build()
-        }
-
-
-       /* val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(
+        val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(
             applicationContext, CHANNEL_ID
         )
             .setSmallIcon(R.mipmap.app_icon)
@@ -180,16 +187,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(message)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-*/
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            notificationBuilder.setChannelId(CHANNEL_ID)
+            notificationBuilder.setChannelId(CHANNEL_ID)
             notificationManager!!.createNotificationChannel(notificationChannel)
         }
 
         if (message.isNotBlank() && isChatNotOpened) {
-//            notification.build().flags =
-//                notificationBuilder.build().flags or Notification.FLAG_AUTO_CANCEL
-//            notification = notificationBuilder.build()
+            notificationBuilder.build().flags =
+                notificationBuilder.build().flags or Notification.FLAG_AUTO_CANCEL
+            notification = notificationBuilder.build()
             notificationManager!!.notify(
                 ((Date().getTime() / 1000L % Int.MAX_VALUE).toInt()),
                 notification

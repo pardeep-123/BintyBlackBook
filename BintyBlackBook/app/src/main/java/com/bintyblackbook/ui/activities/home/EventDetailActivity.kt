@@ -1,14 +1,17 @@
 package com.bintyblackbook.ui.activities.home
 
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
 import com.bintyblackbook.util.AppConstant
 import com.bintyblackbook.util.MyUtils
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_event_detail.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class EventDetailActivity : BaseActivity() {
@@ -51,13 +54,17 @@ class EventDetailActivity : BaseActivity() {
         tvName.text= user_name
         tvLocation.text=location
         tvTIme.text= MyUtils.getDayDate(date.toLong())+" " +MyUtils.getTime(time.toLong())
-        tvWebLinks.text= web_link
+        tvWebLinks.setPaintFlags(tvWebLinks.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+
+        tvWebLinks.text = web_link
+
+       // tvWebLinks.text= web_link
         tvDesc.text= description
         if(isFavourite=="1"){
-            ivHeart.setImageResource(R.drawable.fill_heart)
+            ivHeart.setImageResource(R.drawable.heart_new)
         }
         else{
-            ivHeart.setImageResource(R.drawable.heart_new)
+            ivHeart.setImageResource(R.drawable.like)
         }
 
         tvHeading.text = user_name

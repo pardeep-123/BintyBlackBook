@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/dp10"
-    android:layout_marginBottom="@dimen/dp10">
+    android:layout_marginBottom="6dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/roundedImageView"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             app:riv_corner_radius="5dp" />
@@ -61,8 +61,8 @@
 
             <ImageView
                 android:id="@+id/ivHeart"
-                android:layout_width="@dimen/dp16"
-                android:layout_height="@dimen/dp16"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/image"
                 android:src="@drawable/fill_heart" />

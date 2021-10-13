@@ -107,6 +107,7 @@ class TimelineActivity : BaseActivity(),TimelineAdapter.TimeLineInterface {
     }
 
     override fun onProfileClick(data: PostData, position: Int) {
+
         if(data.userId== getUser(context)?.id){
             val intent= Intent(this, MyProfileBusinessActivity::class.java)
             startActivity(intent)

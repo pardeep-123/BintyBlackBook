@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/romul"
-                android:text="@string/name"
+                android:text="@string/business_name"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp11"
@@ -162,30 +162,30 @@
 
             </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/llCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
-
-        <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llCategory"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/romul"
-                android:text="@string/business_category"
-                android:textAllCaps="true"
-                android:textColor="@color/whiteColor"
-                android:textSize="@dimen/sp11"
-                android:textStyle="normal" />
-            <ImageView
-                android:id="@+id/ivBusinessCategory"
-                android:layout_width="@dimen/dp20"
-                android:layout_height="@dimen/dp20"
-                android:src="@drawable/info"
-                android:layout_marginStart="4dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/romul"
+                    android:text="@string/business_category"
+                    android:textAllCaps="true"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/sp11"
+                    android:textStyle="normal" />
+                <ImageView
+                    android:id="@+id/ivBusinessCategory"
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:src="@drawable/info"
+                    android:layout_marginStart="4dp"/>
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/romul"
-                android:text="@string/experience"
+                android:text="@string/years_in_business"
                 android:textAllCaps="true"
                 android:textColor="@color/whiteColor"
                 android:textSize="@dimen/sp11"
@@ -252,7 +252,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green"
-                android:hint="@string/experience"
+                android:hint="@string/years_in_business"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="text"

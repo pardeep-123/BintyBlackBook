@@ -2,6 +2,7 @@ package com.bintyblackbook.util
 
 import android.content.Context
 import com.bintyblackbook.model.Data
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 
@@ -58,9 +59,12 @@ fun savePassword(context: Context,status:String){
     Prefs.with(context).save(CacheConstants.PASSWORD,status)
 }
 
-fun saveUsers(context: Context, user: ArrayList<Data>) {
+
+
+
+/*fun saveUsers(context: Context, user: ArrayList<Data>) {
     Prefs.with(context).save(CacheConstants.USER_LIST, user)
-}
+}*/
 
 fun getUserList(context: Context):ArrayList<Data>?{
     return Prefs.with(context).getObjectList(CacheConstants.USER_LIST,object : TypeToken<ArrayList<Data>>(){}.type )
@@ -80,6 +84,27 @@ fun clearUserList(context: Context){
     Prefs.with(context).remove(CacheConstants.USER_LIST)
 }
 
+fun saveUsers(context: Context,data: Data){
+
+    var arrayList= getUserList(context)
+    if(arrayList==null){
+        arrayList= ArrayList()
+        arrayList.add(data)
+    }
+
+    else if(arrayList.size >0){
+
+        if(arrayList.filter {
+
+                it.email.equals(data.email)
+
+            }.isEmpty()
+        ) {
+            arrayList.add(data)
+        }
+    }
+    Prefs.with(context).save(CacheConstants.USER_LIST, Gson().toJson(arrayList))
+}
 
 
 

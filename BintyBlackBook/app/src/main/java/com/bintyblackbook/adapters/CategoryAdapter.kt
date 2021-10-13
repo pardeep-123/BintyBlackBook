@@ -31,15 +31,20 @@ class CategoryAdapter(var list: ArrayList<CategoryData>, val categoryDialogFragm
 
         viewHolder.viewBinding.tvCategory.text=categoryList[position].name
         viewHolder.viewBinding.arrow.visibility=View.GONE
+        if(categoryList[position].isSelect){
+            viewHolder.viewBinding.cbCategory.isChecked=true
+            viewHolder.viewBinding.rvSubCategory.visibility=View.VISIBLE
+            categoryDialogFragment.updateList(categoryList)
+        }
 
         val adapter=SubCategoryAdapter(mContext, categoryDialogFragment,categoryList.get(position).subCategories)
         viewHolder.viewBinding.rvSubCategory.layoutManager=LinearLayoutManager(mContext,RecyclerView.VERTICAL,false)
         viewHolder.viewBinding.rvSubCategory.adapter=adapter
-       // subCategoryAdapter.list=subCategoryList
-
-        for (i in 0 until list.size){
-            categoryList[i].isSelect=false
-        }
+//       // subCategoryAdapter.list=subCategoryList
+//
+//        for (i in 0 until list.size){
+//            categoryList[i].isSelect=false
+//        }
 
         viewHolder.viewBinding.cbCategory.setOnCheckedChangeListener { p0, isChecked ->
 
@@ -55,7 +60,12 @@ class CategoryAdapter(var list: ArrayList<CategoryData>, val categoryDialogFragm
                 categoryDialogFragment.updateList(categoryList)
             }else{
                 viewHolder.viewBinding.rvSubCategory.visibility=View.GONE
-
+                for (i in 0 until  categoryList.get(position).subCategories.size){
+                    categoryList.get(position).subCategories.get(i).isSelect=false
+                }
+                adapter.notifyDataSetChanged()
+                categoryList[position].isSelect = false
+                categoryDialogFragment.updateList(categoryList)
             }
 
         }

@@ -21,7 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.layout_add_account.*
-import java.lang.Exception
 
 class AddAccountDialogFragment(var homeActivity: HomeActivity) : BottomSheetDialogFragment(), View.OnClickListener,AccountsAdapter.AccountInterface {
     private lateinit var behavior: BottomSheetBehavior<View>
@@ -55,16 +54,40 @@ class AddAccountDialogFragment(var homeActivity: HomeActivity) : BottomSheetDial
 //            bottomSheet.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
         }
         try{
-            userList= getUserList(requireContext())!!
-        }catch (e:Exception){
+
+            userList=getUserList(requireContext())!!
+                //removeDuplicates(getUserList(requireContext())!!)
+        }catch (e: Exception){
             e.printStackTrace()
         }
 
 
         setAdapter()
         setOnClicks()
-       //callback.callbackInterest(listOf)
+        //callback.callbackInterest(listOf)
 
+    }
+
+    // Function to remove duplicates from an ArrayList
+    open fun removeDuplicates(list: ArrayList<Data>): ArrayList<Data> {
+
+        // Create a new ArrayList
+        val newList = ArrayList<Data>()
+
+
+        // Traverse through the first list
+        for (element in list) {
+
+            // If this element is not present in newList
+            // then add it
+
+            if (!newList.contains(element)) {
+                newList.add(element)
+            }
+        }
+
+        // return the new list
+        return newList
     }
 
     private fun setOnClicks() {
@@ -80,35 +103,38 @@ class AddAccountDialogFragment(var homeActivity: HomeActivity) : BottomSheetDial
         accountsAdapter.accountInterface=this
         accountsAdapter.list=userList
         accountsAdapter.notifyDataSetChanged()
-       // sortAdapter.recyclerItemClick=this
+        // sortAdapter.recyclerItemClick=this
     }
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.btnLogin ->{
-            dialog?.dismiss()
-            startActivity(Intent(requireActivity(),LoginActivity::class.java))
-            requireActivity().finishAffinity()
-            }
-
-            R.id.tvNewAcc ->{
+            R.id.btnLogin -> {
                 dialog?.dismiss()
-                startActivity(Intent(requireActivity(),SignupActivity::class.java))
+                startActivity(Intent(requireActivity(), LoginActivity::class.java))
                 requireActivity().finishAffinity()
             }
 
-            R.id.tvAddAcc ->{
-                group.visibility=View.VISIBLE
-                rvAccounts.visibility=View.GONE
-                tvAddAcc.visibility=View.GONE
+            R.id.tvNewAcc -> {
+                dialog?.dismiss()
+                startActivity(Intent(requireActivity(), SignupActivity::class.java))
+                requireActivity().finishAffinity()
+            }
+
+            R.id.tvAddAcc -> {
+                group.visibility = View.VISIBLE
+                rvAccounts.visibility = View.GONE
+                tvAddAcc.visibility = View.GONE
             }
         }
     }
 
     override fun onItemClick(data: Data) {
-        saveUser(requireContext(),data)
-        startActivity(Intent(requireContext(),HomeActivity::class.java))
+//        if(!userList.contains(data)){
+        saveUser(requireContext(), data)
+        startActivity(Intent(requireContext(), HomeActivity::class.java))
         dialog?.dismiss()
+//        }
+
     }
 
 

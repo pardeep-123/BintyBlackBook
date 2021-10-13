@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
+import com.bintyblackbook.model.EventData
 import com.bintyblackbook.model.FavEventData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -67,7 +68,9 @@ class FavouriteEventAdapter(var context: Context, var list: ArrayList<FavEventDa
                 ivHeart.setImageResource(R.drawable.fill_heart)
                 favEventInterface.onUnFavEvent("0", arrayList[pos], pos)
             }
-
+            itemView.setOnClickListener {
+                favEventInterface.onFavItemClick(arrayList[pos])
+            }
         }
     }
 
@@ -122,5 +125,7 @@ class FavouriteEventAdapter(var context: Context, var list: ArrayList<FavEventDa
 
     interface FavEventInteface {
         fun onUnFavEvent(status: String, data: FavEventData, position: Int)
+
+        fun onFavItemClick(data:FavEventData)
     }
 }

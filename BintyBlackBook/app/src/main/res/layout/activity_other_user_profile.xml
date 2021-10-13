@@ -68,22 +68,19 @@
                 android:layout_marginStart="@dimen/dp8"
                 android:layout_marginEnd="@dimen/dp8">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_profile_user"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/john"
-                    android:scaleType="fitXY"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:riv_corner_radius="@dimen/dp16"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/img_promote"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
                     android:visibility="gone"
-                    android:padding="@dimen/dp2"
                     app:layout_constraintEnd_toEndOf="@id/civ_profile_user"
                     app:layout_constraintTop_toTopOf="@id/civ_profile_user"
                     android:src="@drawable/dot_black_owned"

@@ -253,13 +253,13 @@ object MyUtils {
                 return (diff / DAY_MILLIS).toString() + " days ago";
             }
             diff < 2 * WEEK_MILLIS.toLong() -> {
-                return "1 wk ago"
+                return "1 week ago"
             }
             diff < 4 * WEEK_MILLIS.toLong() -> {
                 return (diff / WEEK_MILLIS.toLong()).toString() + " week ago"
             }
             diff < 2 * MONTH_MILLIS -> {
-                return "1 mo ago"
+                return "1 month ago"
             }
             diff < 12 * MONTH_MILLIS -> {
                 return (diff / MONTH_MILLIS).toString() + " month ago"

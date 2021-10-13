@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/rl_calling"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgUser"
@@ -65,7 +66,7 @@
         android:id="@+id/ll_join"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
     <FrameLayout
         android:id="@+id/remote_video_view_container"

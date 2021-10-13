@@ -1,4 +1,4 @@
-package com.bintyblackbook.ui.activities.home.message
+package com.bintyblackbook.ui.activities.home.videocall
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -7,13 +7,15 @@ import android.content.Intent
 import android.widget.Toast
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
+import com.bintyblackbook.socket.SocketManager
+import com.bintyblackbook.ui.activities.home.message.IncomingCallActivity
 import com.bintyblackbook.util.Validations
 import org.json.JSONObject
 
 
 class VideoCallBroadCastReceiver: BroadcastReceiver() {
+    var socketManager: SocketManager? = null
     override fun onReceive(context: Context?, intent: Intent?) {
-
 
         if (intent!!.getStringExtra("type") == "call") {
             val acceptCallIntent = Intent(
@@ -22,7 +24,9 @@ class VideoCallBroadCastReceiver: BroadcastReceiver() {
             )
             acceptCallIntent.putExtra("id", intent.getStringExtra("id"))
             acceptCallIntent.putExtra("senderID", intent.getIntExtra("senderID", 0))
-            acceptCallIntent.putExtra("channelName", intent.getStringExtra("channelName"))
+            acceptCallIntent.putExtra("recieverID", intent.getIntExtra("recieverID", 0))
+            acceptCallIntent.putExtra("channelName", intent.getStringExtra("channel_name"))
+            acceptCallIntent.putExtra("videoToken", intent.getStringExtra("videoToken"))
             acceptCallIntent.putExtra("senderImage", intent.getStringExtra("senderImage"))
             acceptCallIntent.putExtra("SenderName", intent.getStringExtra("SenderName"))
             acceptCallIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -48,8 +52,7 @@ class VideoCallBroadCastReceiver: BroadcastReceiver() {
                     jsonObject.put("senderId", intent.getIntExtra("senderID", 0).toString())
                     jsonObject.put("receiverId", intent.getIntExtra("recieverID", 0).toString())
                     jsonObject.put("status", 1)
-                    BintyBookApplication.getSocketManager()?.getVideoCallStatus(jsonObject)
-                   // MyApplication.getSocketManager().sendDataToServer(SocketManager.CALL_STATUS, jsonObject)
+                    socketManager?.getVideoCallStatus(jsonObject)
                 }
                 else
                     Toast.makeText(context, context!!.resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()

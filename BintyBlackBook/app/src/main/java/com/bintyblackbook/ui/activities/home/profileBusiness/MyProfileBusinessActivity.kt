@@ -1,6 +1,7 @@
 package com.bintyblackbook.ui.activities.home.profileBusiness
 
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -26,10 +27,12 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.activity_my_profile_business.*
 import kotlinx.android.synthetic.main.activity_my_profile_business.btnEvent
 import kotlinx.android.synthetic.main.activity_my_profile_business.civ_profile
 import kotlinx.android.synthetic.main.activity_my_profile_business.riv1
+import kotlinx.android.synthetic.main.activity_my_profile_business.rlBack
 import kotlinx.android.synthetic.main.activity_my_profile_business.rvImages
 import kotlinx.android.synthetic.main.activity_my_profile_business.tvBusinessCategory
 import kotlinx.android.synthetic.main.activity_my_profile_business.tvLocation
@@ -103,8 +106,18 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
         tvUserAbout.text=it.description
         tvExp.text=it.experience
+        tvWebLink.setPaintFlags(tvWebLink.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         tvWebLink.text=it.websiteLink
         Glide.with(this).load(it.image).into(civ_profile)
+        if(it.isPromoted==1){
+            imgPromote.visibility=View.VISIBLE
+            imgPromote.setImageResource(R.drawable.promote_icon)
+        }else if(it.businessBlackOwned==1){
+            imgPromote.visibility=View.VISIBLE
+            imgPromote.setImageResource(R.drawable.dot_black_owned)
+        }else{
+            imgPromote.visibility=View.GONE
+        }
 
         if(it.userMedia.size!=0){
             if(it.userMedia[0].media.endsWith(".jpg")){

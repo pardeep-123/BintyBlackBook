@@ -38,12 +38,13 @@ class IncomingCallActivity : BaseActivity(), SocketManager.Observer {
         setContentView(R.layout.activity_incoming_call)
         socketManager= BintyBookApplication.getSocketManager()
         initializeSocket()
-        tv_name.text = intent.getStringExtra("SenderName")
-        mCallerId = intent.getIntExtra("senderID",0)
+        tv_name.text = intent.getStringExtra("recieverName").toString()
+//        mCallerId = intent.getIntExtra("senderID",0)
         mrecieverID = intent.getIntExtra("recieverID",0)
-        mSenderImage = intent.getStringExtra("senderImage")!!
-        mChannelName = intent.getStringExtra("channelName")!!
-        videoToken = intent.getStringExtra("videoToken")!!
+        mSenderImage = intent.getStringExtra("senderImage").toString()
+        mChannelName = intent.getStringExtra("channelName").toString()
+        Log.e("channelName",mChannelName)
+        //videoToken = intent.getStringExtra("videoToken")!!
 
         Glide.with(this).load(mSenderImage).error(getResources().getDrawable(R.drawable.place_holder)).into(ivImage)
 
@@ -67,12 +68,12 @@ class IncomingCallActivity : BaseActivity(), SocketManager.Observer {
                 //   jsonObject.put("channelName", mChannelName)
                 socketManager?.getVideoCallStatus(jsonObject)
 
-                val acceptCallIntent = Intent(this, VideoChatViewActivity::class.java)
+                val acceptCallIntent = Intent(this, VideoCallActivity::class.java)
                 acceptCallIntent.putExtra("id", intent.getStringExtra("id"))
                 acceptCallIntent.putExtra("userId", mCallerId.toString())
+                acceptCallIntent.putExtra("otherUserName", intent.getStringExtra("recieverName").toString())
                 acceptCallIntent.putExtra("otheruserId", mrecieverID.toString())
                 acceptCallIntent.putExtra("channelName", mChannelName)
-                acceptCallIntent.putExtra("videoToken",videoToken)
                 acceptCallIntent.putExtra("isReciever", true)
                 acceptCallIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(acceptCallIntent)
