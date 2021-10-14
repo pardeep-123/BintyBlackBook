@@ -19,8 +19,6 @@ import com.makeramen.roundedimageview.RoundedImageView
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 object MyUtils {
@@ -219,58 +217,73 @@ object MyUtils {
     }
 
     fun getTimeAgo(timeMillis: Long): String? {
-        var time = timeMillis
-        if (time < 1000000000000L) {
-            time *= 1000
+        var date: Date? = null
+        try {
+            date = Date(timeMillis * 1000)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-
-        val now = System.currentTimeMillis()
-
-        val diff = now - time
-        when {
-            diff < 2 * SECOND_MILLIS -> {
-                return "Just now"
+        System.out.println("dateeee" + date.toString())
+        var string_date = ""
+        val current = Calendar.getInstance().time
+        var diffInSeconds = (current.time - date!!.time) / 1000
+        val sec = if (diffInSeconds >= 60) diffInSeconds % 60 else diffInSeconds
+        val min = if ((diffInSeconds / 60).also {
+                diffInSeconds = it
+            } >= 60) diffInSeconds % 60 else diffInSeconds
+        val hrs = if ((diffInSeconds / 60).also {
+                diffInSeconds = it
+            } >= 24) diffInSeconds % 24 else diffInSeconds
+        val days = if ((diffInSeconds / 24).also {
+                diffInSeconds = it
+            } >= 30) diffInSeconds % 30 else diffInSeconds
+        val weeks = days / 7
+        val months = if ((diffInSeconds / 30).also {
+                diffInSeconds = it
+            } >= 12) diffInSeconds % 12 else diffInSeconds
+        val years = (diffInSeconds / 12).also { diffInSeconds = it }
+        if (years > 0) {
+            string_date = if (years == 1L) {
+                "1 year"
+            } else {
+                "$years years"
             }
-            diff < 60 * SECOND_MILLIS -> {
-                return (diff / SECOND_MILLIS).toString() + " sec ago"
+        } else if (months > 0) {
+            string_date = if (months == 1L) {
+                "1 month"
+            } else {
+                "$months months"
             }
-            diff < 2 * MINUTE_MILLIS -> {
-                return "1 min ago"
+        } /*else if (weeks > 0) {
+            string_date = if (weeks == 1L) {
+                "1 week"
+            } else {
+                "$weeks Weeks"
             }
-            diff < 50 * MINUTE_MILLIS -> {
-                return (diff / MINUTE_MILLIS).toString() + " min ago"
+        }*/ else if (days > 0) {
+            string_date = if (days == 1L) {
+                "1 day"
+            } else {
+                "$days days"
             }
-            diff < 90 * MINUTE_MILLIS -> {
-                return "an hour ago"
+        } else if (hrs > 0) {
+            string_date = if (hrs == 1L) {
+                "1 hour"
+            } else {
+                "$hrs hours"
             }
-            diff < 24 * HOUR_MILLIS -> {
-                return (diff / HOUR_MILLIS).toString() + " hours ago"
-            }
-            diff < 48 * HOUR_MILLIS -> {
-                return "1 day ago"
-            }
-            diff < 7 * DAY_MILLIS -> {
-                return (diff / DAY_MILLIS).toString() + " days ago";
-            }
-            diff < 2 * WEEK_MILLIS.toLong() -> {
-                return "1 week ago"
-            }
-            diff < 4 * WEEK_MILLIS.toLong() -> {
-                return (diff / WEEK_MILLIS.toLong()).toString() + " week ago"
-            }
-            diff < 2 * MONTH_MILLIS -> {
-                return "1 month ago"
-            }
-            diff < 12 * MONTH_MILLIS -> {
-                return (diff / MONTH_MILLIS).toString() + " month ago"
-            }
-            diff < 2 * YEAR_MILLIS -> {
-                return "a year ago"
-            }
-            else -> {
-                return (diff / YEAR_MILLIS).toString() + " years ago"
+        } else if (min > 0) {
+            string_date = if (min == 1L) {
+                "1 minute"
+            } else {
+                "$min minutes"
             }
         }
+        string_date = "$string_date ago"
+        if (string_date == " ago") {
+            string_date = "1 sec" + " ago"
+        }
+        return string_date
     }
 
     fun getDayDate(timestamp: Long): String {

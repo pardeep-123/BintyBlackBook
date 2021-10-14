@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,8 +36,10 @@ class LoopSearchActivity : BaseActivity(), SearchLoopsAdapter.SearchLoopInterfac
         setLoopsAdapter()
 
         search_loop.setOnEditorActionListener { v, actionId, event ->
-            getUserList(search_loop.text.toString())
-            false
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                getUserList(search_loop.text.toString())
+            }
+            true
         }
 
         iv_back.setOnClickListener {

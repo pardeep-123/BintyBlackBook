@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bintyblackbook.R
 import com.bintyblackbook.model.EventData
 import com.bintyblackbook.model.HomeData
+import com.bintyblackbook.ui.activities.home.eventCalender.EventCalenderActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -126,6 +127,12 @@ class EventAdapter(var context: Context, var list: ArrayList<EventData>) : Recyc
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 arrayList = results?.values as ArrayList<EventData>
+
+                if(arrayList.size>0){
+                    EventCalenderActivity.tvNotfound.visibility= View.GONE
+                }else{
+                    EventCalenderActivity.tvNotfound.visibility= View.VISIBLE
+                }
                 notifyDataSetChanged()
             }
 

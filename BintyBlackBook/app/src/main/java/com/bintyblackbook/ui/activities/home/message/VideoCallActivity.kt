@@ -267,7 +267,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
             val jsonObject = JSONObject()
             jsonObject.put("senderId", getUser(context)?.id.toString())
             jsonObject.put("receiverId", intent.getStringExtra("otheruserId"))
-            jsonObject.put("status", 2)
+            jsonObject.put("callStatus", 2)
             socketManager?.getVideoCallStatus(jsonObject)
             finish()
         } else
@@ -456,9 +456,9 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
                         val data = args.get(0) as JSONObject
                         Log.i("=====", data.toString())
                         joinChannel()
-                        if(data.getString("status").equals("2")){
+                        if(data.getString("callStatus").equals("2")){
                             finish()
-                        }else if(data.getString("status").equals("1")){
+                        }else if(data.getString("callStatus").equals("1")){
                             joinChannel()
                         }
 
@@ -481,7 +481,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
                         val jsonObject = JSONObject()
                         jsonObject.put("senderId", intent.getStringExtra("userId"))
                         jsonObject.put("receiverId", intent.getStringExtra("otheruserId"))
-                        jsonObject.put("status", 2)
+                        jsonObject.put("callStatus", 2)
                         socketManager?.getVideoCallStatus(jsonObject)
                         finish()
                     } else

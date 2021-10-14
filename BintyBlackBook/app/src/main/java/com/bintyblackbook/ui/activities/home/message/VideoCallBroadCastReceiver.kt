@@ -24,7 +24,7 @@ class VideoCallBroadCastReceiver: BroadcastReceiver() {
             acceptCallIntent.putExtra("senderID", intent.getIntExtra("senderID", 0))
             acceptCallIntent.putExtra("channelName", intent.getStringExtra("channelName"))
             acceptCallIntent.putExtra("senderImage", intent.getStringExtra("senderImage"))
-            acceptCallIntent.putExtra("SenderName", intent.getStringExtra("SenderName"))
+            acceptCallIntent.putExtra("recieverName", intent.getStringExtra("recieverName"))
             acceptCallIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context!!.startActivity(acceptCallIntent)
 
@@ -55,7 +55,7 @@ class VideoCallBroadCastReceiver: BroadcastReceiver() {
                     Toast.makeText(context, context!!.resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
             }
 
-        val notificationId = intent.getIntExtra("notificationId", 0)
+        val notificationId = intent.getIntExtra("notificationId", 1)
 
         val manager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancel(notificationId)

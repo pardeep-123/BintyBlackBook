@@ -17,6 +17,6 @@
         android:lines="1"
         android:text="10:00 AM"
         android:textColor="@color/whiteColor"
-        android:textSize="@dimen/sp10" />
+        android:textSize="@dimen/sp9" />
 
 </LinearLayout>

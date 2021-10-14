@@ -21,6 +21,7 @@ import com.bintyblackbook.ui.activities.authentication.CategoryDialogFragment
 import com.bintyblackbook.util.*
 import com.bintyblackbook.viewmodel.InfoViewModel
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -47,6 +48,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile_business.tvServiceTy
 import kotlinx.android.synthetic.main.activity_edit_profile_business.tvSwap
 import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.toolbar.*
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -77,7 +79,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     var list_count=1
     lateinit var infoViewModel: InfoViewModel
-
+    private var exoplayer: SimpleExoPlayer? = null
     var swap_value=""
     var service_business =""
 
@@ -93,7 +95,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
     override fun selectedVideoUri(imagePath: String?) {
         refereshVideoArray()
-        Glide.with(this).load(imagePath).into(riv_video)
+       // Glide.with(this).load(imagePath).into(riv_video)
         videoList.add(UploadVideoModel("upload", imagePath, 0))
         selectedVideoFile=imagePath
         uploadMedia("1")
@@ -107,14 +109,13 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         infoViewModel= InfoViewModel()
 
 
-        getCategoryData()
+       // getCategoryData()
+        setUserData(getUser(this))
         headingText.text=getString(R.string.view_edit_profile)
         setVideoAdapter()
         setPhotoAdapter()
         aboutMeTypingTimeScroll()
         clickHandles()
-
-
 
         setPopUpWindow()
 
@@ -154,6 +155,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
             if (it.code == 200) {
                 categoryList.addAll(it?.data!!)
+                categoryList.reverse()
             } else {
                 Log.i("TAG", it.msg.toString())
             }
@@ -194,22 +196,24 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         etMobileNumber.setText(user?.phone)
         edtHrsDays.setText(user?.operationTime)
         edtSocialMedia.setText(user?.socialMediaHandles)
-        swap_value= user?.isSwapSystem.toString()
-        service_business= user?.isServiceProviding.toString()
+        categoryList.addAll(user?.category!!)
+        categoryList.reverse()
+        swap_value= user.isSwapSystem.toString()
+        service_business= user.isServiceProviding.toString()
 
-        if(user?.isServiceProviding=="1"){
+        if(user.isServiceProviding=="1"){
             rbYesEdit.isChecked=true
         }else{
             rbNoEdit.isChecked=true
         }
 
-        if(user?.isSwapSystem =="1"){
+        if(user.isSwapSystem =="1"){
             rbYesSwapEdit.isChecked=true
         }else{
             rbNoSwapEdit.isChecked=true
         }
 
-        if(user?.businessBlackOwned==0){
+        if(user.businessBlackOwned==0){
             rbNoOwned.isChecked=true
         }else{
             rbYesOwned.isChecked=true
@@ -220,33 +224,32 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         val subCategoryList= ArrayList<String>()
 
         for(m in categoryList){
-            for(n in user?.category!!){
+            for(n in user.category){
                 if(m.id==n.id){
-                    m.isSelect=true
+                    m.isSelected==1
                     for(k in m.subCategories){
                         for(j in n.subCategories){
                             if(k.id==j.id){
-                                k.isSelect=true
+                                k.isSelected==1
                             }
                         }
                     }
                 }
             }
         }
-        user?.category?.forEach{
-            var data1 = it
-            id_list.add(it.id.toString())
-            name_list.add(it.name)
-            categoryList.forEach {
-                var data2 =it
-                if(data1.name.equals(data2.name)){
-
-                }
+        user.category.forEach{
+            if(it.isSelected==1){
+                val data1 = it
+                id_list.add(it.id.toString())
+                name_list.add(it.name)
             }
 
+
             it.subCategories.forEach {
-                sub_idList.add(it.id.toString())
-                subCategoryList.add(it.name.toString())
+                if(it.isSelected==1){
+                    sub_idList.add(it.id.toString())
+                    subCategoryList.add(it.name.toString())
+                }
             }
         }
         subCategory_id=TextUtils.join(",", sub_idList)
@@ -256,7 +259,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         etSelectCategory.setText(category_name)
         riv_video.setImageResource(R.drawable.slider)
         riv_Picture.setImageResource(R.drawable.background)
-        list_count= user?.userMedia?.size!!
+        list_count= user.userMedia.size
 
         for(i in 0 until user.userMedia.size){
             if(user.userMedia[i].media.endsWith(".jpg")){
@@ -365,6 +368,8 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
 
         var request: MultipartBody.Part? = null
 
+
+
         if(type == "0"){
             if (imageFile != null) {
 
@@ -374,14 +379,28 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             }
         } else{
             if (selectedVideoFile != null) {
+                var parts:MultipartBody.Part?=null
+                parts = prepareFilePart("media", File(selectedVideoFile))
 
-                val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedVideoFile!!)
+                infoViewModel.uploadMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!, map, parts!!)
+                infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
+                    if (it.code == 200) {
+                        imageFile = null
+                        selectedVideoFile = null
+                        Toast.makeText(this, "Uploaded media successfully", Toast.LENGTH_LONG).show()
+                        mediaList.addAll(it.data)
+                    } else {
+                        Toast.makeText(this, it.msg.toString(), Toast.LENGTH_LONG).show()
+                    }
+                })
 
-                request = MultipartBody.Part.createFormData("media", selectedVideoFile, requestFile)
+               /* val requestFile: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedVideoFile!!)
+
+                request = MultipartBody.Part.createFormData("media", selectedVideoFile, requestFile)*/
             }
         }
 
-        infoViewModel.uploadMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!, map, request!!)
+      /*  infoViewModel.uploadMedia(this, getSecurityKey(this)!!, getUser(this)?.authKey!!, map, parts!!)
         infoViewModel.mediaLiveData.observe(this, androidx.lifecycle.Observer {
             if (it.code == 200) {
                 imageFile = null
@@ -391,9 +410,19 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             } else {
                 Toast.makeText(this, it.msg.toString(), Toast.LENGTH_LONG).show()
             }
-        })
+        })*/
 
     }
+
+
+      fun prepareFilePart(partName: String?, file: File): MultipartBody.Part {
+        var mediaType: MediaType? = null
+        mediaType = "video/mp4".toMediaTypeOrNull()
+
+        val requestBody = RequestBody.create(mediaType, file)
+        return MultipartBody.Part.createFormData(partName.toString(), file.name, requestBody)
+    }
+
     private fun checkValidations() {
         if(InternetCheck.isConnectedToInternet(this)
             && Validations.isEmpty(this, edtName, getString(R.string.err_business_name))
@@ -577,11 +606,12 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         val arrayList=ArrayList<String>()
         val categoryList= ArrayList<String>()
         data.forEach{
-            if(it.isSelect){
+            if(it.isSelect || it.isSelected==1){
                 categoryList.add(it.name.toString())
                 arrayList.add(it.id.toString())
             }
         }
+
         categoty_id = TextUtils.join(",", arrayList)
         category_name= TextUtils.join(",", categoryList)
         etSelectCategory.setText(category_name)
@@ -593,7 +623,7 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
         val id_list=ArrayList<String>()
         val name_list=ArrayList<String>()
         data.forEach{
-            if(it.isSelect){
+            if(it.isSelect || it.isSelected==1){
                 id_list.add(it.id.toString())
                 name_list.add(it.name)
             }
@@ -695,4 +725,6 @@ class EditProfileBusinessActivity : ImagePickerUtility(), UploadPhotoAdapter.Upl
             }
         }
     }
+
+
 }

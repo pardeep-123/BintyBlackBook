@@ -141,9 +141,9 @@ class NotificationHandlingService : FirebaseMessagingService() {
         acceptCallIntent.putExtra("type", "call")
         acceptCallIntent.putExtra("recieverID", receiverId)
         acceptCallIntent.putExtra("channelName", channel_name)
-
         acceptCallIntent.putExtra("recieverName", recieverName)
         acceptCallIntent.putExtra("senderImage", recieverImage)
+
         val rejectCallIntent = Intent(this, VideoCallBroadCastReceiver::class.java)
         rejectCallIntent.putExtra("type", "reject")
         rejectCallIntent.putExtra("recieverName", recieverName)
@@ -154,25 +154,20 @@ class NotificationHandlingService : FirebaseMessagingService() {
             this,
             receiverId!!,
             intentAction,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_ONE_SHOT
         )
-        val acceptCall =
-            PendingIntent.getBroadcast(this, 1, acceptCallIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val rejectCall =
-            PendingIntent.getBroadcast(this, 2, rejectCallIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val acceptCall = PendingIntent.getBroadcast(this, 1, acceptCallIntent, PendingIntent.FLAG_ONE_SHOT)
+        val rejectCall = PendingIntent.getBroadcast(this, 2, rejectCallIntent, PendingIntent.FLAG_ONE_SHOT)
         val channelId = getString(R.string.default_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(
-            this,
-            channelId
-        ) ///.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.app_icon)
             .setContentTitle("Incoming call...")
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
-            .setOngoing(true)
-            .addAction(0, "Accept", acceptCall)
-            .addAction(0, "Reject", rejectCall)
+            .setOngoing(false)
+            .addAction(R.drawable.phone, "Accept", acceptCall)
+            .addAction(R.drawable.btn_end_call, "Reject", rejectCall)
             .setContentIntent(contentIntent)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

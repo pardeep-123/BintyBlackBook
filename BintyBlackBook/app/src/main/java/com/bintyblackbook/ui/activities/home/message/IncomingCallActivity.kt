@@ -1,5 +1,7 @@
 package com.bintyblackbook.ui.activities.home.message
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -64,7 +66,7 @@ class IncomingCallActivity : BaseActivity(), SocketManager.Observer {
                 val jsonObject = JSONObject()
                 jsonObject.put("senderId", mCallerId)
                 jsonObject.put("receiverId", mrecieverID)
-                jsonObject.put("status", 1)
+                jsonObject.put("callStatus", 1)
                 //   jsonObject.put("channelName", mChannelName)
                 socketManager?.getVideoCallStatus(jsonObject)
 
@@ -75,9 +77,12 @@ class IncomingCallActivity : BaseActivity(), SocketManager.Observer {
                 acceptCallIntent.putExtra("otheruserId", mrecieverID.toString())
                 acceptCallIntent.putExtra("channelName", mChannelName)
                 acceptCallIntent.putExtra("isReciever", true)
-                acceptCallIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                acceptCallIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(acceptCallIntent)
                 finish()
+
+                val notifManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notifManager.cancelAll()
             }
             else
                 showAlertWithOk(resources.getString(R.string.internet_connection))
@@ -89,9 +94,11 @@ class IncomingCallActivity : BaseActivity(), SocketManager.Observer {
                 val jsonObject = JSONObject()
                 jsonObject.put("senderId", mCallerId)
                 jsonObject.put("receiverId", mrecieverID)
-                jsonObject.put("status", 2)
+                jsonObject.put("callStatus", 2)
                 socketManager?.getVideoCallStatus(jsonObject)
                 finish()
+                val notifManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notifManager.cancelAll()
             }
             else
                 showAlertWithOk(resources.getString(R.string.internet_connection))
@@ -130,7 +137,7 @@ class IncomingCallActivity : BaseActivity(), SocketManager.Observer {
 
                 val mObject = args[0] as JSONObject
                 if (mObject != null) {
-                    val status = mObject.getInt("status")
+                    val status = mObject.getInt("callStatus")
                     if (status==2) {
                         Log.e("call end ", "mychar")
                         showToast(resources.getString(R.string.callreject))

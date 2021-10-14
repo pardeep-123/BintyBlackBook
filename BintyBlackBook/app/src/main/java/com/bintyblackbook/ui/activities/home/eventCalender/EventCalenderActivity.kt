@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -32,7 +33,9 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
     var currentList="AllEvent"
 
     lateinit var eventsViewModel: EventsViewModel
-
+    companion object{
+        lateinit var tvNotfound: TextView
+    }
     var eventAdapter: EventAdapter? = null
     var arrayList= ArrayList<EventData>()
     var filteredList= ArrayList<EventData>()
@@ -49,6 +52,7 @@ class EventCalenderActivity : BaseActivity(), TextWatcher, EventAdapter.EventAda
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_calender)
         eventsViewModel= EventsViewModel()
+        tvNotfound = findViewById(R.id.tvNoEventData)
         setOnClicks()
 
         initAdapter()

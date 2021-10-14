@@ -22,7 +22,7 @@ class FacebookAuth(
      * function for allow user to handle facebook login
      */
     fun allowUserToFacebookLogin() {
-        loginButton.loginBehavior = LoginBehavior.WEB_VIEW_ONLY
+      //  loginButton.loginBehavior = LoginBehavior.WEB_VIEW_ONLY
         loginButton.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult?> {
             override fun onSuccess(result: LoginResult?) {
                 val request = GraphRequest.newMeRequest(result?.accessToken) { `object`, response ->

@@ -137,6 +137,7 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
 
 
         if(it.userMedia.size > 0){
+            arrayList.clear()
             arrayList.addAll(it.userMedia)
             horizontalImagesAdapter?.notifyDataSetChanged()
         }
@@ -144,9 +145,15 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
         val subCategories= ArrayList<String>()
         val categories= ArrayList<String>()
         it.category.forEach {
-            categories.add(it.name)
+            if(it.isSelected==1){
+                categories.add(it.name)
+            }
+
             it.subCategories.forEach {
-                subCategories.add("#"+it.name)
+                if(it.isSelected==1){
+                    subCategories.add("#"+it.name)
+                }
+
             }
         }
         tvSubCategory.text = TextUtils.join(" ,",subCategories)
@@ -180,9 +187,18 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun horizontalImagesAdapterClick() {
-        horizontalImagesAdapter?.onItemClick = {media: UserMedia ->
-
-            Glide.with(context).load(media.media).into(riv1)
+        horizontalImagesAdapter?.onItemClick = {image: UserMedia ->
+            if (image.media.endsWith(".jpg")) {
+                riv1.visibility=View.VISIBLE
+                videoViewProfile.visibility=View.GONE
+                Glide.with(this).load(image.media).into(riv1)
+//photo
+            } else if (image.media.endsWith(".mp4")) {
+//video
+                riv1.visibility=View.GONE
+                videoViewProfile.visibility=View.VISIBLE
+                initializePlayer(image.media)
+            }
 
         }
     }
@@ -225,6 +241,8 @@ class MyProfileBusinessActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
+
 
     private fun openWebPage(url: String) {
 

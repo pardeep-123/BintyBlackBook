@@ -96,7 +96,7 @@ fun saveUsers(context: Context,data: Data){
 
         if(arrayList.filter {
 
-                it.email.equals(data.email)
+                it.email == data.email
 
             }.isEmpty()
         ) {

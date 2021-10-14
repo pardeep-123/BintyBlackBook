@@ -39,6 +39,8 @@ class SubCategoryAdapter(var context: Context, val categoryDialogFragment: Categ
                         categoryDialogFragment.subCategoryList(list)
                         cbSubCategory.isChecked=true
                     }else{
+                        list[position].isSelect=false
+                        categoryDialogFragment.subCategoryList(list)
                         cbSubCategory.isChecked=false
 
                     }

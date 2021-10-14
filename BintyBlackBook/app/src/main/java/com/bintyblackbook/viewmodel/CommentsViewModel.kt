@@ -72,7 +72,7 @@ class CommentsViewModel(val context: Context): ViewModel(){
     add comment
      */
     fun addComment(securityKey: String,auth_key: String,post_id:String,comment:String){
-        (context as BaseActivity).dismissProgressDialog()
+        (context as BaseActivity).showProgressDialog()
         ApiClient.apiService.addComment(securityKey,auth_key, post_id,comment).enqueue(object :
             Callback<JsonElement> {
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {

@@ -28,6 +28,7 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
     lateinit var chatViewModel: ChatViewModel
     var receiverId=""
 
+    var name=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_call_list)
@@ -45,7 +46,7 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
         val intent = intent
         val extras = intent.extras
         videoList.clear()
-        var list= extras?.getSerializable("videoCallList") as ArrayList<MessageData>
+        val list= extras?.getSerializable("videoCallList") as ArrayList<MessageData>
         if(list.size!=0){
             for(i in 0 until list.size){
                 if(list[i].isGroup==0){
@@ -92,6 +93,7 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
 
     override fun onItemClick(data: MessageData, position: Int) {
         receiverId= data.user_id.toString()
+        name=data.name
         checkVideoPermission()
     }
 
@@ -140,11 +142,11 @@ class VideoCallListActivity : BaseActivity(), VideoCallListAdapter.VideoCallList
         chatViewModel.sendCallNotification(this, getSecurityKey(this)!!, getUser(this)?.authKey!!,receiverId)
         chatViewModel.notificationLiveData.observe(this, androidx.lifecycle.Observer {
 
-            val intent= Intent(this,VideoChatViewActivity::class.java)
-            intent.putExtra("videoToken",it.data?.token)
-            intent.putExtra("channelName",it.data?.channelName)
+            val intent= Intent(this,VideoCallActivity::class.java)
             intent.putExtra("userId", getUser(this)?.id.toString())
-            intent.putExtra("otheruserId",receiverId)
+            intent.putExtra("otheruserId", receiverId)
+            intent.putExtra("otherUserName", name)
+            intent.putExtra("channelName",it.data?.channelName)
             startActivity(intent)
 
         })

@@ -179,9 +179,14 @@ class OtherUserProfileActivity: BaseActivity(), View.OnClickListener {
         val subCategories= ArrayList<String>()
         val categories= ArrayList<String>()
         data.category.forEach {
-            categories.add(it.name)
+            if(it.isSelected==0){
+                categories.add(it.name)
+            }
+
             it.subCategories.forEach {
-                subCategories.add("#"+it.name)
+                if(it.isSelected==0) {
+                    subCategories.add("#" + it.name)
+                }
             }
         }
         tvSubCategory.text = TextUtils.join(" ,",subCategories)
