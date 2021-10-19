@@ -24,6 +24,7 @@ import com.bintyblackbook.util.getUser
 import com.bintyblackbook.viewmodel.HomeViewModel
 import com.bintyblackbook.viewmodel.NotificationViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.io.Serializable
 
 
@@ -31,6 +32,7 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
 
     var searchClick = false
     var homeAdapter: HomeAdapter? = null
+    var v:View?=null
     lateinit var homeViewModel: HomeViewModel
     lateinit var notificationViewModel: NotificationViewModel
     var homeList=ArrayList<HomeData>()
@@ -43,12 +45,7 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        v=  inflater.inflate(R.layout.fragment_home, container, false)
         homeViewModel=HomeViewModel()
         notificationViewModel= NotificationViewModel(requireContext())
 
@@ -61,17 +58,20 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
             homeViewModel.homeList(requireContext(),getSecurityKey(requireContext())!!, getUser(requireContext())?.authKey!!)
             getHomeData()
         }
+        return v
+    }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setOnClicks() {
-        edtSearch.addTextChangedListener(this)
-        ivSearch.setOnClickListener(this)
+        v!!.rootView.edtSearch.addTextChangedListener(this)
+        v!!.rootView.ivSearch.setOnClickListener(this)
 
-        rlMenu.setOnClickListener(this)
+        v!!.rootView.rlMenu.setOnClickListener(this)
 
-        rlBell.setOnClickListener(this)
+        v!!.rootView.rlBell.setOnClickListener(this)
     }
 
     private fun getHomeData() {
@@ -79,12 +79,12 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
 
             if(it?.code==200){
                 if(it.data.size==0){
-                    rvHome.visibility=View.GONE
-                    noHomeData.visibility=View.VISIBLE
+                    v!!.rootView.rvHome.visibility=View.GONE
+                    v!!.rootView.noHomeData.visibility=View.VISIBLE
                 }
                 else{
-                    rvHome.visibility=View.VISIBLE
-                    noHomeData.visibility=View.GONE
+                    v!!.rootView.rvHome.visibility=View.VISIBLE
+                    v!!.rootView.noHomeData.visibility=View.GONE
                     homeList.clear()
                     homeList.addAll(it.data)
                     homeAdapter?.notifyDataSetChanged()
@@ -100,25 +100,29 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
         notificationViewModel.notiCountLiveData.observe(requireActivity(), Observer {
 
             if(it.code==200){
-                if(it.data?.count!=0){
-                    val mp = MediaPlayer.create(requireContext(), R.raw.noti)
-                    mp.start()
-                    mp?.setOnCompletionListener { media->
-                        tvCount.visibility=View.VISIBLE
-                        tvCount.text =it.data?.count.toString()
-                        media.release()
-                    }
+                try {
+                    if (it.data?.count != 0) {
+                        val mp = MediaPlayer.create(requireContext(), R.raw.noti)
+                        mp.start()
+                        mp?.setOnCompletionListener { media ->
+                            v!!.rootView.tvCount.visibility = View.VISIBLE
+                            v!!.rootView.tvCount.text = it.data?.count.toString()
+                            media.release()
+                        }
 
-                }else{
-                    tvCount.visibility= View.GONE
+                    } else {
+                        v!!.rootView.tvCount.visibility = View.GONE
+                    }
+                }catch (e:ExceptionInInitializerError){
+                    e.printStackTrace()
                 }
             }
         })
     }
     private fun init() {
-        rvHome.layoutManager = LinearLayoutManager(activity)
+        v!!.rootView.rvHome.layoutManager = LinearLayoutManager(activity)
         homeAdapter = HomeAdapter(requireActivity(),homeList)
-        rvHome.adapter = homeAdapter
+        v!!.rootView.rvHome.adapter = homeAdapter
         homeAdapter?.arrayList=homeList
         adapterItemClick()
     }
@@ -141,11 +145,11 @@ class HomeFragment : Fragment(), View.OnClickListener, TextWatcher {
         when(v?.id){
             R.id.ivSearch ->{
                 if (searchClick){
-                    edtSearch.visibility = View.GONE
+                    v!!.rootView.edtSearch.visibility = View.GONE
                     searchClick = false
                     MyUtils.hideSoftKeyboard(requireActivity())
                 }else{
-                    edtSearch.visibility = View.VISIBLE
+                    v!!.rootView.edtSearch.visibility = View.VISIBLE
                     searchClick = true
                 }
             }

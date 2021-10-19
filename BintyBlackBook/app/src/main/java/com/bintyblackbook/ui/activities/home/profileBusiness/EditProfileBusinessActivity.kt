@@ -43,7 +43,6 @@ import kotlinx.android.synthetic.main.activity_edit_profile_business.edtWebsiteL
 import kotlinx.android.synthetic.main.activity_edit_profile_business.etSelectCategory
 import kotlinx.android.synthetic.main.activity_edit_profile_business.riv_Picture
 import kotlinx.android.synthetic.main.activity_edit_profile_business.riv_video
-import kotlinx.android.synthetic.main.activity_edit_profile_business.spinnerBusinessCategory
 import kotlinx.android.synthetic.main.activity_edit_profile_business.tvServiceType
 import kotlinx.android.synthetic.main.activity_edit_profile_business.tvSwap
 import kotlinx.android.synthetic.main.activity_info.*

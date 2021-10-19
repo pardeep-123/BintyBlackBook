@@ -18,7 +18,6 @@ import androidx.appcompat.app.AlertDialog
 import com.bintyblackbook.BintyBookApplication
 import com.bintyblackbook.R
 import com.bintyblackbook.base.BaseActivity
-import com.bintyblackbook.service.MyFirebaseMessagingService
 import com.bintyblackbook.socket.SocketManager
 import com.bintyblackbook.util.Validations
 import com.bintyblackbook.util.getUser
@@ -426,9 +425,7 @@ class VideoCallActivity : BaseActivity(), SocketManager.Observer {
 
     override fun onResume() {
         super.onResume()
-        socketManager?.onRegister(this)
-        MyFirebaseMessagingService.isChatNotOpened = false
-    }
+        socketManager?.onRegister(this) }
 
     fun initializeSocket() {
         socketManager = BintyBookApplication.getSocketManager()

@@ -193,41 +193,35 @@
                 android:layout_marginTop="@dimen/dp5"
                 android:background="@drawable/bg_curved_edit_text_green">
 
-                <Spinner
-                    android:id="@+id/spinnerBusinessCategory"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:background="@null"
-                    android:visibility="gone"
-                    android:textSize="@dimen/sp11" />
 
                 <ImageView
+                    android:id="@+id/imgDropDown"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/dp10"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:contentDescription="@string/image"
                     android:src="@drawable/dropdown" />
 
                 <EditText
                     android:id="@+id/etSelectCategory"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/imgDropDown"
                     android:background="@drawable/bg_curved_edit_text_green"
                     android:hint="@string/select_category"
-                    android:drawablePadding="@dimen/dp10"
-                    android:drawableEnd="@drawable/dropdown"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
+                    android:maxLines="1"
                     android:inputType="textEmailAddress"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="@dimen/dp10"
                     android:singleLine="true"
                     android:textAllCaps="false"
                     android:focusable="false"
+                    android:ellipsize="end"
+                    android:text="n  getUserList(seadsxddddddddddddddddrch_loop.text.toString()) xks m"
                     android:textColor="@color/whiteColor"
                     android:textColorHint="@color/colorLightBlack"
                     android:textCursorDrawable="@drawable/cursor_color"

@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +38,12 @@ class LoopSearchActivity : BaseActivity(), SearchLoopsAdapter.SearchLoopInterfac
 
         search_loop.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                getUserList(search_loop.text.toString())
+                if(search_loop.text.toString().isNotEmpty()){
+                    getUserList(search_loop.text.toString())
+                }else{
+                    Toast.makeText(this, "Please enter some keyword first", Toast.LENGTH_SHORT).show()
+                }
+
             }
             true
         }
